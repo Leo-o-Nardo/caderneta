@@ -1,8 +1,10 @@
 import { Stack } from 'expo-router';
 import { useEffect } from 'react';
+import { StyleSheet, View } from 'react-native';
 
 import { syncAssistantEvents } from '@/api/assistant';
 import { useMe } from '@/api/auth';
+import { TourOverlay } from '@/components/tour/TourOverlay';
 import { useRealtimeConnection } from '@/lib/realtime';
 import { colors } from '@/theme/tokens';
 
@@ -26,39 +28,50 @@ export default function AppLayout() {
   useEffect(() => syncAssistantEvents(), []);
 
   return (
-    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.canvas } }}>
-      <Stack.Screen name="(tabs)" />
-      <Stack.Screen name="transactions/index" />
-      <Stack.Screen name="transactions/new" options={modal} />
-      <Stack.Screen name="transactions/[id]" options={modal} />
-      <Stack.Screen name="bills/[id]/index" />
-      <Stack.Screen name="bills/new" options={modal} />
-      <Stack.Screen name="bills/pay" options={modal} />
-      <Stack.Screen name="bills/[id]/edit" options={modal} />
-      <Stack.Screen name="recurring-incomes/new" options={modal} />
-      <Stack.Screen name="recurring-incomes/[id]" options={modal} />
-      <Stack.Screen name="cards/[id]/index" />
-      <Stack.Screen name="cards/new" options={modal} />
-      <Stack.Screen name="cards/[id]/edit" options={modal} />
-      <Stack.Screen name="reminders/new" options={modal} />
-      <Stack.Screen name="reminders/[id]" options={modal} />
-      <Stack.Screen name="lists/new" options={modal} />
-      <Stack.Screen name="lists/[id]/edit" options={modal} />
-      <Stack.Screen name="list-items/[id]" options={modal} />
-      <Stack.Screen name="settings/index" />
-      <Stack.Screen name="settings/household" />
-      <Stack.Screen name="settings/alerts" />
-      <Stack.Screen name="settings/profile" options={modal} />
-      <Stack.Screen name="settings/password" options={modal} />
-      <Stack.Screen name="settings/households" options={modal} />
-      <Stack.Screen name="settings/household-form" options={modal} />
-      <Stack.Screen name="settings/join" options={modal} />
-      <Stack.Screen name="settings/member/[id]" options={modal} />
-      <Stack.Screen name="categories/index" />
-      <Stack.Screen name="categories/new" options={modal} />
-      <Stack.Screen name="categories/[id]" options={modal} />
-      <Stack.Screen name="budgets/index" />
-      <Stack.Screen name="budgets/[categoryId]" options={modal} />
-    </Stack>
+    <View style={styles.root}>
+      <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: colors.canvas } }}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="transactions/index" />
+        <Stack.Screen name="transactions/new" options={modal} />
+        <Stack.Screen name="transactions/[id]" options={modal} />
+        <Stack.Screen name="bills/[id]/index" />
+        <Stack.Screen name="bills/new" options={modal} />
+        <Stack.Screen name="bills/pay" options={modal} />
+        <Stack.Screen name="bills/[id]/edit" options={modal} />
+        <Stack.Screen name="recurring-incomes/new" options={modal} />
+        <Stack.Screen name="recurring-incomes/[id]" options={modal} />
+        <Stack.Screen name="cards/[id]/index" />
+        <Stack.Screen name="cards/new" options={modal} />
+        <Stack.Screen name="cards/[id]/edit" options={modal} />
+        <Stack.Screen name="reminders/new" options={modal} />
+        <Stack.Screen name="reminders/[id]" options={modal} />
+        <Stack.Screen name="lists/new" options={modal} />
+        <Stack.Screen name="lists/[id]/edit" options={modal} />
+        <Stack.Screen name="list-items/[id]" options={modal} />
+        <Stack.Screen name="settings/index" />
+        <Stack.Screen name="settings/household" />
+        <Stack.Screen name="settings/alerts" />
+        <Stack.Screen name="settings/profile" options={modal} />
+        <Stack.Screen name="settings/password" options={modal} />
+        <Stack.Screen name="settings/households" options={modal} />
+        <Stack.Screen name="settings/household-form" options={modal} />
+        <Stack.Screen name="settings/join" options={modal} />
+        <Stack.Screen name="settings/member/[id]" options={modal} />
+        <Stack.Screen name="categories/index" />
+        <Stack.Screen name="categories/new" options={modal} />
+        <Stack.Screen name="categories/[id]" options={modal} />
+        <Stack.Screen name="budgets/index" />
+        <Stack.Screen name="budgets/[categoryId]" options={modal} />
+        <Stack.Screen name="onboarding/index" />
+        {/* As boas-vindas cobrem a tela toda e só saem por "Pular" ou por um caminho escolhido. */}
+        <Stack.Screen name="onboarding/welcome" options={{ presentation: 'fullScreenModal', animation: 'fade', gestureEnabled: false }} />
+      </Stack>
+      {/* O tour fica por cima de todas as telas do app, mas só aparece quando alguém o começa. */}
+      <TourOverlay />
+    </View>
   );
 }
+
+const styles = StyleSheet.create({
+  root: { flex: 1 },
+});

@@ -8,6 +8,7 @@ import { clearConversation, sendMessage, sendVoice, useConversation } from '@/ap
 import { useMe } from '@/api/auth';
 import { Composer } from '@/components/chat/Composer';
 import { MessageItem } from '@/components/chat/MessageItem';
+import { TourTarget } from '@/components/tour/TourTarget';
 import { Chip, EmptyState, IconButton, Screen, Text } from '@/components/ui';
 import { startsDay } from '@/lib/chat';
 import { useRealtimeStatus } from '@/lib/realtime';
@@ -99,7 +100,9 @@ export default function ChatScreen() {
         />
       )}
 
-      <Composer onSend={(text) => sendMessage(text)} onSendVoice={(recording) => sendVoice(recording, 'chat')} />
+      <TourTarget id="chat.composer">
+        <Composer onSend={(text) => sendMessage(text)} onSendVoice={(recording) => sendVoice(recording, 'chat')} />
+      </TourTarget>
     </Screen>
   );
 }

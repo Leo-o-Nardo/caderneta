@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
 import { ListChecks, Plus } from 'lucide-react-native';
 import { useState } from 'react';
-import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
+import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
 import { useLists } from '@/api/lists';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { ListView } from '@/components/ListView';
+import { TourTarget } from '@/components/tour/TourTarget';
 import { Chip, EmptyState, IconButton, Screen, Text } from '@/components/ui';
 import { LIST_KINDS } from '@/lib/lists';
 import { colors, space } from '@/theme/tokens';
@@ -23,7 +24,7 @@ export default function ListsScreen() {
 
   return (
     <Screen edges={['top']}>
-      <View style={styles.chipsRow}>
+      <TourTarget id="lists.chips" style={styles.chipsRow}>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.chips}>
           {lists.data?.map((list) => (
             <Chip
@@ -37,7 +38,7 @@ export default function ListsScreen() {
           ))}
         </ScrollView>
         <IconButton icon={Plus} label="Nova lista" onPress={() => router.push('/lists/new')} />
-      </View>
+      </TourTarget>
 
       {lists.isPending ? (
         <ActivityIndicator color={colors.accent} style={styles.status} />

@@ -629,6 +629,26 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 .pw-checks .todo::after { content: ""; width: 8px; height: 8px; border: 1.5px solid var(--lapis); border-radius: 50%; }
 .wait-notice { display: flex; gap: 8px; padding: 8px 0 8px 12px; border-left: 2px solid var(--mostarda-escura); max-width: 390px; }
 .wait-notice .i { width: 18px; height: 18px; color: var(--mostarda-escura); }
+/* Primeiros passos e tour (1.7): as marcas de estado, a linha do Início e o recorte do tour. */
+.ob-mark { width: 24px; height: 24px; flex: none; display: grid; place-items: center; }
+.ob-mark.todo::before { content: ""; width: 20px; height: 20px; border: 1.5px solid var(--borda); border-radius: 4px; }
+.ob-mark.done { color: var(--musgo); }
+.ob-mark.done .i { width: 22px; height: 22px; stroke-width: 2; }
+.ob-mark.skip::before { content: ""; width: 12px; height: 2px; background: var(--lapis); border-radius: 1px; }
+.ob-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--pauta); max-width: 390px; }
+.ob-row.is-done b, .ob-row.is-skip b { color: var(--grafite); font-weight: 400; }
+.ob-steps { display: flex; align-items: center; gap: 12px; padding: 10px 0 10px 12px; border-left: 2px solid var(--musgo); max-width: 390px; }
+.ob-steps .bar { margin: 6px 0 2px; }
+.ob-tour { position: relative; max-width: 390px; height: 330px; border-radius: 6px; overflow: hidden; background: var(--papel); }
+.ob-tour::before { content: ""; position: absolute; left: 112px; top: 24px; width: 166px; height: 136px; border-radius: 10px; box-shadow: 0 0 0 600px rgba(30, 31, 28, .72); }
+.ob-tour .mic { position: absolute; left: 159px; top: 36px; width: 72px; height: 72px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; }
+.ob-tour .mic .i { width: 28px; height: 28px; }
+.ob-tour .mic-label { position: absolute; left: 112px; width: 166px; top: 118px; text-align: center; }
+.ob-tour .tip { position: absolute; left: 16px; right: 16px; top: 176px; background: var(--folha); border-radius: 6px; padding: 14px 16px 16px; display: grid; gap: 8px; }
+.ob-tour .tip::after { content: ""; position: absolute; left: 50%; top: -7px; width: 14px; height: 14px; margin-left: -7px; background: var(--folha); transform: rotate(45deg); }
+.ob-dots { display: flex; gap: 4px; }
+.ob-dots i { width: 14px; height: 2px; border-radius: 1px; background: var(--pauta); }
+.ob-dots i.on { background: var(--tinta); }
 
 /* ============ Telas pequenas ============ */
 @media (max-width: 720px) {
@@ -711,7 +731,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.6.2 · 21 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.7 · 21 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1631,6 +1651,57 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <p class="spec-line"><b>Exceção:</b> na capa e no convite, a frase usa o tamanho Display (40), que nas outras telas é só do número principal: ali, a frase é o assunto da tela.</p>
       </div>
 
+      <!-- Boas-vindas -->
+      <div class="specimen">
+        <h3>Boas-vindas</h3>
+        <p>Na primeira entrada em cada casa, três telas curtas com o mesmo cabeçalho de passos da entrada e "Pular" em todas: a proposta (a fala e a ficha), o que mais o app faz (uma linha por recurso) e "Por onde começar?". Os caminhos da última tela são linhas com divisória, não cartões: o toque já leva ao destino. Nada é obrigatório, e o texto diz isso.</p>
+        <div class="stage stage-grid">
+          <div class="auth-step">
+            <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+            <span class="n-rot">Boas-vindas · 3 de 3</span>
+            <b class="n-h1">Por onde começar?</b>
+            <span class="n-body" style="color:var(--grafite)">Nada é obrigatório: as categorias já estão prontas e dá para lançar agora mesmo.</span>
+          </div>
+          <div style="max-width:390px">
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#checks"/></svg></span><div class="n-main"><b class="n-strong">Configurar o essencial</b><span class="n-cap">cartões, salário e contas fixas · uns 3 minutos</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#grid"/></svg></span><div class="n-main"><b class="n-strong">Conhecer o app</b><span class="n-cap">um tour de 1 minuto pelas telas</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Explorar sozinho</b><span class="n-cap">os primeiros passos ficam no Início</span></div><span class="n-chev">›</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primeiros passos -->
+      <div class="specimen">
+        <h3>Primeiros passos</h3>
+        <p>O checklist do começo. No Início, é uma linha só com o traço Musgo, a contagem e o próximo passo, no lugar onde fica o aviso de atraso; o microfone continua no centro. Na tela, três marcas: ✓ em Musgo para feito (calculado dos cadastros de verdade), o quadrado de Borda da Lista para "a fazer" e um traço para ignorado, com "Desfazer". Tocar num passo abre a folha, que explica e leva à tela de cadastro que já existe.</p>
+        <div class="stage stage-grid">
+          <div class="ob-steps"><div class="n-main"><b class="n-strong" style="font-size:15px">Primeiros passos · 2 de 7</b><div class="bar"><i style="--w:29%"></i></div><span class="n-cap">Próximo: seus cartões</span></div><span class="n-chev">›</span></div>
+          <div>
+            <div class="ob-row is-done"><span class="ob-mark done"><svg class="i"><use href="#check"/></svg></span><div class="n-main"><b class="n-strong">Primeiro lançamento</b><span class="n-cap">Almoço, hoje</span></div></div>
+            <div class="ob-row"><span class="ob-mark todo"></span><div class="n-main"><b class="n-strong">Seus cartões</b><span class="n-cap">As compras caem na fatura certa</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row is-skip"><span class="ob-mark skip"></span><div class="n-main"><b class="n-strong">Chamar quem mora com você</b><span class="n-cap">Ignorado</span></div><button class="n-link sm" type="button">Desfazer</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour -->
+      <div class="specimen">
+        <h3>Tour</h3>
+        <p>Escurece a tela com Tinta a 72% e deixa um recorte de canto 10 em volta do elemento de verdade, medido na tela. A explicação vem numa ficha, embaixo ou em cima do recorte, onde couber, com a seta apontando para ele: o progresso em traços, "Sair", um título Heading, duas linhas no máximo e "Voltar" e "Próximo". Toques fora da ficha não fazem nada. Com "Reduzir movimento", o recorte troca de lugar sem animação.</p>
+        <div class="stage">
+          <div class="ob-tour">
+            <span class="mic"><svg class="i"><use href="#mic"/></svg></span>
+            <b class="n-strong mic-label">Toque e fale</b>
+            <div class="tip">
+              <div class="n-line"><span class="ob-dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><button class="n-textbtn" type="button" style="padding:8px 0 8px 12px;margin:-8px 0">Sair</button></div>
+              <b class="n-h2">Fale o que gastou</b>
+              <span class="n-body" style="color:var(--grafite);font-size:15px;line-height:22px">Toque no microfone e fale como falaria com alguém. O assistente monta a ficha e espera você conferir.</span>
+              <div class="btn-row" style="flex-wrap:nowrap;gap:8px;margin-top:4px"><button class="btn btn-secondary sm grow" type="button" disabled>Voltar</button><button class="btn btn-primary sm grow" type="button">Próximo</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <!-- Estado vazio -->
       <div class="specimen">
         <h3>Estado vazio</h3>
@@ -1876,6 +1947,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.7</td><td class="num">21/10/2026</td><td>Primeiro acesso: as boas-vindas em três telas (a proposta, o que o app faz e "Por onde começar?"), os primeiros passos (um checklist com feito, a fazer e ignorado, calculado dos cadastros de verdade, com uma linha no Início) e o tour, que destaca os elementos da tela com um recorte e explica numa ficha. Nada é obrigatório.</td></tr>
         <tr><td>1.6.2</td><td class="num">21/10/2026</td><td>A abertura espera os dados do Início: com login, a capa só abre quando chegam o nome, o resumo do mês, os lançamentos de hoje e os avisos não lidos, e fica parada esperando por até 3 s depois de crescer. Antes, abria com as fontes e o login lidos e mostrava o Início ainda carregando.</td></tr>
         <tr><td>1.6.1</td><td class="num">21/10/2026</td><td>Novo slogan: "Sua casa em ordem. Sem complicação.", com o subtítulo "Registre seus gastos, acompanhe suas receitas e despesas e mantenha as contas da sua casa organizadas de forma prática e intuitiva." Entra na capa do app, no rodapé dos e-mails, no README e na demonstração da abertura. Na capa, a linha quebra depois de "ordem." e o título diminui o necessário nos celulares estreitos (até o Display, 40), para cada frase caber numa linha.</td></tr>
         <tr><td>1.6</td><td class="num">20/10/2026</td><td>A abertura do app: o ícone da splash cresce até virar a capa da caderneta e, com o app pronto, o elástico sai e a capa abre sobre a tela. Feita em código (desenho vetorial e Reanimated), e não em vídeo, para começar igual à splash do sistema, esperar o app sem emenda e terminar na tela de verdade. Tempos aprovados no protótipo.</td></tr>

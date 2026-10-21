@@ -6,6 +6,7 @@ import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 import { BillsSection } from '@/components/BillsSection';
 import { CardsSection } from '@/components/CardsSection';
 import { RemindersSection } from '@/components/RemindersSection';
+import { TourTarget } from '@/components/tour/TourTarget';
 import { IconButton, Screen, SegmentedControl, Text } from '@/components/ui';
 import { queryClient } from '@/lib/queryClient';
 import { colors, space } from '@/theme/tokens';
@@ -33,20 +34,22 @@ export default function AgendaScreen() {
 
   return (
     <Screen edges={['top']}>
-      <View style={styles.header}>
-        <Text variant="title">Agenda</Text>
-        <IconButton icon={Plus} label={config.createLabel} onPress={() => router.push(config.create)} />
-      </View>
+      <TourTarget id="agenda.sections">
+        <View style={styles.header}>
+          <Text variant="title">Agenda</Text>
+          <IconButton icon={Plus} label={config.createLabel} onPress={() => router.push(config.create)} />
+        </View>
 
-      <SegmentedControl
-        options={[
-          { value: 'bills', label: 'Contas' },
-          { value: 'cards', label: 'Cartões' },
-          { value: 'reminders', label: 'Lembretes' },
-        ]}
-        value={section}
-        onChange={setSection}
-      />
+        <SegmentedControl
+          options={[
+            { value: 'bills', label: 'Contas' },
+            { value: 'cards', label: 'Cartões' },
+            { value: 'reminders', label: 'Lembretes' },
+          ]}
+          value={section}
+          onChange={setSection}
+        />
+      </TourTarget>
 
       <ScrollView
         style={styles.scroll}

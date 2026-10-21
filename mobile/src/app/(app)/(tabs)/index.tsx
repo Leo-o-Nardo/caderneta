@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { router } from 'expo-router';
 import { ArrowUp, ChevronRight, CircleAlert, Mic, Settings } from 'lucide-react-native';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
@@ -15,10 +15,13 @@ import Animated, {
 import { sendVoice, type VoiceRecording } from '@/api/assistant';
 import { useMe } from '@/api/auth';
 import { todaysFilters } from '@/api/home';
+import { useOnboarding } from '@/api/onboarding';
 import { useSummary } from '@/api/summary';
 import { useTransactions } from '@/api/transactions';
 import type { BillOccurrence, Summary } from '@/api/types';
 import { Ledger } from '@/components/Ledger';
+import { OnboardingBlock } from '@/components/OnboardingBlock';
+import { TourTarget } from '@/components/tour/TourTarget';
 import { TransactionRow } from '@/components/TransactionRow';
 import { Amount, Button, IconButton, Screen, SectionHeader, Text } from '@/components/ui';
 import { dueNoticeCaption, dueNoticeTitle } from '@/lib/bills';
@@ -93,61 +96,85 @@ export default function HomeScreen() {
     }
   }, [pendingInvite]);
 
+  // A primeira entrada em cada casa abre as boas-vindas uma vez. Os dados chegam junto com os do
+  // Início (prefetchHome), então elas já estão na tela quando a capa da abertura se abre.
+  const onboarding = useOnboarding();
+  const welcomedHousehold = useRef<number | null>(null);
+  const householdId = user?.current_household?.id;
+
+  useEffect(() => {
+    if (onboarding.data && !onboarding.data.welcome_seen && householdId && welcomedHousehold.current !== householdId) {
+      welcomedHousehold.current = householdId;
+      router.push('/onboarding/welcome');
+    }
+  }, [onboarding.data, householdId]);
+
   return (
     <Screen edges={['top']}>
       <View style={styles.top}>
         <Text variant="overline" tone="muted">
           {fullDayLabel(now)}
         </Text>
-        <IconButton icon={Settings} label="Configurações" onPress={() => router.push('/settings')} />
+        <TourTarget id="home.settings">
+          <IconButton icon={Settings} label="Configurações" onPress={() => router.push('/settings')} />
+        </TourTarget>
       </View>
       <Text variant="title" style={styles.greeting}>
         {greeting()}
         {user ? `, ${firstName(user.name)}` : ''}
       </Text>
 
-      {summary.data ? <MonthLedger month={month} day={now.getDate()} summary={summary.data} /> : null}
+      {summary.data ? (
+        <TourTarget id="home.month">
+          <MonthLedger month={month} day={now.getDate()} summary={summary.data} />
+        </TourTarget>
+      ) : null}
       {summary.data ? <DueNotice bills={summary.data.upcoming_bills} /> : null}
+      <OnboardingBlock />
 
       <View style={styles.center}>
-        <MicButton recording={voice.isRecording} sending={sending} onPress={onMicPress} />
+        <TourTarget id="home.mic" style={styles.micGroup}>
+          <MicButton recording={voice.isRecording} sending={sending} onPress={onMicPress} />
 
-        {voice.isRecording ? (
-          <>
-            <Text variant="strong" style={styles.tabular}>
-              {formatDuration(voice.durationMs)} · toque para enviar
-            </Text>
-            <Text variant="caption" tone="muted">
-              até {formatDuration(MAX_VOICE_MS)}
-            </Text>
-            <Button title="Cancelar" variant="ghost" onPress={() => voice.cancel()} style={styles.centered} />
-          </>
-        ) : (
-          <>
-            <Text variant="strong">{sending ? 'Enviando…' : 'Toque e fale'}</Text>
-            <Button
-              title="ou lançar manualmente"
-              variant="ghost"
-              onPress={() => router.push('/transactions/new')}
-              style={styles.centered}
-            />
-          </>
-        )}
+          {voice.isRecording ? (
+            <>
+              <Text variant="strong" style={styles.tabular}>
+                {formatDuration(voice.durationMs)} · toque para enviar
+              </Text>
+              <Text variant="caption" tone="muted">
+                até {formatDuration(MAX_VOICE_MS)}
+              </Text>
+              <Button title="Cancelar" variant="ghost" onPress={() => voice.cancel()} style={styles.centered} />
+            </>
+          ) : (
+            <>
+              <Text variant="strong">{sending ? 'Enviando…' : 'Toque e fale'}</Text>
+              <Button
+                title="ou lançar manualmente"
+                variant="ghost"
+                onPress={() => router.push('/transactions/new')}
+                style={styles.centered}
+              />
+            </>
+          )}
+        </TourTarget>
       </View>
 
-      <SectionHeader
-        title="Hoje"
-        detail={spentToday > 0 ? formatCents(spentToday) : undefined}
-        action={{ label: 'Ver todos', onPress: () => router.push('/transactions') }}
-        style={styles.todayHeader}
-      />
-      {items.length > 0 ? (
-        items.slice(0, 3).map((transaction) => <TransactionRow key={transaction.id} transaction={transaction} />)
-      ) : (
-        <Text variant="caption" tone="muted" style={styles.emptyToday}>
-          {todays.isPending ? 'Carregando…' : 'Nada lançado hoje ainda.'}
-        </Text>
-      )}
+      <TourTarget id="home.today">
+        <SectionHeader
+          title="Hoje"
+          detail={spentToday > 0 ? formatCents(spentToday) : undefined}
+          action={{ label: 'Ver todos', onPress: () => router.push('/transactions') }}
+          style={styles.todayHeader}
+        />
+        {items.length > 0 ? (
+          items.slice(0, 3).map((transaction) => <TransactionRow key={transaction.id} transaction={transaction} />)
+        ) : (
+          <Text variant="caption" tone="muted" style={styles.emptyToday}>
+            {todays.isPending ? 'Carregando…' : 'Nada lançado hoje ainda.'}
+          </Text>
+        )}
+      </TourTarget>
     </Screen>
   );
 }
@@ -298,7 +325,9 @@ const styles = StyleSheet.create({
   noticeOverdue: { borderLeftColor: colors.danger },
   noticeToday: { borderLeftColor: colors.warn },
   pressed: { backgroundColor: colors.pressed },
-  center: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: space.xs, paddingVertical: space.sm },
+  center: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingVertical: space.sm },
+  // O microfone e o que vem embaixo dele: o que o tour destaca no primeiro passo.
+  micGroup: { alignItems: 'center', gap: space.xs },
   micArea: { width: MIC_SIZE, height: MIC_SIZE, alignItems: 'center', justifyContent: 'center', marginBottom: space.sm },
   mic: {
     width: MIC_SIZE,

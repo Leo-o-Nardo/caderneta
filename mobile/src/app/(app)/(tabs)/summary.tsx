@@ -9,6 +9,7 @@ import type { BillOccurrence, BudgetUsage, CategoryKind, Summary } from '@/api/t
 import { CategoryIcon, CategoryMark } from '@/components/CategoryIcon';
 import { Ledger } from '@/components/Ledger';
 import { MonthSwitcher } from '@/components/MonthSwitcher';
+import { TourTarget } from '@/components/tour/TourTarget';
 import { Amount, EmptyState, ProgressBar, Screen, SectionHeader, Text } from '@/components/ui';
 import { billDueLabel } from '@/lib/bills';
 import { BUDGET_COLORS, budgetStatusLabel, sortByAttention } from '@/lib/budgets';
@@ -58,30 +59,32 @@ function SummaryContent({ summary }: { summary: Summary }) {
 
   return (
     <>
-      <View style={styles.hero}>
-        <Text variant="overline" tone="muted">
-          Saldo do mês
-        </Text>
-        <Amount cents={summary.balance_cents} kind="balance" variant="display" />
-        <Text variant="caption" tone="muted">
-          {balanceCaption(summary.income_cents, summary.expense_cents)}
-        </Text>
-      </View>
+      <TourTarget id="summary.balance">
+        <View style={styles.hero}>
+          <Text variant="overline" tone="muted">
+            Saldo do mês
+          </Text>
+          <Amount cents={summary.balance_cents} kind="balance" variant="display" />
+          <Text variant="caption" tone="muted">
+            {balanceCaption(summary.income_cents, summary.expense_cents)}
+          </Text>
+        </View>
 
-      <Ledger
-        cells={[
-          {
-            label: 'Receitas',
-            value: <Amount cents={summary.income_cents} kind="income" variant="figure" />,
-            onPress: () => openTransactions(summary.month, 'income'),
-          },
-          {
-            label: 'Despesas',
-            value: <Amount cents={summary.expense_cents} variant="figure" />,
-            onPress: () => openTransactions(summary.month, 'expense'),
-          },
-        ]}
-      />
+        <Ledger
+          cells={[
+            {
+              label: 'Receitas',
+              value: <Amount cents={summary.income_cents} kind="income" variant="figure" />,
+              onPress: () => openTransactions(summary.month, 'income'),
+            },
+            {
+              label: 'Despesas',
+              value: <Amount cents={summary.expense_cents} variant="figure" />,
+              onPress: () => openTransactions(summary.month, 'expense'),
+            },
+          ]}
+        />
+      </TourTarget>
 
       {empty ? (
         <EmptyState

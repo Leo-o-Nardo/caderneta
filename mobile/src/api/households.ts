@@ -90,10 +90,14 @@ export function resetAfterHouseholdChange(): Promise<void> {
   return queryClient.resetQueries();
 }
 
-/** Depois de mudar membros, papéis, nome ou convites da casa atual. O /me tem o nome da casa. */
+/**
+ * Depois de mudar membros, papéis, nome ou convites da casa atual. O /me tem o nome da casa, e o
+ * nome e os convites contam nos primeiros passos.
+ */
 export async function invalidateHousehold(): Promise<void> {
   await Promise.all([
     queryClient.invalidateQueries({ queryKey: keys.households }),
     queryClient.invalidateQueries({ queryKey: ME_KEY }),
+    queryClient.invalidateQueries({ queryKey: keys.onboarding }),
   ]);
 }

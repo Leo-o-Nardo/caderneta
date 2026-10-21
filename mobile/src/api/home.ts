@@ -6,6 +6,7 @@ import { useSession } from '@/stores/session';
 
 import { unreadAlertsQuery } from './alerts';
 import { meQuery } from './auth';
+import { onboardingQuery } from './onboarding';
 import { summaryQuery } from './summary';
 import { transactionsQuery, type TransactionFilters } from './transactions';
 
@@ -16,7 +17,8 @@ export function todaysFilters(today: string): TransactionFilters {
 
 /**
  * Busca de uma vez o que aparece ao abrir o app: o nome, o resumo do mês, os lançamentos de hoje e
- * os avisos não lidos (o número da aba). Vai para o mesmo cache das telas, que então não buscam de
+ * os avisos não lidos (o número da aba), além dos primeiros passos (as boas-vindas abrem já debaixo
+ * da capa, sem piscar o Início). Vai para o mesmo cache das telas, que então não buscam de
  * novo. Não falha: o prefetch do TanStack guarda o erro no cache, e a própria tela o mostra.
  */
 export async function prefetchHome(now: Date = new Date()): Promise<void> {
@@ -25,6 +27,7 @@ export async function prefetchHome(now: Date = new Date()): Promise<void> {
     queryClient.prefetchQuery(summaryQuery(toMonth(now))),
     queryClient.prefetchInfiniteQuery(transactionsQuery(todaysFilters(todayISO(now)))),
     queryClient.prefetchQuery(unreadAlertsQuery),
+    queryClient.prefetchQuery(onboardingQuery),
   ]);
 }
 

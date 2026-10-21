@@ -548,3 +548,47 @@ export type ChatMessage = {
   duration_ms: number | null;
   created_at: string;
 };
+
+/** Os passos do checklist do começo (OnboardingService na API), na ordem da tela. */
+export type OnboardingStepKey =
+  | 'household_name'
+  | 'first_transaction'
+  | 'cards'
+  | 'recurring_income'
+  | 'recurring_bills'
+  | 'categories'
+  | 'invite';
+
+export type OnboardingStep = {
+  key: OnboardingStepKey;
+  // done sai dos cadastros de verdade; skipped é o que a pessoa escolheu ignorar.
+  status: 'done' | 'pending' | 'skipped';
+  // O que foi feito ("Nubank e Inter"); null enquanto não está feito.
+  detail: string | null;
+  skippable: boolean;
+};
+
+/** Os primeiros passos da pessoa na casa atual: boas-vindas, checklist e o ponto do tour. */
+export type Onboarding = {
+  welcome_seen: boolean;
+  // Entrou por convite (não é dona da casa): as boas-vindas ficam mais curtas.
+  joined: boolean;
+  // O bloco do Início foi escondido.
+  hidden: boolean;
+  tour: { step: number | null; completed: boolean };
+  steps: OnboardingStep[];
+  done: number;
+  skipped: number;
+  total: number;
+};
+
+/** Uma escolha por vez, como a API aceita (PATCH /onboarding). */
+export type OnboardingChange = {
+  welcome_seen?: true;
+  hidden?: boolean;
+  skip?: OnboardingStepKey;
+  unskip?: OnboardingStepKey;
+  categories_reviewed?: true;
+  tour_step?: number | null;
+  tour_completed?: true;
+};

@@ -28,18 +28,19 @@ export const keys = {
   currentHousehold: ['households', 'current'] as const,
   invitations: ['households', 'invitations'] as const,
   invitation: (code: string) => ['households', 'invitation', code] as const,
+  onboarding: ['onboarding'] as const,
 };
 
 /**
- * Depois de lançar, editar ou apagar: listas, resumo, orçamentos, faturas, contas, receitas fixas e
- * lembretes podem ter mudado. Invalidar pelo prefixo ("transactions") pega todas as variações de
- * filtro de uma vez.
+ * Depois de lançar, editar ou apagar: listas, resumo, orçamentos, faturas, contas, receitas fixas,
+ * lembretes e os primeiros passos podem ter mudado. Invalidar pelo prefixo ("transactions") pega
+ * todas as variações de filtro de uma vez.
  */
 export function invalidateFinance(): Promise<void[]> {
   return Promise.all(
     [
       'transactions', 'transaction', 'installment-plan', 'summary', 'budgets', 'cards', 'bills', 'recurring-incomes',
-      'reminders',
+      'reminders', 'onboarding',
     ].map((prefix) => queryClient.invalidateQueries({ queryKey: [prefix] })),
   );
 }

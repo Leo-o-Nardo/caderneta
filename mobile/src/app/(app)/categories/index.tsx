@@ -1,12 +1,13 @@
 import { useMutation } from '@tanstack/react-query';
 import * as Haptics from 'expo-haptics';
-import { router } from 'expo-router';
-import { ArrowUpDown, ArrowUpToLine, ChevronDown, ChevronRight, ChevronUp, Plus, type LucideIcon } from 'lucide-react-native';
+import { router, useLocalSearchParams } from 'expo-router';
+import { ArrowUpDown, ArrowUpToLine, Check, ChevronDown, ChevronRight, ChevronUp, Plus, type LucideIcon } from 'lucide-react-native';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 
 import { useBudgets } from '@/api/budgets';
 import { invalidateCategories, reorderCategories, useCategories } from '@/api/categories';
+import { updateOnboarding } from '@/api/onboarding';
 import type { Category, CategoryKind } from '@/api/types';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { Button, Header, IconButton, Screen, SegmentedControl, Text } from '@/components/ui';
@@ -31,6 +32,14 @@ export default function CategoriesScreen() {
   const budgets = useBudgets(toMonth(new Date()));
   // O limite de cada categoria de despesa, para mostrar na linha.
   const limits = new Map(budgets.data?.map((budget) => [budget.category.id, budget.limit_cents] as const));
+
+  // Aberta pelos primeiros passos ("Conferir as categorias"): no fim da lista, "Estão boas".
+  const reviewing = useLocalSearchParams<{ review?: string }>().review === '1';
+  const review = useMutation({
+    mutationFn: () => updateOnboarding({ categories_reviewed: true }),
+    onSuccess: () => router.back(),
+    onError: (error) => Alert.alert('Não deu para salvar', error.message),
+  });
 
   const organizing = order !== null;
   const rows = order ?? categories.data ?? [];
@@ -137,6 +146,17 @@ export default function CategoriesScreen() {
               Arquivar uma categoria tira ela da hora de lançar, mas os lançamentos antigos continuam com ela.
             </Text>
           )}
+
+          {/* Vindo dos primeiros passos: conferir as categorias termina aqui. */}
+          {reviewing && !organizing ? (
+            <Button
+              title="Estão boas"
+              icon={<Check size={18} color={colors.canvas} strokeWidth={1.6} />}
+              loading={review.isPending}
+              onPress={() => review.mutate()}
+              style={styles.after}
+            />
+          ) : null}
         </View>
       )}
     </Screen>

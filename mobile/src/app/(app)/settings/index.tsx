@@ -4,7 +4,9 @@ import {
   ArrowLeftRight,
   Bell,
   ChevronRight,
+  Compass,
   KeyRound,
+  ListChecks,
   LogOut,
   MonitorSmartphone,
   Shapes,
@@ -18,17 +20,24 @@ import { Alert, Pressable, StyleSheet, View } from 'react-native';
 import { signOut, signOutEverywhere, useMe } from '@/api/auth';
 import { useBudgets } from '@/api/budgets';
 import { useHouseholds } from '@/api/households';
+import { useOnboarding } from '@/api/onboarding';
 import { SettingsRow } from '@/components/SettingsRow';
+import { useTourEntry } from '@/components/tour/useTourEntry';
 import { Header, Monogram, Screen, Text } from '@/components/ui';
 import { toMonth } from '@/lib/dates';
 import { confirm } from '@/stores/confirm';
 import { colors, space } from '@/theme/tokens';
 
-/** As Configurações: a conta, a casa atual e as outras casas, categorias, orçamentos e avisos, e sair. */
+/**
+ * As Configurações: os primeiros passos, a conta, a casa atual e as outras casas, categorias,
+ * orçamentos e avisos, e sair.
+ */
 export default function SettingsScreen() {
   const { data: user } = useMe();
   const households = useHouseholds();
   const budgets = useBudgets(toMonth(new Date()));
+  const onboarding = useOnboarding();
+  const tour = useTourEntry();
   const current = households.data?.find((household) => household.is_current);
 
   // O valor atual de cada linha, como no guia: "2 pessoas", "4 categorias", "4 de 4 ligados".
@@ -90,6 +99,19 @@ export default function SettingsScreen() {
           <ChevronRight size={18} color={colors.faint} strokeWidth={1.6} />
         </Pressable>
       ) : null}
+
+      {/* Os passos ficam aqui mesmo depois de escondidos do Início. O "Só leitura" não tem passos, só o tour. */}
+      <MenuGroup title="Primeiros passos">
+        {onboarding.data && onboarding.data.total > 0 ? (
+          <SettingsRow
+            icon={ListChecks}
+            label="Primeiros passos"
+            detail={`${onboarding.data.done} de ${onboarding.data.total}`}
+            onPress={() => router.push('/onboarding')}
+          />
+        ) : null}
+        <SettingsRow icon={Compass} label={tour.label} detail={tour.detail} onPress={tour.start} />
+      </MenuGroup>
 
       <MenuGroup title="Casa">
         <SettingsRow icon={Users} label="Membros e convites" detail={people} onPress={() => router.push('/settings/household')} />

@@ -16,6 +16,7 @@ use App\Http\Controllers\InvitationController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\ListItemController;
+use App\Http\Controllers\OnboardingController;
 use App\Http\Controllers\RecurringIncomeController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\SummaryController;
@@ -69,6 +70,12 @@ Route::prefix('v1')->group(function () {
             Route::post('voice', [ConversationController::class, 'voice']);
             // "Limpar conversa": arquiva a atual (fica guardada); a próxima mensagem começa outra.
             Route::delete('/', [ConversationController::class, 'clear']);
+        });
+
+        // Os primeiros passos na casa atual (boas-vindas, checklist e tour). O "Só leitura" também usa.
+        Route::middleware('household')->prefix('onboarding')->group(function () {
+            Route::get('/', [OnboardingController::class, 'show']);
+            Route::patch('/', [OnboardingController::class, 'update']);
         });
 
         // Os avisos no Chat (fase 7): o número da aba Chat e o "visto", na casa atual.

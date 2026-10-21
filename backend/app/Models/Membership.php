@@ -15,6 +15,7 @@ class Membership extends Pivot
     {
         return [
             'role' => HouseholdRole::class,
+            'onboarding' => 'array',
         ];
     }
 }
