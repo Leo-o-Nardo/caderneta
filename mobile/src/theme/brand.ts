@@ -1,0 +1,22 @@
+/*
+ * O desenho do ícone da Caderneta, para o código do app (a animação de abertura).
+ * Gerado por scripts/brand-icons.mjs, junto com os PNG: não edite à mão.
+ */
+export const BRAND = {
+  // A grade do desenho: o ícone é um quadrado de 1024 de lado.
+  grid: 1024,
+  // O "C" e o traço duplo, em Papel, como caminhos SVG na grade.
+  mark: [
+    'M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z',
+    'M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z',
+    'M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z',
+  ],
+  // A caixa que contém a marca, para o viewBox do SVG.
+  markBox: { x: 238, y: 225, width: 390, height: 599 },
+  // O elástico, de cima a baixo.
+  band: { x: 800, width: 60 },
+  // O canto do ícone redondo da splash, em fração do lado (o mesmo do iPhone).
+  tileRadius: 0.2236328125,
+  // O tamanho do ícone na splash do sistema, em dp (o imageWidth do expo-splash-screen no app.json).
+  splashSize: 96,
+} as const;

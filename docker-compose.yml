@@ -1,0 +1,105 @@
+name: home-finance
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./backend:/var/www/html
+      - vendor:/var/www/html/vendor
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+
+  # Processa a fila (as respostas do assistente). O "listen" recarrega o código a cada job, então
+  # mudanças no backend valem sem reiniciar o container (em produção será o "work", mais rápido).
+  queue:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    command: php artisan queue:listen --queue=assistant,default --tries=1 --timeout=120
+    volumes:
+      - ./backend:/var/www/html
+      - vendor:/var/www/html/vendor
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  # As rotinas agendadas de routes/console.php (como lançar as receitas fixas no dia). Roda o
+  # agendador do Laravel, que confere a cada minuto o que está na hora de rodar.
+  scheduler:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    command: php artisan schedule:work
+    volumes:
+      - ./backend:/var/www/html
+      - vendor:/var/www/html/vendor
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_started
+    restart: unless-stopped
+
+  # O servidor de WebSocket: o app recebe por aqui as respostas do assistente aos pedaços. Fora do
+  # Docker fica na 8180 (a 8080 é usada pelo SafePay e pelo PgSaaS).
+  reverb:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    # --debug: o log mostra cada conexão e cada mensagem (útil em desenvolvimento).
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080 --debug
+    ports:
+      - "8180:8080"
+    volumes:
+      - ./backend:/var/www/html
+      - vendor:/var/www/html/vendor
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:1.27-alpine
+    ports:
+      - "8100:80"
+    volumes:
+      - ./backend:/var/www/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: home_finance
+      POSTGRES_USER: home_finance
+      POSTGRES_PASSWORD: secret
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U home_finance -d home_finance" ]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+
+  mailpit:
+    image: axllent/mailpit:latest
+    ports:
+      - "8025:8025"
+
+volumes:
+  pgdata:
+  vendor:

@@ -1,0 +1,107 @@
+# Roda a cada push na main e em cada pull request: testes e estilo do backend, tipos, lint e testes do
+# app, e confere se os arquivos da marca batem com o gerador (scripts/brand-icons.mjs).
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+# Um push novo na mesma branch cancela a rodada anterior, que já ficou velha.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend (Pest e Pint)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    services:
+      # O mesmo banco de testes do docker-compose (docker/), com os mesmos nomes.
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: home_finance_test
+          POSTGRES_USER: home_finance
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U home_finance"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+    env:
+      DB_HOST: 127.0.0.1
+      DB_PORT: 5432
+      DB_USERNAME: home_finance
+      DB_PASSWORD: secret
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_pgsql, redis, intl, zip, bcmath, pcntl
+          coverage: none
+
+      - name: Cache do Composer
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+          restore-keys: composer-
+
+      - run: composer install --no-interaction --prefer-dist --no-progress
+
+      # Os testes usam o assistente e a transcrição "fake" (phpunit.xml): nenhuma chave é necessária.
+      - run: cp .env.example .env && php artisan key:generate
+
+      - name: Estilo (Pint)
+        run: vendor/bin/pint --test
+
+      - name: Testes (Pest)
+        run: php artisan test
+
+  mobile:
+    name: App (tipos, lint, Jest e marca)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: mobile
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: mobile/package-lock.json
+
+      - run: npm ci
+
+      - name: Tipos
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Testes (Jest)
+        run: npm test -- --ci
+
+      # O gerador lê o "C" da fonte instalada pelo npm ci e regrava ícones, splash e
+      # mobile/src/theme/brand.ts. Se algo mudar, alguém editou um desses arquivos à mão ou esqueceu
+      # de rodar o script depois de mexer nele. Só os de texto entram na comparação: o PNG
+      # comprimido pode variar de bytes conforme o processador, mesmo com o desenho igual, e ele
+      # sai da mesma geometria que os SVG e o brand.ts guardam.
+      - name: Arquivos da marca em dia
+        working-directory: .
+        run: |
+          node scripts/brand-icons.mjs
+          git diff --exit-code -- mobile/assets/brand mobile/src/theme/brand.ts
