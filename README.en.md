@@ -29,7 +29,7 @@ A household finance app you use by talking. You say "I spent 42 on lunch and 18 
   <img src="./assets/resumo.png" width="24%" alt="The monthly summary, with the balance and the budgets">
 </p>
 
-<p align="center">Its own design: <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">The Caderneta icon</a></p>
+<p align="center">Documentation (in Portuguese): <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">The icon</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">How it works inside</a> · <a href="docs/tecnico/README.md">Technical docs</a></p>
 
 ---
 
@@ -153,6 +153,8 @@ The app **asks through the API** (HTTP) and **listens through Reverb** (WebSocke
 
 <p align="center"><a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html?lang=en"><img src="./assets/arquitetura-en.png" alt="Sequence diagram between the app, Reverb, API, PostgreSQL, queue and AI agent: when the app opens, the WebSocket connection and channel subscription; then send, transcribe, reply and confirm, with the HTTP calls and events of each step."></a></p>
 
+To go deeper (in Portuguese): the page [How it works inside](https://leo-o-nardo.github.io/caderneta/apresentacao.html) explains the architecture for people who do not know the code, and the [technical documentation](docs/tecnico/README.md) follows each part through the files and classes (the path of a request, the assistant, the flows and the data model).
+
 ## Under the hood
 
 ### Three ways to act
@@ -246,13 +248,13 @@ To go back to the initial state: `docker compose exec app php artisan migrate:fr
 ## Tests
 
 ```bash
-docker compose exec app php artisan test     # backend: about 280 tests (Pest)
+docker compose exec app php artisan test     # backend: 295 tests (Pest)
 docker compose exec app ./vendor/bin/pint     # PHP code style
 ```
 
 ```bash
 cd mobile
-npm test              # app: 94 tests (Jest)
+npm test              # app: 117 tests (Jest)
 npx tsc --noEmit      # types
 npm run lint          # ESLint
 ```
@@ -281,7 +283,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 ├── docker-compose.yml          # app, queue, scheduler, reverb, nginx, postgres, redis, mailpit
 ├── docker/                     # PHP Dockerfile, Nginx and the test database
 ├── scripts/brand-icons.mjs     # generates the icon, the splash and the brand paths
-├── docs/                       # design guide, the icon and the architecture diagram
+├── docs/                       # design guide, icon, architecture, presentation and tecnico/ (technical docs)
 ├── backend/                    # Laravel API
 │   ├── app/
 │   │   ├── Assistant/          # the assistant: providers, tools, actions, privacy vault, voice

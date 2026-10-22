@@ -26,7 +26,7 @@ Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoç
   <img src="./assets/resumo.png" width="24%" alt="O resumo do mês, com o saldo e os orçamentos">
 </p>
 
-<p align="center">Design próprio: <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">O ícone da Caderneta</a></p>
+<p align="center">Documentação: <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">O ícone</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">Como funciona por dentro</a> · <a href="docs/tecnico/README.md">Documentação técnica</a></p>
 
 ---
 
@@ -150,6 +150,8 @@ O app **pede pela API** (HTTP) e **escuta pelo Reverb** (WebSocket); tudo que de
 
 <p align="center"><a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html"><img src="./assets/arquitetura.png" alt="Diagrama de sequência entre app, Reverb, API, PostgreSQL, fila e agente de IA: ao abrir o app, a conexão WebSocket e a assinatura do canal; depois enviar, transcrever, responder e confirmar, com as chamadas HTTP e os eventos de cada passo."></a></p>
 
+Para ir mais fundo: a página [Como funciona por dentro](https://leo-o-nardo.github.io/caderneta/apresentacao.html) explica a arquitetura para quem não conhece o código, e a [documentação técnica](docs/tecnico/README.md) segue cada parte pelos arquivos e classes (o caminho de uma requisição, o assistente, os fluxos e o modelo de dados).
+
 ## Por dentro
 
 ### Três jeitos de agir
@@ -243,13 +245,13 @@ Para voltar ao estado inicial: `docker compose exec app php artisan migrate:fres
 ## Testes
 
 ```bash
-docker compose exec app php artisan test     # backend: cerca de 280 testes (Pest)
+docker compose exec app php artisan test     # backend: 295 testes (Pest)
 docker compose exec app ./vendor/bin/pint     # estilo do código PHP
 ```
 
 ```bash
 cd mobile
-npm test              # app: 94 testes (Jest)
+npm test              # app: 117 testes (Jest)
 npx tsc --noEmit      # tipos
 npm run lint          # ESLint
 ```
@@ -278,7 +280,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 ├── docker-compose.yml          # app, fila, tarefas agendadas, reverb, nginx, postgres, redis, mailpit
 ├── docker/                     # Dockerfile do PHP, Nginx e o banco de testes
 ├── scripts/brand-icons.mjs     # gera o ícone, a splash e os caminhos da marca
-├── docs/                       # guia de design, o ícone e o diagrama da arquitetura
+├── docs/                       # guia de design, ícone, arquitetura, apresentação e tecnico/ (a documentação técnica)
 ├── backend/                    # API Laravel
 │   ├── app/
 │   │   ├── Assistant/          # o assistente: provedores, ferramentas, ações, cofre de privacidade, voz
