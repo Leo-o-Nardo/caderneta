@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useRecurringIncomes } from '@/api/recurringIncomes';
 import type { RecurringIncome } from '@/api/types';
 import { Amount, SectionHeader, Tag, Text } from '@/components/ui';
@@ -16,20 +17,26 @@ import { CategoryIcon } from './CategoryIcon';
 export function RecurringIncomesBlock() {
   const query = useRecurringIncomes();
   const incomes = query.data ?? [];
+  const canWrite = useCanWrite();
 
   return (
     <View>
-      <SectionHeader title="Receitas fixas" action={{ label: 'Adicionar', onPress: () => router.push('/recurring-incomes/new') }} />
+      <SectionHeader
+        title="Receitas fixas"
+        action={canWrite ? { label: 'Adicionar', onPress: () => router.push('/recurring-incomes/new') } : undefined}
+      />
 
       {query.isError ? (
         <Text tone="danger">{query.error.message}</Text>
       ) : incomes.length > 0 ? (
-        incomes.map((income) => <IncomeRow key={income.id} income={income} />)
+        incomes.map((income) => <IncomeRow key={income.id} income={income} canWrite={canWrite} />)
       ) : (
         <Text variant="caption" tone="muted">
           {query.isPending
             ? 'Carregando…'
-            : 'Salário e outras receitas que caem todo mês: toque em “Adicionar” (ou ligue “Repetir todo mês” ao lançar a receita) e o app lança sozinho, todo mês, no dia.'}
+            : canWrite
+              ? 'Salário e outras receitas que caem todo mês: toque em “Adicionar” (ou ligue “Repetir todo mês” ao lançar a receita) e o app lança sozinho, todo mês, no dia.'
+              : 'Nenhuma receita fixa na casa.'}
         </Text>
       )}
     </View>
@@ -37,12 +44,13 @@ export function RecurringIncomesBlock() {
 }
 
 /** "Salário · Todo dia 5 · próximo em 05/11", com o valor em Musgo e "+". */
-function IncomeRow({ income }: { income: RecurringIncome }) {
+function IncomeRow({ income, canWrite }: { income: RecurringIncome; canWrite: boolean }) {
   return (
     <Pressable
       onPress={() => router.push({ pathname: '/recurring-incomes/[id]', params: { id: String(income.id) } })}
+      disabled={!canWrite}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-      accessibilityRole="button"
+      accessibilityRole={canWrite ? 'button' : undefined}
     >
       <CategoryIcon icon={income.category.icon} color={income.category.color} />
       <View style={styles.texts}>

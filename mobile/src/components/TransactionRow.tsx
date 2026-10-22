@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import type { PaymentType, Transaction } from '@/api/types';
 import { Amount, Tag, Text } from '@/components/ui';
 import { amountLabel } from '@/lib/money';
@@ -38,18 +39,21 @@ type Props = {
 
 /**
  * Uma linha de lançamento do guia, direto no papel: o ícone da categoria na cor dela (coluna de 24),
- * o nome com os detalhes embaixo e o valor à direita (receitas com "+" em Musgo). Toque abre a edição.
+ * o nome com os detalhes embaixo e o valor à direita (receitas com "+" em Musgo). Toque abre a edição;
+ * para quem é "Só leitura", a linha é só para ver.
  */
 export function TransactionRow({ transaction }: Props) {
   const isIncome = transaction.kind === 'income';
   const isPrivate = transaction.visibility === 'private';
   const details = transactionDetails(transaction);
+  const canWrite = useCanWrite();
 
   return (
     <Pressable
       onPress={() => router.push({ pathname: '/transactions/[id]', params: { id: String(transaction.id) } })}
+      disabled={!canWrite}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-      accessibilityRole="button"
+      accessibilityRole={canWrite ? "button" : undefined}
       accessibilityLabel={[
         transaction.description,
         amountLabel(transaction.amount_cents, { income: isIncome }),

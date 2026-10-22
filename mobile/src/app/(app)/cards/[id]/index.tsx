@@ -3,6 +3,7 @@ import { Pencil, Receipt } from 'lucide-react-native';
 import { useState } from 'react';
 import { ActivityIndicator, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useCardInvoice, useCards } from '@/api/cards';
 import { MonthSwitcher } from '@/components/MonthSwitcher';
 import { TransactionRow } from '@/components/TransactionRow';
@@ -16,6 +17,7 @@ export default function CardInvoiceScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const cardId = Number(id);
   const cards = useCards();
+  const canWrite = useCanWrite();
   const card = cards.data?.find((item) => item.id === cardId);
   // Sem mês escolhido, a fatura que está em aberto hoje.
   const [month, setMonth] = useState<string | undefined>(undefined);
@@ -26,7 +28,7 @@ export default function CardInvoiceScreen() {
       <Header
         title={card?.name ?? 'Cartão'}
         right={
-          card?.is_mine ? (
+          card?.is_mine && canWrite ? (
             <IconButton icon={Pencil} label="Editar cartão" onPress={() => router.push({ pathname: '/cards/[id]/edit', params: { id } })} />
           ) : null
         }

@@ -11,6 +11,8 @@ type Props = {
   kind: ListKind;
   onToggle: () => void;
   onEdit: () => void;
+  // "Só leitura": o item aparece marcado ou não, mas o toque não muda nada.
+  readOnly?: boolean;
 };
 
 /**
@@ -18,7 +20,7 @@ type Props = {
  * sem mirar. Segurar abre a edição. A caixa de marcar tem o contorno da Borda de campo e, marcada,
  * fica preenchida de Musgo; o item pego fica riscado, em Lápis.
  */
-export function ListItemRow({ item, kind, onToggle, onEdit }: Props) {
+export function ListItemRow({ item, kind, onToggle, onEdit, readOnly = false }: Props) {
   const details = [
     item.quantity,
     item.due_on ? `até ${shortDate(item.due_on)}` : null,
@@ -33,10 +35,11 @@ export function ListItemRow({ item, kind, onToggle, onEdit }: Props) {
       onPress={onToggle}
       onLongPress={onEdit}
       delayLongPress={350}
+      disabled={readOnly}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
       accessibilityRole="checkbox"
-      accessibilityState={{ checked: item.is_checked }}
-      accessibilityHint="Toque para marcar. Segure para editar."
+      accessibilityState={{ checked: item.is_checked, disabled: readOnly }}
+      accessibilityHint={readOnly ? undefined : 'Toque para marcar. Segure para editar.'}
     >
       <View style={[styles.box, item.is_checked && styles.boxChecked]}>
         {item.is_checked ? <Check size={16} color={colors.canvas} strokeWidth={2} /> : null}

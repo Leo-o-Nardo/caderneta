@@ -1,4 +1,4 @@
-import { useMe } from '@/api/auth';
+import { useCanWrite } from '@/api/auth';
 import { useOnboarding } from '@/api/onboarding';
 import { resumeIndex, tourStepsFor } from '@/lib/tour';
 import { startTour } from '@/stores/tour';
@@ -8,9 +8,8 @@ import { startTour } from '@/stores/tour';
  * saiu no meio, "Continuar o tour" de onde parou. Terminar zera o ponto, e o próximo começa do 1.
  */
 export function useTourEntry() {
-  const { data: me } = useMe();
+  const canWrite = useCanWrite();
   const { data: onboarding } = useOnboarding();
-  const canWrite = me?.current_household?.role !== 'viewer';
   const total = tourStepsFor(canWrite).length;
   const saved = onboarding?.tour.step ?? null;
   const resuming = saved !== null && saved > 0 && resumeIndex(saved, total) === saved;

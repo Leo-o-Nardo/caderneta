@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { Archive, Check, Pencil, Undo2 } from 'lucide-react-native';
 import { ActivityIndicator, ScrollView, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { archiveBill, skipBillMonth, undoBillMonth, useBill } from '@/api/bills';
 import { invalidateFinance } from '@/api/keys';
 import type { BillDetail, BillMonth } from '@/api/types';
@@ -19,13 +20,14 @@ import { colors, space } from '@/theme/tokens';
 export default function BillScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const query = useBill(Number(id));
+  const canWrite = useCanWrite();
 
   return (
     <Screen>
       <Header
         title={query.data?.name ?? 'Conta'}
         right={
-          query.data ? (
+          query.data && canWrite ? (
             <IconButton icon={Pencil} label="Editar conta" onPress={() => router.push({ pathname: '/bills/[id]/edit', params: { id } })} />
           ) : null
         }
@@ -45,6 +47,7 @@ export default function BillScreen() {
 }
 
 function BillDetails({ bill }: { bill: BillDetail }) {
+  const canWrite = useCanWrite();
   const skip = useMutation({ mutationFn: (month: string) => skipBillMonth(bill.id, month), onSuccess: () => invalidateFinance() });
   const undo = useMutation({ mutationFn: (month: string) => undoBillMonth(bill.id, month), onSuccess: () => invalidateFinance() });
   const archive = useMutation({ mutationFn: () => archiveBill(bill.id), onSuccess: closeAndRefresh });
@@ -107,23 +110,25 @@ function BillDetails({ bill }: { bill: BillDetail }) {
         <>
           <SectionHeader title="Em aberto" style={styles.firstHeader} />
           <MonthRow item={bill.open} />
-          <View style={styles.actions}>
-            <Button
-              title="Paguei"
-              icon={<Check size={18} color={colors.canvas} strokeWidth={1.6} />}
-              style={styles.flex}
-              onPress={() =>
-                bill.open && router.push({ pathname: '/bills/pay', params: { bill_id: String(bill.id), month: bill.open.month } })
-              }
-            />
-            <Button
-              title="Pular este mês"
-              variant="secondary"
-              style={styles.flex}
-              loading={skip.isPending}
-              onPress={() => bill.open && confirmSkip(bill.open.month)}
-            />
-          </View>
+          {canWrite ? (
+            <View style={styles.actions}>
+              <Button
+                title="Paguei"
+                icon={<Check size={18} color={colors.canvas} strokeWidth={1.6} />}
+                style={styles.flex}
+                onPress={() =>
+                  bill.open && router.push({ pathname: '/bills/pay', params: { bill_id: String(bill.id), month: bill.open.month } })
+                }
+              />
+              <Button
+                title="Pular este mês"
+                variant="secondary"
+                style={styles.flex}
+                loading={skip.isPending}
+                onPress={() => bill.open && confirmSkip(bill.open.month)}
+              />
+            </View>
+          ) : null}
         </>
       ) : null}
 
@@ -145,17 +150,19 @@ function BillDetails({ bill }: { bill: BillDetail }) {
 
       <SectionHeader title="Últimos meses" />
       {bill.history.map((item) => (
-        <MonthRow key={item.month} item={item} onUndo={() => confirmUndo(item)} />
+        <MonthRow key={item.month} item={item} onUndo={canWrite ? () => confirmUndo(item) : undefined} />
       ))}
 
-      <Button
-        title="Arquivar conta"
-        variant="dangerLink"
-        icon={<Archive size={18} color={colors.danger} strokeWidth={1.6} />}
-        loading={archive.isPending}
-        onPress={confirmArchive}
-        style={styles.archive}
-      />
+      {canWrite ? (
+        <Button
+          title="Arquivar conta"
+          variant="dangerLink"
+          icon={<Archive size={18} color={colors.danger} strokeWidth={1.6} />}
+          loading={archive.isPending}
+          onPress={confirmArchive}
+          style={styles.archive}
+        />
+      ) : null}
     </ScrollView>
   );
 }

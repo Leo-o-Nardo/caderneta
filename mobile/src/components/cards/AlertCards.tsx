@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 
 import { alertAction, type AlertAction } from '@/api/alerts';
+import { useCanWrite } from '@/api/auth';
 import type {
   AutopayLaunchedCard,
   BillDueCard,
@@ -99,6 +100,7 @@ export function BillDueAlertCard({ card, messageId, time }: AlertProps<BillDueCa
 /** O lembrete na hora marcada: "Feito", "Adiar 1 h" ou "Amanhã" (às 9h). */
 export function ReminderAlertCard({ card, messageId }: AlertProps<ReminderDueCard>) {
   const { busy, error, run, changed } = useAlertAction(messageId, card.state);
+  const canWrite = useCanWrite();
 
   return (
     <Card>
@@ -118,7 +120,7 @@ export function ReminderAlertCard({ card, messageId }: AlertProps<ReminderDueCar
           <FichaResult done animate={changed} text="Feito" />
         ) : card.state === 'snoozed' && card.snoozed_until ? (
           <FichaResult icon={Clock} text={`Adiado: aviso de novo ${alertTimeLabel(card.snoozed_until)}`} />
-        ) : (
+        ) : !canWrite ? null : (
           <View style={styles.buttons}>
             <Button
               title="Adiar 1 h"

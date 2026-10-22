@@ -2,6 +2,7 @@ import { queryOptions, useQuery } from '@tanstack/react-query';
 import * as Device from 'expo-device';
 
 import { api } from '@/lib/api';
+import { canWrite } from '@/lib/households';
 import { queryClient } from '@/lib/queryClient';
 import { useSession } from '@/stores/session';
 
@@ -119,6 +120,13 @@ export const meQuery = queryOptions({ queryKey: ME_KEY, queryFn: () => api<User>
 
 export function useMe() {
   return useQuery(meQuery);
+}
+
+/** Se a pessoa pode gravar na casa atual: quem é "Só leitura" não vê os botões de lançar e editar. */
+export function useCanWrite(): boolean {
+  const { data: me } = useMe();
+
+  return canWrite(me?.current_household?.role);
 }
 
 /** O login e o cadastro já devolvem o usuário: ele vai direto para o cache, sem chamar o /me. */

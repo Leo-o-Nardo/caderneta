@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { CalendarCheck } from 'lucide-react-native';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { isOpen, useBillsMonth, useUpcomingBills } from '@/api/bills';
 import type { BillOccurrence } from '@/api/types';
 import { Amount, Button, EmptyState, Text } from '@/components/ui';
@@ -30,6 +31,7 @@ function MonthBills() {
   const month = toMonth(new Date());
   const monthQuery = useBillsMonth(month);
   const upcoming = useUpcomingBills();
+  const canWrite = useCanWrite();
 
   if (monthQuery.isPending) {
     return <ActivityIndicator color={colors.accent} style={styles.status} />;
@@ -54,7 +56,7 @@ function MonthBills() {
         icon={CalendarCheck}
         title="Nenhuma conta fixa ainda"
         description="Cadastre luz, aluguel, internet… e o app avisa quando estiverem para vencer."
-        action={<Button title="Cadastrar conta" onPress={() => router.push('/bills/new')} />}
+        action={canWrite ? <Button title="Cadastrar conta" onPress={() => router.push('/bills/new')} /> : undefined}
       />
     );
   }

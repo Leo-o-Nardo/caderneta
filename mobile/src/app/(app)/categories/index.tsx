@@ -5,6 +5,7 @@ import { ArrowUpDown, ArrowUpToLine, Check, ChevronDown, ChevronRight, ChevronUp
 import { useState } from 'react';
 import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useBudgets } from '@/api/budgets';
 import { invalidateCategories, reorderCategories, useCategories } from '@/api/categories';
 import { updateOnboarding } from '@/api/onboarding';
@@ -42,6 +43,7 @@ export default function CategoriesScreen() {
   });
 
   const organizing = order !== null;
+  const canWrite = useCanWrite();
   const rows = order ?? categories.data ?? [];
 
   const save = useMutation({
@@ -68,7 +70,7 @@ export default function CategoriesScreen() {
     });
   };
 
-  const headerRight = organizing ? (
+  const headerRight = !canWrite ? null : organizing ? (
     <Button title="Pronto" variant="ghost" loading={save.isPending} onPress={() => save.mutate()} />
   ) : (
     <View style={styles.headerActions}>
@@ -122,8 +124,9 @@ export default function CategoriesScreen() {
               <Pressable
                 key={category.id}
                 onPress={() => router.push({ pathname: '/categories/[id]', params: { id: String(category.id) } })}
+                disabled={!canWrite}
                 style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-                accessibilityRole="button"
+                accessibilityRole={canWrite ? 'button' : undefined}
               >
                 <CategoryIcon icon={category.icon} color={category.color} />
                 <View style={styles.texts}>
@@ -134,7 +137,7 @@ export default function CategoriesScreen() {
                     </Text>
                   ) : null}
                 </View>
-                <ChevronRight size={18} color={colors.faint} strokeWidth={1.6} />
+                {canWrite ? <ChevronRight size={18} color={colors.faint} strokeWidth={1.6} /> : null}
               </Pressable>
             ),
           )}

@@ -10,6 +10,14 @@ export const ROLES: Record<HouseholdRole, { label: string; description: string }
 };
 
 /**
+ * Se o papel pode gravar na casa (lançar, editar, apagar). Só o "Só leitura" não pode; sem papel
+ * conhecido ainda (carregando), mostra os botões, e a API recusa do mesmo jeito se for o caso.
+ */
+export function canWrite(role: HouseholdRole | null | undefined): boolean {
+  return role !== 'viewer';
+}
+
+/**
  * Limpa o que foi digitado ou colado no campo do código: " abc-123 " → "ABC123". Se a pessoa colar
  * o link inteiro do convite, pega só o código do fim dele.
  */

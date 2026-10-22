@@ -13,7 +13,7 @@ import Animated, {
 } from 'react-native-reanimated';
 
 import { sendVoice, type VoiceRecording } from '@/api/assistant';
-import { useMe } from '@/api/auth';
+import { useCanWrite, useMe } from '@/api/auth';
 import { todaysFilters } from '@/api/home';
 import { useOnboarding } from '@/api/onboarding';
 import { useSummary } from '@/api/summary';
@@ -40,6 +40,7 @@ import { colors, radius, space } from '@/theme/tokens';
  */
 export default function HomeScreen() {
   const { data: user } = useMe();
+  const canWrite = useCanWrite();
   const now = new Date();
   const month = toMonth(now);
   const today = todayISO();
@@ -149,12 +150,15 @@ export default function HomeScreen() {
           ) : (
             <>
               <Text variant="strong">{sending ? 'Enviando…' : 'Toque e fale'}</Text>
-              <Button
-                title="ou lançar manualmente"
-                variant="ghost"
-                onPress={() => router.push('/transactions/new')}
-                style={styles.centered}
-              />
+              {/* O microfone fica para todos (o "Só leitura" pergunta); lançar à mão, não. */}
+              {canWrite ? (
+                <Button
+                  title="ou lançar manualmente"
+                  variant="ghost"
+                  onPress={() => router.push('/transactions/new')}
+                  style={styles.centered}
+                />
+              ) : null}
             </>
           )}
         </TourTarget>

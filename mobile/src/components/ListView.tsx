@@ -5,6 +5,7 @@ import { ChevronDown, ChevronRight, Ellipsis } from 'lucide-react-native';
 import { useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { addListItems, clearCheckedItems, invalidateLists, useListItems, useToggleItem } from '@/api/lists';
 import type { HouseholdList, ListItem } from '@/api/types';
 import { IconButton, Tag, Text, TextLink } from '@/components/ui';
@@ -28,6 +29,7 @@ type Props = {
 export function ListView({ list }: Props) {
   const items = useListItems(list.id);
   const toggle = useToggleItem(list.id);
+  const canWrite = useCanWrite();
   const [text, setText] = useState('');
   const [notice, setNotice] = useState<string | null>(null);
   const [showPicked, setShowPicked] = useState(true);
@@ -89,23 +91,27 @@ export function ListView({ list }: Props) {
             {list.kind === 'wishlist' && list.open_total_cents > 0 ? ` · ${formatCents(list.open_total_cents)} em aberto` : ''}
           </Text>
         </View>
-        <IconButton
-          icon={Ellipsis}
-          label="Opções da lista"
-          onPress={() => router.push({ pathname: '/lists/[id]/edit', params: { id: String(list.id) } })}
-        />
+        {canWrite ? (
+          <IconButton
+            icon={Ellipsis}
+            label="Opções da lista"
+            onPress={() => router.push({ pathname: '/lists/[id]/edit', params: { id: String(list.id) } })}
+          />
+        ) : null}
       </View>
 
-      <AddItemsBar
-        value={text}
-        onChange={(value) => {
-          setText(value);
-          setNotice(null);
-        }}
-        onSubmit={() => add.mutate(parseItems(text))}
-        placeholder={kind.placeholder}
-        loading={add.isPending}
-      />
+      {canWrite ? (
+        <AddItemsBar
+          value={text}
+          onChange={(value) => {
+            setText(value);
+            setNotice(null);
+          }}
+          onSubmit={() => add.mutate(parseItems(text))}
+          placeholder={kind.placeholder}
+          loading={add.isPending}
+        />
+      ) : null}
       {failure instanceof ApiError ? (
         <Text variant="caption" tone="danger">
           {failure.message}
@@ -138,7 +144,7 @@ export function ListView({ list }: Props) {
             {open.length > 0 ? (
               <View style={styles.items}>
                 {open.map((item) => (
-                  <ListItemRow key={item.id} item={item} kind={list.kind} onToggle={() => onToggle(item)} onEdit={() => openEditor(item)} />
+                  <ListItemRow key={item.id} item={item} kind={list.kind} readOnly={!canWrite} onToggle={() => onToggle(item)} onEdit={() => openEditor(item)} />
                 ))}
               </View>
             ) : (
@@ -174,12 +180,12 @@ export function ListView({ list }: Props) {
                       <Text variant="caption" tone="muted">{`  ·  ${picked.length}`}</Text>
                     </Text>
                   </Pressable>
-                  <TextLink label="Limpar" size="sm" onPress={confirmClear} />
+                  {canWrite ? <TextLink label="Limpar" size="sm" onPress={confirmClear} /> : null}
                 </View>
 
                 {showPicked
                   ? picked.map((item) => (
-                      <ListItemRow key={item.id} item={item} kind={list.kind} onToggle={() => onToggle(item)} onEdit={() => openEditor(item)} />
+                      <ListItemRow key={item.id} item={item} kind={list.kind} readOnly={!canWrite} onToggle={() => onToggle(item)} onEdit={() => openEditor(item)} />
                     ))
                   : null}
               </View>

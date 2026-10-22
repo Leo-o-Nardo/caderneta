@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { RefreshControl, ScrollView, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { BillsSection } from '@/components/BillsSection';
 import { CardsSection } from '@/components/CardsSection';
 import { RemindersSection } from '@/components/RemindersSection';
@@ -25,6 +26,7 @@ export default function AgendaScreen() {
   const [section, setSection] = useState<Section>('bills');
   const [refreshing, setRefreshing] = useState(false);
   const config = SECTIONS[section];
+  const canWrite = useCanWrite();
 
   async function refresh() {
     setRefreshing(true);
@@ -37,7 +39,7 @@ export default function AgendaScreen() {
       <TourTarget id="agenda.sections">
         <View style={styles.header}>
           <Text variant="title">Agenda</Text>
-          <IconButton icon={Plus} label={config.createLabel} onPress={() => router.push(config.create)} />
+          {canWrite ? <IconButton icon={Plus} label={config.createLabel} onPress={() => router.push(config.create)} /> : null}
         </View>
 
         <SegmentedControl

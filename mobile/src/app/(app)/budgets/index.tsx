@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { ChevronRight } from 'lucide-react-native';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useBudgets } from '@/api/budgets';
 import { useCategories } from '@/api/categories';
 import type { BudgetUsage, Category } from '@/api/types';
@@ -20,6 +21,7 @@ export default function BudgetsScreen() {
   const month = toMonth(new Date());
   const categories = useCategories('expense');
   const budgets = useBudgets(month);
+  const canWrite = useCanWrite();
 
   const pending = categories.isPending || budgets.isPending;
   const failure = categories.error ?? budgets.error;
@@ -78,12 +80,14 @@ export default function BudgetsScreen() {
           {withLimit.map((category) => {
             const budget = byCategory.get(category.id);
 
-            return budget ? <BudgetRow key={category.id} category={category} budget={budget} onPress={() => open(category)} /> : null;
+            return budget ? (
+              <BudgetRow key={category.id} category={category} budget={budget} onPress={canWrite ? () => open(category) : undefined} />
+            ) : null;
           })}
         </>
       ) : null}
 
-      {withoutLimit.length > 0 ? (
+      {canWrite && withoutLimit.length > 0 ? (
         <>
           <SectionHeader title="Sem limite" detail={String(withoutLimit.length)} />
           {withoutLimit.map((category) => (
@@ -102,7 +106,8 @@ export default function BudgetsScreen() {
 type RowProps = {
   category: Category;
   budget: BudgetUsage;
-  onPress: () => void;
+  // Sem ele ("Só leitura"), a linha é só para ver.
+  onPress?: () => void;
 };
 
 /** Uma categoria com limite: o gasto e o limite, a barra na cor do estado e a frase pronta embaixo. */
@@ -112,8 +117,9 @@ function BudgetRow({ category, budget, onPress }: RowProps) {
   return (
     <Pressable
       onPress={onPress}
+      disabled={!onPress}
       style={({ pressed }) => [styles.row, pressed && styles.pressed]}
-      accessibilityRole="button"
+      accessibilityRole={onPress ? 'button' : undefined}
       accessibilityLabel={`${category.name}: ${formatCents(budget.spent_cents)} de ${formatCents(budget.limit_cents)}. ${status}`}
     >
       <View style={styles.line}>
@@ -129,7 +135,7 @@ function BudgetRow({ category, budget, onPress }: RowProps) {
             {` de ${formatCents(budget.limit_cents)}`}
           </Text>
         </Text>
-        <ChevronRight size={16} color={colors.faint} strokeWidth={1.6} />
+        {onPress ? <ChevronRight size={16} color={colors.faint} strokeWidth={1.6} /> : null}
       </View>
       <ProgressBar percent={budget.percent} color={BUDGET_COLORS[budget.status]} />
       <Text variant="caption" tone="muted">

@@ -3,6 +3,7 @@ import { ListChecks, Plus } from 'lucide-react-native';
 import { useState } from 'react';
 import { ActivityIndicator, ScrollView, StyleSheet } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useLists } from '@/api/lists';
 import { CategoryIcon } from '@/components/CategoryIcon';
 import { ListView } from '@/components/ListView';
@@ -17,6 +18,7 @@ import { colors, space } from '@/theme/tokens';
  */
 export default function ListsScreen() {
   const lists = useLists();
+  const canWrite = useCanWrite();
   const [selectedId, setSelectedId] = useState<number | null>(null);
   // Sem escolha (ou se a escolhida foi apagada), abre a lista padrão.
   const selected =
@@ -37,7 +39,7 @@ export default function ListsScreen() {
             />
           ))}
         </ScrollView>
-        <IconButton icon={Plus} label="Nova lista" onPress={() => router.push('/lists/new')} />
+        {canWrite ? <IconButton icon={Plus} label="Nova lista" onPress={() => router.push('/lists/new')} /> : null}
       </TourTarget>
 
       {lists.isPending ? (
@@ -50,7 +52,7 @@ export default function ListsScreen() {
         // A chave faz o campo de adicionar e os avisos recomeçarem ao trocar de lista.
         <ListView key={selected.id} list={selected} />
       ) : (
-        <EmptyState icon={ListChecks} title="Nenhuma lista" description="Crie uma lista no +." />
+        <EmptyState icon={ListChecks} title="Nenhuma lista" description={canWrite ? 'Crie uma lista no +.' : undefined} />
       )}
     </Screen>
   );

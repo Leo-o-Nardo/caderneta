@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { Check } from 'lucide-react-native';
 import { Pressable, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { isOpen } from '@/api/bills';
 import type { BillOccurrence } from '@/api/types';
 import { Amount, Button, Text } from '@/components/ui';
@@ -22,6 +23,7 @@ export function BillRow({ occurrence }: Props) {
   const due = billDueLabel(occurrence);
   const open = isOpen(occurrence);
   const { bill } = occurrence;
+  const canWrite = useCanWrite();
   const details = [due.text, bill.autopay ? 'débito automático' : null, open && occurrence.is_estimate ? 'valor estimado' : null]
     .filter(Boolean)
     .join(' · ');
@@ -49,7 +51,7 @@ export function BillRow({ occurrence }: Props) {
         ) : (
           <Amount cents={occurrence.amount_cents} estimate={occurrence.is_estimate} tone={open ? undefined : 'faint'} />
         )}
-        {open ? (
+        {open && canWrite ? (
           <Button
             title="Paguei"
             variant="ghost"

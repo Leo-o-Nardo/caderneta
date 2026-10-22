@@ -3,6 +3,7 @@ import { Plus, Receipt } from 'lucide-react-native';
 import { useMemo, useState } from 'react';
 import { ActivityIndicator, Pressable, RefreshControl, SectionList, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useCategories } from '@/api/categories';
 import { useTransactions } from '@/api/transactions';
 import type { CategoryKind, Transaction } from '@/api/types';
@@ -27,6 +28,7 @@ type Section = {
  */
 export default function TransactionsScreen() {
   const params = useLocalSearchParams<{ month?: string; kind?: CategoryKind; category_id?: string; category_name?: string }>();
+  const canWrite = useCanWrite();
   const [month, setMonth] = useState(params.month ?? toMonth(new Date()));
   const [kind, setKind] = useState<'all' | CategoryKind>(params.kind ?? 'all');
   const [categoryId, setCategoryId] = useState(params.category_id ? Number(params.category_id) : undefined);
@@ -125,15 +127,17 @@ export default function TransactionsScreen() {
         ListFooterComponent={query.isFetchingNextPage ? <ActivityIndicator color={colors.accent} style={styles.status} /> : null}
       />
 
-      {/* O + flutuante: um quadrado de Tinta, com o canto de 6 dos botões e sem sombra. */}
-      <Pressable
-        onPress={() => router.push('/transactions/new')}
-        style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
-        accessibilityRole="button"
-        accessibilityLabel="Novo lançamento"
-      >
-        <Plus size={24} color={colors.canvas} strokeWidth={1.6} />
-      </Pressable>
+      {/* O + flutuante: um quadrado de Tinta, com o canto de 6 dos botões e sem sombra. Não para o "Só leitura". */}
+      {canWrite ? (
+        <Pressable
+          onPress={() => router.push('/transactions/new')}
+          style={({ pressed }) => [styles.fab, pressed && styles.fabPressed]}
+          accessibilityRole="button"
+          accessibilityLabel="Novo lançamento"
+        >
+          <Plus size={24} color={colors.canvas} strokeWidth={1.6} />
+        </Pressable>
+      ) : null}
     </Screen>
   );
 }

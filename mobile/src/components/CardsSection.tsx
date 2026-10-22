@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { CreditCard } from 'lucide-react-native';
 import { ActivityIndicator, Pressable, StyleSheet, View } from 'react-native';
 
+import { useCanWrite } from '@/api/auth';
 import { useCards } from '@/api/cards';
 import type { Card as CardModel } from '@/api/types';
 import { Amount, Button, EmptyState, ProgressBar, Text } from '@/components/ui';
@@ -12,6 +13,7 @@ import { colors, space } from '@/theme/tokens';
 /** Os cartões da casa, cada um com a fatura em aberto e o limite em uso. Toque abre a fatura. */
 export function CardsSection() {
   const cards = useCards();
+  const canWrite = useCanWrite();
 
   if (cards.isPending) {
     return <ActivityIndicator color={colors.accent} style={styles.status} />;
@@ -31,7 +33,7 @@ export function CardsSection() {
         icon={CreditCard}
         title="Nenhum cartão ainda"
         description="Cadastre o cartão com o dia de fechamento e o app diz em qual fatura cai cada compra."
-        action={<Button title="Cadastrar cartão" onPress={() => router.push('/cards/new')} />}
+        action={canWrite ? <Button title="Cadastrar cartão" onPress={() => router.push('/cards/new')} /> : undefined}
       />
     );
   }

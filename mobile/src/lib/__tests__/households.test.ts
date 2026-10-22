@@ -1,6 +1,22 @@
 import type { Invitation } from '@/api/types';
 
-import { initials, inviteMessage, normalizeInviteCode } from '../households';
+import { canWrite, initials, inviteMessage, normalizeInviteCode } from '../households';
+
+describe('canWrite', () => {
+  it('lets owners and members write', () => {
+    expect(canWrite('owner')).toBe(true);
+    expect(canWrite('member')).toBe(true);
+  });
+
+  it('keeps read-only people out', () => {
+    expect(canWrite('viewer')).toBe(false);
+  });
+
+  it('shows the buttons while the role is still loading', () => {
+    expect(canWrite(undefined)).toBe(true);
+    expect(canWrite(null)).toBe(true);
+  });
+});
 
 describe('normalizeInviteCode', () => {
   it('uppercases and drops spaces and symbols', () => {
