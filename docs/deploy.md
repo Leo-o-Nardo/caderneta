@@ -57,19 +57,34 @@ cd /opt/caderneta
 
 ```bash
 cp backend/.env.production.example backend/.env
-chmod 600 backend/.env
+sudo chown $USER:www-data backend/.env
+chmod 640 backend/.env
 ```
 
-Gere os segredos e cole cada um no lugar marcado com `PREENCHA`:
+O PHP dos containers roda como `www-data`. Por isso o grupo precisa ler o arquivo; os outros usuários do servidor, não. Sem a leitura, o Laravel segue sem o `.env` e tenta o SQLite.
+
+Gere os segredos direto no arquivo, sem copiar e colar (uma chave cortada na colagem derruba o app com "Unsupported cipher or incorrect key length"):
 
 ```bash
-echo "APP_KEY=base64:$(openssl rand -base64 32)"
-echo "DB_PASSWORD=$(openssl rand -hex 24)"
-echo "REVERB_APP_KEY=$(openssl rand -hex 16)"
-echo "REVERB_APP_SECRET=$(openssl rand -hex 16)"
+sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(openssl rand -base64 32)|" backend/.env
+sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$(openssl rand -hex 24)|" backend/.env
+sed -i "s|^REVERB_APP_KEY=.*|REVERB_APP_KEY=$(openssl rand -hex 16)|" backend/.env
+sed -i "s|^REVERB_APP_SECRET=.*|REVERB_APP_SECRET=$(openssl rand -hex 16)|" backend/.env
 ```
 
-Preencha também `APP_URL` e `INVITE_URL` com o domínio, a chave do Gemini, o e-mail de envio e o `ADMIN_EMAIL`. Evite o caractere `$` nas senhas: o Docker Compose lê este arquivo e trataria o `$` como variável.
+A chave do app tem que ter 32 bytes; este comando confere e responde `32`:
+
+```bash
+grep "^APP_KEY=" backend/.env | cut -d: -f2 | base64 -d | wc -c
+```
+
+Depois, com o editor (`nano backend/.env`), preencha `APP_URL` e `INVITE_URL` com o domínio, a chave do Gemini, o e-mail de envio e o `ADMIN_EMAIL`. Evite o caractere `$` nas senhas: o Docker Compose lê este arquivo e trataria o `$` como variável.
+
+Se mudar o `.env` com a Caderneta já no ar, reinicie os containers do PHP, que guardam a configuração em cache ao iniciar (o nginx interno acha o `app` reiniciado sozinho):
+
+```bash
+docker compose --env-file backend/.env -f compose.prod.yml restart app queue scheduler reverb
+```
 
 ## 4. Subir a Caderneta
 
