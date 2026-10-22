@@ -15,6 +15,14 @@ if [ ! -f backend/.env ]; then
   exit 1
 fi
 
+# O PHP dos containers roda como www-data e precisa ler o .env. Sem isso, o Laravel segue sem ele
+# e cai no SQLite. Editores e o "sed -i" costumam devolver o arquivo ao grupo do usuário.
+if [ "$(stat -c '%G %a' backend/.env)" != "www-data 640" ]; then
+  echo "O backend/.env precisa ser do grupo www-data, com permissão 640. Rode:" >&2
+  echo "  sudo chown \$USER:www-data backend/.env && chmod 640 backend/.env" >&2
+  exit 1
+fi
+
 echo "› Baixando o código"
 git pull --ff-only
 

@@ -57,11 +57,7 @@ cd /opt/caderneta
 
 ```bash
 cp backend/.env.production.example backend/.env
-sudo chown $USER:www-data backend/.env
-chmod 640 backend/.env
 ```
-
-O PHP dos containers roda como `www-data`. Por isso o grupo precisa ler o arquivo; os outros usuários do servidor, não. Sem a leitura, o Laravel segue sem o `.env` e tenta o SQLite.
 
 Gere os segredos direto no arquivo, sem copiar e colar (uma chave cortada na colagem derruba o app com "Unsupported cipher or incorrect key length"):
 
@@ -79,6 +75,15 @@ grep "^APP_KEY=" backend/.env | cut -d: -f2 | base64 -d | wc -c
 ```
 
 Depois, com o editor (`nano backend/.env`), preencha `APP_URL` e `INVITE_URL` com o domínio, a chave do Gemini, o e-mail de envio e o `ADMIN_EMAIL`. Evite o caractere `$` nas senhas: o Docker Compose lê este arquivo e trataria o `$` como variável.
+
+Por último, a permissão. O PHP dos containers roda como `www-data`, então o grupo precisa ler o arquivo; os outros usuários do servidor, não. Sem a leitura, o Laravel segue sem o `.env` e tenta o SQLite.
+
+```bash
+sudo chown $USER:www-data backend/.env
+chmod 640 backend/.env
+```
+
+O `sed -i` e alguns editores devolvem o arquivo ao grupo do seu usuário. Depois de mexer no `.env`, rode esses dois comandos de novo. O `deploy.sh` confere isso antes de começar e avisa se estiver errado.
 
 Se mudar o `.env` com a Caderneta já no ar, reinicie os containers do PHP, que guardam a configuração em cache ao iniciar (o nginx interno acha o `app` reiniciado sozinho):
 
