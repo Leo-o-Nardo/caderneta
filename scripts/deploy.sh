@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # Atualiza a Caderneta no servidor: baixa o código, reconstrói as imagens, roda as migrations e
-# sobe os containers novos. Rode com o usuário que é dono da pasta (e está no grupo docker):
-#   bash scripts/deploy.sh
+# sobe os containers novos. Da pasta do projeto: sudo bash scripts/deploy.sh
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
@@ -19,12 +18,13 @@ fi
 # e cai no SQLite. Editores e o "sed -i" costumam devolver o arquivo ao grupo do usuário.
 if [ "$(stat -c '%G %a' backend/.env)" != "www-data 640" ]; then
   echo "O backend/.env precisa ser do grupo www-data, com permissão 640. Rode:" >&2
-  echo "  sudo chown \$USER:www-data backend/.env && chmod 640 backend/.env" >&2
+  echo "  sudo chown \$USER:www-data backend/.env && sudo chmod 640 backend/.env" >&2
   exit 1
 fi
 
 echo "› Baixando o código"
-git pull --ff-only
+# Com sudo, quem roda o git é o root numa pasta de outro usuário; o safe.directory libera só esta.
+git -c safe.directory="$PWD" pull --ff-only
 
 echo "› Construindo as imagens"
 compose build
