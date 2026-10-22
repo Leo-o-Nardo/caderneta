@@ -89,17 +89,23 @@ Tem que responder `200`.
 
 ## 5. Ligar o domínio no nginx do servidor
 
-O arquivo pronto está em `deploy/nginx/caderneta.conf`. Ele usa o certificado que o servidor já tem, desde que ele cubra o domínio da Caderneta (um certificado curinga, como `*.example.com`, cobre). Para saber para quais nomes um certificado vale:
+Primeiro, um certificado do Let's Encrypt só para o domínio da Caderneta. O certbot usa o nginx só durante a validação e não altera os arquivos dos outros sites. O `--deploy-hook` recarrega o nginx a cada renovação automática, para ele passar a usar o certificado novo:
 
 ```bash
-sudo openssl x509 -in /caminho/do/certificado.pem -noout -subject -ext subjectAltName
+sudo certbot certonly --nginx -d caderneta.example.com --deploy-hook "systemctl reload nginx"
 ```
 
-Copie o arquivo e troque o domínio e os dois caminhos do certificado:
+Confira se a renovação automática vai funcionar:
+
+```bash
+sudo certbot renew --dry-run
+```
+
+O arquivo do site está em `deploy/nginx/caderneta.conf`. Copie e troque `DOMINIO` pelo endereço (isso também acerta os caminhos do certificado):
 
 ```bash
 sudo cp deploy/nginx/caderneta.conf /etc/nginx/sites-available/caderneta
-sudo nano /etc/nginx/sites-available/caderneta
+sudo sed -i 's/DOMINIO/caderneta.example.com/g' /etc/nginx/sites-available/caderneta
 ```
 
 Ative, confira e recarregue. Se o `nginx -t` acusar erro, nada muda: corrija e rode de novo.
