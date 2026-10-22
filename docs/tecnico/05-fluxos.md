@@ -68,13 +68,13 @@ sequenceDiagram
 ## 4. Convite
 
 1. **O dono convida** em Configurações › Membros e convites, escolhendo o papel (membro ou só leitura). `InvitationService::create` gera um código de 6 caracteres sem letras e números que se confundem (sem 0, O, 1 e I), válido por 7 dias, com no máximo 10 convites abertos por casa. Só o dono pode (`HouseholdPolicy::manageMembers`).
-2. **O app compartilha** pelo menu do sistema (WhatsApp, por exemplo) uma mensagem com o código escrito e o link do convite que a API monta (`inviteMessage`, `src/lib/households.ts`). O código vem escrito porque, sem domínio próprio, o link ainda não abre o app direto.
+2. **O app compartilha** pelo menu do sistema (WhatsApp, por exemplo) uma mensagem com o código escrito, sem link (`inviteMessage`, `src/lib/households.ts`). O link que a API monta (`url`, de `INVITE_URL`) fica de fora para o endereço do servidor não aparecer na conversa; o código funciona em qualquer caso.
 3. **Quem recebe, com login:** a tela `convite/[code]` mostra a casa e o papel (`GET /invitations/{code}`) e aceita com `POST /invitations/{code}/accept`.
 4. **Quem recebe, sem login:** a mesma tela, numa versão de capa. "Criar conta" leva o código junto (cadastro por convite, liberado na hora). "Já tenho conta" guarda o código no store `invite` e, depois do login, o Início abre o convite de novo.
 5. **`InvitationService::accept`** trava a linha do convite (dois aceites ao mesmo tempo rodam um depois do outro), confere se ele ainda vale e se a pessoa já não é da casa, adiciona a pessoa com o papel do convite e troca a casa atual dela para essa.
 6. **No app**, trocar de casa zera o cache inteiro (`resetAfterHouseholdChange`): tudo que estava guardado era da casa anterior.
 
-**Limite atual:** sem domínio próprio, o link do convite ainda não abre o app direto em todos os casos; o código de 6 caracteres sempre funciona.
+**Limite atual:** não há link que abra o app direto no convite; quem recebe digita o código de 6 caracteres.
 
 ## 5. Lançar pelo formulário
 

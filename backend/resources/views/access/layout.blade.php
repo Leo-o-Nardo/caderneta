@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    {{-- Página só do administrador: buscadores não devem guardar. --}}
+    {{-- As poucas páginas do servidor (a raiz e a liberação de cadastro): buscadores não devem guardar. --}}
     <meta name="robots" content="noindex">
     <title>@yield('title') · Caderneta</title>
     <link rel="icon" type="image/png" href="{{ asset('images/caderneta-icone.png') }}">

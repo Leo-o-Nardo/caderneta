@@ -1,0 +1,39 @@
+# A imagem de produção: o código vai dentro dela (sem pasta montada), só com as dependências de
+# produção e o opcache ligado. O alvo "nginx" é o servidor web interno, com a pasta public/.
+
+FROM php:8.4-fpm AS php
+
+COPY --from=mlocati/php-extension-installer /usr/bin/install-php-extensions /usr/local/bin/
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends unzip \
+    && rm -rf /var/lib/apt/lists/* \
+    && install-php-extensions pdo_pgsql redis intl zip bcmath pcntl opcache \
+    && cp "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+COPY docker/php/prod.ini "$PHP_INI_DIR/conf.d/zz-caderneta.ini"
+COPY docker/php/entrypoint.sh /usr/local/bin/caderneta-entrypoint
+RUN chmod 755 /usr/local/bin/caderneta-entrypoint
+
+WORKDIR /var/www/html
+
+# Primeiro só as dependências: enquanto o composer.lock não muda, o Docker reaproveita esta camada.
+COPY backend/composer.json backend/composer.lock ./
+RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist --no-interaction
+
+COPY backend/ ./
+RUN composer dump-autoload --optimize --no-dev \
+    && php artisan package:discover --ansi \
+    && chown -R www-data:www-data storage bootstrap/cache
+
+USER www-data
+
+ENTRYPOINT ["caderneta-entrypoint"]
+CMD ["php-fpm"]
+
+
+FROM nginx:1.28-alpine AS nginx
+
+COPY docker/nginx/prod.conf /etc/nginx/conf.d/default.conf
+COPY backend/public /var/www/html/public

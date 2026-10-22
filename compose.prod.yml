@@ -1,0 +1,117 @@
+# A Caderneta em produção. Roda ao lado de outros sites no mesmo servidor sem encostar neles:
+# projeto Docker próprio, rede e volumes próprios, nenhuma porta aberta para fora (só 127.0.0.1,
+# onde o nginx do servidor repassa) e limite de memória e CPU em cada serviço.
+#
+# Sempre com o .env do backend, que também dá a senha do banco:
+#   docker compose --env-file backend/.env -f compose.prod.yml <comando>
+# O scripts/deploy.sh já faz isso.
+
+name: caderneta
+
+# Logs com tamanho máximo: 3 arquivos de 10 MB por serviço, para nunca encher o disco.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: 10m
+    max-file: "3"
+
+# O mesmo código (a imagem "php") roda o app, a fila, o agendador e o Reverb.
+x-php: &php
+  image: caderneta-php
+  volumes:
+    - ./backend/.env:/var/www/html/.env:ro
+    # Os arquivos guardados pelo app (como os áudios antes da transcrição), divididos com a fila.
+    - storage:/var/www/html/storage/app
+  depends_on:
+    postgres:
+      condition: service_healthy
+    redis:
+      condition: service_started
+  restart: unless-stopped
+  logging: *logging
+
+services:
+  app:
+    <<: *php
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile.prod
+      target: php
+    mem_limit: 384m
+    cpus: 1.0
+
+  # As respostas do assistente e a transcrição dos áudios. Reinicia a cada hora para soltar memória.
+  queue:
+    <<: *php
+    command: php artisan queue:work --queue=assistant,default --tries=1 --timeout=120 --max-time=3600
+    stop_grace_period: 130s
+    mem_limit: 384m
+    cpus: 1.0
+
+  # As rotinas de routes/console.php (receitas fixas, avisos de contas e lembretes).
+  scheduler:
+    <<: *php
+    command: php artisan schedule:work
+    mem_limit: 192m
+    cpus: 0.5
+
+  # O WebSocket. O nginx do servidor repassa wss://<domínio>/app/ para cá.
+  reverb:
+    <<: *php
+    command: php artisan reverb:start --host=0.0.0.0 --port=8080
+    ports:
+      - "127.0.0.1:8180:8080"
+    mem_limit: 192m
+    cpus: 0.5
+
+  # O nginx interno: arquivos de public/ e o PHP. O nginx do servidor repassa https://<domínio>/ para cá.
+  nginx:
+    image: caderneta-nginx
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile.prod
+      target: nginx
+    ports:
+      - "127.0.0.1:8100:80"
+    depends_on:
+      - app
+    restart: unless-stopped
+    mem_limit: 64m
+    cpus: 0.5
+    logging: *logging
+
+  # Sem porta publicada: só os containers da Caderneta enxergam o banco. O PostgreSQL do servidor
+  # (127.0.0.1:5432) é outro e não é tocado.
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:?falta DB_DATABASE no backend/.env}
+      POSTGRES_USER: ${DB_USERNAME:?falta DB_USERNAME no backend/.env}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?falta DB_PASSWORD no backend/.env}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U \"$$POSTGRES_USER\" -d \"$$POSTGRES_DB\"" ]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+    mem_limit: 384m
+    cpus: 1.0
+    logging: *logging
+
+  # A fila e o cache. Sem porta publicada; "noeviction" porque apagar chaves sozinho perderia jobs.
+  redis:
+    image: redis:7-alpine
+    command: redis-server --maxmemory 96mb --maxmemory-policy noeviction
+    volumes:
+      - redisdata:/data
+    restart: unless-stopped
+    mem_limit: 128m
+    cpus: 0.5
+    logging: *logging
+
+volumes:
+  pgdata:
+  redisdata:
+  storage:

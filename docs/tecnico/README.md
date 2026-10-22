@@ -32,13 +32,11 @@ Para apresentar a arquitetura a quem não conhece o código, use a página [Como
 
 **O que não dá para confirmar pelo código:**
 
-- **Produção:** o servidor, o domínio, o HTTPS e as variáveis de ambiente de produção ainda não existem. Tudo aqui descreve o ambiente de desenvolvimento do `docker-compose.yml` e do `.env.example`.
+- **Produção:** os arquivos estão no repositório (`compose.prod.yml`, `docker/php/Dockerfile.prod`, `backend/.env.production.example` e o [guia de deploy](../deploy.md)), mas o comportamento no servidor de verdade não é verificável pelo código. O resto destes documentos descreve o ambiente de desenvolvimento do `docker-compose.yml` e do `.env.example`.
 - **O Gemini de verdade:** os testes usam a IA e o transcritor simulados, e o Gemini é testado com respostas falsas. A qualidade das respostas, o tempo e o custo reais dependem do serviço.
 - **Desempenho e carga:** não há testes de carga; os limites por minuto e por dia são os do código.
 - **iOS:** o comportamento no iPhone não foi verificado nesta análise.
-- **O link do convite** abrindo o app direto depende do domínio próprio, que ainda não existe.
-
-**O que o sistema ainda não tem** (também listado no [README](../../README.md#limitações-e-próximos-passos)): notificações push, o link do convite abrindo o app, os botões de editar escondidos para quem é só leitura, e a publicação nas lojas.
+**O que o sistema ainda não tem** (também listado no [README](../../README.md#limitações-e-próximos-passos)): notificações push, o link do convite abrindo o app e a publicação nas lojas.
 
 ## Convenções destes documentos
 

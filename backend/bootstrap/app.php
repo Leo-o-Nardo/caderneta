@@ -23,6 +23,11 @@ return Application::configure(basePath: dirname(__DIR__))
         'middleware' => ['api', 'auth:sanctum'],
     ])
     ->withMiddleware(function (Middleware $middleware): void {
+        // Em produção, o HTTPS termina no nginx do servidor, que repassa por HTTP. Confiar no
+        // X-Forwarded-Proto dele faz os links (como o assinado do e-mail de cadastro) saírem com
+        // https e a assinatura bater. Os containers só aceitam conexão de 127.0.0.1.
+        $middleware->trustProxies(at: '*');
+
         $middleware->alias([
             'household' => ResolveCurrentHousehold::class,
             'household.write' => EnsureCanWrite::class,

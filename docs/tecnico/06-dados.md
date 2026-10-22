@@ -204,4 +204,4 @@ Esta é a parte que mais surpreende quem lê o banco pela primeira vez:
 
 Vêm do Laravel e não fazem parte do domínio: `sessions` (das páginas web, como a de aprovação; o app entra por token), `cache` e `cache_locks`, `jobs`, `job_batches` e `failed_jobs`, e `personal_access_tokens` (Sanctum).
 
-No `.env.example`, a fila e o cache usam o Redis (`QUEUE_CONNECTION=redis`, `CACHE_STORE=redis`), então `jobs` e `cache` ficam vazias nesse ambiente; elas existem porque vêm com o Laravel. **Não confirmado:** a configuração do servidor de produção, que ainda não existe.
+No `.env.example`, a fila e o cache usam o Redis (`QUEUE_CONNECTION=redis`, `CACHE_STORE=redis`), então `jobs` e `cache` ficam vazias nesse ambiente; elas existem porque vêm com o Laravel. O `backend/.env.production.example` mantém o Redis para os dois em produção.

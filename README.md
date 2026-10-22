@@ -306,10 +306,9 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 ## Limitações e próximos passos
 
 - **Notificações push** ainda não existem: os avisos chegam no chat, e o push vem com o app publicado.
-- **Link do convite:** enquanto não há domínio próprio, ele não abre o app direto; a pessoa usa o código de 6 caracteres.
-- **Papel "Só leitura":** os botões de editar ainda aparecem; a API recusa a ação, mas o app deveria escondê-los.
-- **Publicação:** o deploy num servidor Linux e o envio para a Play Store e a App Store são os próximos passos do roteiro.
-- **Configuração de desenvolvimento:** portas expostas e senhas padrão, pensadas só para rodar localmente.
+- **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
+- **Publicação:** o envio para a Play Store e a App Store é o próximo passo do roteiro. O servidor de produção roda com o `compose.prod.yml`, como descrito no [guia de deploy](docs/deploy.md).
+- **Configuração de desenvolvimento:** o `docker-compose.yml` tem portas expostas e senhas padrão, pensadas só para rodar localmente.
 
 ## Autor
 

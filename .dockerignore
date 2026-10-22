@@ -1,0 +1,26 @@
+# O que não entra na imagem de produção (o contexto do build é a raiz do repositório).
+.git
+.github
+assets
+docs
+mobile
+scripts
+deploy
+**/node_modules
+
+# O .env de verdade é montado no container, nunca copiado para a imagem.
+backend/.env
+backend/.env.*
+backend/vendor
+backend/public/hot
+backend/public/build
+backend/bootstrap/cache/*.php
+
+# O que o desenvolvimento deixou em storage/ (as pastas ficam, só o conteúdo sai).
+backend/storage/app/private/*
+backend/storage/app/public/*
+backend/storage/framework/cache/data/*
+backend/storage/framework/sessions/*
+backend/storage/framework/testing/*
+backend/storage/framework/views/*
+backend/storage/logs/*

@@ -44,14 +44,17 @@ describe('inviteMessage', () => {
     expires_at: '2026-10-15T12:00:00-03:00',
   };
 
-  it('has who invited, the house, the role, the code, the link and the expiry', () => {
+  it('has who invited, the house, the role, the code and the expiry', () => {
     const message = inviteMessage(invitation, 'Casa do Leo');
 
     expect(message).toContain('Leo te convidou para a casa "Casa do Leo" na Caderneta');
     expect(message).toContain('como só leitura');
     expect(message).toContain('Código do convite: XK7P2M');
-    expect(message).toContain('http://localhost:8100/convite/XK7P2M');
     expect(message).toContain('vale até 15/10');
+  });
+
+  it('leaves the server address out', () => {
+    expect(inviteMessage(invitation, 'Casa do Leo')).not.toContain('http');
   });
 });
 

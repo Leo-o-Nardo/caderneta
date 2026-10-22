@@ -29,15 +29,14 @@ export function normalizeInviteCode(text: string): string {
 }
 
 /**
- * A mensagem que vai pelo WhatsApp (ou onde a pessoa escolher). O código vem escrito porque o link
- * só abre o app direto quando ele estiver publicado com o domínio próprio.
+ * A mensagem que vai pelo WhatsApp (ou onde a pessoa escolher). Leva só o código, sem o link: o
+ * endereço do servidor não fica exposto na conversa, e o código funciona em qualquer caso.
  */
 export function inviteMessage(invitation: Invitation, householdName: string): string {
   return [
     `${invitation.invited_by} te convidou para a casa "${householdName}" na Caderneta, como ${ROLES[invitation.role].label.toLowerCase()}.`,
     `Código do convite: ${invitation.code}`,
     'Para entrar, crie sua conta no app com esse código. Se já tem conta, vá em Configurações › Entrar com um código.',
-    `${invitation.url}`,
     `O convite vale até ${shortDate(invitation.expires_at)}.`,
   ].join('\n\n');
 }

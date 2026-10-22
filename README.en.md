@@ -309,10 +309,9 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 ## Limitations and next steps
 
 - **Push notifications** do not exist yet: alerts arrive in the chat, and push comes with the published app.
-- **Invitation link:** until there is a proper domain, it does not open the app directly; people use the 6-character code.
-- **Read-only role:** edit buttons still show up; the API refuses the action, but the app should hide them.
-- **Release:** deploying to a Linux server and publishing to the Play Store and the App Store are the next steps on the roadmap.
-- **Development setup:** exposed ports and default passwords, meant only for running locally.
+- **Invitation:** it carries only the 6-character code; there is no link that opens the app directly yet.
+- **Release:** publishing to the Play Store and the App Store is the next step on the roadmap. The production server runs with `compose.prod.yml`, as described in the [deploy guide](docs/deploy.md) (in Portuguese).
+- **Development setup:** `docker-compose.yml` has exposed ports and default passwords, meant only for running locally.
 
 ## Author
 
