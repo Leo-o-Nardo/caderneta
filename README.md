@@ -266,7 +266,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Grupo | Rotas principais |
 |---|---|
 | Entrada | `POST /auth/register`, `/auth/login`, `/auth/forgot-password`, `/auth/reset-password`, `/auth/logout`, `/auth/logout-all` |
-| Conta | `GET` e `PATCH /me`, `PUT /me/password` |
+| Conta | `GET`, `PATCH` e `DELETE /me`, `PUT /me/password` |
 | Casa | `/households`, `/household`, `/household/members/{member}`, `/household/invitations`, `/invitations/{code}/accept` |
 | Lançamentos | `/transactions`, `/installment-plans`, `/categories`, `PUT /categories/order` |
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |

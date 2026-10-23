@@ -115,6 +115,16 @@ export async function signOutEverywhere(): Promise<void> {
   await useSession.getState().clear();
 }
 
+/**
+ * Exclui a conta (pede a senha). Como no signOutEverywhere, o erro sobe: a sessão local só acaba
+ * depois que a API confirmar.
+ */
+export async function deleteAccount(password: string): Promise<void> {
+  await api('/me', { method: 'DELETE', body: { password } });
+  queryClient.clear();
+  await useSession.getState().clear();
+}
+
 /** O usuário logado, com a casa atual e o papel nela. */
 export const meQuery = queryOptions({ queryKey: ME_KEY, queryFn: () => api<User>('/me') });
 

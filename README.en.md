@@ -269,7 +269,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Group | Main routes |
 |---|---|
 | Sign-in | `POST /auth/register`, `/auth/login`, `/auth/forgot-password`, `/auth/reset-password`, `/auth/logout`, `/auth/logout-all` |
-| Account | `GET` and `PATCH /me`, `PUT /me/password` |
+| Account | `GET`, `PATCH` and `DELETE /me`, `PUT /me/password` |
 | Household | `/households`, `/household`, `/household/members/{member}`, `/household/invitations`, `/invitations/{code}/accept` |
 | Entries | `/transactions`, `/installment-plans`, `/categories`, `PUT /categories/order` |
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |

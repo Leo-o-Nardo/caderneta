@@ -8,13 +8,14 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 
 import { useHomeReady } from '@/api/home';
 import { OpeningSplash } from '@/components/OpeningSplash';
 import { SheetHost } from '@/components/ui';
 import { queryClient } from '@/lib/queryClient';
+import { useOpening } from '@/stores/opening';
 import { useSession } from '@/stores/session';
 import { colors } from '@/theme/tokens';
 
@@ -35,7 +36,7 @@ export default function RootLayout() {
   // Com login, a capa espera os dados do Início para abrir: nada de "Carregando…" embaixo dela.
   const homeReady = useHomeReady();
   // A abertura toca uma vez, ao abrir o app do zero; voltar do segundo plano não monta de novo.
-  const [opening, setOpening] = useState(true);
+  const opening = useOpening((state) => !state.done);
 
   useEffect(() => {
     useSession.getState().restore();
@@ -70,7 +71,7 @@ export default function RootLayout() {
             <SheetHost />
           </>
         ) : null}
-        {opening ? <OpeningSplash ready={ready} contentReady={homeReady} onDone={() => setOpening(false)} /> : null}
+        {opening ? <OpeningSplash ready={ready} contentReady={homeReady} onDone={useOpening.getState().finish} /> : null}
       </SafeAreaProvider>
     </QueryClientProvider>
   );

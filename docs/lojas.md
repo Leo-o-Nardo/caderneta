@@ -10,6 +10,7 @@ Como gerar os builds do app e levar para a Play Store e a App Store. Os builds r
   - `preview`: um APK para instalar direto no celular, sem loja;
   - `production`: o pacote das lojas (AAB no Android), com o número do build subindo sozinho a cada build (`autoIncrement`, guardado na Expo por `appVersionSource: remote`).
 - **Endereço do servidor:** não fica no repositório. Os builds leem as variáveis `EXPO_PUBLIC_*` dos ambientes `preview` e `production` do EAS, guardadas na conta da Expo.
+- **Permissões:** só o microfone (e o ajuste de áudio que vem com ele) e as notificações. O áudio em segundo plano do `expo-audio` está desligado (`enableBackgroundPlayback: false`) e as permissões de serviço em primeiro plano estão bloqueadas (`blockedPermissions`): com elas, a Play pede uma declaração com vídeo, e a Apple pergunta pelo modo de áudio em segundo plano.
 
 ## 1. Conta e projeto na Expo
 
@@ -76,6 +77,8 @@ npx eas-cli@latest build --profile development --platform android
 
 Instale o APK como o do `preview`. Depois, `npx expo start` abre o projeto nesse app (e não no Expo Go): a tela inicial do app instalado mostra o servidor do Metro para tocar. Para voltar ao Expo Go, aperte `s` no terminal do Expo.
 
+Ele serve para mexer no código e ver na hora. Para só testar contra o servidor, o APK do `preview` (seção 3) já recebe as notificações e não depende do Metro.
+
 ### Testar
 
 Entre no app e aceite as notificações (na folha do Início ou em Configurações › Avisos). No servidor:
@@ -89,3 +92,14 @@ A notificação "Caderneta" chega com o app fechado. Tocar nela abre o Chat. Dep
 ### iPhone
 
 A chave de push da Apple é gerada pelo próprio EAS na hora do primeiro build do iOS, com a conta Apple Developer: ele pergunta e guarda. Nada a fazer até lá.
+
+## 5. O que as lojas pedem
+
+### Excluir a conta
+
+As duas lojas exigem que a conta possa ser excluída pelo app, e o Google Play pede também um endereço na web, para quem já desinstalou.
+
+- **No app:** Configurações › Conta › Excluir conta. Pede a senha e confirma (`DELETE /me`).
+- **Na web:** `https://caderneta.example.com/excluir-conta`, com e-mail e senha. É este endereço que vai no formulário "Segurança dos dados" do Play Console, em "Exclusão de dados".
+
+Os dois caminhos fazem a mesma coisa (`AccountService`). Saem o login em todos os celulares, as conversas, os avisos, os lembretes e os cartões da pessoa. Nas casas compartilhadas, os lançamentos, as contas e as listas ficam para quem continua, sem o nome de quem lançou. Onde a pessoa era a única dona, a casa passa para o membro mais antigo que pode editar; sem ninguém assim, a casa é apagada.

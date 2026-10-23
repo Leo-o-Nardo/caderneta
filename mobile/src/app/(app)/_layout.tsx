@@ -56,6 +56,7 @@ export default function AppLayout() {
         <Stack.Screen name="settings/alerts" />
         <Stack.Screen name="settings/profile" options={modal} />
         <Stack.Screen name="settings/password" options={modal} />
+        <Stack.Screen name="settings/delete-account" options={modal} />
         <Stack.Screen name="settings/households" options={modal} />
         <Stack.Screen name="settings/household-form" options={modal} />
         <Stack.Screen name="settings/join" options={modal} />

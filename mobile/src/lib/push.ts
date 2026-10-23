@@ -25,15 +25,26 @@ Notifications.setNotificationHandler({
   }),
 });
 
-/** granted, denied, undetermined (nunca perguntado) ou unavailable (emulador, sem push). */
-export type PushStatus = Notifications.PermissionStatus | 'unavailable';
+/**
+ * granted; undetermined (ainda dá para pedir); denied (bloqueadas: só nas configurações do celular);
+ * ou unavailable (emulador, sem push).
+ */
+export type PushStatus = 'granted' | 'undetermined' | 'denied' | 'unavailable';
 
 export async function pushStatus(): Promise<PushStatus> {
   if (!Device.isDevice) {
     return 'unavailable';
   }
 
-  return (await Notifications.getPermissionsAsync()).status;
+  const permission = await Notifications.getPermissionsAsync();
+
+  if (permission.granted) {
+    return 'granted';
+  }
+
+  // Alguns Android dizem "negado" antes de perguntar a primeira vez: o que vale é se o sistema
+  // ainda mostra o pedido (canAskAgain).
+  return permission.canAskAgain ? 'undetermined' : 'denied';
 }
 
 /** Se a folha do Início já apareceu (e a pessoa respondeu) neste aparelho. */
@@ -54,7 +65,7 @@ export async function enablePush(): Promise<boolean> {
   // No Android 13+, o pedido de permissão só aparece se já existir um canal.
   await ensureChannel();
 
-  if ((await Notifications.requestPermissionsAsync()).status !== 'granted') {
+  if (!(await Notifications.requestPermissionsAsync()).granted) {
     return false;
   }
 

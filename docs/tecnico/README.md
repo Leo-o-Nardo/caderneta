@@ -12,7 +12,7 @@ Como o sistema foi construído, para quem vai mexer no código ou precisa explic
 | 2 | [Backend](02-backend.md) | O caminho de uma requisição (rota, middleware, validação, controller, service, model), a casa como filtro, autenticação e autorização, erros. |
 | 3 | [App](03-app.md) | Telas e navegação, como o app busca e guarda os dados, o estado local, o tempo real e o tratamento de erros. |
 | 4 | [O assistente](04-assistente.md) | O turno com a IA, as ferramentas e os níveis de cuidado, as ações pendentes, o cofre de privacidade, a voz, custos e limites. |
-| 5 | [Os fluxos, passo a passo](05-fluxos.md) | Cadastro e liberação, entrar, senha, convite, lançar, voz até a ficha, confirmar, avisos, receitas fixas, abertura e primeiro acesso. |
+| 5 | [Os fluxos, passo a passo](05-fluxos.md) | Cadastro e liberação, entrar, senha, convite, lançar, voz até a ficha, confirmar, avisos, receitas fixas, abertura e primeiro acesso, excluir a conta. |
 | 6 | [O modelo de dados](06-dados.md) | As 20 tabelas por assunto, as regras que valem para quase todas e o que é calculado na hora em vez de guardado. |
 
 Para apresentar a arquitetura a quem não conhece o código, use a página [Como funciona por dentro](https://leo-o-nardo.github.io/caderneta/apresentacao.html): as mesmas ideias, com desenhos no estilo do guia e o que dizer em cada parte.

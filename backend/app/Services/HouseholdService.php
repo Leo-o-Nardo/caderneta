@@ -108,6 +108,42 @@ class HouseholdService
     }
 
     /**
+     * Tira a pessoa de todas as casas, antes de excluir a conta dela. Onde ela é a única dona, a
+     * casa passa para o membro mais antigo que pode editar; sem ninguém assim (ela sozinha, ou só
+     * com quem é "Só leitura"), a casa é apagada e quem sobrou ganha outra casa atual.
+     */
+    public function removeEverywhere(User $user): void
+    {
+        foreach ($user->households()->get() as $household) {
+            DB::transaction(function () use ($household, $user) {
+                $this->lock($household);
+
+                $others = $household->members()
+                    ->whereKeyNot($user->id)
+                    ->orderBy('household_user.created_at')
+                    ->orderBy('household_user.id')
+                    ->get();
+                $hasRole = fn (HouseholdRole $role) => fn (User $member) => $member->membership->role === $role;
+
+                if ($household->membership->role === HouseholdRole::Owner && ! $others->contains($hasRole(HouseholdRole::Owner))) {
+                    $heir = $others->first($hasRole(HouseholdRole::Member));
+
+                    if (! $heir) {
+                        $household->delete();
+                        $others->each(fn (User $member) => $this->ensureCurrent($member));
+
+                        return;
+                    }
+
+                    $household->members()->updateExistingPivot($heir->id, ['role' => HouseholdRole::Owner->value]);
+                }
+
+                $household->members()->detach($user->id);
+            });
+        }
+    }
+
+    /**
      * Enfileira as mudanças de membros de uma casa, para que dois donos saindo ao mesmo tempo
      * não a deixem sem dono.
      */

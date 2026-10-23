@@ -5,6 +5,7 @@ import { StyleSheet } from 'react-native';
 
 import { BottomSheet, Button, Text } from '@/components/ui';
 import { enablePush, markAsked, pushStatus, wasAsked } from '@/lib/push';
+import { useOpening } from '@/stores/opening';
 import { useTour } from '@/stores/tour';
 import { colors, space } from '@/theme/tokens';
 
@@ -17,11 +18,13 @@ export function PushPrompt({ ready }: { ready: boolean }) {
   const [visible, setVisible] = useState(false);
   const [busy, setBusy] = useState(false);
   const touring = useTour((state) => state.active);
+  const opened = useOpening((state) => state.done);
 
-  // Só com o Início na frente: a folha é um Modal e apareceria por cima de qualquer outra tela.
+  // Só com o Início na frente: a folha é um Modal e apareceria por cima de qualquer outra tela. E só
+  // depois da abertura: aberta no meio da transição, o Android pode não mostrar.
   useFocusEffect(
     useCallback(() => {
-      if (!ready || touring) {
+      if (!ready || touring || !opened) {
         return;
       }
 
@@ -38,7 +41,7 @@ export function PushPrompt({ ready }: { ready: boolean }) {
       return () => {
         cancelled = true;
       };
-    }, [ready, touring]),
+    }, [ready, touring, opened]),
   );
 
   function dismiss() {

@@ -36,6 +36,7 @@ Route::prefix('v1')->group(function () {
         Route::get('me', [AuthController::class, 'me'])->middleware('household');
         Route::patch('me', [AuthController::class, 'updateMe'])->middleware('household');
         Route::put('me/password', [PasswordController::class, 'update']);
+        Route::delete('me', [AuthController::class, 'destroyMe'])->middleware('throttle:auth');
         Route::post('auth/logout', [AuthController::class, 'logout']);
         Route::post('auth/logout-all', [AuthController::class, 'logoutAll']);
 
@@ -72,6 +73,8 @@ Route::prefix('v1')->group(function () {
             Route::post('messages', [ConversationController::class, 'store']);
             // Mensagem de voz: vira texto na fila e segue como se tivesse sido digitada.
             Route::post('voice', [ConversationController::class, 'voice']);
+            // "Reportar resposta": vai para o administrador revisar (exigência do Google Play para IA).
+            Route::post('messages/{message}/report', [ConversationController::class, 'report'])->whereNumber('message');
             // "Limpar conversa": arquiva a atual (fica guardada); a próxima mensagem começa outra.
             Route::delete('/', [ConversationController::class, 'clear']);
         });

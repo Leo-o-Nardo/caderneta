@@ -12,6 +12,7 @@ import {
   Shapes,
   Target,
   Ticket,
+  UserX,
   Users,
 } from 'lucide-react-native';
 import type { ReactNode } from 'react';
@@ -30,7 +31,7 @@ import { colors, space } from '@/theme/tokens';
 
 /**
  * As Configurações: os primeiros passos, a conta, a casa atual e as outras casas, categorias,
- * orçamentos e avisos, e sair.
+ * orçamentos e avisos, sair e excluir a conta.
  */
 export default function SettingsScreen() {
   const { data: user } = useMe();
@@ -145,6 +146,7 @@ export default function SettingsScreen() {
           loading={everywhere.isPending}
           onPress={confirmSignOutEverywhere}
         />
+        <SettingsRow icon={UserX} label="Excluir conta" tone="danger" onPress={() => router.push('/settings/delete-account')} />
       </MenuGroup>
     </Screen>
   );

@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\DeleteAccountRequest;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\UpdateProfileRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
 use App\Services\AccessService;
+use App\Services\AccountService;
 use App\Services\HouseholdService;
 use App\Services\InvitationService;
 use Illuminate\Http\JsonResponse;
@@ -99,6 +101,14 @@ class AuthController extends Controller
         $user->update($data);
 
         return new UserResource($user);
+    }
+
+    /** Exclui a conta de quem está logado (ver AccountService). O app volta para a tela de entrar. */
+    public function destroyMe(DeleteAccountRequest $request, AccountService $accounts): Response
+    {
+        $accounts->delete($request->user());
+
+        return response()->noContent();
     }
 
     public function logout(Request $request): Response

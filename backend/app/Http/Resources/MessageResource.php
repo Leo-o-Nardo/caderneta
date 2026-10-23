@@ -23,6 +23,8 @@ class MessageResource extends JsonResource
             // "audio" quando veio de voz (a bolha mostra o microfone e a duração); senão, "text".
             'kind' => $this->metadata['kind'] ?? 'text',
             'duration_ms' => $this->metadata['duration_ms'] ?? null,
+            // A pessoa tocou em "Reportar resposta" (ConversationController::report).
+            'reported' => isset($this->metadata['reported_at']),
             'created_at' => $this->created_at,
         ];
     }

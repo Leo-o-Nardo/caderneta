@@ -14,6 +14,7 @@ Cada fluxo segue o caminho real pelo código: o que o inicia, quem participa, em
 | 8 | [Avisos agendados](#8-avisos-agendados) | O relógio (`schedule:work`) ou um gasto lançado |
 | 9 | [Receitas fixas e débito automático](#9-receitas-fixas-e-débito-automático) | O relógio, de hora em hora |
 | 10 | [Abertura e primeiro acesso](#10-abertura-e-primeiro-acesso) | Abrir o app |
+| 11 | [Excluir a conta](#11-excluir-a-conta) | Configurações › Conta, ou a página `/excluir-conta` |
 
 ## 1. Cadastro e liberação
 
@@ -220,3 +221,12 @@ flowchart TD
 6. **O tour** (`TourOverlay`) destaca os elementos de verdade (`TourTarget`): mede cada um, escurece a tela em volta e explica numa ficha. Ele troca de aba sozinho, salva o passo (`tour_step`) para retomar e pula o que não está na tela.
 
 As regras visuais de cada parte estão no [guia de design](https://leo-o-nardo.github.io/caderneta/design-guide.html), nas versões 1.6 (abertura) e 1.7 (primeiro acesso).
+
+## 11. Excluir a conta
+
+As lojas exigem dois caminhos: pelo app e por um endereço na web, para quem já desinstalou.
+
+1. **Pelo app,** a tela Configurações › Conta › Excluir conta (`settings/delete-account.tsx`) pede a senha e confirma na folha. Ela chama `DELETE /me` (`AuthController::destroyMe`); a senha é conferida pelo `DeleteAccountRequest`. Com a resposta, `deleteAccount` limpa o cache e a sessão, e o app volta para a capa.
+2. **Pela web,** a página `/excluir-conta` (`AccountDeletionController`) pede o e-mail e a senha. Para e-mail desconhecido e senha errada, a mensagem é a mesma: a página não revela quem tem conta. Ela tem o mesmo limite de tentativas da entrada (`throttle:auth`).
+3. **As casas primeiro** (`HouseholdService::removeEverywhere`), uma por vez e com a casa travada, como nas outras mudanças de membros. Onde a pessoa é a única dona, a casa passa para o membro mais antigo que pode editar. Sem ninguém assim, a casa é apagada, e quem era "Só leitura" ganha outra casa atual (`ensureCurrent`). Nas outras casas, a pessoa só sai.
+4. **Depois, a conta** (`AccountService::delete`): os logins do Sanctum saem à mão, porque não têm chave estrangeira, e com eles os celulares do push. O código de senha pendente também sai. O resto vai em cascata com o usuário: conversas, ações pendentes, avisos, lembretes, cartões e convites mandados. Os lançamentos, as contas e as listas ficam na casa, só sem o `created_by`. Um áudio que ainda esperava a transcrição é apagado do disco.

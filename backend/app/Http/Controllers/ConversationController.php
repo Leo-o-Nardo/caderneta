@@ -12,6 +12,7 @@ use App\Jobs\TranscribeVoice;
 use App\Models\Conversation;
 use App\Models\Message;
 use App\Models\User;
+use App\Notifications\ResponseReported;
 use App\Support\HouseholdContext;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\JsonResponse;
@@ -20,6 +21,8 @@ use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -135,6 +138,46 @@ class ConversationController extends Controller
     public function clear(Request $request, HouseholdContext $context): Response
     {
         Conversation::activeFor($request->user(), $context->household())?->archive();
+
+        return response()->noContent();
+    }
+
+    /**
+     * "Reportar resposta": a pessoa marca uma resposta do assistente como ofensiva, errada ou
+     * estranha (o Google Play exige isso em apps com IA que gera texto). A resposta fica marcada e
+     * o administrador recebe por e-mail, com a pergunta que veio antes. Reportar de novo não manda outro.
+     */
+    public function report(Request $request, Message $message): Response
+    {
+        $conversation = $message->conversation;
+
+        // Só as respostas prontas do assistente, e só nas conversas da própria pessoa.
+        abort_unless(
+            $conversation->user_id === $request->user()->id
+                && $message->role === MessageRole::Assistant
+                && $message->status === MessageStatus::Completed,
+            404,
+        );
+
+        if (isset($message->metadata['reported_at'])) {
+            return response()->noContent();
+        }
+
+        $message->update(['metadata' => [...($message->metadata ?? []), 'reported_at' => now()->toIso8601String()]]);
+
+        $question = Message::query()
+            ->where('conversation_id', $conversation->id)
+            ->where('role', MessageRole::User)
+            ->where('id', '<', $message->id)
+            ->latest('id')
+            ->first();
+        $admin = config('access.admin_email');
+
+        if (blank($admin)) {
+            Log::warning('ADMIN_EMAIL não configurado: a resposta reportada não foi enviada.', ['message_id' => $message->id]);
+        } else {
+            Notification::route('mail', $admin)->notify(new ResponseReported($message, $question));
+        }
 
         return response()->noContent();
     }
