@@ -17,6 +17,7 @@ use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\ListController;
 use App\Http\Controllers\ListItemController;
 use App\Http\Controllers\OnboardingController;
+use App\Http\Controllers\PushTokenController;
 use App\Http\Controllers\RecurringIncomeController;
 use App\Http\Controllers\ReminderController;
 use App\Http\Controllers\SummaryController;
@@ -37,6 +38,9 @@ Route::prefix('v1')->group(function () {
         Route::put('me/password', [PasswordController::class, 'update']);
         Route::post('auth/logout', [AuthController::class, 'logout']);
         Route::post('auth/logout-all', [AuthController::class, 'logoutAll']);
+
+        // O celular que recebe os avisos como push. Sai sozinho junto com o login (ver PushTokenController).
+        Route::post('push-tokens', [PushTokenController::class, 'store']);
 
         Route::get('households', [HouseholdController::class, 'index']);
         Route::post('households', [HouseholdController::class, 'store']);

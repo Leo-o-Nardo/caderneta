@@ -1,4 +1,5 @@
 import { useInfiniteQuery, type InfiniteData } from '@tanstack/react-query';
+import { File } from 'expo-file-system';
 
 import { api } from '@/lib/api';
 import { queryClient } from '@/lib/queryClient';
@@ -56,8 +57,10 @@ export type VoiceRecording = { uri: string; durationMs: number };
  */
 export async function sendVoice(recording: VoiceRecording, source: 'chat' | 'home' = 'chat'): Promise<void> {
   const form = new FormData();
-  // No React Native, um arquivo vai no FormData como { uri, name, type }.
-  form.append('audio', { uri: recording.uri, name: 'voz.m4a', type: 'audio/m4a' } as unknown as Blob);
+  // O fetch do Expo só aceita no FormData um arquivo que leia os próprios bytes, como o File do
+  // expo-file-system; o formato antigo do React Native ({ uri, name, type }) é recusado antes de sair.
+  // A API confere o tipo pelo conteúdo do arquivo, então o nome e o tipo que o File informa bastam.
+  form.append('audio', new File(recording.uri) as unknown as Blob);
   form.append('duration_ms', String(Math.round(recording.durationMs)));
   form.append('source', source);
 

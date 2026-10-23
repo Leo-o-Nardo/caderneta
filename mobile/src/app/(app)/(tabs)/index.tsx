@@ -21,6 +21,7 @@ import { useTransactions } from '@/api/transactions';
 import type { BillOccurrence, Summary } from '@/api/types';
 import { Ledger } from '@/components/Ledger';
 import { OnboardingBlock } from '@/components/OnboardingBlock';
+import { PushPrompt } from '@/components/PushPrompt';
 import { TourTarget } from '@/components/tour/TourTarget';
 import { TransactionRow } from '@/components/TransactionRow';
 import { Amount, Button, IconButton, Screen, SectionHeader, Text } from '@/components/ui';
@@ -179,6 +180,9 @@ export default function HomeScreen() {
           </Text>
         )}
       </TourTarget>
+
+      {/* Depois das boas-vindas, uma vez por aparelho: os avisos também no celular. */}
+      <PushPrompt ready={onboarding.data?.welcome_seen === true} />
     </Screen>
   );
 }

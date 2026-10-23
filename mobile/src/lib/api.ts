@@ -33,7 +33,12 @@ export async function api<T>(path: string, { method = 'GET', body, token }: Opti
       },
       body: isForm ? (body as FormData) : body !== undefined ? JSON.stringify(body) : undefined,
     });
-  } catch {
+  } catch (error) {
+    // A pessoa vê "sem conexão"; em desenvolvimento, o erro original vai para o terminal do Expo.
+    if (__DEV__) {
+      console.warn(`[api] ${method} ${path} falhou antes da resposta:`, error);
+    }
+
     throw new ApiError(0, OFFLINE_MESSAGE);
   }
 

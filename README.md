@@ -128,7 +128,8 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - **Lembretes** com repetição ("a cada 6 meses"), da casa ou só seus.
 - **Listas** de compras, desejos, coisas a fazer ou do jeito que você quiser, com toque para marcar no mercado.
 
-### Avisos no chat
+### Avisos no chat e no celular
+- Cada aviso chega no chat e, com as notificações ligadas, também como push no celular. Tocar na notificação abre o chat da casa certa.
 - Contas na véspera e no dia do vencimento.
 - Débito automático lançado (ou pedindo o valor, quando ele muda todo mês).
 - Orçamento chegando a 80% e passando de 100%.
@@ -272,7 +273,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
-| Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}` |
+| Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
 ## Estrutura
 
@@ -305,7 +306,6 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 
 ## Limitações e próximos passos
 
-- **Notificações push** ainda não existem: os avisos chegam no chat, e o push vem com o app publicado.
 - **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
 - **Publicação:** o envio para a Play Store e a App Store é o próximo passo do roteiro. O servidor de produção roda com o `compose.prod.yml`, como descrito no [guia de deploy](docs/deploy.md).
 - **Configuração de desenvolvimento:** o `docker-compose.yml` tem portas expostas e senhas padrão, pensadas só para rodar localmente.

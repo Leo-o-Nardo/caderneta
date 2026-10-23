@@ -34,6 +34,10 @@ yarn-error.*
 .env
 .env*.local
 
+# Firebase: o projeto (vai para o EAS como variável de arquivo) e a chave da conta de serviço
+google-services.json
+*firebase-adminsdk*.json
+
 # typescript
 *.tsbuildinfo
 

@@ -183,6 +183,7 @@ erDiagram
 | `messages` | Cada mensagem: da pessoa (`user`), do assistente (`assistant`) ou do próprio app (`event`, os avisos). | `metadata` guarda as fichas (`cards`), as ferramentas chamadas (`tools`) e, na voz, a duração e o arquivo enquanto ele existe. |
 | `pending_actions` | O que o assistente propôs: a ferramenta, o nível, os dados já validados (`payload`), o resultado depois de gravar (`result`, com o necessário para desfazer). | A URL usa o `ulid`, não o `id`: não dá para adivinhar a ação de outra pessoa somando 1. |
 | `alerts` | Cada aviso mandado a uma pessoa: o tipo e a **chave** (`bill:12:2026-10:eve`). | `unique(user_id, key)`: a mesma chave nunca sai duas vezes. |
+| `push_tokens` | Os celulares que recebem os avisos como notificação: o endereço na Expo e o sistema. | `token` único (o celular passa para quem entrar nele) e preso ao login (`personal_access_token_id`, com `cascadeOnDelete`): sair da conta apaga o aparelho. |
 | `llm_usage` | Uma linha por rodada de IA ou transcrição: provedor, modelo, tokens, tempo, custo em milionésimos de dólar, erro. | Só para acompanhar custo e falhas; falhar ao gravar não derruba a resposta. |
 
 ## O que **não** é guardado

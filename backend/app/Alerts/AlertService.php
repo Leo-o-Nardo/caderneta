@@ -5,6 +5,7 @@ namespace App\Alerts;
 use App\Enums\MessageRole;
 use App\Enums\MessageStatus;
 use App\Events\Alerts\AlertCreated;
+use App\Jobs\SendPush;
 use App\Models\Alert;
 use App\Models\Conversation;
 use App\Models\Household;
@@ -16,8 +17,8 @@ use Throwable;
 
 /**
  * O único caminho de todo aviso do app (lembrete, conta vencendo, débito automático, orçamento,
- * resumo da semana): vira uma mensagem do sistema no Chat da pessoa, na casa certa, com um card.
- * Quando o push existir (fase 9), ele entra aqui, como mais um passo do send().
+ * resumo da semana): vira uma mensagem do sistema no Chat da pessoa, na casa certa, com um card,
+ * e uma notificação nos celulares dela (SendPush), quando houver algum registrado.
  */
 final class AlertService
 {
@@ -63,6 +64,11 @@ final class AlertService
                 event(new AlertCreated($user->id, $message));
             } catch (Throwable $error) {
                 report($error);
+            }
+
+            // Só põe na fila quando há para onde mandar: quem nunca aceitou notificações não gera trabalho.
+            if ($user->pushTokens()->exists()) {
+                SendPush::dispatch($message->id)->afterCommit();
             }
         }
 

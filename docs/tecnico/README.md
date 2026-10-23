@@ -36,7 +36,7 @@ Para apresentar a arquitetura a quem não conhece o código, use a página [Como
 - **O Gemini de verdade:** os testes usam a IA e o transcritor simulados, e o Gemini é testado com respostas falsas. A qualidade das respostas, o tempo e o custo reais dependem do serviço.
 - **Desempenho e carga:** não há testes de carga; os limites por minuto e por dia são os do código.
 - **iOS:** o comportamento no iPhone não foi verificado nesta análise.
-**O que o sistema ainda não tem** (também listado no [README](../../README.md#limitações-e-próximos-passos)): notificações push, o link do convite abrindo o app e a publicação nas lojas.
+**O que o sistema ainda não tem** (também listado no [README](../../README.md#limitações-e-próximos-passos)): o link do convite abrindo o app e a publicação nas lojas. As notificações push existem no código (fluxo 8), mas a entrega real depende do Firebase e da Apple, que não dá para conferir pelo código.
 
 ## Convenções destes documentos
 

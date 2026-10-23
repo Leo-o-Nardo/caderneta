@@ -6,6 +6,7 @@ import { syncAssistantEvents } from '@/api/assistant';
 import { useMe } from '@/api/auth';
 import { TourOverlay } from '@/components/tour/TourOverlay';
 import { useRealtimeConnection } from '@/lib/realtime';
+import { usePushNotifications } from '@/lib/usePushNotifications';
 import { colors } from '@/theme/tokens';
 
 // Com login, o app abre nas abas.
@@ -26,6 +27,8 @@ export default function AppLayout() {
   const { data: me } = useMe();
   useRealtimeConnection(me?.id);
   useEffect(() => syncAssistantEvents(), []);
+  // As notificações: registra o aparelho e abre o Chat certo ao tocar numa delas.
+  usePushNotifications(me);
 
   return (
     <View style={styles.root}>

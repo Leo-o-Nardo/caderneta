@@ -119,7 +119,7 @@ sequenceDiagram
     R-->>App: a ficha aparece para conferir
 ```
 
-1. **App.** O microfone do Início grava (`useVoiceRecorder`, `src/lib/useVoiceRecorder.ts`) em m4a mono, 16 kHz; aos 60 s, para e envia sozinho. `sendVoice` manda o arquivo como `FormData` e, com a resposta, o app vai para o Chat.
+1. **App.** O microfone do Início grava (`useVoiceRecorder`, `src/lib/useVoiceRecorder.ts`) em m4a mono, 16 kHz; aos 60 s, para e envia sozinho. `sendVoice` manda o arquivo como `FormData`, embrulhado no `File` do `expo-file-system` (o `fetch` do Expo recusa o formato antigo `{ uri, name, type }` do React Native), e, com a resposta, o app vai para o Chat.
 2. **API.** `ConversationController::voice` confere o limite do dia, valida o arquivo (`SendVoiceRequest`: tipo, até 2 MB, entre 0,5 e 60 s), grava o áudio fora da pasta pública, cria as duas mensagens numa transação e encadeia os jobs. Responde **202**.
 3. **Transcrição** (`TranscribeVoice`): o áudio vai ao `GeminiTranscriber`, com os nomes da casa como dica. O áudio é apagado no `finally`. O texto vira o conteúdo da pergunta, e o app recebe `message.transcribed`.
 4. **Turno** (`ProcessTurn` → `TurnRunner`): o texto é tratado como se tivesse sido digitado, passando pelo cofre. A IA pede, por exemplo, `CreateTransactions` com "almoço, 42, débito".
@@ -159,7 +159,7 @@ sequenceDiagram
 
 ## 8. Avisos agendados
 
-Todos os avisos do app chegam no Chat, como mensagens do sistema com uma ficha, por um caminho único: `AlertService::send`.
+Todos os avisos do app chegam no Chat, como mensagens do sistema com uma ficha, e nos celulares da pessoa, como notificação, por um caminho único: `AlertService::send`.
 
 ```mermaid
 flowchart TD
@@ -177,6 +177,8 @@ flowchart TD
     K -->|não| X["nada"]
     K -->|sim| M["mensagem no Chat com a ficha<br/>+ evento alert.created"]
     M --> APP["App: entra no Chat da casa certa<br/>e o número da aba atualiza"]
+    M --> P["SendPush · fila<br/>(se a pessoa tem celular registrado)"]
+    P --> E["serviço de push da Expo<br/>→ Firebase (Android) · Apple (iPhone)"]
 ```
 
 1. **Quem dispara:**
@@ -188,14 +190,20 @@ flowchart TD
 2. **`AlertService::send`:**
    - confere se a pessoa quer aquele tipo de aviso (Configurações › Avisos, `users.alert_settings`);
    - grava a chave do aviso com `insertOrIgnore`;
-   - cria a mensagem no Chat da casa certa e dispara `AlertCreated`.
+   - cria a mensagem no Chat da casa certa e dispara `AlertCreated`;
+   - se a pessoa tem algum celular registrado (`push_tokens`), põe o `SendPush` na fila.
    
    A chave diz exatamente o que o aviso é: `bill:12:2026-10:eve` é a véspera da conta 12 em outubro. Com chave única por pessoa, rodar a rotina de novo nunca manda o mesmo aviso duas vezes. Além disso, `withoutOverlapping` impede duas rodadas da mesma rotina ao mesmo tempo.
 3. **Quem recebe:** avisos de conta vão só para quem pode lançar (dono e membros). Os números de cada pessoa são calculados com os filtros dela (`HouseholdContext::runAs`), então ninguém vê o gasto privado do outro num aviso.
 4. **No app**, o aviso entra no Chat se for da casa aberta, e a aba Chat mostra quantos chegaram desde a última vez que ela foi aberta (`GET /alerts/unread`; abrir o Chat chama `/alerts/seen`).
 5. **Os botões do aviso** ("Feito", "Adiar 1 h", "Amanhã", "Paguei", "Desfazer") chamam `POST /alerts/{message}/{action}` (`AlertActions`), que faz a ação e guarda o resultado na própria ficha ("Feito", "Adiado para 15:00").
+6. **A notificação:**
+   - **Registro:** o app pede a permissão numa folha do Início, uma vez por aparelho, depois das boas-vindas (`PushPrompt`), ou em Configurações › Avisos. Com ela dada, manda o endereço do aparelho a cada abertura (`POST /push-tokens`, `src/lib/push.ts`). O endereço fica ligado ao login (`personal_access_token_id`): sair da conta apaga o login e, em cascata, o aparelho. O mesmo celular nunca fica com duas pessoas.
+   - **Envio:** `SendPush` monta a notificação com um título por tipo ("Lembrete", "Conta vencendo"), o texto do aviso (até 180 caracteres) e, por dentro, a casa e a mensagem. `ExpoPush` manda em lotes de até 100 para o serviço da Expo e apaga o aparelho que volta como `DeviceNotRegistered` (app desinstalado). Se o serviço falhar, a fila tenta de novo (3 vezes, com 30 s e 2 min de espera).
+   - **No app:** com ele aberto, a notificação não aparece por cima: o aviso já chega no Chat ao vivo. Tocar numa notificação abre o Chat da casa do aviso, trocando de casa se precisar (`usePushNotifications`).
+   - **Teste:** `php artisan alerts:test-push email` manda uma notificação de teste, sem passar pelo Chat.
 
-**Erros:** sem o Reverb, o aviso continua salvo, e o app o vê na próxima vez que buscar a conversa. O resumo da semana não sai numa semana sem nada a dizer. O push no celular ainda não existe: os avisos vivem só no Chat.
+**Erros:** sem o Reverb, o aviso continua salvo, e o app o vê na próxima vez que buscar a conversa. Sem o serviço de push, o aviso também continua no Chat; só a notificação atrasa ou não chega. O resumo da semana não sai numa semana sem nada a dizer.
 
 ## 9. Receitas fixas e débito automático
 
