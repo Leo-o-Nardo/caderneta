@@ -32,7 +32,7 @@ Para apresentar a arquitetura a quem não conhece o código, use a página [Como
 
 **O que não dá para confirmar pelo código:**
 
-- **Produção:** os arquivos estão no repositório (`compose.prod.yml`, `docker/php/Dockerfile.prod`, `backend/.env.production.example` e o [guia de deploy](../deploy.md)), mas o comportamento no servidor de verdade não é verificável pelo código. O resto destes documentos descreve o ambiente de desenvolvimento do `docker-compose.yml` e do `.env.example`.
+- **Produção:** os arquivos estão no repositório (`compose.prod.yml`, `docker/php/Dockerfile.prod`, `backend/.env.production.example`), mas o comportamento no servidor de verdade não é verificável pelo código. O resto destes documentos descreve o ambiente de desenvolvimento do `docker-compose.yml` e do `.env.example`.
 - **O Gemini de verdade:** os testes usam a IA e o transcritor simulados, e o Gemini é testado com respostas falsas. A qualidade das respostas, o tempo e o custo reais dependem do serviço.
 - **Desempenho e carga:** não há testes de carga; os limites por minuto e por dia são os do código.
 - **iOS:** o comportamento no iPhone não foi verificado nesta análise.

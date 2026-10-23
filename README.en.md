@@ -310,7 +310,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 ## Limitations and next steps
 
 - **Invitation:** it carries only the 6-character code; there is no link that opens the app directly yet.
-- **Release:** publishing to the Play Store and the App Store is the next step on the roadmap. The production server runs with `compose.prod.yml`, as described in the [deploy guide](docs/deploy.md) (in Portuguese).
+- **Release:** publishing to the Play Store and the App Store is the next step on the roadmap. The production server runs with `compose.prod.yml`.
 - **Development setup:** `docker-compose.yml` has exposed ports and default passwords, meant only for running locally.
 
 ## Author

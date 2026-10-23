@@ -1,15 +1,19 @@
-import * as Notifications from 'expo-notifications';
 import { router } from 'expo-router';
 import { useEffect } from 'react';
 
 import { resetAfterHouseholdChange, switchHousehold } from '@/api/households';
 import type { User } from '@/api/types';
 
+import { Notifications } from './notifications';
 import { pushStatus, registerDevice } from './push';
 
 // A última notificação já tratada. Fica fora do componente: depois de sair e entrar de novo na
 // conta, a mesma notificação não abre o Chat outra vez.
 let handledId: string | null = null;
+
+// O toque na notificação. No Expo Go, sem notificações, nunca há toque: o hook escolhido aqui é
+// sempre o mesmo durante a vida do app, então a ordem dos hooks não muda.
+const useLastNotificationResponse = Notifications?.useLastNotificationResponse ?? (() => null);
 
 /**
  * O push com a pessoa logada: registra o aparelho a cada entrada ou abertura (se a permissão já foi
@@ -34,7 +38,7 @@ export function usePushNotifications(user: User | undefined): void {
       });
   }, [userId]);
 
-  const response = Notifications.useLastNotificationResponse();
+  const response = useLastNotificationResponse();
 
   useEffect(() => {
     const id = response?.notification.request.identifier;

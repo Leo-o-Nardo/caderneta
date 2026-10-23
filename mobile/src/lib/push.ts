@@ -1,12 +1,12 @@
 import Constants from 'expo-constants';
 import * as Device from 'expo-device';
-import * as Notifications from 'expo-notifications';
 import * as SecureStore from 'expo-secure-store';
 import { Platform } from 'react-native';
 
 import { colors } from '@/theme/tokens';
 
 import { api } from './api';
+import { Notifications } from './notifications';
 
 // Se a folha "Receber avisos no celular?" do Início já apareceu neste aparelho.
 const ASKED_KEY = 'push_asked';
@@ -16,7 +16,7 @@ const CHANNEL = 'avisos';
 
 // Com o app aberto, o aviso já chega no Chat pelo canal ao vivo, com o número na aba: a notificação
 // não aparece por cima.
-Notifications.setNotificationHandler({
+Notifications?.setNotificationHandler({
   handleNotification: async () => ({
     shouldShowBanner: false,
     shouldShowList: false,
@@ -27,12 +27,12 @@ Notifications.setNotificationHandler({
 
 /**
  * granted; undetermined (ainda dá para pedir); denied (bloqueadas: só nas configurações do celular);
- * ou unavailable (emulador, sem push).
+ * ou unavailable (emulador ou Expo Go, sem push).
  */
 export type PushStatus = 'granted' | 'undetermined' | 'denied' | 'unavailable';
 
 export async function pushStatus(): Promise<PushStatus> {
-  if (!Device.isDevice) {
+  if (!Notifications || !Device.isDevice) {
     return 'unavailable';
   }
 
@@ -62,6 +62,11 @@ export function markAsked(): Promise<void> {
  */
 export async function enablePush(): Promise<boolean> {
   await markAsked();
+
+  if (!Notifications) {
+    return false;
+  }
+
   // No Android 13+, o pedido de permissão só aparece se já existir um canal.
   await ensureChannel();
 
@@ -79,7 +84,7 @@ export async function enablePush(): Promise<boolean> {
  * pode mudar, e a API troca sozinha se outra conta tinha entrado neste celular.
  */
 export async function registerDevice(): Promise<void> {
-  if (!Device.isDevice) {
+  if (!Notifications || !Device.isDevice) {
     return;
   }
 
@@ -93,7 +98,7 @@ export async function registerDevice(): Promise<void> {
 
 /** O canal "Avisos" do Android, com prioridade alta (aparece no alto da tela) e a cor Musgo. */
 async function ensureChannel(): Promise<void> {
-  if (Platform.OS !== 'android') {
+  if (!Notifications || Platform.OS !== 'android') {
     return;
   }
 

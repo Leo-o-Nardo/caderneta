@@ -307,7 +307,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 ## Limitações e próximos passos
 
 - **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
-- **Publicação:** o envio para a Play Store e a App Store é o próximo passo do roteiro. O servidor de produção roda com o `compose.prod.yml`, como descrito no [guia de deploy](docs/deploy.md).
+- **Publicação:** o envio para a Play Store e a App Store é o próximo passo do roteiro. O servidor de produção roda com o `compose.prod.yml`.
 - **Configuração de desenvolvimento:** o `docker-compose.yml` tem portas expostas e senhas padrão, pensadas só para rodar localmente.
 
 ## Autor

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # Cópia do banco da Caderneta: um arquivo .sql.gz por dia, guardando os últimos 14 dias.
-# Feito para o cron do root (veja docs/deploy.md). A pasta muda com BACKUP_DIR.
+# Feito para o cron do root. A pasta muda com BACKUP_DIR.
 set -euo pipefail
 
 cd "$(dirname "$0")/.."

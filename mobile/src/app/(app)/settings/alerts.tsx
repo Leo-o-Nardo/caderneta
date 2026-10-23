@@ -41,7 +41,7 @@ const PUSH_TEXT: Record<PushStatus, string> = {
   granted: 'Ligadas: os avisos chegam neste celular mesmo com o app fechado.',
   undetermined: 'Desligadas. Ative para receber os avisos mesmo com o app fechado.',
   denied: 'Bloqueadas nas configurações do celular. Para receber os avisos, libere as notificações da Caderneta lá.',
-  unavailable: 'Este aparelho não recebe notificações (num emulador, por exemplo).',
+  unavailable: 'Este aparelho não recebe notificações (num emulador ou no Expo Go, por exemplo).',
 };
 
 /** O estado das notificações neste celular, com o atalho certo para cada caso. */
