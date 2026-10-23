@@ -65,7 +65,7 @@
         .long p { margin: 8px 0 0; }
         .long ul { margin: 8px 0 0; padding-left: 20px; }
         .long li + li { margin-top: 4px; }
-        .long a { color: var(--musgo); text-underline-offset: 3px; }
+        .long a, .caption a { color: var(--musgo); text-underline-offset: 3px; }
         code { font: 500 .9em/1 ui-monospace, Consolas, monospace; background: var(--pressionado); padding: 2px 5px; border-radius: 2px; }
     </style>
 </head>

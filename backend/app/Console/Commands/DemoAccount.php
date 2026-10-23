@@ -59,7 +59,6 @@ class DemoAccount extends Command
 
         $this->info('Conta de demonstração pronta, com a casa de exemplo.');
         $this->table(['E-mail', 'Senha'], [[$email, $password]]);
-        $this->line('Use estes dados no acesso para a revisão do Play Console e do App Store Connect.');
 
         return self::SUCCESS;
     }
