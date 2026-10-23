@@ -1,10 +1,13 @@
-import { Bell, CircleAlert, Mic, MicOff } from 'lucide-react-native';
-import { ActivityIndicator, StyleSheet, View } from 'react-native';
+import { useMutation } from '@tanstack/react-query';
+import { Bell, CircleAlert, Flag, Mic, MicOff } from 'lucide-react-native';
+import { ActivityIndicator, Alert, Pressable, StyleSheet, View } from 'react-native';
 
+import { reportMessage } from '@/api/assistant';
 import type { ChatMessage } from '@/api/types';
 import { ChatCardView } from '@/components/cards/ChatCardView';
 import { Text } from '@/components/ui';
 import { formatDuration, messageDayLabel, messageTime, type StreamState } from '@/lib/chat';
+import { confirm } from '@/stores/confirm';
 import { colors, radius, space } from '@/theme/tokens';
 
 type Props = {
@@ -157,9 +160,12 @@ function AssistantMessage({ message, stream }: { message: ChatMessage; stream?: 
       {message.content ? (
         <View style={styles.assistant}>
           <Text>{message.content}</Text>
-          <Text variant="caption" tone="muted" style={styles.time}>
-            {messageTime(message)}
-          </Text>
+          <View style={styles.meta}>
+            <Text variant="caption" tone="muted" style={styles.time}>
+              {messageTime(message)}
+            </Text>
+            <ReportButton message={message} />
+          </View>
         </View>
       ) : null}
 
@@ -167,6 +173,51 @@ function AssistantMessage({ message, stream }: { message: ChatMessage; stream?: 
         <ChatCardView key={'action' in card ? card.action.id : `${card.type}-${index}`} card={card} messageId={message.id} />
       ))}
     </View>
+  );
+}
+
+/**
+ * A bandeirinha depois da hora: reporta a resposta (o Google Play exige isso em apps com IA que gera
+ * texto). Confirma na folha antes; reportada, vira "Reportada".
+ */
+function ReportButton({ message }: { message: ChatMessage }) {
+  const report = useMutation({
+    mutationFn: () => reportMessage(message.id),
+    onError: (error) => Alert.alert('Não deu para reportar', error.message),
+  });
+
+  if (message.reported) {
+    return (
+      <Text variant="caption" tone="muted">
+        · Reportada
+      </Text>
+    );
+  }
+
+  async function confirmReport() {
+    const confirmed = await confirm({
+      title: 'Reportar esta resposta?',
+      message:
+        'Use quando a resposta for ofensiva, errada ou estranha. Ela vai para quem cuida do app revisar, junto com a sua pergunta.',
+      confirmLabel: 'Reportar',
+    });
+
+    if (confirmed) {
+      report.mutate();
+    }
+  }
+
+  return (
+    <Pressable
+      onPress={confirmReport}
+      disabled={report.isPending}
+      hitSlop={14}
+      accessibilityRole="button"
+      accessibilityLabel="Reportar resposta"
+      style={({ pressed }) => pressed && styles.reportPressed}
+    >
+      <Flag size={14} color={colors.faint} strokeWidth={1.6} />
+    </Pressable>
   );
 }
 
@@ -188,6 +239,7 @@ const styles = StyleSheet.create({
   },
   voice: { alignSelf: 'flex-end', flexDirection: 'row', alignItems: 'center', gap: space.sm },
   meta: { flexDirection: 'row', alignItems: 'center', gap: space.xs },
+  reportPressed: { opacity: 0.5 },
   // O assistente fala direto no papel.
   assistant: { alignSelf: 'flex-start', maxWidth: '92%', gap: space.xs },
   failed: { flexDirection: 'row', alignItems: 'center', gap: space.sm },

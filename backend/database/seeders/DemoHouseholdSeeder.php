@@ -26,11 +26,18 @@ use Illuminate\Database\Seeder;
  * telas. Usa os mesmos serviços da API, então faturas, parcelas e contas seguem as mesmas regras.
  * Os valores saem de um sorteio com semente fixa: no mesmo dia, rodar de novo gera os mesmos dados.
  *
- * Login: leo@example.com (dono) e ana@example.com (membro), senha "password".
+ * Login: leo@example.com (dono) e ana@example.com (membro), senha "password". O demo:account troca
+ * os e-mails e as senhas antes de rodar, para a conta de revisão das lojas.
  */
 class DemoHouseholdSeeder extends Seeder
 {
     private const TIMEZONE = 'America/Sao_Paulo';
+
+    /** @var array{email: string, password: string} */
+    public array $owner = ['email' => 'leo@example.com', 'password' => 'password'];
+
+    /** @var array{email: string, password: string} */
+    public array $partner = ['email' => 'ana@example.com', 'password' => 'password'];
 
     private CarbonImmutable $today;
 
@@ -63,8 +70,8 @@ class DemoHouseholdSeeder extends Seeder
         mt_srand(20261008);
         $this->today = CarbonImmutable::now(self::TIMEZONE)->startOfDay();
 
-        $this->leo = User::create(['name' => 'Leo', 'email' => 'leo@example.com', 'password' => 'password']);
-        $this->ana = User::create(['name' => 'Ana', 'email' => 'ana@example.com', 'password' => 'password']);
+        $this->leo = User::create(['name' => 'Leo', ...$this->owner]);
+        $this->ana = User::create(['name' => 'Ana', ...$this->partner]);
 
         // As contas de exemplo já entram liberadas (sem passar pela aprovação do administrador).
         foreach ([$this->leo, $this->ana] as $user) {

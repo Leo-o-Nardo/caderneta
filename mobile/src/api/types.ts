@@ -546,6 +546,8 @@ export type ChatMessage = {
   // "audio": veio de voz (a bolha mostra o microfone e a duração).
   kind: 'text' | 'audio';
   duration_ms: number | null;
+  // A pessoa tocou em "Reportar resposta" (só nas respostas do assistente).
+  reported: boolean;
   created_at: string;
 };
 

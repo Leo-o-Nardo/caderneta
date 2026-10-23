@@ -14,7 +14,7 @@ return [
     // Quem responde pelos dados na política de privacidade (/privacidade): a pessoa ou a empresa que
     // publica o app nas lojas. E o contato que aparece lá; sem ele, vale o do administrador.
     'privacy_controller' => env('PRIVACY_CONTROLLER', 'Leonardo Ferreira'),
-    'contact_email' => env('CONTACT_EMAIL', env('ADMIN_EMAIL')),
+    'contact_email' => env('CONTACT_EMAIL') ?: env('ADMIN_EMAIL'),
 
     // Por quantos dias o link do e-mail para liberar ou recusar continua valendo.
     'review_link_days' => 7,

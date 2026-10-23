@@ -5,6 +5,11 @@ import { queryClient } from './queryClient';
 
 const BASE_URL = process.env.EXPO_PUBLIC_API_URL ?? 'http://10.0.2.2:8100/api/v1';
 
+/** Uma página do servidor, fora da API ("/privacidade"): o mesmo endereço, sem o /api/v1. */
+export function siteUrl(path: string): string {
+  return BASE_URL.replace(/\/api\/v1\/?$/, '') + path;
+}
+
 type Options = {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE';
   body?: unknown;

@@ -272,7 +272,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
-| Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
+| Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
 ## Estrutura

@@ -275,7 +275,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
-| Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
+| Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
 ## Project structure

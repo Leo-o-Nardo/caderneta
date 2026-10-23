@@ -2,12 +2,13 @@ import { useMutation } from '@tanstack/react-query';
 import { router, useLocalSearchParams } from 'expo-router';
 import { MailCheck, Ticket } from 'lucide-react-native';
 import { useRef, useState } from 'react';
-import { StyleSheet, View, type TextInput } from 'react-native';
+import { Linking, StyleSheet, View, type TextInput } from 'react-native';
 
 import { register } from '@/api/auth';
 import { AuthHeader } from '@/components/AuthHeader';
 import { PasswordField } from '@/components/PasswordField';
 import { Button, Form, Notice, Screen, Text, TextField } from '@/components/ui';
+import { siteUrl } from '@/lib/api';
 import { ApiError } from '@/lib/apiError';
 import { firstName } from '@/lib/dates';
 import { normalizeInviteCode } from '@/lib/households';
@@ -144,6 +145,19 @@ export default function RegisterScreen() {
         ) : (
           <Notice>Sem convite, o cadastro passa por uma liberação. Você recebe um e-mail quando puder entrar.</Notice>
         )}
+
+        <Text variant="caption" tone="muted">
+          O que o app guarda e para quem envia está na{' '}
+          <Text
+            variant="caption"
+            style={styles.link}
+            accessibilityRole="link"
+            onPress={() => Linking.openURL(siteUrl('/privacidade'))}
+          >
+            política de privacidade
+          </Text>
+          .
+        </Text>
       </Form>
     </Screen>
   );
@@ -171,5 +185,6 @@ function Received({ name, email }: { name: string; email: string }) {
 const styles = StyleSheet.create({
   // O código em letras espaçadas, como aparece no convite.
   code: { fontFamily: font.semibold, letterSpacing: 4 },
+  link: { color: colors.accent, textDecorationLine: 'underline' },
   received: { gap: space.md, paddingTop: space.xxxl },
 });

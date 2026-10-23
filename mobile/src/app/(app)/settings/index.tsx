@@ -10,13 +10,14 @@ import {
   LogOut,
   MonitorSmartphone,
   Shapes,
+  ShieldCheck,
   Target,
   Ticket,
   UserX,
   Users,
 } from 'lucide-react-native';
 import type { ReactNode } from 'react';
-import { Alert, Pressable, StyleSheet, View } from 'react-native';
+import { Alert, Linking, Pressable, StyleSheet, View } from 'react-native';
 
 import { signOut, signOutEverywhere, useMe } from '@/api/auth';
 import { useBudgets } from '@/api/budgets';
@@ -25,6 +26,7 @@ import { useOnboarding } from '@/api/onboarding';
 import { SettingsRow } from '@/components/SettingsRow';
 import { useTourEntry } from '@/components/tour/useTourEntry';
 import { Header, Monogram, Screen, Text } from '@/components/ui';
+import { siteUrl } from '@/lib/api';
 import { toMonth } from '@/lib/dates';
 import { confirm } from '@/stores/confirm';
 import { colors, space } from '@/theme/tokens';
@@ -138,6 +140,7 @@ export default function SettingsScreen() {
 
       <MenuGroup title="Conta">
         <SettingsRow icon={KeyRound} label="Trocar senha" onPress={() => router.push('/settings/password')} />
+        <SettingsRow icon={ShieldCheck} label="Política de privacidade" onPress={() => Linking.openURL(siteUrl('/privacidade'))} />
         <SettingsRow icon={LogOut} label="Sair" tone="danger" onPress={confirmSignOut} />
         <SettingsRow
           icon={MonitorSmartphone}

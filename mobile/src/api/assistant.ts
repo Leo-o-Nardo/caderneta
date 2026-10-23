@@ -85,6 +85,15 @@ export async function clearConversation(): Promise<void> {
 }
 
 /**
+ * "Reportar resposta": a resposta vai para quem cuida do app revisar, com a pergunta de antes. Aqui,
+ * ela só fica marcada como reportada.
+ */
+export async function reportMessage(id: number): Promise<void> {
+  await api(`/conversation/messages/${id}/report`, { method: 'POST' });
+  updateMessages((message) => (message.id === id ? { ...message, reported: true } : message));
+}
+
+/**
  * Liga os eventos do canal da pessoa ao chat: status e pedaços vão para o estado da resposta em
  * andamento; a resposta pronta (ou o card que mudou) vai para o cache. Devolve como desligar.
  */

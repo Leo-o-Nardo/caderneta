@@ -103,3 +103,26 @@ As duas lojas exigem que a conta possa ser excluída pelo app, e o Google Play p
 - **Na web:** `https://caderneta.example.com/excluir-conta`, com e-mail e senha. É este endereço que vai no formulário "Segurança dos dados" do Play Console, em "Exclusão de dados".
 
 Os dois caminhos fazem a mesma coisa (`AccountService`). Saem o login em todos os celulares, as conversas, os avisos, os lembretes e os cartões da pessoa. Nas casas compartilhadas, os lançamentos, as contas e as listas ficam para quem continua, sem o nome de quem lançou. Onde a pessoa era a única dona, a casa passa para o membro mais antigo que pode editar; sem ninguém assim, a casa é apagada.
+
+### Política de privacidade
+
+`https://caderneta.example.com/privacidade`. O endereço vai nas fichas das duas lojas; no app, fica em Configurações › Conta e na tela de criar conta. O texto descreve o que o código faz: o que é guardado, o que vai para a IA (com o cofre), o áudio, as notificações, por quanto tempo e como excluir. Ao mudar o que o app guarda ou para onde envia, mude a página (`backend/resources/views/privacy.blade.php`) e a data dela.
+
+Duas variáveis do `.env` do servidor aparecem nela:
+
+- `PRIVACY_CONTROLLER`: quem responde pelos dados. Precisa ser quem publica o app, o mesmo nome da conta de desenvolvedor nas lojas.
+- `CONTACT_EMAIL`: o e-mail de contato. Sem ele, vale o `ADMIN_EMAIL`.
+
+### Conta de demonstração
+
+As duas lojas pedem um login para a revisão. No servidor:
+
+```bash
+sudo docker compose --env-file backend/.env -f compose.prod.yml exec app php artisan demo:account revisao@exemplo.com --password=UmaSenhaForte123
+```
+
+A conta já sai liberada, com a casa de exemplo de 3 meses dividida com a "Ana". Rodar de novo refaz tudo do zero, com as datas do dia: vale rodar antes de cada envio para revisão. Com a mesma senha, o que está no formulário das lojas continua valendo. O e-mail não precisa existir, porque nenhum e-mail é enviado para ele.
+
+### Reportar uma resposta da IA
+
+O Google Play exige que apps com IA que gera texto deixem a pessoa reportar uma resposta ofensiva. No Chat, cada resposta do assistente tem uma bandeirinha depois da hora: ela confirma e manda a resposta, com a pergunta de antes, para o `ADMIN_EMAIL`.

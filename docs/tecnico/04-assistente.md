@@ -136,6 +136,7 @@ O texto transcrito passa pelo cofre como qualquer outro antes de chegar ao assis
 | As fichas | `ChatCardView` (`src/components/cards/`) escolhe o componente pelo `type` do card: `transactions_confirm`, `transaction_update`, `bill_confirm`, `delete_confirm`, `bar_chart`, os de aviso… |
 | Os botões | `useCardAction` controla carregando e erro; `confirmAction(id, edicoes)`, `cancelAction` e `undoAction` chamam a API. As edições ficam no `actionDrafts` até confirmar. |
 | Depois de gravar | `applyActionResponse` troca a ficha no lugar e atualiza as outras telas (Início, Resumo, Agenda, Lista). |
+| Reportar uma resposta | A bandeirinha depois da hora de cada resposta (`ReportButton`, em `MessageItem`) confirma na folha e chama `reportMessage`. A API (`ConversationController::report`) marca `reported_at` no `metadata` e manda a resposta e a pergunta de antes para o administrador (`ResponseReported`). O Google Play exige isso em apps com IA que gera texto. |
 
 ## Para testar sem o app
 
