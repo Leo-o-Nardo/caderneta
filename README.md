@@ -8,7 +8,7 @@
 
 Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoço e 18 no café, no débito", o assistente entende, monta uma ficha com os lançamentos e espera a confirmação. Por trás, o app cuida de cartões e faturas, contas fixas, orçamentos, listas e lembretes, e avisa antes de uma conta vencer. Tudo pensado para uma casa com várias pessoas, cada uma com o seu papel.
 
-> **O código do app é privado.** Este repositório é a vitrine do projeto: o que o app faz, as decisões de design e de arquitetura e a documentação técnica. Para conversar sobre o código, fale comigo pelo [LinkedIn](https://www.linkedin.com/in/leonardo-ferreira-de-souza/).
+> **O código do app é privado.** Este repositório é a vitrine do projeto: o que o app faz e as decisões de design e de arquitetura. Para conversar sobre o código, fale comigo pelo [LinkedIn](https://www.linkedin.com/in/leonardo-ferreira-de-souza/).
 
 ![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=flat&logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?style=flat&logo=laravel&logoColor=white)
@@ -27,7 +27,7 @@ Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoç
   <img src="./assets/resumo.png" width="24%" alt="O resumo do mês, com o saldo e os orçamentos">
 </p>
 
-<p align="center">Documentação: <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">O ícone</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">Como funciona por dentro</a> · <a href="docs/tecnico/README.md">Documentação técnica</a></p>
+<p align="center">Documentação: <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">O ícone</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">Como funciona por dentro</a></p>
 
 ---
 
@@ -152,7 +152,7 @@ O app **pede pela API** (HTTP) e **escuta pelo Reverb** (WebSocket); tudo que de
 
 <p align="center"><a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html"><img src="./assets/arquitetura.png" alt="Diagrama de sequência entre app, Reverb, API, PostgreSQL, fila e agente de IA: ao abrir o app, a conexão WebSocket e a assinatura do canal; depois enviar, transcrever, responder e confirmar, com as chamadas HTTP e os eventos de cada passo."></a></p>
 
-Para ir mais fundo: a página [Como funciona por dentro](https://leo-o-nardo.github.io/caderneta/apresentacao.html) explica a arquitetura para quem não conhece o código, e a [documentação técnica](docs/tecnico/README.md) segue cada parte pelos arquivos e classes (o caminho de uma requisição, o assistente, os fluxos e o modelo de dados).
+Para ir mais fundo, a página [Como funciona por dentro](https://leo-o-nardo.github.io/caderneta/apresentacao.html) explica a arquitetura para quem não conhece o código: as partes, o caminho de uma requisição e de uma mensagem de voz e o cofre de privacidade.
 
 ## Por dentro
 
@@ -215,13 +215,13 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 
 ## Estrutura do código
 
-Como o repositório privado está organizado (a documentação técnica cita estes caminhos):
+Como o repositório privado está organizado:
 
 ```text
 ├── docker-compose.yml          # app, fila, tarefas agendadas, reverb, nginx, postgres, redis, mailpit
 ├── docker/                     # Dockerfile do PHP, Nginx e o banco de testes
 ├── scripts/brand-icons.mjs     # gera o ícone, a splash e os caminhos da marca
-├── docs/                       # guia de design, ícone, arquitetura, apresentação e tecnico/ (a documentação técnica)
+├── docs/                       # guia de design, ícone, arquitetura, apresentação e a documentação técnica
 ├── backend/                    # API Laravel
 │   ├── app/
 │   │   ├── Assistant/          # o assistente: provedores, ferramentas, ações, cofre de privacidade, voz

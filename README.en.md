@@ -10,7 +10,7 @@ A household finance app you use by talking. You say "I spent 42 on lunch and 18 
 
 *"Caderneta" is the small notebook Brazilian families have always used to write down the household money. The app's interface is in Brazilian Portuguese.*
 
-> **The app's code is private.** This repository is the project's showcase: what the app does, the design and architecture decisions, and the technical documentation. To talk about the code, reach me on [LinkedIn](https://www.linkedin.com/in/leonardo-ferreira-de-souza/).
+> **The app's code is private.** This repository is the project's showcase: what the app does and the design and architecture decisions. To talk about the code, reach me on [LinkedIn](https://www.linkedin.com/in/leonardo-ferreira-de-souza/).
 
 ![PHP](https://img.shields.io/badge/PHP-8.4-777BB4?style=flat&logo=php&logoColor=white)
 ![Laravel](https://img.shields.io/badge/Laravel-13-FF2D20?style=flat&logo=laravel&logoColor=white)
@@ -30,7 +30,7 @@ A household finance app you use by talking. You say "I spent 42 on lunch and 18 
   <img src="./assets/resumo.png" width="24%" alt="The monthly summary, with the balance and the budgets">
 </p>
 
-<p align="center">Documentation (in Portuguese): <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">The icon</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">How it works inside</a> · <a href="docs/tecnico/README.md">Technical docs</a></p>
+<p align="center">Documentation (in Portuguese): <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">The icon</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">How it works inside</a></p>
 
 ---
 
@@ -155,7 +155,7 @@ The app **asks through the API** (HTTP) and **listens through Reverb** (WebSocke
 
 <p align="center"><a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html?lang=en"><img src="./assets/arquitetura-en.png" alt="Sequence diagram between the app, Reverb, API, PostgreSQL, queue and AI agent: when the app opens, the WebSocket connection and channel subscription; then send, transcribe, reply and confirm, with the HTTP calls and events of each step."></a></p>
 
-To go deeper (in Portuguese): the page [How it works inside](https://leo-o-nardo.github.io/caderneta/apresentacao.html) explains the architecture for people who do not know the code, and the [technical documentation](docs/tecnico/README.md) follows each part through the files and classes (the path of a request, the assistant, the flows and the data model).
+To go deeper, the page [How it works inside](https://leo-o-nardo.github.io/caderneta/apresentacao.html) (in Portuguese) explains the architecture for people who do not know the code: the parts, the path of a request and of a voice message, and the privacy vault.
 
 ## Under the hood
 
@@ -218,13 +218,13 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 
 ## Code structure
 
-How the private repository is organized (the technical docs refer to these paths):
+How the private repository is organized:
 
 ```text
 ├── docker-compose.yml          # app, queue, scheduler, reverb, nginx, postgres, redis, mailpit
 ├── docker/                     # PHP Dockerfile, Nginx and the test database
 ├── scripts/brand-icons.mjs     # generates the icon, the splash and the brand paths
-├── docs/                       # design guide, icon, architecture, presentation and tecnico/ (technical docs)
+├── docs/                       # design guide, icon, architecture, presentation and the technical docs
 ├── backend/                    # Laravel API
 │   ├── app/
 │   │   ├── Assistant/          # the assistant: providers, tools, actions, privacy vault, voice
