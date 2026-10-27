@@ -6,7 +6,7 @@
 <title>Guia de design Caderneta</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
 <style>
 /* ============ Tokens do guia ============ */
 :root {
@@ -103,7 +103,7 @@ code {
 .block-head p { font-size: 14px; color: var(--grafite); }
 .lede { max-width: 700px; color: var(--grafite); margin-bottom: 40px; }
 
-/* ============ 01 Diagnóstico ============ */
+/* ============ 01 O que o guia resolve, e listas e tabelas usadas em outras partes ============ */
 .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 64px; }
 table.ledger { width: 100%; border-collapse: collapse; font-size: 15px; }
 table.ledger th {
@@ -137,10 +137,7 @@ table.ledger tfoot .n { color: var(--tinta); }
 .sw p { font-size: 14px; line-height: 1.5; }
 .sw .ratio { font-size: 13px; color: var(--grafite); }
 .cat-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); column-gap: 48px; }
-.cm { display: grid; grid-template-columns: 28px 16px 28px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 14px; }
-.cm .old { width: 28px; height: 28px; border-radius: 4px; background: #0B0D10; display: grid; place-items: center; }
-.cm .old i { width: 12px; height: 12px; border-radius: 50%; }
-.cm .arrow { color: var(--lapis); text-align: center; }
+.cm { display: grid; grid-template-columns: 28px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 14px; }
 .cm .new { width: 28px; height: 28px; border-radius: 4px; }
 .cm b { font-weight: 500; }
 .cm small { display: block; color: var(--grafite); font-size: 13px; }
@@ -184,16 +181,11 @@ table.ledger tfoot .n { color: var(--tinta); }
 .rules span { font-size: 15px; color: var(--grafite); }
 
 /* ============ Moldura do celular ============ */
-.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 390px)) minmax(240px, 1fr); gap: 40px; align-items: start; }
-@media (max-width: 1180px) {
-  .pair { grid-template-columns: repeat(2, minmax(0, 390px)); justify-content: center; }
-  .pair .notes { grid-column: 1 / -1; }
-}
+/* O celular da tela e, ao lado, o porquê de cada escolha; em tela estreita, o porquê desce. */
+.pair { display: grid; grid-template-columns: minmax(0, 390px) minmax(240px, 1fr); gap: 56px; align-items: start; }
 @media (max-width: 860px) {
-  .pair { grid-template-columns: minmax(0, 390px); }
+  .pair { grid-template-columns: minmax(0, 390px); justify-content: center; gap: 40px; }
 }
-.device-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
-.device-label b { font: 500 22px/1 var(--serif); }
 .phone {
   width: 100%;
   max-width: 390px;
@@ -214,7 +206,7 @@ table.ledger tfoot .n { color: var(--tinta); }
 .homebar { height: 22px; flex: none; display: grid; place-items: center; }
 .homebar::after { content: ""; width: 128px; height: 4px; border-radius: 2px; background: currentColor; opacity: .3; }
 .px { padding-left: 24px; padding-right: 24px; }
-.notes h4 { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); margin-top: 56px; }
+.notes h4 { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
 .notes ul { list-style: none; }
 .notes li { padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; line-height: 1.5; }
 .notes li b { font-weight: 600; }
@@ -222,86 +214,7 @@ table.ledger tfoot .n { color: var(--tinta); }
 /* Ícones (desenho do lucide, igual ao app) */
 .i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; display: block; }
 
-/* ============ "Antes": o visual atual (tema escuro, Inter) ============ */
-.old { background: #0B0D10; color: #E6E8EB; font-family: 'Inter', sans-serif; }
-.old .px { padding-left: 16px; padding-right: 16px; }
-.o-title { font: 600 22px/28px 'Inter'; letter-spacing: -.2px; }
-.o-display { font: 700 28px/34px 'Inter'; letter-spacing: -.3px; }
-.o-heading { font: 600 16px/22px 'Inter'; }
-.o-body { font: 400 14px/20px 'Inter'; }
-.o-label { font: 500 13px/18px 'Inter'; }
-.o-caption { font: 400 12px/16px 'Inter'; }
-.o-overline { font: 600 11px/14px 'Inter'; letter-spacing: .8px; text-transform: uppercase; }
-.o-t10 { font: 400 10px/14px 'Inter'; }
-.o-muted { color: #9AA1AB; } .o-faint { color: #6B7280; } .o-accent { color: #3DD68C; }
-.o-danger { color: #F87171; } .o-warn { color: #F5B94A; } .o-info { color: #4C8DFF; }
-.o-flex { flex: 1; min-width: 0; }
-.o-card { background: #14171C; border: 1px solid #23272E; border-radius: 16px; overflow: hidden; }
-.o-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; }
-.o-row + .o-row, .o-div { border-top: 1px solid #23272E; }
-.o-ci { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; }
-.o-ci .i { width: 17px; height: 17px; }
-.o-ci.s30 { width: 30px; height: 30px; border-radius: 9px; }
-.o-ci.s30 .i { width: 15px; height: 15px; }
-.o-sec { display: flex; justify-content: space-between; align-items: center; margin: 24px 0 8px; }
-.o-bar { height: 6px; border-radius: 4px; background: #1A1E24; overflow: hidden; }
-.o-bar i { display: block; height: 100%; border-radius: 4px; }
-.o-bl { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
-.o-budget { padding: 12px; display: grid; gap: 8px; }
-.o-budget + .o-budget { border-top: 1px solid #23272E; }
-.o-g4 { display: grid; gap: 4px; }
-.o-tabs { height: 62px; flex: none; display: flex; border-top: 1px solid #23272E; background: #0B0D10; }
-.o-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #6B7280; font: 500 11px/1 'Inter'; position: relative; }
-.o-tab .i { width: 24px; height: 24px; }
-.o-tab.on { color: #3DD68C; }
-.o-badge { position: absolute; top: 6px; left: calc(50% + 4px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #F87171; color: #2A0B0B; font: 500 11px/18px 'Inter'; text-align: center; font-style: normal; }
-.o-btn { min-height: 46px; border-radius: 12px; padding: 0 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font: 600 14px/1 'Inter'; }
-.o-btn.primary { background: #3DD68C; color: #05261A; }
-.o-btn.secondary { background: #1A1E24; color: #E6E8EB; }
-/* Início */
-.o-home { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: 16px; }
-.o-hhead { display: flex; align-items: flex-start; gap: 12px; padding-top: 16px; }
-.o-hhead .o-flex { display: grid; gap: 2px; }
-.o-gear { width: 22px; height: 22px; color: #9AA1AB; }
-.o-notice { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(248, 113, 113, .3); background: rgba(248, 113, 113, .1); }
-.o-notice .i { width: 16px; height: 16px; }
-.o-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
-.o-mic { width: 100px; height: 100px; border-radius: 50%; background: #3DD68C; color: #05261A; display: grid; place-items: center; margin-bottom: 16px; box-shadow: 0 0 0 12px rgba(61, 214, 140, .08), 0 0 0 26px rgba(61, 214, 140, .04); }
-.o-mic .i { width: 40px; height: 40px; stroke-width: 2.2; }
-.o-manual { display: flex; align-items: center; gap: 4px; margin-top: 8px; padding: 8px 12px; border-radius: 999px; border: 1px solid #23272E; background: #14171C; }
-.o-manual .i { width: 16px; height: 16px; }
-/* Resumo */
-.o-pb { padding-bottom: 24px; }
-.o-month { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
-.o-month .i { width: 22px; height: 22px; color: #9AA1AB; }
-.o-hero { padding: 12px 0 8px; display: grid; gap: 2px; }
-.o-split { display: flex; gap: 16px; margin-top: 12px; }
-.o-split > div { flex: 1; display: grid; gap: 4px; }
-.o-mt16 { margin-top: 16px; }
-.o-link .i { width: 18px; height: 18px; }
-.o-chev { width: 16px; height: 16px; color: #9AA1AB; }
-/* Chat */
-.o-chead { display: flex; align-items: center; gap: 12px; padding-top: 12px; padding-bottom: 12px; border-bottom: 1px solid #23272E; flex: none; }
-.o-logo { width: 34px; height: 34px; border-radius: 12px; background: #3DD68C; color: #05261A; font: 700 16px/34px 'Inter'; text-align: center; }
-.o-msgs { display: flex; flex-direction: column; gap: 12px; padding-top: 12px; padding-bottom: 12px; }
-.o-msgs > :first-child { margin-top: auto; }
-.o-dayl { align-self: center; }
-.o-event { display: flex; align-items: center; gap: 8px; padding: 0 4px; }
-.o-event .i { width: 14px; height: 14px; }
-.o-chd { display: flex; justify-content: space-between; gap: 8px; padding: 12px 12px 8px; }
-.o-bubble { border-radius: 16px; padding: 9px 12px; display: grid; gap: 2px; font: 400 14px/20px 'Inter'; }
-.o-bubble .o-t10 { justify-self: end; }
-.o-bubble.user { align-self: flex-end; max-width: 84%; background: #173A2B; border-bottom-right-radius: 4px; }
-.o-bubble.bot { align-self: flex-start; max-width: 94%; background: #14171C; border-bottom-left-radius: 4px; }
-.o-cfoot { padding: 12px; display: grid; gap: 8px; }
-.o-cfoot.two { grid-template-columns: 1fr 2fr; }
-.o-amt { text-align: right; }
-.o-composer { display: flex; align-items: flex-end; gap: 8px; padding-top: 8px; padding-bottom: 8px; flex: none; }
-.o-input { flex: 1; min-height: 44px; display: flex; align-items: center; padding: 0 12px; background: #14171C; border: 1px solid #23272E; border-radius: 16px; color: #6B7280; font: 400 15px 'Inter'; }
-.o-round { width: 44px; height: 44px; border-radius: 50%; background: #14171C; border: 1px solid #23272E; color: #9AA1AB; display: grid; place-items: center; }
-.o-round .i { width: 20px; height: 20px; }
-
-/* ============ "Depois": a Caderneta ============ */
+/* ============ As telas do app (parte 05) ============ */
 .new { background: var(--papel); color: var(--tinta); font-family: var(--sans); }
 .new .i { stroke-width: 1.6; }
 .n-rot { font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
@@ -543,17 +456,12 @@ table.ledger tfoot .n { color: var(--tinta); }
 .budget-demo .n-cap { transition: color .2s ease-out; }
 .row-btns { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
 
-/* ============ 08 Arquivos ============ */
+/* ============ 08 No código ============ */
 .files { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 64px; }
 .files h4 { font: 500 22px/1.25 var(--serif); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
 .files li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
 .files li code { font-size: 13px; }
 .files li span { display: block; color: var(--grafite); font-size: 14px; margin-top: 4px; }
-.steps { counter-reset: s; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 24px 40px; margin-top: 64px; }
-.steps li { list-style: none; counter-increment: s; padding-top: 12px; border-top: 1px solid var(--tinta); }
-.steps li::before { content: "Etapa " counter(s); display: block; font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); margin-bottom: 8px; }
-.steps b { display: block; font: 500 19px/1.3 var(--serif); margin-bottom: 4px; }
-.steps span { font-size: 15px; color: var(--grafite); }
 .foot { padding: 40px 0 64px; border-top: 1px solid var(--tinta); color: var(--grafite); font-size: 14px; }
 
 /* ============ Contraste e diretrizes ============ */
@@ -732,7 +640,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.11 · 27 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.12 · 27 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -741,22 +649,22 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 
   <h2 class="rotulo decide-head">Decisões aprovadas e por quê</h2>
   <ol class="decide">
-    <li><b>Tema claro, cor de papel</b><span>Sai o fundo quase preto com verde neon. Papel e tinta dão a cara de caderno de contas e se leem melhor de dia, quando a maioria dos gastos é lançada. O tema escuro pode voltar como opção, e os tokens já ficam prontos para isso.</span></li>
-    <li><b>Fraunces e IBM Plex Sans</b><span>A serifada dá personalidade aos títulos e aos valores grandes. A sem serifa é legível em tamanho pequeno e alinha as colunas de R$. A Inter sai.</span></li>
+    <li><b>Tema claro, cor de papel</b><span>Papel e tinta dão a cara de caderno de contas e se leem melhor de dia, quando a maioria dos gastos é lançada. Os tokens já estão prontos para um tema escuro, se ele vier como opção.</span></li>
+    <li><b>Fraunces e IBM Plex Sans</b><span>A serifada dá personalidade aos títulos e aos valores grandes. A sem serifa é legível em tamanho pequeno e alinha as colunas de R$.</span></li>
     <li><b>Ícones como num Kindle</b><span>Ícones de traço fino, todos da mesma família, para achar cada coisa de relance: nas abas, nas linhas, nos menus, no topo das fichas e nos botões de ação. Sempre ao lado de uma palavra e nunca dentro de um quadrado colorido.</span></li>
-    <li><b>A categoria tem ícone e cor</b><span>O ícone da categoria aparece na cor dela, num tom de pigmento apagado, e deixa o app mais vivo sem gritar. As 14 cores neon viram 14 tons terrosos de claridade parecida. Uma migration converte as categorias e os cartões que já existem.</span></li>
-    <li><b>Confirmação numa folha do app</b><span>Apagar e limpar a conversa ganham uma folha que sobe perto do polegar e diz o que acontece com os números. Os avisos de erro continuam no alerta do sistema.</span></li>
+    <li><b>A categoria tem ícone e cor</b><span>O ícone da categoria aparece na cor dela, num tom de pigmento apagado, e deixa o app mais vivo sem gritar. Os 14 tons têm claridade parecida, para nenhuma categoria chamar mais atenção que as outras.</span></li>
+    <li><b>Confirmação numa folha do app</b><span>Apagar e limpar a conversa abrem uma folha que sobe perto do polegar e diz o que acontece com os números. Os avisos de erro continuam no alerta do sistema.</span></li>
   </ol>
 
   <nav class="toc" aria-label="Partes">
-    <a href="#diagnostico"><span>01</span>Diagnóstico</a>
+    <a href="#principios"><span>01</span>O que o guia resolve</a>
     <a href="#paleta"><span>02</span>Paleta</a>
     <a href="#tipografia"><span>03</span>Tipografia</a>
     <a href="#espaco"><span>04</span>Espaço e forma</a>
-    <a href="#telas"><span>05</span>Antes e depois</a>
+    <a href="#telas"><span>05</span>As telas</a>
     <a href="#componentes"><span>06</span>Componentes</a>
     <a href="#movimento"><span>07</span>Micro-interações</a>
-    <a href="#arquivos"><span>08</span>Implementação</a>
+    <a href="#arquivos"><span>08</span>No código</a>
     <a href="#diretrizes"><span>09</span>Diretrizes</a>
     <a href="#versoes"><span>10</span>Versões</a>
   </nav>
@@ -764,100 +672,64 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 
 <main>
 
-<!-- ======================= 01 Diagnóstico ======================= -->
-<section class="part" id="diagnostico">
+<!-- ======================= 01 O que o guia resolve ======================= -->
+<section class="part" id="principios">
   <div class="wrap">
     <div class="part-head">
       <span class="part-num">01</span>
       <div>
-        <h2>O que existe hoje</h2>
-        <p>O levantamento que deu origem a este guia cobriu as 40 telas de <code>mobile/src/app</code> e os componentes de <code>mobile/src/components</code>, no visual anterior ao redesign. Todo o visual sai de um arquivo só, <code>theme/tokens.ts</code>, então trocar a base muda quase tudo de uma vez.</p>
+        <h2>O que o guia resolve</h2>
+        <p>Um app de contas da casa é aberto várias vezes por dia, lido de relance e muitas vezes usado com uma mão só. As seis regras abaixo saem disso e explicam as escolhas das outras partes. Todo o visual sai de um arquivo só, <code>theme/tokens.ts</code>, então uma regra que muda aqui muda o app inteiro.</p>
       </div>
     </div>
 
-    <div class="cols">
-      <div>
-        <div class="block-head"><h3>Telas</h3><p>40 no app, mais 2 páginas web do backend</p></div>
-        <table class="ledger">
-          <thead><tr><th>Grupo</th><th>Telas</th><th class="n">Qtd.</th></tr></thead>
-          <tbody>
-            <tr><td>Abas</td><td>Início, Chat, Resumo, Agenda (Contas, Cartões e Lembretes), Lista</td><td class="n">5</td></tr>
-            <tr><td>Lançamentos</td><td>lista com filtros, novo, editar</td><td class="n">3</td></tr>
-            <tr><td>Contas fixas</td><td>nova, detalhe, editar, pagar</td><td class="n">4</td></tr>
-            <tr><td>Cartões</td><td>novo, fatura, editar</td><td class="n">3</td></tr>
-            <tr><td>Orçamentos</td><td>todos, limite de uma categoria</td><td class="n">2</td></tr>
-            <tr><td>Categorias</td><td>lista, nova, editar</td><td class="n">3</td></tr>
-            <tr><td>Receitas, lembretes, listas</td><td>nova e editar receita fixa; novo e editar lembrete; nova lista, editar lista, item</td><td class="n">7</td></tr>
-            <tr><td>Configurações</td><td>início, perfil, senha, casa, suas casas, nova casa, entrar com código, membro, avisos</td><td class="n">9</td></tr>
-            <tr><td>Entrada</td><td>entrar, criar conta, esqueci a senha, convite</td><td class="n">4</td></tr>
-          </tbody>
-          <tfoot><tr><td>Total</td><td>Mais o e-mail de acesso e a página de aprovação (Blade)</td><td class="n">40</td></tr></tfoot>
-        </table>
+    <div class="problems">
+      <div class="problem">
+        <h4>Um número principal por tela</h4>
+        <ul>
+          <li>O nome de um gasto, o valor e o título de uma seção têm pesos diferentes, para o olho saber por onde começar: o valor grande tem 40, o título da tela 28, o da seção 20, o corpo 16 e a legenda 13 (parte 03).</li>
+          <li>O título da seção é escrito em Fraunces, em tamanho de leitura, e não num rótulo pequeno em caixa alta: ele precisa ser achado antes do conteúdo.</li>
+          <li>No Resumo, o saldo é o único número grande. Receitas, despesas e o resto vêm em tamanhos menores, abaixo dele.</li>
+        </ul>
       </div>
-
-      <div>
-        <div class="block-head"><h3>Componentes que se repetem</h3></div>
-        <div class="comp-list">
-          <div><b>Base (16)</b><span>Text, Button, Card, Chip, TextField, Field, SegmentedControl, ToggleRow, ProgressBar, LinkRow, SectionHeader, Header, Screen, EmptyState, Stepper, CompactMoneyInput</span></div>
-          <div><b>Linhas de lista, a "tabela" do app</b><span>TransactionRow, BillRow, ListItemRow, SettingsRow, todas com o CategoryIcon (quadrado colorido com ícone)</span></div>
-          <div><b>Formulários (8) e seletores (9)</b><span>Lançamento, conta, cartão, categoria, lista, item, lembrete, receita fixa. Seletores de categoria, cor, ícone, pagamento, dia, data, hora, valor e mês.</span></div>
-          <div><b>Chat</b><span>MessageItem, Composer e 12 cards: conferir lançamentos, editar, pagar conta, apagar, feito, gráfico e 5 avisos</span></div>
-          <div><b>Menus</b><span>Barra de 5 abas, menu de Configurações, SegmentedControl da Agenda e as pílulas das Listas</span></div>
-          <div><b>Modais</b><span><code>Alert.alert</code> do sistema para confirmar apagar ou limpar e para mostrar erros</span></div>
-        </div>
+      <div class="problem">
+        <h4>Uma escala só</h4>
+        <ul>
+          <li>Todo espaço sai da escala de 4 a 64 (parte 04), sem valor solto no meio do caminho. Assim as telas têm o mesmo ritmo, e mudar a escala muda o app inteiro.</li>
+          <li>A margem lateral é de 24 e as linhas têm respiro de sobra: as contas são conferidas com pressa, e um toque não pode cair na linha errada.</li>
+        </ul>
       </div>
-    </div>
-
-    <div class="block">
-      <div class="block-head"><h3>Problemas visuais</h3><p>Com o arquivo e o valor de onde cada um vem</p></div>
-      <div class="problems">
-        <div class="problem">
-          <h4>Hierarquia confusa</h4>
-          <ul>
-            <li>Quase todo texto fica entre 12 e 14 px (corpo 14, label 13, legenda 12). O nome de um gasto, o valor e o título de uma seção têm quase o mesmo peso.</li>
-            <li>Os títulos de seção são rótulos cinza de 11 px em caixa alta ("ORÇAMENTOS"). O título da seção acaba sendo o menor texto dela.</li>
-            <li>No Resumo, o saldo (28 px) disputa a atenção com seis cartões iguais logo abaixo.</li>
-          </ul>
-        </div>
-        <div class="problem">
-          <h4>Espaçamento irregular</h4>
-          <ul>
-            <li>A escala 4/8/12/16/24/32 existe, mas o código usa <code>space.sm + 2</code>, <code>paddingVertical: 6</code>, <code>gap: 2</code> e <code>gap: 3</code> em vários lugares.</li>
-            <li>Com margem lateral de 16 px, linhas de 10 px de respiro e cartão colado em cartão, as telas ficam apertadas.</li>
-          </ul>
-        </div>
-        <div class="problem">
-          <h4>Cores sem critério</h4>
-          <ul>
-            <li>O verde <code>#3DD68C</code> faz cinco papéis: botão principal, receita, "paga", barra de orçamento normal e cor da categoria Mercado.</li>
-            <li>Os links usam azul (<code>#4C8DFF</code>), uma terceira cor de destaque que só aparece ali.</li>
-            <li>São 14 cores neon de categoria. O Resumo de outubro mostra até 10 cores diferentes na mesma tela.</li>
-            <li><code>rgba(61, 214, 140, 0.08)</code> está escrito à mão em 4 arquivos, e o <code>CardForm</code> tem a própria lista de cores.</li>
-          </ul>
-        </div>
-        <div class="problem">
-          <h4>Excesso de ícones e de caixas</h4>
-          <ul>
-            <li>Todo lançamento, conta e categoria tem um quadrado colorido de 34 px com ícone que repete o texto ao lado (carrinho + "Mercado").</li>
-            <li>Tudo fica dentro de <code>Card</code> (borda e raio de 16). As seções viram uma pilha de caixas iguais, e no chat aparecem cards dentro da conversa ao lado de balões.</li>
-            <li>Há ícone ao lado de cada link (recibo verde em "Todos os lançamentos") e um sininho antes de cada aviso.</li>
-          </ul>
-        </div>
-        <div class="problem">
-          <h4>Baixa legibilidade</h4>
-          <ul>
-            <li>O texto "faint" (<code>#6B7280</code>) sobre <code>#0B0D10</code> tem contraste de cerca de 4:1, abaixo dos 4,5:1 recomendados. Ele é usado em legendas de 12 px e em horários de 10 px.</li>
-            <li>O corpo de 14 px fica pequeno para ler valores e as frases do assistente.</li>
-            <li>Só a linha de lançamento usa algarismos de mesma largura. Nas outras listas, as colunas de R$ não alinham.</li>
-          </ul>
-        </div>
-        <div class="problem">
-          <h4>Cara de app gerado</h4>
-          <ul>
-            <li>Fundo quase preto, verde neon, cartões arredondados com borda e um botão com anéis de brilho: é o visual mais comum de app feito às pressas. Nada nele lembra uma casa ou dinheiro do dia a dia.</li>
-            <li>O "$" num quadrado verde, no topo do chat, faz as vezes de logo.</li>
-          </ul>
-        </div>
+      <div class="problem">
+        <h4>Cada cor tem uma função</h4>
+        <ul>
+          <li>Musgo marca ação e dinheiro que entra, Mostarda marca o que pede atenção e Tijolo marca o erro. Uma cor nunca faz dois papéis, então ela sempre quer dizer a mesma coisa.</li>
+          <li>Os links usam o mesmo Musgo das ações, sem uma terceira cor de destaque.</li>
+          <li>A cor da categoria fica só no ícone, em tons de pigmento de claridade parecida: o Resumo pode mostrar dez categorias sem virar um arco-íris.</li>
+          <li>As categorias e os cartões usam a mesma família de 14 pigmentos, e o resto das cores vem dos tokens: nenhuma tela inventa uma cor (parte 09).</li>
+        </ul>
+      </div>
+      <div class="problem">
+        <h4>Divisória, não caixa</h4>
+        <ul>
+          <li>Listas e seções ficam direto no papel, separadas pela pauta fina. A tela se lê como uma folha, e não como uma pilha de caixas iguais.</li>
+          <li>A única caixa é a ficha do chat, porque ela é algo para conferir e confirmar, diferente da conversa em volta.</li>
+          <li>O ícone aparece onde ajuda a achar (a categoria, o tipo da ficha, a aba), e não ao lado de cada link.</li>
+        </ul>
+      </div>
+      <div class="problem">
+        <h4>Ler sem esforço</h4>
+        <ul>
+          <li>Todo texto passa de 4,5:1 de contraste sobre o fundo, inclusive as legendas e os horários (parte 02).</li>
+          <li>O corpo tem 16, para ler os valores e as frases do assistente sem apertar os olhos.</li>
+          <li>Todo valor em R$ usa algarismos de mesma largura, para as colunas alinharem em qualquer lista.</li>
+        </ul>
+      </div>
+      <div class="problem">
+        <h4>Cara de caderno de contas</h4>
+        <ul>
+          <li>Papel claro, tinta escura, a Fraunces nos números e a pauta entre as linhas lembram o caderno onde a família sempre anotou o dinheiro, e não um painel de corretora.</li>
+          <li>A marca é a própria caderneta, no ícone e na abertura do app. Dentro das telas, o nome basta.</li>
+        </ul>
       </div>
     </div>
   </div>
@@ -883,7 +755,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div class="sw"><div class="chip" style="background:#8F8778"></div><b>Borda de campo</b><span class="hex">#8F8778</span><p>Contorno de tudo que se toca e não tem fundo próprio: campos, tags e o interruptor desligado.</p><span class="ratio">3,1:1 sobre o Papel</span></div>
         <div class="sw"><div class="chip" style="background:#1E1F1C"><span style="color:#F4F0E8">Aa</span></div><b>Tinta</b><span class="hex">#1E1F1C</span><p>Texto principal, botão principal e traço sob o título de cada seção.</p><span class="ratio">14,5:1 sobre o Papel</span></div>
         <div class="sw"><div class="chip" style="background:#5F5B52"><span style="color:#F4F0E8">Aa</span></div><b>Grafite</b><span class="hex">#5F5B52</span><p>Legendas, datas e detalhes ("Mercado · Pix").</p><span class="ratio">5,9:1 sobre o Papel</span></div>
-        <div class="sw"><div class="chip" style="background:#6F6A60"><span style="color:#F4F0E8">Aa</span></div><b>Lápis</b><span class="hex">#6F6A60</span><p>Texto de exemplo dentro do campo, a seta "›" e o texto de item desabilitado.</p><span class="ratio">4,7:1 sobre o Papel (era #8A8478, 3,3:1)</span></div>
+        <div class="sw"><div class="chip" style="background:#6F6A60"><span style="color:#F4F0E8">Aa</span></div><b>Lápis</b><span class="hex">#6F6A60</span><p>Texto de exemplo dentro do campo, a seta "›" e o texto de item desabilitado.</p><span class="ratio">4,7:1 sobre o Papel</span></div>
       </div>
     </div>
 
@@ -933,23 +805,23 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     </div>
 
     <div class="pal-group">
-      <span class="rotulo">Cores de categoria: de neon para pigmento</span>
-      <p class="lede">Cada cor antiga vira um tom da mesma família, com claridade parecida, para que nenhuma grite mais que as outras. A cor pinta o ícone da categoria nas linhas, nos orçamentos e nas fichas, e nunca vira fundo. A troca é de um para um, então a migration converte as categorias e os cartões que já existem sem perguntar nada a ninguém. Contraste do ícone sobre o Papel, do mais claro ao mais escuro: Açafrão 2,6:1, Canela 3,0:1, Oliva 3,3:1, Rosa-argila 3,6:1; os outros dez, de 3,9:1 a 5,5:1.</p>
+      <span class="rotulo">Cores de categoria</span>
+      <p class="lede">São 14 tons de pigmento, apagados e de claridade parecida, para que nenhuma categoria grite mais que as outras e a tela não vire um arco-íris. A cor pinta o ícone da categoria nas linhas, nos orçamentos e nas fichas, e nunca vira fundo: ela ajuda a achar a categoria de relance, e o nome ao lado continua dizendo qual é. Contraste do ícone sobre o Papel, do mais claro ao mais escuro: Açafrão 2,6:1, Canela 3,0:1, Oliva 3,3:1, Rosa-argila 3,6:1; os outros dez, de 3,9:1 a 5,5:1.</p>
       <div class="cat-map">
-        <div class="cm"><span class="old"><i style="background:#3DD68C"></i></span><span class="arrow">→</span><span class="new" style="background:#4F7F4F"></span><span><b>Louro</b><small>Mercado, Salário</small></span><span class="hex">#4F7F4F</span></div>
-        <div class="cm"><span class="old"><i style="background:#2DD4BF"></i></span><span class="arrow">→</span><span class="new" style="background:#3A8577"></span><span><b>Verde-água</b><small>Educação</small></span><span class="hex">#3A8577</span></div>
-        <div class="cm"><span class="old"><i style="background:#22D3EE"></i></span><span class="arrow">→</span><span class="new" style="background:#357A8F"></span><span><b>Petróleo</b><small>Lazer</small></span><span class="hex">#357A8F</span></div>
-        <div class="cm"><span class="old"><i style="background:#4C8DFF"></i></span><span class="arrow">→</span><span class="new" style="background:#4A6A9A"></span><span><b>Ardósia</b><small>Transporte, Renda extra</small></span><span class="hex">#4A6A9A</span></div>
-        <div class="cm"><span class="old"><i style="background:#818CF8"></i></span><span class="arrow">→</span><span class="new" style="background:#5A5A9A"></span><span><b>Índigo</b><small>Assinaturas</small></span><span class="hex">#5A5A9A</span></div>
-        <div class="cm"><span class="old"><i style="background:#A78BFA"></i></span><span class="arrow">→</span><span class="new" style="background:#7E5490"></span><span><b>Ameixa</b><small>Moradia, cartão Nubank</small></span><span class="hex">#7E5490</span></div>
-        <div class="cm"><span class="old"><i style="background:#C084FC"></i></span><span class="arrow">→</span><span class="new" style="background:#9A4A72"></span><span><b>Vinho</b><small>Pets</small></span><span class="hex">#9A4A72</span></div>
-        <div class="cm"><span class="old"><i style="background:#F472B6"></i></span><span class="arrow">→</span><span class="new" style="background:#B5677E"></span><span><b>Rosa-argila</b><small>Saúde</small></span><span class="hex">#B5677E</span></div>
-        <div class="cm"><span class="old"><i style="background:#F87171"></i></span><span class="arrow">→</span><span class="new" style="background:#B9553A"></span><span><b>Telha</b><small>Delivery</small></span><span class="hex">#B9553A</span></div>
-        <div class="cm"><span class="old"><i style="background:#FB923C"></i></span><span class="arrow">→</span><span class="new" style="background:#C27A3A"></span><span><b>Canela</b><small>Compras, cartão Inter</small></span><span class="hex">#C27A3A</span></div>
-        <div class="cm"><span class="old"><i style="background:#F5B94A"></i></span><span class="arrow">→</span><span class="new" style="background:#B8902F"></span><span><b>Açafrão</b><small>Alimentação</small></span><span class="hex">#B8902F</span></div>
-        <div class="cm"><span class="old"><i style="background:#FACC15"></i></span><span class="arrow">→</span><span class="new" style="background:#7F8A3A"></span><span><b>Oliva</b><small>Contas da casa</small></span><span class="hex">#7F8A3A</span></div>
-        <div class="cm"><span class="old"><i style="background:#A3E635"></i></span><span class="arrow">→</span><span class="new" style="background:#8A6A50"></span><span><b>Castanho</b><small>livre para escolher</small></span><span class="hex">#8A6A50</span></div>
-        <div class="cm"><span class="old"><i style="background:#9AA1AB"></i></span><span class="arrow">→</span><span class="new" style="background:#7D786D"></span><span><b>Pedra</b><small>Outros</small></span><span class="hex">#7D786D</span></div>
+        <div class="cm"><span class="new" style="background:#4F7F4F"></span><span><b>Louro</b><small>Mercado, Salário</small></span><span class="hex">#4F7F4F</span></div>
+        <div class="cm"><span class="new" style="background:#3A8577"></span><span><b>Verde-água</b><small>Educação</small></span><span class="hex">#3A8577</span></div>
+        <div class="cm"><span class="new" style="background:#357A8F"></span><span><b>Petróleo</b><small>Lazer</small></span><span class="hex">#357A8F</span></div>
+        <div class="cm"><span class="new" style="background:#4A6A9A"></span><span><b>Ardósia</b><small>Transporte, Renda extra</small></span><span class="hex">#4A6A9A</span></div>
+        <div class="cm"><span class="new" style="background:#5A5A9A"></span><span><b>Índigo</b><small>Assinaturas</small></span><span class="hex">#5A5A9A</span></div>
+        <div class="cm"><span class="new" style="background:#7E5490"></span><span><b>Ameixa</b><small>Moradia, cartão Nubank</small></span><span class="hex">#7E5490</span></div>
+        <div class="cm"><span class="new" style="background:#9A4A72"></span><span><b>Vinho</b><small>Pets</small></span><span class="hex">#9A4A72</span></div>
+        <div class="cm"><span class="new" style="background:#B5677E"></span><span><b>Rosa-argila</b><small>Saúde</small></span><span class="hex">#B5677E</span></div>
+        <div class="cm"><span class="new" style="background:#B9553A"></span><span><b>Telha</b><small>Delivery</small></span><span class="hex">#B9553A</span></div>
+        <div class="cm"><span class="new" style="background:#C27A3A"></span><span><b>Canela</b><small>Compras, cartão Inter</small></span><span class="hex">#C27A3A</span></div>
+        <div class="cm"><span class="new" style="background:#B8902F"></span><span><b>Açafrão</b><small>Alimentação</small></span><span class="hex">#B8902F</span></div>
+        <div class="cm"><span class="new" style="background:#7F8A3A"></span><span><b>Oliva</b><small>Contas da casa</small></span><span class="hex">#7F8A3A</span></div>
+        <div class="cm"><span class="new" style="background:#8A6A50"></span><span><b>Castanho</b><small>livre para escolher</small></span><span class="hex">#8A6A50</span></div>
+        <div class="cm"><span class="new" style="background:#7D786D"></span><span><b>Pedra</b><small>Outros</small></span><span class="hex">#7D786D</span></div>
       </div>
     </div>
   </div>
@@ -962,7 +834,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">03</span>
       <div>
         <h2>Tipografia</h2>
-        <p>São duas famílias, cada uma com um trabalho. No app elas entram pelos pacotes <code>@expo-google-fonts/fraunces</code> e <code>@expo-google-fonts/ibm-plex-sans</code>, no lugar da Inter.</p>
+        <p>São duas famílias, cada uma com um trabalho. No app elas entram pelos pacotes <code>@expo-google-fonts/fraunces</code> e <code>@expo-google-fonts/ibm-plex-sans</code>.</p>
       </div>
     </div>
 
@@ -1015,7 +887,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <div class="scale-row"><b>8</b><i style="width:8px"></i><span>Entre o rótulo e o campo; entre botões lado a lado</span></div>
           <div class="scale-row"><b>12</b><i style="width:12px"></i><span>Respiro de cima e de baixo das linhas de lista</span></div>
           <div class="scale-row"><b>16</b><i style="width:16px"></i><span>Dentro das fichas; entre um campo e outro</span></div>
-          <div class="scale-row"><b>24</b><i style="width:24px"></i><span>Margem lateral de toda tela (hoje é 16)</span></div>
+          <div class="scale-row"><b>24</b><i style="width:24px"></i><span>Margem lateral de toda tela</span></div>
           <div class="scale-row"><b>40</b><i style="width:40px"></i><span>Entre uma seção e outra</span></div>
           <div class="scale-row"><b>64</b><i style="width:64px"></i><span>Fim da rolagem e áreas que ficam vazias de propósito</span></div>
         </div>
@@ -1097,14 +969,14 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   </div>
 </section>
 
-<!-- ======================= 05 Antes e depois ======================= -->
+<!-- ======================= 05 As telas ======================= -->
 <section class="part" id="telas">
   <div class="wrap">
     <div class="part-head">
       <span class="part-num">05</span>
       <div>
-        <h2>Antes e depois</h2>
-        <p>As três telas mais usadas, com os dados da casa de exemplo (Leo e Ana, outubro de 2026). Dá para rolar dentro dos celulares do Resumo e do Chat. O "antes" reproduz o app como era antes do redesign: tema escuro, Inter e as mesmas medidas do código.</p>
+        <h2>As telas</h2>
+        <p>As três telas mais usadas, com os dados da casa de exemplo (Leo e Ana, outubro de 2026), e o porquê de cada escolha. Dá para rolar dentro dos celulares do Resumo e do Chat.</p>
       </div>
     </div>
 
@@ -1113,45 +985,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <div class="block-head"><h3>Início</h3><p>Abrir e lançar</p></div>
       <div class="pair">
         <div>
-          <div class="device-label"><b>Antes</b><span class="rotulo">antes do redesign</span></div>
-          <div class="phone"><div class="screen old">
-            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
-            <div class="o-home px">
-              <div class="o-hhead">
-                <div class="o-flex">
-                  <div class="o-title">Boa tarde, Leo</div>
-                  <div class="o-body o-muted">Outubro: R$ 4.084,30 gastos · R$ 437,50 livres no orçamento</div>
-                </div>
-                <svg class="i o-gear"><use href="#settings"/></svg>
-              </div>
-              <div class="o-notice"><svg class="i o-danger"><use href="#alert"/></svg><span class="o-label o-flex">2 contas vencendo hoje ou atrasadas</span><svg class="i o-chev"><use href="#chev-r"/></svg></div>
-              <div class="o-center">
-                <div class="o-mic"><svg class="i"><use href="#mic"/></svg></div>
-                <div class="o-heading">Toque e fale</div>
-                <div class="o-caption o-faint">“gastei 30 no mercado” · “quanto gastei hoje?”</div>
-                <div class="o-manual"><svg class="i"><use href="#plus"/></svg><span class="o-label">Lançar manualmente</span></div>
-              </div>
-              <div class="o-sec"><span class="o-overline o-muted">Hoje</span></div>
-              <div class="o-card">
-                <div class="o-row"><span class="o-ci" style="background:rgba(61,214,140,.16);color:#3DD68C"><svg class="i"><use href="#cart"/></svg></span><div class="o-flex"><div class="o-label">Padaria</div><div class="o-caption o-faint">Mercado · Pix</div></div><span class="o-label num">R$ 23,50</span></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(244,114,182,.16);color:#F472B6"><svg class="i"><use href="#heart"/></svg></span><div class="o-flex"><div class="o-label">Farmácia</div><div class="o-caption o-faint">Saúde · Débito</div></div><span class="o-label num">R$ 48,90</span></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(245,185,74,.16);color:#F5B94A"><svg class="i"><use href="#utensils"/></svg></span><div class="o-flex"><div class="o-label">Café</div><div class="o-caption o-faint">Alimentação · Pix</div></div><span class="o-label num">R$ 15,10</span></div>
-                <div class="o-row o-link"><svg class="i o-accent"><use href="#receipt"/></svg><span class="o-label o-flex">Todos os lançamentos</span><svg class="i o-chev"><use href="#chev-r"/></svg></div>
-              </div>
-            </div>
-            <nav class="o-tabs">
-              <span class="o-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
-              <span class="o-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="o-badge">1</i></span>
-              <span class="o-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
-              <span class="o-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
-              <span class="o-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
-            </nav>
-            <div class="homebar" style="color:#E6E8EB"></div>
-          </div></div>
-        </div>
-
-        <div>
-          <div class="device-label"><b>Depois</b><span class="rotulo">Caderneta</span></div>
           <div class="phone"><div class="screen new">
             <div class="sbar"><span>12:41</span><i class="bat"></i></div>
             <div class="n-home px">
@@ -1190,15 +1023,15 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
 
         <div class="notes">
-          <h4>O que mudou</h4>
+          <h4>Por que é assim</h4>
           <ul>
-            <li>O botão neon com anéis de brilho vira um círculo de Tinta, sem efeito. Ele continua sendo a maior coisa da tela.</li>
-            <li>O mês vira duas colunas de caderneta em vez de uma frase cinza comprida. "Livres no orçamento" vira "Resta nos orçamentos", com a legenda de qual categoria já estourou e por isso não entra na conta.</li>
-            <li>As contas atrasadas aparecem com um traço Tijolo, o alerta e o nome delas, sem caixa vermelha.</li>
-            <li>Embaixo do microfone, só "Toque e fale" e o link para lançar à mão: os exemplos de fala saem.</li>
-            <li>"Hoje" fica sem caixa, com o total do dia ao lado do título. O ícone da categoria fica solto, na cor dela, sem o quadrado.</li>
-            <li>A engrenagem volta ao topo, como botão de ícone.</li>
-            <li>As abas mantêm ícone e nome, com ícones finos e sem cor. A aba ativa fica em Tinta com um traço em cima, e o aviso não lido é um número em Mostarda.</li>
+            <li>O microfone é um círculo de Tinta, sem brilho nem efeito, e é a maior coisa da tela: falar é o jeito principal de usar o app, e ele não precisa gritar para ser achado.</li>
+            <li>O mês aparece em duas colunas, como numa caderneta: quanto já saiu e quanto resta nos orçamentos. A legenda diz qual categoria estourou, porque ela não entra na conta do que resta.</li>
+            <li>As contas atrasadas aparecem com um traço Tijolo, o alerta e o nome delas, sem caixa vermelha: o aviso chama a atenção sem assustar, e o toque leva direto à Agenda.</li>
+            <li>Embaixo do microfone, só "Toque e fale" e o link para lançar à mão. A tela fica limpa, e quem prefere digitar acha o caminho sem procurar.</li>
+            <li>"Hoje" fica direto no papel, com o total do dia ao lado do título. O ícone da categoria fica solto, na cor dela: a cor ajuda a achar a categoria sem virar mais uma caixa.</li>
+            <li>A engrenagem fica no topo, como botão de ícone: as Configurações são usadas pouco e não precisam de uma aba.</li>
+            <li>As abas têm ícone fino e nome, sem cor. A ativa fica em Tinta com um traço em cima, e os avisos não lidos são um número em Mostarda, a cor do que pede atenção.</li>
           </ul>
         </div>
       </div>
@@ -1209,75 +1042,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <div class="block-head"><h3>Resumo</h3><p>O mês inteiro numa tela</p></div>
       <div class="pair">
         <div>
-          <div class="device-label"><b>Antes</b><span class="rotulo">role para ver tudo</span></div>
-          <div class="phone"><div class="screen old">
-            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
-            <div class="scroll px o-pb">
-              <div class="o-month"><svg class="i"><use href="#chev-l"/></svg><span class="o-heading">Outubro 2026</span><svg class="i"><use href="#chev-r"/></svg></div>
-              <div class="o-hero">
-                <span class="o-caption o-faint">Saldo do mês</span>
-                <span class="o-display">R$ 5.765,70</span>
-                <div class="o-split">
-                  <div><span class="o-caption o-faint">Receitas ›</span><span class="o-heading o-accent">R$ 9.850,00</span></div>
-                  <div><span class="o-caption o-faint">Despesas ›</span><span class="o-heading">R$ 4.084,30</span></div>
-                </div>
-              </div>
-              <div class="o-card o-mt16"><div class="o-row o-link"><svg class="i o-accent"><use href="#receipt"/></svg><span class="o-label o-flex">Lançamentos de outubro</span><svg class="i o-chev"><use href="#chev-r"/></svg></div></div>
-
-              <div class="o-sec"><span class="o-overline o-muted">Faturas do mês</span></div>
-              <div class="o-card">
-                <div class="o-row"><div class="o-flex o-g4"><span class="o-label">Nubank · Leo</span><span class="o-caption o-faint">fecha 03/11 · vence 10/11</span></div><span class="o-heading">R$ 289,90</span></div>
-                <div class="o-row"><div class="o-flex o-g4"><span class="o-label">Inter · Ana</span><span class="o-caption o-faint">fecha 25/10 · vence 05/11</span></div><span class="o-heading">R$ 21,90</span></div>
-              </div>
-
-              <div class="o-sec"><span class="o-overline o-muted">Orçamentos</span><span class="o-label o-info">Editar</span></div>
-              <div class="o-card">
-                <div class="o-budget"><div class="o-bl"><span class="o-label">Delivery</span><span class="o-caption o-danger">R$ 512,80 de R$ 300,00</span></div><div class="o-bar"><i style="width:100%;background:#F87171"></i></div></div>
-                <div class="o-budget"><div class="o-bl"><span class="o-label">Mercado</span><span class="o-caption o-muted">R$ 684,30 de R$ 800,00</span></div><div class="o-bar"><i style="width:85%;background:#F5B94A"></i></div></div>
-                <div class="o-budget"><div class="o-bl"><span class="o-label">Transporte</span><span class="o-caption o-muted">R$ 186,20 de R$ 250,00</span></div><div class="o-bar"><i style="width:74%;background:#3DD68C"></i></div></div>
-                <div class="o-budget"><div class="o-bl"><span class="o-label">Lazer</span><span class="o-caption o-muted">R$ 142,00 de R$ 400,00</span></div><div class="o-bar"><i style="width:35%;background:#3DD68C"></i></div></div>
-              </div>
-
-              <div class="o-sec"><span class="o-overline o-muted">Próximas contas</span><span class="o-label o-info">Ver todas</span></div>
-              <div class="o-card">
-                <div class="o-row"><span class="o-ci" style="background:rgba(250,204,21,.16);color:#FACC15"><svg class="i"><use href="#zap"/></svg></span><div class="o-flex o-g4"><span class="o-label">Luz</span><span class="o-caption o-danger">atrasada há 11 dias</span></div><span class="o-label">~R$ 189,00</span></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(167,139,250,.16);color:#A78BFA"><svg class="i"><use href="#house"/></svg></span><div class="o-flex o-g4"><span class="o-label">Condomínio</span><span class="o-caption o-danger">atrasada há 9 dias</span></div><span class="o-label">R$ 620,00</span></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(167,139,250,.16);color:#A78BFA"><svg class="i"><use href="#house"/></svg></span><div class="o-flex o-g4"><span class="o-label">Aluguel</span><span class="o-caption o-muted">vence 05/11</span></div><span class="o-label">R$ 1.800,00</span></div>
-              </div>
-
-              <div class="o-sec"><span class="o-overline o-muted">Gastos por categoria</span></div>
-              <div class="o-card">
-                <div class="o-row"><span class="o-ci" style="background:rgba(167,139,250,.16);color:#A78BFA"><svg class="i"><use href="#house"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Moradia</span><span class="o-label">R$ 1.800,00</span></div><div class="o-bar"><i style="width:100%;background:#A78BFA"></i></div><span class="o-caption o-faint">44% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(61,214,140,.16);color:#3DD68C"><svg class="i"><use href="#cart"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Mercado</span><span class="o-label">R$ 684,30</span></div><div class="o-bar"><i style="width:38%;background:#3DD68C"></i></div><span class="o-caption o-faint">17% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(248,113,113,.16);color:#F87171"><svg class="i"><use href="#bike"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Delivery</span><span class="o-label">R$ 512,80</span></div><div class="o-bar"><i style="width:28%;background:#F87171"></i></div><span class="o-caption o-faint">13% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(245,185,74,.16);color:#F5B94A"><svg class="i"><use href="#utensils"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Alimentação</span><span class="o-label">R$ 298,40</span></div><div class="o-bar"><i style="width:17%;background:#F5B94A"></i></div><span class="o-caption o-faint">7% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(251,146,60,.16);color:#FB923C"><svg class="i"><use href="#bag"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Compras</span><span class="o-label">R$ 250,00</span></div><div class="o-bar"><i style="width:14%;background:#FB923C"></i></div><span class="o-caption o-faint">6% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(76,141,255,.16);color:#4C8DFF"><svg class="i"><use href="#car"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Transporte</span><span class="o-label">R$ 186,20</span></div><div class="o-bar"><i style="width:10%;background:#4C8DFF"></i></div><span class="o-caption o-faint">5% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(34,211,238,.16);color:#22D3EE"><svg class="i"><use href="#ticket"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Lazer</span><span class="o-label">R$ 142,00</span></div><div class="o-bar"><i style="width:8%;background:#22D3EE"></i></div><span class="o-caption o-faint">3% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(250,204,21,.16);color:#FACC15"><svg class="i"><use href="#zap"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Contas da casa</span><span class="o-label">R$ 99,90</span></div><div class="o-bar"><i style="width:6%;background:#FACC15"></i></div><span class="o-caption o-faint">2% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(129,140,248,.16);color:#818CF8"><svg class="i"><use href="#repeat"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Assinaturas</span><span class="o-label">R$ 61,80</span></div><div class="o-bar"><i style="width:3%;background:#818CF8"></i></div><span class="o-caption o-faint">2% das despesas</span></div></div>
-                <div class="o-row"><span class="o-ci" style="background:rgba(244,114,182,.16);color:#F472B6"><svg class="i"><use href="#heart"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Saúde</span><span class="o-label">R$ 48,90</span></div><div class="o-bar"><i style="width:3%;background:#F472B6"></i></div><span class="o-caption o-faint">1% das despesas</span></div></div>
-              </div>
-
-              <div class="o-sec"><span class="o-overline o-muted">Quem gastou</span></div>
-              <div class="o-card">
-                <div class="o-row"><span class="o-label o-flex">Leo</span><span class="o-caption o-faint">71%</span><span class="o-label">R$ 2.903,10</span></div>
-                <div class="o-row"><span class="o-label o-flex">Ana</span><span class="o-caption o-faint">29%</span><span class="o-label">R$ 1.181,20</span></div>
-              </div>
-            </div>
-            <nav class="o-tabs">
-              <span class="o-tab"><svg class="i"><use href="#house"/></svg>Início</span>
-              <span class="o-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="o-badge">1</i></span>
-              <span class="o-tab on"><svg class="i"><use href="#pie"/></svg>Resumo</span>
-              <span class="o-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
-              <span class="o-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
-            </nav>
-            <div class="homebar" style="color:#E6E8EB"></div>
-          </div></div>
-        </div>
-
-        <div>
-          <div class="device-label"><b>Depois</b><span class="rotulo">role para ver tudo</span></div>
           <div class="phone"><div class="screen new">
             <div class="sbar"><span>12:41</span><i class="bat"></i></div>
             <div class="scroll px n-pb">
@@ -1350,14 +1114,14 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
 
         <div class="notes">
-          <h4>O que mudou</h4>
+          <h4>Por que é assim</h4>
           <ul>
-            <li>O saldo vira o número principal da tela (Fraunces 40), com a legenda de como ele é calculado. Receitas e despesas ficam lado a lado, como numa caderneta, e cada uma abre os lançamentos.</li>
-            <li>Os orçamentos vêm primeiro e ordenados pelo que precisa de atenção, com a frase pronta: "Passou R$ 212,80 do limite", "Restam R$ 115,70". A frase fica em Grafite, para ler fácil, e o estado fica na cor da barra. O limite sempre aparece com "R$" ("de R$ 300,00").</li>
-            <li>Em "Gastos por categoria", a barra é uma só, em Tinta: o que importa é o comprimento. A cor da categoria fica no ícone.</li>
-            <li>Cada seção tem título em Fraunces e um traço de Tinta, sem cartão em volta.</li>
-            <li>Os valores ficam alinhados à direita, com algarismos de mesma largura.</li>
-            <li>Os ícones de categoria saem dos quadrados coloridos e ficam soltos, finos, na cor de pigmento. Contas e faturas ganham o ícone da categoria ou do cartão. Sai o link solto "Lançamentos de outubro", que já existe nos dois totais.</li>
+            <li>O saldo é o número principal da tela (Fraunces 40), com a legenda de como ele é calculado: é a pergunta que a pessoa traz ao abrir o Resumo. Receitas e despesas ficam lado a lado, como numa caderneta, e cada uma abre os lançamentos dela.</li>
+            <li>Os orçamentos vêm primeiro e ordenados pelo que precisa de atenção, com a frase pronta: "Passou R$ 212,80 do limite", "Restam R$ 115,70". Ninguém precisa fazer a conta de cabeça. A frase fica em Grafite, para ler fácil, e o estado fica na cor da barra. O limite sempre aparece com "R$" ("de R$ 300,00").</li>
+            <li>Em "Gastos por categoria", a barra é uma só, em Tinta: o que importa é o comprimento, e dez cores lado a lado só atrapalhariam a comparação. A cor da categoria fica no ícone.</li>
+            <li>Cada seção tem título em Fraunces e um traço de Tinta, sem cartão em volta: a página se lê de cima para baixo, como uma folha, e não como uma pilha de caixas.</li>
+            <li>Os valores ficam alinhados à direita, com algarismos de mesma largura, para as colunas de R$ alinharem como num livro-caixa.</li>
+            <li>Os ícones de categoria ficam soltos, finos, na cor de pigmento, e contas e faturas levam o ícone da categoria ou do cartão. Não há um link separado para os lançamentos do mês: os dois totais já levam até eles.</li>
           </ul>
         </div>
       </div>
@@ -1368,45 +1132,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <div class="block-head"><h3>Chat</h3><p>Aviso de orçamento e conferência de gastos</p></div>
       <div class="pair">
         <div>
-          <div class="device-label"><b>Antes</b><span class="rotulo">antes do redesign</span></div>
-          <div class="phone"><div class="screen old">
-            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
-            <div class="o-chead px"><span class="o-logo">$</span><div class="o-flex"><div class="o-heading">Assistente</div><div class="o-caption o-muted">Casa do Leo</div></div><svg class="i o-muted" style="width:20px;height:20px"><use href="#trash"/></svg></div>
-            <div class="scroll px o-msgs">
-              <span class="o-caption o-faint o-dayl">Hoje</span>
-              <div class="o-event"><svg class="i o-warn"><use href="#bell"/></svg><span class="o-caption o-muted o-flex">Mercado chegou a 85% do limite do mês: R$ 684,30 de R$ 800,00.</span><span class="o-t10 o-faint">09:12</span></div>
-              <div class="o-card">
-                <div class="o-chd"><span class="o-overline o-muted">Orçamento perto do limite</span><span class="o-overline o-faint">outubro</span></div>
-                <div class="o-budget o-div">
-                  <div class="o-bl" style="gap:12px"><span class="o-ci s30" style="background:rgba(61,214,140,.16);color:#3DD68C"><svg class="i"><use href="#cart"/></svg></span><div class="o-flex o-g4"><span class="o-label">Mercado</span><span class="o-caption o-muted">R$ 684,30 de R$ 800,00</span></div><span class="o-label o-warn">85%</span></div>
-                  <div class="o-bar"><i style="width:85%;background:#F5B94A"></i></div>
-                </div>
-                <div class="o-cfoot"><div class="o-btn secondary">Ver lançamentos</div></div>
-              </div>
-              <div class="o-bubble user">almoço 42 no débito e corrida de 22 no nubank<span class="o-t10 o-faint">12:41</span></div>
-              <div class="o-bubble bot">Anotei 2 gastos de hoje. Confere antes de eu lançar:<span class="o-t10 o-faint">12:41</span></div>
-              <div class="o-card">
-                <div class="o-chd"><span class="o-overline o-muted">2 lançamentos</span><span class="o-overline o-faint">hoje</span></div>
-                <div class="o-row o-div"><span class="o-ci s30" style="background:rgba(245,185,74,.16);color:#F5B94A"><svg class="i"><use href="#utensils"/></svg></span><div class="o-flex"><div class="o-label">Almoço</div><div class="o-caption o-muted">Alimentação · Débito</div></div><span class="o-label o-amt">R$ 42,00</span><svg class="i o-faint" style="width:16px;height:16px"><use href="#chev-d"/></svg></div>
-                <div class="o-row"><span class="o-ci s30" style="background:rgba(76,141,255,.16);color:#4C8DFF"><svg class="i"><use href="#car"/></svg></span><div class="o-flex"><div class="o-label">Corrida de app</div><div class="o-caption o-muted">Transporte · Crédito Nubank</div></div><span class="o-label o-amt">R$ 22,00</span><svg class="i o-faint" style="width:16px;height:16px"><use href="#chev-d"/></svg></div>
-                <div class="o-row o-div" style="justify-content:space-between"><span class="o-body o-muted">Total</span><span class="o-label">R$ 64,00</span></div>
-                <div class="o-cfoot two"><div class="o-btn secondary">Cancelar</div><div class="o-btn primary">Confirmar · R$ 64,00</div></div>
-              </div>
-            </div>
-            <div class="o-composer px"><div class="o-input">Mensagem</div><div class="o-round"><svg class="i"><use href="#mic"/></svg></div></div>
-            <nav class="o-tabs">
-              <span class="o-tab"><svg class="i"><use href="#house"/></svg>Início</span>
-              <span class="o-tab on"><svg class="i"><use href="#msg"/></svg>Chat</span>
-              <span class="o-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
-              <span class="o-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
-              <span class="o-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
-            </nav>
-            <div class="homebar" style="color:#E6E8EB"></div>
-          </div></div>
-        </div>
-
-        <div>
-          <div class="device-label"><b>Depois</b><span class="rotulo">Caderneta</span></div>
           <div class="phone"><div class="screen new">
             <div class="sbar"><span>12:41</span><i class="bat"></i></div>
             <div class="n-chathead px">
@@ -1448,14 +1173,14 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
 
         <div class="notes">
-          <h4>O que mudou</h4>
+          <h4>Por que é assim</h4>
           <ul>
-            <li>O assistente fala direto no papel, sem balão. Só a mensagem da pessoa tem balão, com o canto reto do lado dela.</li>
-            <li>O aviso de orçamento vira uma ficha só, com o alvo no topo. A linha com sininho, que repetia o mesmo texto, sai. Cada tipo de ficha tem o seu ícone (recibo, alvo, calendário, sino, gráfico).</li>
-            <li>A ficha de conferir fecha com o total sublinhado duas vezes, como num livro-caixa. O botão principal é Tinta e já mostra o valor.</li>
-            <li>A setinha de abrir cada item vira o texto "toque para corrigir" no topo da ficha.</li>
-            <li>O "$" verde do topo sai: o nome "Assistente" em Fraunces basta. A lixeira fica como botão de ícone fino, e limpar pede confirmação na folha do app.</li>
-            <li>O botão de voz é um quadrado de Tinta, com o mesmo canto de 6 dos outros botões.</li>
+            <li>O assistente fala direto no papel, sem balão. Só a mensagem da pessoa tem balão, com o canto reto do lado dela: dá para saber quem disse o quê sem ler.</li>
+            <li>Cada aviso é uma ficha só, com o ícone do tipo no topo (recibo, alvo, calendário, sino, gráfico) e a frase completa dentro, sem uma linha à parte repetindo o mesmo texto.</li>
+            <li>A ficha de conferir fecha com o total sublinhado duas vezes, como num livro-caixa. O botão principal é Tinta e já mostra o valor, para a pessoa saber exatamente o que vai gravar.</li>
+            <li>"Toque para corrigir", no topo da ficha, diz de uma vez que cada linha se abre, sem uma setinha em cada item.</li>
+            <li>O topo tem só o nome "Assistente" em Fraunces e a casa: o nome basta, sem logotipo. A lixeira é um botão de ícone fino, e limpar a conversa pede confirmação na folha do app.</li>
+            <li>O botão de voz é um quadrado de Tinta, com o mesmo canto de 6 dos outros botões: ele é um botão como os outros, só que sempre à mão, ao lado do campo.</li>
           </ul>
         </div>
       </div>
@@ -1793,7 +1518,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 
       <div>
         <h3>Gravar a voz</h3>
-        <dl class="how"><dt>Duração</dt><dd>anel de 1,4 s enquanto grava</dd><dt>O quê</dt><dd>o botão fica Tijolo, um anel fino se espalha em volta, o ícone vira "enviar" e o tempo corre. Sem os anéis de brilho de hoje.</dd></dl>
+        <dl class="how"><dt>Duração</dt><dd>anel de 1,4 s enquanto grava</dd><dt>O quê</dt><dd>o botão fica Tijolo, um anel fino se espalha em volta, o ícone vira "enviar" e o tempo corre.</dd></dl>
         <div class="demo">
           <div class="mic-demo" id="mic-demo">
             <button class="n-mic" type="button" data-mic aria-label="Falar com o assistente"><svg class="i down"><use href="#mic"/></svg><svg class="i up"><use href="#arrow-up"/></svg></button>
@@ -1824,53 +1549,43 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   </div>
 </section>
 
-<!-- ======================= 08 Arquivos ======================= -->
+<!-- ======================= 08 No código ======================= -->
 <section class="part" id="arquivos">
   <div class="wrap">
     <div class="part-head">
       <span class="part-num">08</span>
       <div>
-        <h2>Plano de implementação</h2>
-        <p>A API, as regras de negócio e os testes de lógica (<code>lib/__tests__</code>) não mudam. O redesign mexe na base visual, nas telas que montam essa base e nos textos dos valores (parte 09).</p>
+        <h2>Onde o guia mora no código</h2>
+        <p>Cada regra deste guia tem um lugar no app. Uma tela nova monta com estas peças em vez de inventar as suas, e o que muda aqui muda em todas as telas de uma vez.</p>
       </div>
     </div>
 
     <div class="files">
       <div>
-        <h4>Base, que muda o app inteiro</h4>
+        <h4>A base</h4>
         <ul>
-          <li><code>mobile/src/theme/tokens.ts</code><span>Paleta, escala de 4 a 64, cantos e fontes.</span></li>
+          <li><code>mobile/src/theme/tokens.ts</code><span>A fonte única de paleta, escala de 4 a 64, cantos e fontes. Nenhuma tela escreve uma cor ou um espaço solto (parte 09).</span></li>
           <li><code>mobile/src/app/_layout.tsx</code><span>Carrega Fraunces e IBM Plex Sans. A barra de status fica escura sobre o papel.</span></li>
-          <li><code>mobile/package.json</code><span>Troca <code>@expo-google-fonts/inter</code> pelas duas famílias novas (você instala com <code>npx expo install</code>).</span></li>
           <li><code>mobile/app.json</code><span>Tema claro e fundo <code>#F4F0E8</code> na abertura.</span></li>
-          <li><code>mobile/src/components/ui/</code><span>Os 16 componentes base, mais cinco novos: <code>Sheet.tsx</code> (folha de confirmação, aberta por <code>confirm()</code> de <code>stores/confirm.ts</code>), <code>Amount.tsx</code> (valor em R$ com algarismos tabulares), <code>TextLink.tsx</code> (link em Musgo sublinhado), <code>IconButton.tsx</code> (botão só de ícone, 24 com 44 de toque) e <code>Tag.tsx</code> ("só você", "da casa"). As fichas do chat montam com as peças de <code>components/cards/Ficha.tsx</code>.</span></li>
         </ul>
       </div>
       <div>
-        <h4>Telas, linhas e chat</h4>
+        <h4>As peças</h4>
         <ul>
-          <li><code>mobile/src/app/(app)/(tabs)/</code><span>Abas com ícone fino e nome, Início, Resumo, Chat, Agenda e Lista.</span></li>
-          <li><code>mobile/src/components/</code><span>TransactionRow, BillRow, ListItemRow, SettingsRow, MonthSwitcher e MoneyInput. O CategoryIcon perde o quadrado colorido: vira o ícone da categoria, fino e na cor dela, numa coluna de 24 à esquerda das linhas.</span></li>
-          <li><code>components/chat/</code> e <code>components/cards/</code><span>Mensagens, campo de escrever e as 12 fichas.</span></li>
-          <li>As outras telas (formulários, Configurações, entrada)<span>Herdam quase tudo dos componentes, com ajustes pequenos de espaçamento.</span></li>
+          <li><code>mobile/src/components/ui/</code><span>Os componentes do guia: texto, botão, campo, interruptor, barra de progresso e os outros da parte 06. Entre eles, <code>Sheet.tsx</code> (folha de confirmação, aberta por <code>confirm()</code> de <code>stores/confirm.ts</code>), <code>Amount.tsx</code> (valor em R$ com algarismos tabulares), <code>TextLink.tsx</code> (link em Musgo sublinhado), <code>IconButton.tsx</code> (botão só de ícone, 24 com 44 de toque) e <code>Tag.tsx</code> ("só você", "da casa").</span></li>
+          <li><code>mobile/src/components/CategoryIcon.tsx</code><span>O ícone da categoria, fino e na cor dela, numa coluna de 24 à esquerda das linhas.</span></li>
+          <li><code>mobile/src/components/cards/Ficha.tsx</code><span>As peças das fichas do chat: topo com o ícone do tipo, linhas, total sublinhado duas vezes e rodapé com os botões.</span></li>
         </ul>
       </div>
       <div>
-        <h4>Cores de categoria</h4>
+        <h4>Cores e marca</h4>
         <ul>
-          <li><code>mobile/src/lib/categories.ts</code>, <code>lib/budgets.ts</code>, <code>components/CardForm.tsx</code><span>A lista nova de cores e as cores das barras de orçamento.</span></li>
-          <li><code>backend/app/Services/DefaultCategories.php</code><span>Cores das casas criadas daqui para frente.</span></li>
-          <li><code>backend/database/migrations/…_convert_category_colors.php</code><span>Converte as cores antigas das categorias e dos cartões que já existem, de um para um. A volta desfaz a troca.</span></li>
+          <li><code>mobile/src/lib/categories.ts</code><span>Os 14 tons de pigmento das categorias. Os cartões escolhem entre oito deles, em <code>components/CardForm.tsx</code>.</span></li>
+          <li><code>backend/app/Services/DefaultCategories.php</code><span>As categorias e as cores com que cada casa nova começa.</span></li>
+          <li><code>scripts/brand-icons.mjs</code><span>Gera o ícone, a splash e os desenhos da marca que o app usa.</span></li>
         </ul>
       </div>
     </div>
-
-    <ol class="steps">
-      <li><b>Base</b><span>Tokens, fontes e componentes de <code>ui/</code>. O app inteiro muda de cara, mesmo que algumas telas fiquem com o espaçamento antigo.</span></li>
-      <li><b>As cinco abas</b><span>Início, Resumo, Chat e as fichas, Agenda e Lista, como nos exemplos acima.</span></li>
-      <li><b>Telas internas</b><span>Lançamentos, contas, cartões, formulários, Configurações e entrada.</span></li>
-      <li><b>Cores</b><span>Migration e categorias padrão no backend, com teste. Feito em 20/10/2026: as quatro etapas estão no app.</span></li>
-    </ol>
   </div>
 </section>
 
@@ -1949,6 +1664,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.12</td><td class="num">27/10/2026</td><td>O guia mostra só o app de hoje. A parte 05 vira "As telas": saem os celulares do visual antigo, e cada tela fica com o quadro "Por que é assim", que diz o motivo de cada escolha em vez de compará-la com o que havia antes. As cores de categoria mostram só o tom de pigmento, sem a cor neon de antes. A parte 01 vira "O que o guia resolve": saem o levantamento das telas e dos componentes e os problemas do visual antigo, e ficam seis regras com o porquê de cada uma. A parte 08 vira "Onde o guia mora no código", com a base e as peças de cada regra, sem o plano do redesign, que já foi feito. As decisões do topo, a tipografia, a escala e as micro-interações deixam de comparar com o app antigo. Sai a fonte Inter, que só os celulares antigos usavam.</td></tr>
         <tr><td>1.11</td><td class="num">27/10/2026</td><td>Nome da casa e passos feitos. Configurações › Casa ganha, em primeiro, "Nome da casa" (lápis, com o nome atual), só para o dono, que abre a tela de renomear; "Suas casas" passa a mostrar quantas casas a pessoa tem, para o nome não aparecer duas vezes. Nos primeiros passos, um passo feito também abre a folha, com a seta: ela mostra o que já foi feito e o botão chama para fazer de novo ("Cadastrar outro cartão", "Convidar mais alguém"). Na aba Contas da Agenda, as contas cadastradas depois do vencimento deste mês aparecem no fim, em "Começam em novembro".</td></tr>
         <tr><td>1.10</td><td class="num">23/10/2026</td><td>Reportar uma resposta e a política de privacidade. Depois da hora de cada resposta do assistente, uma bandeirinha de 14 em Lápis, com área de toque ampliada. Ela abre a folha de confirmação ("Reportar esta resposta?", sem o botão de apagar) e, reportada, vira "· Reportada" em Grafite. Configurações › Conta ganha "Política de privacidade", que abre a página no navegador. A tela de criar conta ganha uma legenda com o link em Musgo sublinhado. A página do servidor "Política de privacidade" usa uma coluna mais larga (640), títulos de seção em Fraunces 20 e listas. Todas as páginas do servidor têm, no rodapé, os links para a política e para excluir a conta.</td></tr>
         <tr><td>1.9</td><td class="num">23/10/2026</td><td>Excluir a conta. Em Configurações › Conta, a última linha é "Excluir conta", em Tijolo. A tela diz o que sai e o que fica nas casas compartilhadas, avisa em Tijolo que não dá para desfazer e pede a senha. O botão "Excluir conta" é o primário de Tinta e abre a folha de confirmação com o botão de apagar. A mesma coisa sem o app é a página do servidor "Excluir a conta", com o e-mail e a senha nos campos do guia e o botão de apagar em Tijolo. As páginas do servidor ganham um rodapé com o link. A folha "Receber avisos no celular?" agora espera a abertura terminar.</td></tr>
@@ -2098,7 +1814,7 @@ document.querySelectorAll('[data-replay]').forEach(function (button) {
 });
 
 // Os chats começam rolados até a mensagem mais nova, como no app.
-document.querySelectorAll('.o-msgs, .n-msgs').forEach(function (list) { list.scrollTop = list.scrollHeight; });
+document.querySelectorAll('.n-msgs').forEach(function (list) { list.scrollTop = list.scrollHeight; });
 </script>
 </body>
 </html>

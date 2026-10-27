@@ -50,7 +50,7 @@ O visual segue um guia próprio, a **Caderneta**: papel claro, tinta escura, uma
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="O começo do guia de design Caderneta, com as decisões aprovadas e o índice"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a></b></p>
-      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, o antes e depois das telas, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
+      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="O começo da apresentação do ícone, com ele no iPhone, no Android, no ícone temático, na splash e na tela inicial"></a>

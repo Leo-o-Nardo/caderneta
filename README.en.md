@@ -53,7 +53,7 @@ The visual design follows its own guide, **Caderneta**: light paper, dark ink, a
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the approved decisions and the table of contents"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a></b></p>
-      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, before-and-after screens, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
+      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="The start of the icon presentation, with the icon on iPhone, Android, the themed icon, the splash and the home screen"></a>
