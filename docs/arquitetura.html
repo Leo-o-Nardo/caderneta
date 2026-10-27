@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Arquitetura da Caderneta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Os tokens do guia Caderneta (docs/design-guide.html). */
+:root {
+  --papel: #F4F0E8;
+  --tinta: #1E1F1C;
+  --grafite: #5F5B52;
+  --musgo: #2C5440;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--papel); }
+#diagrama { display: block; width: 100%; max-width: 1040px; height: auto; margin: 0 auto; }
+#diagrama text { font-family: var(--sans); fill: var(--tinta); }
+/* Texto por cima das linhas da vida: um contorno de papel em volta das letras deixa ler. */
+#diagrama .halo { paint-order: stroke; stroke: #F4F0E8; stroke-width: 6px; stroke-linejoin: round; }
+#diagrama .rotulo { font-size: 12px; font-weight: 600; letter-spacing: .08em; fill: var(--grafite); }
+#diagrama .fase { font-size: 12px; font-weight: 600; letter-spacing: .08em; }
+#diagrama .titulo { font: 600 30px var(--serif); letter-spacing: -.02em; }
+#diagrama .nome { font: 600 18px var(--serif); }
+#diagrama .tec, #diagrama .nota { font-size: 13px; fill: var(--grafite); }
+#diagrama .chamada { font-size: 14px; font-weight: 500; }
+#diagrama .codigo { font-family: 'IBM Plex Mono', Consolas, monospace; font-size: 13px; }
+#diagrama .linha { font-size: 14px; }
+</style>
+</head>
+<body>
+<!--
+  A arquitetura da Caderneta como diagrama de sequência: da mensagem de voz ao lançamento
+  registrado, com as chamadas e os eventos de verdade. Abra com ?lang=en para a versão em
+  inglês. As imagens do README saem daqui (assets/arquitetura.png e assets/arquitetura-en.png).
+-->
+<svg id="diagrama" viewBox="0 0 1040 1600" role="img" aria-labelledby="diagrama-titulo">
+  <defs>
+    <marker id="seta-tinta" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#1E1F1C"/>
+    </marker>
+    <marker id="seta-musgo" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#2C5440"/>
+    </marker>
+    <marker id="seta-grafite" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10Z" fill="#5F5B52"/>
+    </marker>
+  </defs>
+</svg>
+
+<script>
+// Português por padrão; ?lang=en troca todos os textos.
+const EN = new URLSearchParams(location.search).get('lang') === 'en';
+const t = (text) => (Array.isArray(text) ? (EN ? text[1] : text[0]) : text);
+const svg = document.getElementById('diagrama');
+const NS = 'http://www.w3.org/2000/svg';
+const COLOR = { tinta: '#1E1F1C', musgo: '#2C5440', grafite: '#5F5B52', pauta: '#DCD5C6', folha: '#FBF8F1' };
+
+function el(name, attrs, text) {
+  const node = document.createElementNS(NS, name);
+  for (const [key, value] of Object.entries(attrs)) node.setAttribute(key, value);
+  if (text !== undefined) node.textContent = text;
+  svg.appendChild(node);
+  return node;
+}
+
+const label = (x, y, cls, text, extra = {}) => el('text', { x, y, class: cls, ...extra }, t(text));
+
+if (EN) {
+  document.documentElement.lang = 'en';
+  document.title = 'Caderneta architecture';
+}
+
+// ---------- Cabeçalho e legenda ----------
+label(40, 44, 'rotulo', ['CADERNETA · ARQUITETURA', 'CADERNETA · ARCHITECTURE']);
+label(40, 84, 'titulo', ['Da mensagem de voz ao lançamento registrado', 'From the voice message to the recorded entry'], { id: 'diagrama-titulo' });
+
+const legend = [
+  ['tinta', false, ['HTTP: requisição do app à API', 'HTTP: app request to the API']],
+  ['tinta', true, ['resposta HTTP', 'HTTP response']],
+  ['musgo', false, ['WebSocket: o Reverb avisa o app', 'WebSocket: Reverb tells the app']],
+  ['grafite', false, ['dentro do servidor', 'inside the server']],
+];
+let lx = 40;
+for (const [color, dashed, text] of legend) {
+  el('line', { x1: lx, y1: 116, x2: lx + 30, y2: 116, stroke: COLOR[color], 'stroke-width': 2, ...(dashed ? { 'stroke-dasharray': '5 4' } : {}) });
+  const node = label(lx + 40, 121, 'nota', text);
+  lx += 40 + node.getComputedTextLength() + 34;
+}
+
+// ---------- As colunas (quem participa) ----------
+const lanes = [
+  [['App', 'App'], ['celular · Expo', 'phone · Expo']],
+  [['Reverb', 'Reverb'], ['WebSocket', 'WebSocket']],
+  [['API', 'API'], ['Laravel · Sanctum', 'Laravel · Sanctum']],
+  [['PostgreSQL', 'PostgreSQL'], ['os dados', 'the data']],
+  [['Fila', 'Queue'], ['Redis · worker', 'Redis · worker']],
+  [['Agente de IA', 'AI agent'], ['fora do servidor', 'outside the server']],
+];
+const X = lanes.map((_, i) => 40 + 160 * i + 80);
+const LANE_TOP = 150;
+const LANE_BOTTOM = LANE_TOP + 58;
+lanes.forEach(([name, tech], i) => {
+  el('rect', { x: X[i] - 72, y: LANE_TOP, width: 144, height: 58, rx: 6, fill: COLOR.folha, stroke: COLOR.tinta });
+  label(X[i], LANE_TOP + 26, 'nome', name, { 'text-anchor': 'middle' });
+  label(X[i], LANE_TOP + 45, 'tec', tech, { 'text-anchor': 'middle' });
+});
+
+// ---------- O que acontece, de cima para baixo ----------
+// Colunas: 0 app, 1 reverb, 2 api, 3 banco, 4 fila, 5 ia.
+// Tipos: http (app → api), reply (resposta), ws (pelo Reverb até o app), inside (dentro do servidor).
+const APP = 0, REVERB = 1, API = 2, DB = 3, QUEUE = 4, AI = 5;
+const rows = [
+  { phase: ['AO ABRIR O APP', 'WHEN THE APP OPENS'], detail: ['uma conexão para o app inteiro', 'one connection for the whole app'] },
+  { from: APP, to: REVERB, kind: 'ws', text: ['conecta (protocolo Pusher)', 'connects (Pusher protocol)'] },
+  { from: APP, to: API, kind: 'http', text: 'POST /broadcasting/auth', code: true, note: ['com o mesmo token do aparelho', 'with the same device token'] },
+  { from: API, to: APP, kind: 'reply', text: ['assinatura do canal', 'channel signature'] },
+  { from: APP, to: REVERB, kind: 'ws', text: ['assina private-user.{id}', 'subscribes to private-user.{id}'], note: ['ping a cada 25 s; reconecta em 1, 2, 5, 10 e 15 s', 'ping every 25 s; reconnects after 1, 2, 5, 10 and 15 s'] },
+
+  { phase: ['1 · ENVIAR', '1 · SEND'], detail: ['ConversationController', 'ConversationController'] },
+  { from: APP, to: API, kind: 'http', text: 'POST /conversation/voice', code: true, note: ['m4a, até 60 s · Authorization: Bearer', 'm4a, up to 60 s · Authorization: Bearer'] },
+  { from: API, to: DB, kind: 'inside', text: ['pergunta transcribing + resposta pending', 'question transcribing + reply pending'], note: ['numa transação, depois do limite do dia', 'in one transaction, after the daily limit'] },
+  { from: API, to: QUEUE, kind: 'inside', text: 'Bus::chain(TranscribeVoice, ProcessTurn)', code: true },
+  { from: API, to: APP, kind: 'reply', text: ['202 com as duas mensagens', '202 with both messages'], note: ['as duas bolhas aparecem na hora', 'both bubbles show up right away'] },
+
+  { phase: ['2 · TRANSCREVER', '2 · TRANSCRIBE'], detail: ['job TranscribeVoice', 'TranscribeVoice job'] },
+  { from: QUEUE, to: AI, kind: 'inside', text: ['áudio para transcrever', 'audio to transcribe'] },
+  { from: AI, to: QUEUE, kind: 'insideReply', text: ['texto', 'text'] },
+  { from: QUEUE, to: DB, kind: 'inside', text: ['salva o texto e apaga o áudio', 'saves the text, deletes the audio'] },
+  { from: QUEUE, to: APP, kind: 'ws', text: 'message.transcribed', code: true },
+
+  { phase: ['3 · RESPONDER', '3 · REPLY'], detail: ['job ProcessTurn, até 5 rodadas com a IA', 'ProcessTurn job, up to 5 rounds with the AI'] },
+  { from: QUEUE, to: AI, kind: 'inside', text: ['histórico e ferramentas', 'history and tools'], note: ['pelo cofre: CPF, cartão e Pix viram [CPF_1]', 'through the vault: IDs, cards, Pix become [CPF_1]'], noteAnchor: 'end' },
+  { from: AI, to: QUEUE, kind: 'insideReply', text: ['texto aos pedaços, ou pede ferramenta', 'text in pieces, or asks for a tool'] },
+  { from: QUEUE, to: APP, kind: 'ws', text: 'assistant.status · assistant.delta', code: true, note: ['pedaços juntados a cada ~100 ms, com número de sequência', 'pieces batched every ~100 ms, with a sequence number'] },
+  { from: QUEUE, to: DB, kind: 'inside', text: ['roda a ferramenta', 'runs the tool'], note: ['consulta responde na hora; o que muda dados vira ficha', 'lookups answer now; changes become a card'] },
+  { from: QUEUE, to: DB, kind: 'inside', text: ['salva a resposta com as fichas', 'saves the reply with its cards'] },
+  { from: QUEUE, to: APP, kind: 'ws', text: 'assistant.completed', code: true, note: ['a ficha aparece para conferir', 'the card shows up for review'] },
+
+  { phase: ['4 · CONFIRMAR', '4 · CONFIRM'], detail: ['sem voltar para a IA', 'without going back to the AI'] },
+  { from: APP, to: API, kind: 'http', text: 'POST /actions/{id}/confirm', code: true, note: ['com as edições da ficha', 'with the card edits'] },
+  { from: API, to: DB, kind: 'inside', text: ['valida e grava', 'validates and saves'], note: ['lockForUpdate: dois toques, uma gravação', 'lockForUpdate: two taps, one save'] },
+  { from: API, to: APP, kind: 'reply', text: ['200 com o card atualizado', '200 with the updated card'], note: ['o app invalida o cache e as telas buscam de novo', 'the app invalidates the cache and screens refetch'] },
+];
+
+const STYLE = {
+  http: { color: 'tinta', width: 2 },
+  reply: { color: 'tinta', width: 1.5, dash: '5 4' },
+  ws: { color: 'musgo', width: 2.5 },
+  inside: { color: 'grafite', width: 1.5 },
+  insideReply: { color: 'grafite', width: 1.5, dash: '5 4' },
+};
+
+function arrow(x1, x2, y, style) {
+  const towards = x2 > x1 ? 1 : -1;
+  el('line', {
+    x1: x1 + 5 * towards, y1: y, x2: x2 - 5 * towards, y2: y,
+    stroke: COLOR[style.color], 'stroke-width': style.width,
+    'marker-end': `url(#seta-${style.color})`,
+    ...(style.dash ? { 'stroke-dasharray': style.dash } : {}),
+  });
+}
+
+// Primeiro as linhas da vida (por baixo de tudo); a altura total só se sabe no fim, então elas
+// entram num grupo no começo do desenho e ganham o comprimento depois.
+const lifelines = X.map((x) => el('line', { x1: x, y1: LANE_BOTTOM, x2: x, y2: LANE_BOTTOM, stroke: COLOR.pauta, 'stroke-width': 1.5, 'stroke-dasharray': '2 5' }));
+
+let y = LANE_BOTTOM + 22;
+for (const row of rows) {
+  if (row.phase) {
+    y += 14;
+    el('line', { x1: 40, y1: y + 12, x2: 1000, y2: y + 12, stroke: COLOR.tinta });
+    const head = label(40, y, 'fase halo', row.phase);
+    label(40 + head.getComputedTextLength() + 14, y, 'nota halo', row.detail);
+    y += 28;
+    continue;
+  }
+
+  const left = Math.min(X[row.from], X[row.to]);
+  const right = Math.max(X[row.from], X[row.to]);
+  // Rótulos de setas à direita da página encostam no fim da seta, para não passarem da margem.
+  const anchorEnd = left >= X[DB];
+  const tx = anchorEnd ? right - 10 : left + 10;
+  const anchor = anchorEnd ? 'end' : 'start';
+
+  label(tx, y + 14, `${row.code ? 'codigo' : 'chamada'} halo`, row.text, { 'text-anchor': anchor });
+
+  const arrowY = y + 25;
+  if (row.kind === 'ws' && row.from !== APP) {
+    // Do job até o Reverb é uma chamada interna; do Reverb até o app, o WebSocket.
+    arrow(X[row.from], X[REVERB] + 5, arrowY, STYLE.inside);
+    el('circle', { cx: X[REVERB], cy: arrowY, r: 4.5, fill: COLOR.musgo });
+    arrow(X[REVERB], X[APP], arrowY, STYLE.ws);
+  } else {
+    arrow(X[row.from], X[row.to], arrowY, STYLE[row.kind]);
+  }
+
+  if (row.note) {
+    const noteEnd = row.noteAnchor === 'end' || anchorEnd;
+    label(noteEnd ? right - 10 : left + 10, y + 44, 'nota halo', row.note, { 'text-anchor': noteEnd ? 'end' : 'start' });
+    y += 58;
+  } else {
+    y += 40;
+  }
+}
+
+for (const line of lifelines) line.setAttribute('y2', y + 4);
+
+// ---------- Rodapé: o que o fluxo não mostra ----------
+y += 24;
+const notes = [
+  [['Se o WebSocket cair', 'If the WebSocket drops'], [
+    ['O ao vivo só adianta a tela: tudo fica no banco.', 'Live updates only get the screen there sooner.'],
+    ['Com mensagem pendente, o app busca GET /conversation', 'With a pending message, the app polls GET /conversation'],
+    ['a cada 2 s (4 s conectado) e de novo ao reconectar.', 'every 2 s (4 s connected) and again on reconnect.'],
+  ]],
+  [['Os avisos usam o mesmo canal', 'Alerts use the same channel'], [
+    ['Contas, lembretes, débito automático e resumo saem', 'Bills, reminders, autopay and the summary come from'],
+    ['das tarefas agendadas; orçamento, da fila, depois', 'the scheduled tasks; budgets from the queue, after'],
+    ['de cada gasto. Todos chegam como alert.created.', 'each expense. All of them arrive as alert.created.'],
+  ]],
+];
+notes.forEach(([title, lines], i) => {
+  const x = 40 + i * 490;
+  el('rect', { x, y, width: 470, height: 128, rx: 6, fill: COLOR.folha, stroke: COLOR.tinta });
+  label(x + 20, y + 32, 'nome', title);
+  lines.forEach((line, j) => label(x + 20, y + 60 + j * 21, 'linha', line));
+});
+y += 128 + 32;
+
+svg.setAttribute('viewBox', `0 0 1040 ${y}`);
+svg.dataset.height = String(y);
+</script>
+</body>
+</html>

@@ -1,0 +1,2104 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Guia de design Caderneta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&family=IBM+Plex+Sans:wght@400;500;600&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* ============ Tokens do guia ============ */
+:root {
+  --papel: #F4F0E8;
+  --folha: #FBF9F4;
+  --papel-escuro: #ECE6DA;
+  --pauta: #DCD5C6;
+  --borda: #8F8778;
+  --tinta: #1E1F1C;
+  --grafite: #5F5B52;
+  --lapis: #6F6A60;
+  --musgo: #2C5440;
+  --musgo-claro: #E1E9DF;
+  --mostarda: #D9A53A;
+  --mostarda-escura: #7F5A0C;
+  --mostarda-clara: #F5E8C8;
+  --tijolo: #A63A25;
+  --tijolo-claro: #F3DFD7;
+  --serif: 'Fraunces', Georgia, 'Times New Roman', serif;
+  --sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --curva: cubic-bezier(.2, .7, .2, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+body {
+  background: var(--papel);
+  color: var(--tinta);
+  font: 400 16px/1.55 var(--sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+button, input { font: inherit; color: inherit; }
+a { color: inherit; }
+.num { font-variant-numeric: tabular-nums lining-nums; }
+code {
+  font: 500 .86em/1 ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  background: var(--papel-escuro);
+  padding: 2px 5px;
+  border-radius: 2px;
+  overflow-wrap: anywhere;
+}
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+.rotulo {
+  font: 600 12px/16px var(--sans);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--grafite);
+}
+
+/* ============ Cabeçalho do documento ============ */
+.doc-head { padding: 64px 0 64px; }
+.doc-meta { display: flex; flex-wrap: wrap; gap: 8px 24px; }
+.doc-title {
+  font: 600 clamp(64px, 12vw, 136px)/.92 var(--serif);
+  letter-spacing: -.035em;
+  margin: 40px 0 24px;
+}
+.doc-lead { font: 400 clamp(19px, 2.3vw, 24px)/1.45 var(--serif); max-width: 780px; }
+.doc-note { margin-top: 24px; max-width: 780px; padding-left: 16px; border-left: 2px solid var(--musgo); font-size: 16px; }
+.decide-head { margin-top: 64px; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.decide {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 210px), 1fr));
+  column-gap: 24px;
+  counter-reset: d;
+}
+.decide li { list-style: none; padding: 16px 0 24px; border-bottom: 1px solid var(--pauta); counter-increment: d; }
+.decide li::before {
+  content: counter(d, decimal-leading-zero);
+  display: block;
+  font: 500 13px/1 var(--sans);
+  color: var(--grafite);
+  margin-bottom: 12px;
+  font-variant-numeric: tabular-nums;
+}
+.decide b { display: block; font: 500 19px/1.25 var(--serif); margin-bottom: 8px; }
+.decide span { display: block; font-size: 14px; line-height: 1.5; color: var(--grafite); }
+.toc { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 40px; }
+.toc a { text-decoration: none; font: 500 15px var(--sans); }
+.toc a span { color: var(--grafite); margin-right: 6px; font-variant-numeric: tabular-nums; }
+.toc a:hover { text-decoration: underline; text-underline-offset: 4px; }
+
+/* ============ Partes ============ */
+.part { padding: 64px 0 96px; border-top: 1px solid var(--tinta); }
+.part-head { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 24px; margin-bottom: 64px; }
+.part-num { font: 500 14px/1 var(--sans); letter-spacing: .08em; color: var(--grafite); padding-top: 16px; font-variant-numeric: tabular-nums; }
+.part-head h2 { font: 600 clamp(34px, 4.6vw, 48px)/1.05 var(--serif); letter-spacing: -.025em; }
+.part-head p { color: var(--grafite); max-width: 700px; margin-top: 16px; font-size: 17px; }
+.block + .block { margin-top: 96px; }
+.block-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 24px; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); margin-bottom: 24px; }
+.block-head h3 { font: 500 26px/1.2 var(--serif); letter-spacing: -.01em; }
+.block-head p { font-size: 14px; color: var(--grafite); }
+.lede { max-width: 700px; color: var(--grafite); margin-bottom: 40px; }
+
+/* ============ 01 Diagnóstico ============ */
+.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 64px; }
+table.ledger { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.ledger th {
+  font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite);
+  text-align: left; padding: 0 16px 8px 0; border-bottom: 1px solid var(--tinta);
+}
+table.ledger td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--pauta); vertical-align: top; }
+table.ledger td:first-child { font-weight: 500; white-space: nowrap; }
+table.ledger .n { text-align: right; padding-right: 0; font-variant-numeric: tabular-nums; color: var(--grafite); }
+table.ledger tfoot td { border-bottom: 0; border-top: 1px solid var(--tinta); font-weight: 600; }
+table.ledger tfoot .n { color: var(--tinta); }
+.comp-list { display: grid; gap: 0; }
+.comp-list div { padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
+.comp-list b { display: block; font-weight: 500; }
+.comp-list span { color: var(--grafite); font-size: 14px; }
+.problems { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 64px 48px; }
+.problem h4 { font: 500 22px/1.25 var(--serif); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.problem li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; line-height: 1.55; }
+
+/* ============ 02 Paleta ============ */
+.pal-group + .pal-group { margin-top: 64px; }
+.pal-group > .rotulo { display: block; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); margin-bottom: 24px; }
+.swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 40px 24px; }
+.sw { display: grid; gap: 8px; align-content: start; }
+.sw .chip { height: 96px; border-radius: 4px; box-shadow: inset 0 0 0 1px rgba(30, 31, 28, .12); display: flex; align-items: flex-end; padding: 8px; }
+.sw .chip.duo { padding: 0; overflow: hidden; }
+.sw .chip.duo i { flex: 1; height: 100%; }
+.sw .chip span { font: 500 13px/1 var(--sans); }
+.sw b { font: 500 19px/1.2 var(--serif); }
+.sw .hex { font: 500 14px/1 var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; letter-spacing: .02em; }
+.sw p { font-size: 14px; line-height: 1.5; }
+.sw .ratio { font-size: 13px; color: var(--grafite); }
+.cat-map { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); column-gap: 48px; }
+.cm { display: grid; grid-template-columns: 28px 16px 28px minmax(0, 1fr) auto; align-items: center; gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 14px; }
+.cm .old { width: 28px; height: 28px; border-radius: 4px; background: #0B0D10; display: grid; place-items: center; }
+.cm .old i { width: 12px; height: 12px; border-radius: 50%; }
+.cm .arrow { color: var(--lapis); text-align: center; }
+.cm .new { width: 28px; height: 28px; border-radius: 4px; }
+.cm b { font-weight: 500; }
+.cm small { display: block; color: var(--grafite); font-size: 13px; }
+.cm .hex { color: var(--grafite); font-variant-numeric: tabular-nums; font-size: 13px; }
+
+/* ============ 03 Tipografia ============ */
+.type-row { display: grid; grid-template-columns: 240px minmax(0, 1fr); gap: 24px; padding: 24px 0; border-bottom: 1px solid var(--pauta); align-items: baseline; }
+.type-row .spec { font-size: 13px; line-height: 1.5; color: var(--grafite); }
+.type-row .spec b { display: block; font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--tinta); margin-bottom: 4px; }
+.t-display { font: 600 40px/44px var(--serif); letter-spacing: -.02em; font-variant-numeric: lining-nums; }
+.t-h1 { font: 600 28px/34px var(--serif); letter-spacing: -.01em; }
+.t-h2 { font: 500 20px/26px var(--serif); }
+.t-body { font: 400 16px/24px var(--sans); }
+.t-strong { font: 500 16px/22px var(--sans); }
+.t-cap { font: 400 13px/18px var(--sans); color: var(--grafite); }
+.t-rot { font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
+.t-val { font: 500 16px/22px var(--sans); font-variant-numeric: tabular-nums; }
+.t-quote { font: italic 400 17px/24px var(--serif); color: var(--grafite); }
+.figs { display: inline-grid; grid-template-columns: auto auto; gap: 4px 40px; }
+.figs span:nth-child(even) { text-align: right; }
+.figs .h { font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
+.figs .prop { font-variant-numeric: proportional-nums; }
+.why { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 40px 64px; margin-bottom: 40px; }
+.why h4 { font: 600 30px/1.1 var(--serif); letter-spacing: -.01em; margin-bottom: 8px; }
+.why h4.sans { font: 600 26px/1.15 var(--sans); letter-spacing: -.01em; }
+.why p { color: var(--grafite); font-size: 15px; }
+
+/* ============ 04 Espaço e forma ============ */
+.scale { display: grid; }
+.scale-row { display: grid; grid-template-columns: 48px minmax(0, 72px) minmax(0, 1fr); gap: 16px; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 14px; }
+.scale-row b { font: 600 15px/1 var(--sans); font-variant-numeric: tabular-nums; }
+.scale-row i { display: block; height: 12px; background: var(--tinta); }
+.scale-row span { color: var(--grafite); }
+.radii { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr)); gap: 40px 24px; }
+.radius-box { height: 72px; background: var(--folha); border: 1px solid var(--tinta); margin-bottom: 12px; }
+.radii b { display: block; font: 600 15px/1.3 var(--sans); }
+.radii span { font-size: 14px; color: var(--grafite); }
+.rules { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 24px 48px; }
+.rules div { padding-top: 12px; border-top: 1px solid var(--tinta); }
+.rules b { display: block; font: 500 19px/1.3 var(--serif); margin-bottom: 4px; }
+.rules span { font-size: 15px; color: var(--grafite); }
+
+/* ============ Moldura do celular ============ */
+.pair { display: grid; grid-template-columns: repeat(2, minmax(0, 390px)) minmax(240px, 1fr); gap: 40px; align-items: start; }
+@media (max-width: 1180px) {
+  .pair { grid-template-columns: repeat(2, minmax(0, 390px)); justify-content: center; }
+  .pair .notes { grid-column: 1 / -1; }
+}
+@media (max-width: 860px) {
+  .pair { grid-template-columns: minmax(0, 390px); }
+}
+.device-label { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 16px; }
+.device-label b { font: 500 22px/1 var(--serif); }
+.phone {
+  width: 100%;
+  max-width: 390px;
+  height: 844px;
+  border: 10px solid #161714;
+  border-radius: 46px;
+  overflow: hidden;
+  position: relative;
+  background: #161714;
+  box-shadow: 0 40px 70px -45px rgba(30, 31, 28, .55);
+}
+.screen { position: absolute; inset: 0; border-radius: 36px; overflow: hidden; display: flex; flex-direction: column; }
+.sbar { height: 40px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 28px 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
+.sbar .bat { width: 25px; height: 12px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; opacity: .9; display: block; }
+.sbar .bat::after { content: ""; position: absolute; top: 1.5px; bottom: 1.5px; left: 1.5px; right: 6px; background: currentColor; border-radius: 1px; }
+.scroll { flex: 1; min-height: 0; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; }
+.scroll::-webkit-scrollbar { display: none; }
+.homebar { height: 22px; flex: none; display: grid; place-items: center; }
+.homebar::after { content: ""; width: 128px; height: 4px; border-radius: 2px; background: currentColor; opacity: .3; }
+.px { padding-left: 24px; padding-right: 24px; }
+.notes h4 { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); margin-top: 56px; }
+.notes ul { list-style: none; }
+.notes li { padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; line-height: 1.5; }
+.notes li b { font-weight: 600; }
+
+/* Ícones (desenho do lucide, igual ao app) */
+.i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; display: block; }
+
+/* ============ "Antes": o visual atual (tema escuro, Inter) ============ */
+.old { background: #0B0D10; color: #E6E8EB; font-family: 'Inter', sans-serif; }
+.old .px { padding-left: 16px; padding-right: 16px; }
+.o-title { font: 600 22px/28px 'Inter'; letter-spacing: -.2px; }
+.o-display { font: 700 28px/34px 'Inter'; letter-spacing: -.3px; }
+.o-heading { font: 600 16px/22px 'Inter'; }
+.o-body { font: 400 14px/20px 'Inter'; }
+.o-label { font: 500 13px/18px 'Inter'; }
+.o-caption { font: 400 12px/16px 'Inter'; }
+.o-overline { font: 600 11px/14px 'Inter'; letter-spacing: .8px; text-transform: uppercase; }
+.o-t10 { font: 400 10px/14px 'Inter'; }
+.o-muted { color: #9AA1AB; } .o-faint { color: #6B7280; } .o-accent { color: #3DD68C; }
+.o-danger { color: #F87171; } .o-warn { color: #F5B94A; } .o-info { color: #4C8DFF; }
+.o-flex { flex: 1; min-width: 0; }
+.o-card { background: #14171C; border: 1px solid #23272E; border-radius: 16px; overflow: hidden; }
+.o-row { display: flex; align-items: center; gap: 12px; padding: 10px 12px; }
+.o-row + .o-row, .o-div { border-top: 1px solid #23272E; }
+.o-ci { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; flex: none; }
+.o-ci .i { width: 17px; height: 17px; }
+.o-ci.s30 { width: 30px; height: 30px; border-radius: 9px; }
+.o-ci.s30 .i { width: 15px; height: 15px; }
+.o-sec { display: flex; justify-content: space-between; align-items: center; margin: 24px 0 8px; }
+.o-bar { height: 6px; border-radius: 4px; background: #1A1E24; overflow: hidden; }
+.o-bar i { display: block; height: 100%; border-radius: 4px; }
+.o-bl { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.o-budget { padding: 12px; display: grid; gap: 8px; }
+.o-budget + .o-budget { border-top: 1px solid #23272E; }
+.o-g4 { display: grid; gap: 4px; }
+.o-tabs { height: 62px; flex: none; display: flex; border-top: 1px solid #23272E; background: #0B0D10; }
+.o-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; color: #6B7280; font: 500 11px/1 'Inter'; position: relative; }
+.o-tab .i { width: 24px; height: 24px; }
+.o-tab.on { color: #3DD68C; }
+.o-badge { position: absolute; top: 6px; left: calc(50% + 4px); min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: #F87171; color: #2A0B0B; font: 500 11px/18px 'Inter'; text-align: center; font-style: normal; }
+.o-btn { min-height: 46px; border-radius: 12px; padding: 0 16px; display: flex; align-items: center; justify-content: center; gap: 8px; font: 600 14px/1 'Inter'; }
+.o-btn.primary { background: #3DD68C; color: #05261A; }
+.o-btn.secondary { background: #1A1E24; color: #E6E8EB; }
+/* Início */
+.o-home { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: 16px; }
+.o-hhead { display: flex; align-items: flex-start; gap: 12px; padding-top: 16px; }
+.o-hhead .o-flex { display: grid; gap: 2px; }
+.o-gear { width: 22px; height: 22px; color: #9AA1AB; }
+.o-notice { display: flex; align-items: center; gap: 8px; margin-top: 12px; padding: 10px 12px; border-radius: 12px; border: 1px solid rgba(248, 113, 113, .3); background: rgba(248, 113, 113, .1); }
+.o-notice .i { width: 16px; height: 16px; }
+.o-center { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; text-align: center; }
+.o-mic { width: 100px; height: 100px; border-radius: 50%; background: #3DD68C; color: #05261A; display: grid; place-items: center; margin-bottom: 16px; box-shadow: 0 0 0 12px rgba(61, 214, 140, .08), 0 0 0 26px rgba(61, 214, 140, .04); }
+.o-mic .i { width: 40px; height: 40px; stroke-width: 2.2; }
+.o-manual { display: flex; align-items: center; gap: 4px; margin-top: 8px; padding: 8px 12px; border-radius: 999px; border: 1px solid #23272E; background: #14171C; }
+.o-manual .i { width: 16px; height: 16px; }
+/* Resumo */
+.o-pb { padding-bottom: 24px; }
+.o-month { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; }
+.o-month .i { width: 22px; height: 22px; color: #9AA1AB; }
+.o-hero { padding: 12px 0 8px; display: grid; gap: 2px; }
+.o-split { display: flex; gap: 16px; margin-top: 12px; }
+.o-split > div { flex: 1; display: grid; gap: 4px; }
+.o-mt16 { margin-top: 16px; }
+.o-link .i { width: 18px; height: 18px; }
+.o-chev { width: 16px; height: 16px; color: #9AA1AB; }
+/* Chat */
+.o-chead { display: flex; align-items: center; gap: 12px; padding-top: 12px; padding-bottom: 12px; border-bottom: 1px solid #23272E; flex: none; }
+.o-logo { width: 34px; height: 34px; border-radius: 12px; background: #3DD68C; color: #05261A; font: 700 16px/34px 'Inter'; text-align: center; }
+.o-msgs { display: flex; flex-direction: column; gap: 12px; padding-top: 12px; padding-bottom: 12px; }
+.o-msgs > :first-child { margin-top: auto; }
+.o-dayl { align-self: center; }
+.o-event { display: flex; align-items: center; gap: 8px; padding: 0 4px; }
+.o-event .i { width: 14px; height: 14px; }
+.o-chd { display: flex; justify-content: space-between; gap: 8px; padding: 12px 12px 8px; }
+.o-bubble { border-radius: 16px; padding: 9px 12px; display: grid; gap: 2px; font: 400 14px/20px 'Inter'; }
+.o-bubble .o-t10 { justify-self: end; }
+.o-bubble.user { align-self: flex-end; max-width: 84%; background: #173A2B; border-bottom-right-radius: 4px; }
+.o-bubble.bot { align-self: flex-start; max-width: 94%; background: #14171C; border-bottom-left-radius: 4px; }
+.o-cfoot { padding: 12px; display: grid; gap: 8px; }
+.o-cfoot.two { grid-template-columns: 1fr 2fr; }
+.o-amt { text-align: right; }
+.o-composer { display: flex; align-items: flex-end; gap: 8px; padding-top: 8px; padding-bottom: 8px; flex: none; }
+.o-input { flex: 1; min-height: 44px; display: flex; align-items: center; padding: 0 12px; background: #14171C; border: 1px solid #23272E; border-radius: 16px; color: #6B7280; font: 400 15px 'Inter'; }
+.o-round { width: 44px; height: 44px; border-radius: 50%; background: #14171C; border: 1px solid #23272E; color: #9AA1AB; display: grid; place-items: center; }
+.o-round .i { width: 20px; height: 20px; }
+
+/* ============ "Depois": a Caderneta ============ */
+.new { background: var(--papel); color: var(--tinta); font-family: var(--sans); }
+.new .i { stroke-width: 1.6; }
+.n-rot { font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
+.n-h1 { font: 600 28px/34px var(--serif); letter-spacing: -.01em; }
+.n-h1.sm { font-size: 24px; line-height: 30px; }
+.n-display { font: 600 40px/44px var(--serif); letter-spacing: -.02em; font-variant-numeric: lining-nums; display: block; }
+.n-h2 { font: 500 20px/26px var(--serif); }
+.n-body { font: 400 16px/24px var(--sans); }
+.n-strong { font: 500 16px/22px var(--sans); }
+.n-cap { font: 400 13px/18px var(--sans); color: var(--grafite); }
+.n-fig { font: 500 22px/28px var(--serif); font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.01em; }
+.n-quote { font: italic 400 17px/24px var(--serif); color: var(--grafite); }
+.n-amt { font: 500 16px/22px var(--sans); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
+.n-amt em { font-style: normal; font-weight: 400; color: var(--grafite); }
+.pos { color: var(--musgo); }
+.t-aviso { color: var(--mostarda-escura); }
+.t-erro { color: var(--tijolo); }
+.n-link { font: 500 15px/20px var(--sans); color: var(--musgo); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; background: none; border: 0; cursor: pointer; }
+.n-link.sm { font-size: 14px; }
+.n-textbtn { background: none; border: 0; font: 500 15px/20px var(--sans); color: var(--grafite); padding: 12px 0 12px 12px; margin: -12px 0 -12px; cursor: pointer; }
+.mk { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 8px; vertical-align: 1px; flex: none; }
+.n-sec { margin-top: 40px; }
+.n-sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.n-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
+.n-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.n-main > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.n-line { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.press { transition: background-color .15s ease-out; cursor: pointer; }
+.press:hover { background-color: var(--papel-escuro); }
+.press:active { background-color: var(--papel-escuro); transition-duration: 0s; }
+.n-row.press, .ficha-row.press { margin: 0 -24px; padding-left: 24px; padding-right: 24px; }
+.ficha-row.press { margin: 0; padding-left: 16px; padding-right: 16px; }
+.bar { height: 4px; border-radius: 2px; background: var(--pauta); overflow: hidden; }
+.bar i { display: block; height: 100%; width: var(--w); border-radius: 2px; background: var(--musgo); transform-origin: left; animation: grow .7s var(--curva) both; }
+.bar i.warn { background: var(--mostarda-escura); }
+.bar i.over { background: var(--tijolo); }
+@keyframes grow { from { transform: scaleX(0); } }
+.n-tabs { height: 62px; flex: none; display: flex; border-top: 1px solid var(--pauta); background: var(--papel); }
+.n-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 500 12px/14px var(--sans); color: var(--grafite); position: relative; }
+.n-tab .i { width: 20px; height: 20px; }
+.n-tab.on { color: var(--tinta); font-weight: 600; }
+.n-tab.on .i { stroke-width: 2; }
+.n-tab.on::before { content: ""; position: absolute; top: -1px; left: 50%; width: 28px; margin-left: -14px; height: 2px; background: var(--tinta); }
+.n-tab .n-dot { position: absolute; top: 7px; left: calc(50% + 5px); }
+.n-dot { min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--mostarda); color: var(--tinta); font: 600 11px/18px var(--sans); text-align: center; font-style: normal; font-variant-numeric: tabular-nums; }
+/* Início */
+.n-home { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: 8px; overflow-y: auto; scrollbar-width: none; }
+.n-home::-webkit-scrollbar { display: none; }
+.n-top { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
+.n-home .n-h1 { margin-top: 4px; }
+.n-ledger2 { display: grid; grid-template-columns: 1fr 1fr; margin-top: 16px; border-top: 1px solid var(--pauta); border-bottom: 1px solid var(--pauta); }
+.n-ledger2 > * { display: grid; gap: 2px; padding: 12px 0; text-decoration: none; }
+.n-ledger2 > * + * { border-left: 1px solid var(--pauta); padding-left: 16px; }
+.n-ledger2.press-cells > * { transition: background-color .15s ease-out; cursor: pointer; }
+.n-ledger2.press-cells > *:hover { background: var(--papel-escuro); }
+.n-overdue { display: flex; align-items: center; gap: 12px; margin-top: 16px; padding: 8px 0 8px 12px; border-left: 2px solid var(--tijolo); }
+.n-overdue .n-main b { font: 500 15px/20px var(--sans); }
+.n-chev { color: var(--lapis); font: 400 22px/1 var(--sans); }
+.n-micarea { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; padding: 4px 0; }
+.n-mic { width: 72px; height: 72px; border-radius: 50%; border: 0; background: var(--tinta); color: var(--papel); display: grid; place-items: center; margin-bottom: 8px; position: relative; cursor: pointer; transition: background-color .15s ease-out, transform .08s ease-out; }
+.n-mic:hover { background: #000; }
+.n-mic:active { transform: translateY(1px); }
+.n-mic:focus-visible { outline: 2px solid var(--musgo); outline-offset: 4px; }
+.n-mic .i { width: 28px; height: 28px; stroke-width: 1.6; }
+.n-mic .up { display: none; }
+.n-micarea .n-quote { margin-top: 4px; }
+.n-micarea .n-link { margin-top: 8px; }
+.n-home .n-sec { margin-top: 8px; }
+.n-home .n-sec .n-row:last-child { border-bottom: 0; }
+/* Resumo */
+.n-pb { padding-bottom: 64px; }
+.n-month { display: grid; grid-template-columns: 44px 1fr 44px; align-items: center; padding-top: 8px; text-align: center; }
+.n-iconbtn { width: 44px; height: 44px; display: grid; place-items: center; background: none; border: 0; color: var(--grafite); border-radius: 6px; cursor: pointer; transition: background-color .15s; }
+.n-iconbtn:hover { background: var(--papel-escuro); }
+.n-iconbtn .i { width: 22px; height: 22px; }
+.n-balance { margin-top: 24px; display: grid; gap: 4px; }
+.n-cat { padding: 12px 0; border-bottom: 1px solid var(--pauta); display: grid; gap: 8px; }
+.n-catbar { display: grid; grid-template-columns: minmax(0, 1fr) 40px; align-items: center; gap: 12px; }
+.n-catbar i { display: block; height: 3px; width: var(--w); background: var(--tinta); border-radius: 1px; transform-origin: left; animation: grow .7s var(--curva) both; }
+.n-catbar span { text-align: right; font-variant-numeric: tabular-nums; }
+.n-budget { padding: 12px 0; border-bottom: 1px solid var(--pauta); display: grid; gap: 8px; }
+.split { display: flex; height: 6px; gap: 2px; margin-top: 16px; }
+.split i { display: block; border-radius: 1px; }
+/* Chat */
+.n-chathead { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--pauta); flex: none; }
+.n-msgs { display: flex; flex-direction: column; gap: 16px; padding-top: 16px; padding-bottom: 16px; }
+.n-msgs > :first-child { margin-top: auto; }
+.n-day { display: flex; align-items: center; gap: 12px; }
+.n-day::before, .n-day::after { content: ""; flex: 1; height: 1px; background: var(--pauta); }
+.n-user { align-self: flex-end; max-width: 84%; display: grid; gap: 4px; justify-items: end; }
+.n-user p { background: var(--folha); border: 1px solid var(--pauta); border-radius: 12px 12px 2px 12px; padding: 8px 12px; font: 400 16px/24px var(--sans); }
+.n-bot { align-self: flex-start; max-width: 92%; display: grid; gap: 4px; }
+.n-bot p { font: 400 16px/24px var(--sans); }
+.n-time { font: 400 12px/16px var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; }
+.n-composer { display: flex; align-items: flex-end; gap: 8px; padding-top: 8px; padding-bottom: 8px; border-top: 1px solid var(--pauta); flex: none; }
+.n-field { flex: 1; min-height: 44px; display: flex; align-items: center; padding: 0 12px; background: var(--folha); border: 1px solid var(--borda); border-radius: 6px; color: var(--lapis); font: 400 16px var(--sans); }
+.n-sq { width: 44px; height: 44px; border-radius: 6px; border: 0; background: var(--tinta); color: var(--papel); display: grid; place-items: center; cursor: pointer; transition: background-color .15s; }
+.n-sq:hover { background: #000; }
+.n-sq .i { width: 20px; height: 20px; }
+
+/* Ficha: a única "caixa" do app, para o que o assistente propõe ou avisa */
+.ficha { background: var(--folha); border: 1px solid var(--pauta); border-radius: 6px; overflow: hidden; }
+.ficha-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 12px 16px 8px; }
+.ficha-body { padding: 4px 16px 16px; display: grid; gap: 8px; }
+.ficha-row { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-top: 1px solid var(--pauta); }
+.ficha-total { display: flex; justify-content: space-between; align-items: baseline; padding: 12px 16px; border-top: 1px solid var(--tinta); }
+.dbl { border-bottom: 3px double var(--tinta); line-height: 1.15; padding-bottom: 2px; }
+.ficha-foot { display: flex; gap: 8px; padding: 4px 16px 16px; }
+.ficha-link { display: block; padding: 12px 16px; border-top: 1px solid var(--pauta); }
+.ficha-done { display: none; align-items: center; gap: 8px; padding: 12px 16px 16px; font: 500 15px/20px var(--sans); color: var(--musgo); }
+.ficha-done .n-link { margin-left: auto; }
+.ficha.is-done .ficha-foot { display: none; }
+.ficha.is-done .ficha-done { display: flex; animation: fadein .25s ease-out both; }
+.ficha.is-done .ficha-total b { color: var(--musgo); border-color: var(--musgo); transition: color .3s, border-color .3s; }
+.check { width: 20px; height: 20px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.check path { stroke-dasharray: 24; stroke-dashoffset: 24; }
+.ficha.is-done .check path { animation: draw .3s .1s ease-out forwards; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+@keyframes fadein { from { opacity: 0; transform: translateY(-2px); } }
+
+/* ============ Componentes ============ */
+.btn {
+  appearance: none; border: 0; min-height: 48px; padding: 0 20px; border-radius: 6px;
+  font: 600 15px/1 var(--sans); display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  cursor: pointer; transition: background-color .15s ease-out, transform .08s ease-out, box-shadow .15s ease-out;
+  position: relative; white-space: nowrap;
+}
+.btn.sm { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.btn.grow { flex: 1; }
+.btn.full { width: 100%; }
+.btn:active, .btn.is-press { transform: translateY(1px); }
+.btn:focus-visible, .btn.is-focus { outline: 2px solid var(--musgo); outline-offset: 2px; }
+.btn-primary { background: var(--tinta); color: var(--papel); }
+.btn-primary:hover, .btn-primary.is-press { background: #000; }
+.btn-secondary { background: transparent; color: var(--tinta); box-shadow: inset 0 0 0 1px var(--tinta); }
+.btn-secondary:hover, .btn-secondary.is-press { background: var(--papel-escuro); }
+.btn-danger { background: var(--tijolo); color: #fff; }
+.btn-danger:hover, .btn-danger.is-press { background: #8A2E1C; }
+.btn[disabled] { background: var(--pauta); color: var(--lapis); box-shadow: none; cursor: not-allowed; transform: none; }
+.btn .dots { display: none; gap: 4px; }
+.btn.is-loading .dots { display: inline-flex; }
+.btn.is-loading { pointer-events: none; }
+.dots i { width: 4px; height: 4px; border-radius: 50%; background: currentColor; animation: blink 1s infinite both; }
+.dots i:nth-child(2) { animation-delay: .15s; }
+.dots i:nth-child(3) { animation-delay: .3s; }
+@keyframes blink { 0%, 80%, 100% { opacity: .25; } 40% { opacity: 1; } }
+
+.specimens { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 96px 64px; }
+.specimen h3 { font: 500 26px/1.2 var(--serif); letter-spacing: -.01em; }
+.specimen > p { color: var(--grafite); font-size: 15px; margin-top: 8px; max-width: 520px; }
+.stage { margin-top: 24px; padding-top: 24px; border-top: 1px solid var(--tinta); }
+.stage-grid { display: grid; gap: 24px; }
+.btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.state-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 16px; }
+.state-grid figure { display: grid; gap: 8px; justify-items: start; }
+.state-grid figcaption { font-size: 13px; color: var(--grafite); }
+.spec-line { font-size: 13px; color: var(--grafite); margin-top: 16px; }
+.spec-line b { color: var(--tinta); font-weight: 600; }
+
+/* Campos */
+.field { display: grid; gap: 8px; }
+.field label, .field .lbl { font: 500 14px/20px var(--sans); color: var(--tinta); transition: color .12s ease-out; }
+.input {
+  width: 100%; height: 48px; padding: 0 14px; background: var(--folha); border: 1px solid var(--borda); border-radius: 6px;
+  font: 400 16px var(--sans); color: var(--tinta); transition: border-color .12s ease-out, box-shadow .12s ease-out;
+}
+.input::placeholder { color: var(--lapis); }
+.input:focus, .input.is-focus { outline: none; border-color: var(--musgo); box-shadow: inset 0 0 0 1px var(--musgo); }
+.field:focus-within label, .field.is-focus .lbl { color: var(--musgo); }
+.input.is-error { border-color: var(--tijolo); box-shadow: inset 0 0 0 1px var(--tijolo); }
+.hint { font: 400 13px/18px var(--sans); color: var(--grafite); }
+.hint.err { color: var(--tijolo); }
+.money { display: flex; align-items: baseline; gap: 8px; border-bottom: 1px solid var(--tinta); padding: 4px 0 8px; transition: border-color .12s, box-shadow .12s; }
+.money:focus-within { border-color: var(--musgo); box-shadow: 0 1px 0 var(--musgo); }
+.money span { font: 500 18px var(--sans); color: var(--grafite); }
+.money input { font: 600 36px/1.1 var(--serif); border: 0; background: transparent; width: 100%; color: var(--tinta); outline: none; font-variant-numeric: lining-nums; }
+.seg { display: flex; border: 1px solid var(--tinta); border-radius: 6px; overflow: hidden; }
+.seg button { flex: 1; height: 40px; background: transparent; border: 0; font: 500 14px var(--sans); color: var(--tinta); cursor: pointer; transition: background-color .15s ease-out, color .15s ease-out; }
+.seg button + button { border-left: 1px solid var(--tinta); }
+.seg button:hover { background: var(--papel-escuro); }
+.seg button[aria-pressed="true"] { background: var(--tinta); color: var(--papel); }
+.tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tag { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--borda); border-radius: 4px; background: var(--folha); font: 500 14px var(--sans); color: var(--tinta); cursor: pointer; transition: border-color .15s, background-color .15s, color .15s; }
+.tag:hover { border-color: var(--tinta); }
+.tag[aria-pressed="true"] { border-color: var(--musgo); background: var(--musgo-claro); color: var(--musgo); }
+.toggle-row { display: flex; align-items: center; gap: 16px; }
+.switch { position: relative; width: 46px; height: 28px; flex: none; }
+.switch input { position: absolute; inset: 0; opacity: 0; margin: 0; cursor: pointer; z-index: 1; }
+.switch span { position: absolute; inset: 0; border-radius: 14px; background: var(--borda); transition: background-color .16s ease-out; }
+.switch span::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: var(--folha); box-shadow: 0 1px 2px rgba(30, 31, 28, .3); transition: transform .16s var(--curva); }
+.switch input:checked + span { background: var(--musgo); }
+.switch input:checked + span::after { transform: translateX(18px); }
+.switch input:focus-visible + span { outline: 2px solid var(--musgo); outline-offset: 2px; }
+
+/* Painéis de tela fora do celular */
+.panel { background: var(--papel); border: 1px solid var(--pauta); border-radius: 6px; max-width: 390px; padding: 0 24px 24px; }
+.n-group { display: flex; justify-content: space-between; align-items: baseline; padding: 24px 0 8px; border-bottom: 1px solid var(--tinta); }
+.n-mini { font: 600 11px/14px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--grafite); border: 1px solid var(--pauta); border-radius: 2px; padding: 0 4px; margin-left: 8px; vertical-align: 1px; }
+.menu-group + .menu-group { margin-top: 24px; }
+.menu-group > .n-rot { display: block; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.menu-row { display: flex; align-items: center; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--pauta); }
+.menu-row .v { color: var(--grafite); font-size: 14px; }
+.profile { display: flex; align-items: center; gap: 16px; padding: 16px 0 24px; }
+.mono { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--tinta); display: grid; place-items: center; font: 500 18px/1 var(--serif); flex: none; }
+
+/* Folha de confirmação (modal) */
+.sheet-stage { position: relative; height: 470px; max-width: 390px; border: 1px solid var(--pauta); border-radius: 6px; overflow: hidden; background: var(--papel); }
+.sheet-stage .bg { padding: 0 24px; }
+.scrim { position: absolute; inset: 0; background: rgba(30, 31, 28, .42); animation: fadein .18s ease-out both; }
+.sheet { position: absolute; left: 0; right: 0; bottom: 0; background: var(--folha); border-radius: 16px 16px 0 0; padding: 8px 24px 24px; box-shadow: 0 -12px 32px -16px rgba(30, 31, 28, .45); animation: up .24s var(--curva) both; }
+.sheet .handle { display: block; width: 36px; height: 4px; border-radius: 2px; background: var(--pauta); margin: 0 auto 16px; }
+.sheet p { margin-top: 8px; }
+.sheet-btns { display: grid; gap: 8px; margin-top: 24px; }
+@keyframes up { from { transform: translateY(100%); } }
+.replay { margin-top: 16px; }
+
+/* ============ Micro-interações ============ */
+.motion { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); gap: 96px 64px; }
+.motion h3 { font: 500 24px/1.2 var(--serif); }
+.motion .how { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 4px 12px; margin-top: 12px; font-size: 14px; }
+.motion .how dt { color: var(--grafite); }
+.demo { margin-top: 24px; padding: 24px; background: var(--folha); border: 1px solid var(--pauta); border-radius: 6px; }
+.demo.flat { background: var(--papel); }
+.sk { display: grid; gap: 0; }
+.sk-row { display: flex; gap: 16px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--pauta); }
+.sk-row div { flex: 1; display: grid; gap: 8px; }
+.sk i { display: block; height: 10px; border-radius: 2px; background: var(--pauta); animation: pulse 1.2s ease-in-out infinite; }
+.sk-row:nth-child(2) i { animation-delay: .15s; }
+.sk-row:nth-child(3) i { animation-delay: .3s; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
+.mic-demo { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 4px; }
+.n-mic.is-rec { background: var(--tijolo); }
+.n-mic.is-rec .up { display: block; }
+.n-mic.is-rec .down { display: none; }
+.n-mic.is-rec::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--tijolo); animation: ring 1.4s ease-out infinite; }
+@keyframes ring { from { transform: scale(1); opacity: .8; } to { transform: scale(1.5); opacity: 0; } }
+.budget-demo { display: grid; gap: 8px; }
+.budget-demo .bar i { animation: none; transition: width .45s var(--curva), background-color .2s ease-out; }
+.budget-demo .n-cap { transition: color .2s ease-out; }
+.row-btns { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
+
+/* ============ 08 Arquivos ============ */
+.files { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 64px; }
+.files h4 { font: 500 22px/1.25 var(--serif); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.files li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
+.files li code { font-size: 13px; }
+.files li span { display: block; color: var(--grafite); font-size: 14px; margin-top: 4px; }
+.steps { counter-reset: s; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 24px 40px; margin-top: 64px; }
+.steps li { list-style: none; counter-increment: s; padding-top: 12px; border-top: 1px solid var(--tinta); }
+.steps li::before { content: "Etapa " counter(s); display: block; font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); margin-bottom: 8px; }
+.steps b { display: block; font: 500 19px/1.3 var(--serif); margin-bottom: 4px; }
+.steps span { font-size: 15px; color: var(--grafite); }
+.foot { padding: 40px 0 64px; border-top: 1px solid var(--tinta); color: var(--grafite); font-size: 14px; }
+
+/* ============ Contraste e diretrizes ============ */
+.pairsw { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 32px; border-radius: 4px; font: 600 14px/1 var(--sans); box-shadow: inset 0 0 0 1px rgba(30, 31, 28, .12); vertical-align: middle; }
+.pairsw.line { font-size: 0; }
+.pairsw.line::after { content: ""; width: 32px; height: 4px; border-radius: 2px; background: var(--fg); }
+table.ledger td.c { width: 72px; }
+.min { color: var(--grafite); font-size: 14px; white-space: nowrap; }
+.adj { font: 600 11px/16px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--musgo); white-space: nowrap; }
+.checklist { counter-reset: c; }
+.checklist li { list-style: none; counter-increment: c; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 16px 0; border-bottom: 1px solid var(--pauta); }
+.checklist li::before { content: counter(c, decimal-leading-zero); font: 500 14px/24px var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; }
+.checklist b { font-weight: 600; }
+.checklist span { color: var(--grafite); }
+table.ledger.copy td:first-child { white-space: normal; width: 30%; }
+table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
+.versions td:first-child { width: 96px; }
+
+/* ============ Ícones (1.2) ============ */
+/* Ícone de categoria: na cor dela (style="color:…"), numa coluna fixa de 24 à esquerda. */
+.ci { width: 24px; flex: none; display: flex; align-items: center; justify-content: center; color: var(--grafite); }
+.ci .i { width: 20px; height: 20px; }
+.ci.sm { width: 18px; }
+.ci.sm .i { width: 18px; height: 18px; }
+.ci.xs { width: 16px; }
+.ci.xs .i { width: 16px; height: 16px; }
+.n-nm { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.with-icon { display: inline-flex; align-items: center; gap: 8px; }
+.icon-btn { width: 44px; height: 44px; margin: -10px -10px -10px 0; display: grid; place-items: center; background: none; border: 0; color: var(--tinta); border-radius: 6px; cursor: pointer; transition: background-color .15s; }
+.icon-btn:hover { background: var(--papel-escuro); }
+.icon-btn .i { width: 24px; height: 24px; }
+.btn .i { width: 18px; height: 18px; }
+.empty-icon { width: 32px; height: 32px; color: var(--grafite); margin-bottom: 12px; }
+.n-overdue .ci { color: var(--tijolo); }
+.icon-sizes { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; }
+.icon-sizes figure { display: grid; gap: 8px; justify-items: center; }
+.icon-sizes figcaption { font-size: 13px; color: var(--grafite); text-align: center; }
+.icon-places { counter-reset: p; }
+.icon-places li { list-style: none; counter-increment: p; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
+.icon-places li::before { content: counter(p, decimal-leading-zero); color: var(--grafite); font-variant-numeric: tabular-nums; }
+.icon-places b { font-weight: 600; }
+/* A marca (1.5): o ícone em vários tamanhos, a versão de uma cor e a splash. */
+.brand-row { display: flex; flex-wrap: wrap; gap: 32px; align-items: flex-end; }
+.brand-row figure { display: grid; gap: 8px; justify-items: center; }
+.brand-row figcaption { font-size: 13px; color: var(--grafite); text-align: center; }
+.brand-icon { display: block; overflow: hidden; border-radius: 22.4%; }
+.brand-icon svg { width: 100%; height: 100%; display: block; }
+.brand-small { display: flex; gap: 16px; align-items: flex-end; padding: 16px; border-radius: 16px; background: #232a28; }
+.brand-mono { width: 96px; height: 96px; border-radius: 50%; background: #E8E2F0; color: #4A3F63; display: grid; place-items: center; }
+.brand-mono svg { width: 82px; height: 82px; }
+.brand-splash { width: 150px; height: 300px; border: 6px solid #161714; border-radius: 26px; background: var(--papel); display: grid; place-items: center; }
+.brand-specs { margin-top: 40px; }
+/* Grade de categorias (1.3): 4 colunas, o ícone colorido em cima e o nome embaixo. */
+.cat-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; max-width: 390px; }
+.cat-cell { display: grid; justify-items: center; align-content: center; gap: 4px; min-height: 64px; padding: 8px 2px; border: 1px solid transparent; border-radius: 6px; background: none; cursor: pointer; text-align: center; transition: background-color .15s, border-color .15s; }
+.cat-cell:hover { background: var(--papel-escuro); }
+.cat-cell .ci .i { width: 24px; height: 24px; }
+.cat-cell > span:last-child { font: 500 12px/14px var(--sans); color: var(--tinta); }
+.cat-cell[aria-pressed="true"] { border-color: var(--musgo); background: var(--musgo-claro); }
+.cat-cell[aria-pressed="true"] > span:last-child { color: var(--musgo); }
+.cat-cell.more > span:last-child { color: var(--grafite); }
+.form-footer { margin-top: 8px; padding-top: 12px; border-top: 1px solid var(--pauta); max-width: 390px; }
+/* Entrada (1.4): o passo do cadastro, as marcas da senha e o aviso de "em análise". */
+.auth-step { display: grid; gap: 8px; max-width: 390px; }
+.auth-step .bars { display: flex; gap: 4px; }
+.auth-step .bars i { flex: 1; height: 3px; border-radius: 2px; background: var(--pauta); }
+.auth-step .bars i.on { background: var(--tinta); }
+.pw-checks { display: flex; flex-wrap: wrap; gap: 4px 12px; }
+.pw-checks span { display: inline-flex; align-items: center; gap: 4px; font: 400 13px/18px var(--sans); color: var(--grafite); }
+.pw-checks span.ok { color: var(--musgo); }
+.pw-checks .i { width: 16px; height: 16px; }
+.pw-checks .todo { width: 16px; height: 16px; display: grid; place-items: center; }
+.pw-checks .todo::after { content: ""; width: 8px; height: 8px; border: 1.5px solid var(--lapis); border-radius: 50%; }
+.wait-notice { display: flex; gap: 8px; padding: 8px 0 8px 12px; border-left: 2px solid var(--mostarda-escura); max-width: 390px; }
+.wait-notice .i { width: 18px; height: 18px; color: var(--mostarda-escura); }
+/* Primeiros passos e tour (1.7): as marcas de estado, a linha do Início e o recorte do tour. */
+.ob-mark { width: 24px; height: 24px; flex: none; display: grid; place-items: center; }
+.ob-mark.todo::before { content: ""; width: 20px; height: 20px; border: 1.5px solid var(--borda); border-radius: 4px; }
+.ob-mark.done { color: var(--musgo); }
+.ob-mark.done .i { width: 22px; height: 22px; stroke-width: 2; }
+.ob-mark.skip::before { content: ""; width: 12px; height: 2px; background: var(--lapis); border-radius: 1px; }
+.ob-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--pauta); max-width: 390px; }
+.ob-row.is-done b, .ob-row.is-skip b { color: var(--grafite); font-weight: 400; }
+.ob-steps { display: flex; align-items: center; gap: 12px; padding: 10px 0 10px 12px; border-left: 2px solid var(--musgo); max-width: 390px; }
+.ob-steps .bar { margin: 6px 0 2px; }
+.ob-tour { position: relative; max-width: 390px; height: 330px; border-radius: 6px; overflow: hidden; background: var(--papel); }
+.ob-tour::before { content: ""; position: absolute; left: 112px; top: 24px; width: 166px; height: 136px; border-radius: 10px; box-shadow: 0 0 0 600px rgba(30, 31, 28, .72); }
+.ob-tour .mic { position: absolute; left: 159px; top: 36px; width: 72px; height: 72px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; }
+.ob-tour .mic .i { width: 28px; height: 28px; }
+.ob-tour .mic-label { position: absolute; left: 112px; width: 166px; top: 118px; text-align: center; }
+.ob-tour .tip { position: absolute; left: 16px; right: 16px; top: 176px; background: var(--folha); border-radius: 6px; padding: 14px 16px 16px; display: grid; gap: 8px; }
+.ob-tour .tip::after { content: ""; position: absolute; left: 50%; top: -7px; width: 14px; height: 14px; margin-left: -7px; background: var(--folha); transform: rotate(45deg); }
+.ob-dots { display: flex; gap: 4px; }
+.ob-dots i { width: 14px; height: 2px; border-radius: 1px; background: var(--pauta); }
+.ob-dots i.on { background: var(--tinta); }
+
+/* ============ Telas pequenas ============ */
+@media (max-width: 720px) {
+  .part-head { grid-template-columns: 1fr; gap: 8px; margin-bottom: 40px; }
+  .part-num { padding-top: 0; }
+  .type-row { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 480px) {
+  .wrap { padding: 0 16px; }
+  .doc-head { padding-top: 40px; }
+  .part { padding: 40px 0 64px; }
+  .block + .block { margin-top: 64px; }
+  .t-display { font-size: 34px; line-height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="marca-icone" viewBox="0 0 1024 1024">
+    <path fill="#2C5440" d="M0 0L1024 0L1024 1024L0 1024Z"/>
+  <path fill="#1E1F1C" d="M800 0L860 0L860 1024L800 1024Z"/>
+  <path fill="#F4F0E8" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/>
+  <path fill="#F4F0E8" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/>
+  <path fill="#F4F0E8" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/>
+  </symbol>
+  <symbol id="marca-icone-uma-cor" viewBox="0 0 1024 1024">
+    <path fill="currentColor" d="M800 0L860 0L860 1024L800 1024Z"/>
+  <path fill="currentColor" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/>
+  <path fill="currentColor" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/>
+  <path fill="currentColor" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/>
+  </symbol>
+</svg>
+
+<!-- Desenhos dos ícones (lucide, o mesmo pacote do app) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="mic" viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></symbol>
+  <symbol id="plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
+  <symbol id="chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
+  <symbol id="chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
+  <symbol id="chev-d" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  <symbol id="house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
+  <symbol id="msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
+  <symbol id="pie" viewBox="0 0 24 24"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></symbol>
+  <symbol id="cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
+  <symbol id="checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
+  <symbol id="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
+  <symbol id="alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
+  <symbol id="receipt" viewBox="0 0 24 24"><path d="M4 2v20l2-1 2 1 2-1 2 1 2-1 2 1 2-1 2 1V2l-2 1-2-1-2 1-2-1-2 1-2-1-2 1Z"/><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"/><path d="M12 17.5v-11"/></symbol>
+  <symbol id="trash" viewBox="0 0 24 24"><path d="M3 6h18"/><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"/><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"/><path d="M10 11v6"/><path d="M14 11v6"/></symbol>
+  <symbol id="bell" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"/></symbol>
+  <symbol id="cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
+  <symbol id="utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2"/><path d="M7 2v20"/><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7"/></symbol>
+  <symbol id="bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5"/><circle cx="5.5" cy="17.5" r="3.5"/><circle cx="15" cy="5" r="1"/><path d="M12 17.5V14l-3-3 4-3 2 3h2"/></symbol>
+  <symbol id="car" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><path d="M9 17h6"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="zap" viewBox="0 0 24 24"><path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/></symbol>
+  <symbol id="heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></symbol>
+  <symbol id="ticket" viewBox="0 0 24 24"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z"/><path d="M13 5v2"/><path d="M13 17v2"/><path d="M13 11v2"/></symbol>
+  <symbol id="bag" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></symbol>
+  <symbol id="repeat" viewBox="0 0 24 24"><path d="m17 2 4 4-4 4"/><path d="M3 11v-1a4 4 0 0 1 4-4h14"/><path d="m7 22-4-4 4-4"/><path d="M21 13v1a4 4 0 0 1-4 4H3"/></symbol>
+  <symbol id="trending" viewBox="0 0 24 24"><path d="M22 7 13.5 15.5 8.5 10.5 2 17"/><path d="M16 7h6v6"/></symbol>
+  <symbol id="card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2"/><path d="M2 10h20"/></symbol>
+  <symbol id="target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  <symbol id="chart" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></symbol>
+  <symbol id="users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></symbol>
+  <symbol id="shapes" viewBox="0 0 24 24"><path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/></symbol>
+  <symbol id="key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5"/></symbol>
+  <symbol id="logout" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
+  <symbol id="undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></symbol>
+  <symbol id="pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
+  <symbol id="grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
+  <symbol id="more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+</svg>
+
+<!-- ======================= Cabeçalho ======================= -->
+<header class="doc-head wrap">
+  <div class="doc-meta">
+    <span class="rotulo">Caderneta · guia de design</span>
+    <span class="rotulo">Versão 1.11 · 27 de outubro de 2026</span>
+    <span class="rotulo">Aprovado</span>
+  </div>
+  <h1 class="doc-title">Caderneta</h1>
+  <p class="doc-lead">Um app de contas da casa deveria lembrar o caderno onde a família sempre anotou o dinheiro, e não um painel de corretora. Por isso o app usa papel claro, tinta escura, uma pauta fina entre as linhas e números alinhados como num livro-caixa. A cor só aparece quando quer dizer alguma coisa.</p>
+  <p class="doc-note">Este documento é a referência visual do app. Toda tela nova ou alterada segue o que está aqui. Quando uma diretriz precisar mudar, ela muda primeiro neste guia e entra no registro de versões, no fim da página.</p>
+
+  <h2 class="rotulo decide-head">Decisões aprovadas e por quê</h2>
+  <ol class="decide">
+    <li><b>Tema claro, cor de papel</b><span>Sai o fundo quase preto com verde neon. Papel e tinta dão a cara de caderno de contas e se leem melhor de dia, quando a maioria dos gastos é lançada. O tema escuro pode voltar como opção, e os tokens já ficam prontos para isso.</span></li>
+    <li><b>Fraunces e IBM Plex Sans</b><span>A serifada dá personalidade aos títulos e aos valores grandes. A sem serifa é legível em tamanho pequeno e alinha as colunas de R$. A Inter sai.</span></li>
+    <li><b>Ícones como num Kindle</b><span>Ícones de traço fino, todos da mesma família, para achar cada coisa de relance: nas abas, nas linhas, nos menus, no topo das fichas e nos botões de ação. Sempre ao lado de uma palavra e nunca dentro de um quadrado colorido.</span></li>
+    <li><b>A categoria tem ícone e cor</b><span>O ícone da categoria aparece na cor dela, num tom de pigmento apagado, e deixa o app mais vivo sem gritar. As 14 cores neon viram 14 tons terrosos de claridade parecida. Uma migration converte as categorias e os cartões que já existem.</span></li>
+    <li><b>Confirmação numa folha do app</b><span>Apagar e limpar a conversa ganham uma folha que sobe perto do polegar e diz o que acontece com os números. Os avisos de erro continuam no alerta do sistema.</span></li>
+  </ol>
+
+  <nav class="toc" aria-label="Partes">
+    <a href="#diagnostico"><span>01</span>Diagnóstico</a>
+    <a href="#paleta"><span>02</span>Paleta</a>
+    <a href="#tipografia"><span>03</span>Tipografia</a>
+    <a href="#espaco"><span>04</span>Espaço e forma</a>
+    <a href="#telas"><span>05</span>Antes e depois</a>
+    <a href="#componentes"><span>06</span>Componentes</a>
+    <a href="#movimento"><span>07</span>Micro-interações</a>
+    <a href="#arquivos"><span>08</span>Implementação</a>
+    <a href="#diretrizes"><span>09</span>Diretrizes</a>
+    <a href="#versoes"><span>10</span>Versões</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ======================= 01 Diagnóstico ======================= -->
+<section class="part" id="diagnostico">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">01</span>
+      <div>
+        <h2>O que existe hoje</h2>
+        <p>O levantamento que deu origem a este guia cobriu as 40 telas de <code>mobile/src/app</code> e os componentes de <code>mobile/src/components</code>, no visual anterior ao redesign. Todo o visual sai de um arquivo só, <code>theme/tokens.ts</code>, então trocar a base muda quase tudo de uma vez.</p>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="block-head"><h3>Telas</h3><p>40 no app, mais 2 páginas web do backend</p></div>
+        <table class="ledger">
+          <thead><tr><th>Grupo</th><th>Telas</th><th class="n">Qtd.</th></tr></thead>
+          <tbody>
+            <tr><td>Abas</td><td>Início, Chat, Resumo, Agenda (Contas, Cartões e Lembretes), Lista</td><td class="n">5</td></tr>
+            <tr><td>Lançamentos</td><td>lista com filtros, novo, editar</td><td class="n">3</td></tr>
+            <tr><td>Contas fixas</td><td>nova, detalhe, editar, pagar</td><td class="n">4</td></tr>
+            <tr><td>Cartões</td><td>novo, fatura, editar</td><td class="n">3</td></tr>
+            <tr><td>Orçamentos</td><td>todos, limite de uma categoria</td><td class="n">2</td></tr>
+            <tr><td>Categorias</td><td>lista, nova, editar</td><td class="n">3</td></tr>
+            <tr><td>Receitas, lembretes, listas</td><td>nova e editar receita fixa; novo e editar lembrete; nova lista, editar lista, item</td><td class="n">7</td></tr>
+            <tr><td>Configurações</td><td>início, perfil, senha, casa, suas casas, nova casa, entrar com código, membro, avisos</td><td class="n">9</td></tr>
+            <tr><td>Entrada</td><td>entrar, criar conta, esqueci a senha, convite</td><td class="n">4</td></tr>
+          </tbody>
+          <tfoot><tr><td>Total</td><td>Mais o e-mail de acesso e a página de aprovação (Blade)</td><td class="n">40</td></tr></tfoot>
+        </table>
+      </div>
+
+      <div>
+        <div class="block-head"><h3>Componentes que se repetem</h3></div>
+        <div class="comp-list">
+          <div><b>Base (16)</b><span>Text, Button, Card, Chip, TextField, Field, SegmentedControl, ToggleRow, ProgressBar, LinkRow, SectionHeader, Header, Screen, EmptyState, Stepper, CompactMoneyInput</span></div>
+          <div><b>Linhas de lista, a "tabela" do app</b><span>TransactionRow, BillRow, ListItemRow, SettingsRow, todas com o CategoryIcon (quadrado colorido com ícone)</span></div>
+          <div><b>Formulários (8) e seletores (9)</b><span>Lançamento, conta, cartão, categoria, lista, item, lembrete, receita fixa. Seletores de categoria, cor, ícone, pagamento, dia, data, hora, valor e mês.</span></div>
+          <div><b>Chat</b><span>MessageItem, Composer e 12 cards: conferir lançamentos, editar, pagar conta, apagar, feito, gráfico e 5 avisos</span></div>
+          <div><b>Menus</b><span>Barra de 5 abas, menu de Configurações, SegmentedControl da Agenda e as pílulas das Listas</span></div>
+          <div><b>Modais</b><span><code>Alert.alert</code> do sistema para confirmar apagar ou limpar e para mostrar erros</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><h3>Problemas visuais</h3><p>Com o arquivo e o valor de onde cada um vem</p></div>
+      <div class="problems">
+        <div class="problem">
+          <h4>Hierarquia confusa</h4>
+          <ul>
+            <li>Quase todo texto fica entre 12 e 14 px (corpo 14, label 13, legenda 12). O nome de um gasto, o valor e o título de uma seção têm quase o mesmo peso.</li>
+            <li>Os títulos de seção são rótulos cinza de 11 px em caixa alta ("ORÇAMENTOS"). O título da seção acaba sendo o menor texto dela.</li>
+            <li>No Resumo, o saldo (28 px) disputa a atenção com seis cartões iguais logo abaixo.</li>
+          </ul>
+        </div>
+        <div class="problem">
+          <h4>Espaçamento irregular</h4>
+          <ul>
+            <li>A escala 4/8/12/16/24/32 existe, mas o código usa <code>space.sm + 2</code>, <code>paddingVertical: 6</code>, <code>gap: 2</code> e <code>gap: 3</code> em vários lugares.</li>
+            <li>Com margem lateral de 16 px, linhas de 10 px de respiro e cartão colado em cartão, as telas ficam apertadas.</li>
+          </ul>
+        </div>
+        <div class="problem">
+          <h4>Cores sem critério</h4>
+          <ul>
+            <li>O verde <code>#3DD68C</code> faz cinco papéis: botão principal, receita, "paga", barra de orçamento normal e cor da categoria Mercado.</li>
+            <li>Os links usam azul (<code>#4C8DFF</code>), uma terceira cor de destaque que só aparece ali.</li>
+            <li>São 14 cores neon de categoria. O Resumo de outubro mostra até 10 cores diferentes na mesma tela.</li>
+            <li><code>rgba(61, 214, 140, 0.08)</code> está escrito à mão em 4 arquivos, e o <code>CardForm</code> tem a própria lista de cores.</li>
+          </ul>
+        </div>
+        <div class="problem">
+          <h4>Excesso de ícones e de caixas</h4>
+          <ul>
+            <li>Todo lançamento, conta e categoria tem um quadrado colorido de 34 px com ícone que repete o texto ao lado (carrinho + "Mercado").</li>
+            <li>Tudo fica dentro de <code>Card</code> (borda e raio de 16). As seções viram uma pilha de caixas iguais, e no chat aparecem cards dentro da conversa ao lado de balões.</li>
+            <li>Há ícone ao lado de cada link (recibo verde em "Todos os lançamentos") e um sininho antes de cada aviso.</li>
+          </ul>
+        </div>
+        <div class="problem">
+          <h4>Baixa legibilidade</h4>
+          <ul>
+            <li>O texto "faint" (<code>#6B7280</code>) sobre <code>#0B0D10</code> tem contraste de cerca de 4:1, abaixo dos 4,5:1 recomendados. Ele é usado em legendas de 12 px e em horários de 10 px.</li>
+            <li>O corpo de 14 px fica pequeno para ler valores e as frases do assistente.</li>
+            <li>Só a linha de lançamento usa algarismos de mesma largura. Nas outras listas, as colunas de R$ não alinham.</li>
+          </ul>
+        </div>
+        <div class="problem">
+          <h4>Cara de app gerado</h4>
+          <ul>
+            <li>Fundo quase preto, verde neon, cartões arredondados com borda e um botão com anéis de brilho: é o visual mais comum de app feito às pressas. Nada nele lembra uma casa ou dinheiro do dia a dia.</li>
+            <li>O "$" num quadrado verde, no topo do chat, faz as vezes de logo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 02 Paleta ======================= -->
+<section class="part" id="paleta">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">02</span>
+      <div>
+        <h2>Paleta</h2>
+        <p>Fundo de papel, texto de tinta e só duas cores de destaque. O Musgo marca ações e dinheiro que entra. A Mostarda marca o que pede atenção. O Tijolo é o erro. Nenhuma cor aparece sem função, e todos os textos passam de 4,5:1 sobre o fundo.</p>
+      </div>
+    </div>
+
+    <div class="pal-group">
+      <span class="rotulo">Base</span>
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#F4F0E8"></div><b>Papel</b><span class="hex">#F4F0E8</span><p>Fundo de todas as telas.</p></div>
+        <div class="sw"><div class="chip" style="background:#FBF9F4"></div><b>Folha</b><span class="hex">#FBF9F4</span><p>Campos, fichas do chat e folha de confirmação: o que fica "por cima" do papel, sem sombra.</p></div>
+        <div class="sw"><div class="chip" style="background:#DCD5C6"></div><b>Pauta</b><span class="hex">#DCD5C6</span><p>Divisórias de 1 px entre as linhas e borda das fichas. Nunca é o único contorno de algo que se toca.</p><span class="ratio">1,4:1, só decorativa</span></div>
+        <div class="sw"><div class="chip" style="background:#8F8778"></div><b>Borda de campo</b><span class="hex">#8F8778</span><p>Contorno de tudo que se toca e não tem fundo próprio: campos, tags e o interruptor desligado.</p><span class="ratio">3,1:1 sobre o Papel</span></div>
+        <div class="sw"><div class="chip" style="background:#1E1F1C"><span style="color:#F4F0E8">Aa</span></div><b>Tinta</b><span class="hex">#1E1F1C</span><p>Texto principal, botão principal e traço sob o título de cada seção.</p><span class="ratio">14,5:1 sobre o Papel</span></div>
+        <div class="sw"><div class="chip" style="background:#5F5B52"><span style="color:#F4F0E8">Aa</span></div><b>Grafite</b><span class="hex">#5F5B52</span><p>Legendas, datas e detalhes ("Mercado · Pix").</p><span class="ratio">5,9:1 sobre o Papel</span></div>
+        <div class="sw"><div class="chip" style="background:#6F6A60"><span style="color:#F4F0E8">Aa</span></div><b>Lápis</b><span class="hex">#6F6A60</span><p>Texto de exemplo dentro do campo, a seta "›" e o texto de item desabilitado.</p><span class="ratio">4,7:1 sobre o Papel (era #8A8478, 3,3:1)</span></div>
+      </div>
+    </div>
+
+    <div class="pal-group">
+      <span class="rotulo">Destaques (só dois)</span>
+      <div class="swatches">
+        <div class="sw"><div class="chip" style="background:#2C5440"><span style="color:#F4F0E8">Aa</span></div><b>Musgo</b><span class="hex">#2C5440</span><p>Destaque 1. Links, item escolhido, foco, barra de orçamento dentro do limite e dinheiro que entra.</p><span class="ratio">7,5:1 sobre o Papel</span></div>
+        <div class="sw"><div class="chip" style="background:#D9A53A"><span style="color:#1E1F1C">Aa</span></div><b>Mostarda</b><span class="hex">#D9A53A</span><p>Destaque 2. Marca o que pede atenção. Na versão clara aparece só como fundo de texto Tinta, como o número de avisos nas abas. Em texto e nas barras, usa a versão escura (Atenção, abaixo).</p><span class="ratio">Tinta sobre Mostarda: 7,4:1</span></div>
+      </div>
+    </div>
+
+    <div class="pal-group">
+      <span class="rotulo">Estados</span>
+      <div class="swatches">
+        <div class="sw"><div class="chip duo" style="display:flex"><i style="background:#2C5440"></i><i style="background:#E1E9DF"></i></div><b>Sucesso</b><span class="hex">#2C5440 · #E1E9DF</span><p>Confirmado, paga, dentro do limite. Usa o próprio Musgo, porque dinheiro que entra e "deu certo" são a mesma ideia.</p><span class="ratio">6,9:1 sobre o fundo claro</span></div>
+        <div class="sw"><div class="chip duo" style="display:flex"><i style="background:#7F5A0C"></i><i style="background:#F5E8C8"></i></div><b>Atenção</b><span class="hex">#7F5A0C · #F5E8C8</span><p>Texto de atenção ("Restam R$ 115,70 · 85% usado") e barra de orçamento a partir de 80%. É a versão legível da Mostarda.</p><span class="ratio">5,5:1 sobre o Papel; 4,3:1 sobre a Pauta</span></div>
+        <div class="sw"><div class="chip duo" style="display:flex"><i style="background:#A63A25"></i><i style="background:#F3DFD7"></i></div><b>Erro</b><span class="hex">#A63A25 · #F3DFD7</span><p>Conta atrasada, orçamento estourado, campo inválido e botão de apagar.</p><span class="ratio">5,7:1 sobre o Papel</span></div>
+        <div class="sw"><div class="chip" style="background:#ECE6DA"></div><b>Pressionado</b><span class="hex">#ECE6DA</span><p>Fundo da linha enquanto o dedo está nela.</p></div>
+      </div>
+    </div>
+
+    <div class="pal-group" id="contraste">
+      <span class="rotulo">Contraste medido (WCAG 2.2, nível AA)</span>
+      <p class="lede">Texto precisa de pelo menos 4,5:1. Ícones, contornos de controle e barras precisam de 3:1. Os quatro pares marcados como "ajustado" mudaram na versão 1.1 para passar desses mínimos, sem sair da paleta. A Pauta e a Mostarda clara ficam abaixo de 3:1 de propósito: são decorativas, e a informação sempre aparece também no texto ao lado. O ícone de categoria vai de 2,6:1 a 5,5:1 (tabela das cores de categoria, abaixo). Ele complementa o nome da categoria, que está sempre ao lado.</p>
+      <table class="ledger">
+        <thead><tr><th>Par</th><th>Onde aparece</th><th class="n">Contraste</th><th class="n">Mínimo</th></tr></thead>
+        <tbody>
+          <tr><td class="c"><span class="pairsw" style="background:#F4F0E8;color:#1E1F1C">Aa</span></td><td>Tinta sobre Papel: texto principal e valores</td><td class="n">14,6:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#F4F0E8;color:#5F5B52">Aa</span></td><td>Grafite sobre Papel: legendas, datas, ícones e nomes das abas</td><td class="n">5,9:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#ECE6DA;color:#5F5B52">Aa</span></td><td>Grafite sobre Pressionado: legenda com o dedo na linha</td><td class="n">5,4:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#FBF9F4;color:#6F6A60">Aa</span></td><td>Lápis sobre Folha: texto de exemplo nos campos <span class="adj">· ajustado</span></td><td class="n">5,1:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#F4F0E8;color:#2C5440">Aa</span></td><td>Musgo sobre Papel: links e receitas</td><td class="n">7,5:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#E1E9DF;color:#2C5440">Aa</span></td><td>Musgo sobre Musgo claro: tag escolhida</td><td class="n">6,9:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#FBF9F4;color:#7F5A0C">Aa</span></td><td>Atenção sobre Folha: rótulo de aviso nas fichas</td><td class="n">5,9:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#F4F0E8;color:#A63A25">Aa</span></td><td>Tijolo sobre Papel: atrasada, estourou, erro de campo</td><td class="n">5,7:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#1E1F1C;color:#F4F0E8">Aa</span></td><td>Papel sobre Tinta: botão principal e microfone</td><td class="n">14,6:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#A63A25;color:#FFFFFF">Aa</span></td><td>Branco sobre Tijolo: botão de apagar</td><td class="n">6,5:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#D9A53A;color:#1E1F1C">2</span></td><td>Tinta sobre Mostarda: número de avisos nas abas</td><td class="n">7,4:1</td><td class="n min">4,5</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#FBF9F4;box-shadow:inset 0 0 0 1px #8F8778"></span></td><td>Borda de campo sobre Folha: contorno de campos e tags <span class="adj">· ajustado</span></td><td class="n">3,4:1</td><td class="n min">3</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#8F8778;border-radius:16px"></span></td><td>Borda de campo sobre Papel: interruptor desligado <span class="adj">· ajustado</span></td><td class="n">3,1:1</td><td class="n min">3</td></tr>
+          <tr><td class="c"><span class="pairsw line" style="background:#DCD5C6;--fg:#2C5440"></span></td><td>Musgo sobre Pauta: barra de orçamento dentro do limite</td><td class="n">5,9:1</td><td class="n min">3</td></tr>
+          <tr><td class="c"><span class="pairsw line" style="background:#DCD5C6;--fg:#7F5A0C"></span></td><td>Atenção sobre Pauta: barra a partir de 80% <span class="adj">· ajustado</span></td><td class="n">4,3:1</td><td class="n min">3</td></tr>
+          <tr><td class="c"><span class="pairsw line" style="background:#DCD5C6;--fg:#A63A25"></span></td><td>Tijolo sobre Pauta: barra estourada</td><td class="n">4,4:1</td><td class="n min">3</td></tr>
+          <tr><td class="c"><span class="pairsw" style="background:#F4F0E8;box-shadow:inset 0 0 0 2px #2C5440"></span></td><td>Musgo sobre Papel: contorno de foco</td><td class="n">7,5:1</td><td class="n min">3</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pal-group">
+      <span class="rotulo">Cores de categoria: de neon para pigmento</span>
+      <p class="lede">Cada cor antiga vira um tom da mesma família, com claridade parecida, para que nenhuma grite mais que as outras. A cor pinta o ícone da categoria nas linhas, nos orçamentos e nas fichas, e nunca vira fundo. A troca é de um para um, então a migration converte as categorias e os cartões que já existem sem perguntar nada a ninguém. Contraste do ícone sobre o Papel, do mais claro ao mais escuro: Açafrão 2,6:1, Canela 3,0:1, Oliva 3,3:1, Rosa-argila 3,6:1; os outros dez, de 3,9:1 a 5,5:1.</p>
+      <div class="cat-map">
+        <div class="cm"><span class="old"><i style="background:#3DD68C"></i></span><span class="arrow">→</span><span class="new" style="background:#4F7F4F"></span><span><b>Louro</b><small>Mercado, Salário</small></span><span class="hex">#4F7F4F</span></div>
+        <div class="cm"><span class="old"><i style="background:#2DD4BF"></i></span><span class="arrow">→</span><span class="new" style="background:#3A8577"></span><span><b>Verde-água</b><small>Educação</small></span><span class="hex">#3A8577</span></div>
+        <div class="cm"><span class="old"><i style="background:#22D3EE"></i></span><span class="arrow">→</span><span class="new" style="background:#357A8F"></span><span><b>Petróleo</b><small>Lazer</small></span><span class="hex">#357A8F</span></div>
+        <div class="cm"><span class="old"><i style="background:#4C8DFF"></i></span><span class="arrow">→</span><span class="new" style="background:#4A6A9A"></span><span><b>Ardósia</b><small>Transporte, Renda extra</small></span><span class="hex">#4A6A9A</span></div>
+        <div class="cm"><span class="old"><i style="background:#818CF8"></i></span><span class="arrow">→</span><span class="new" style="background:#5A5A9A"></span><span><b>Índigo</b><small>Assinaturas</small></span><span class="hex">#5A5A9A</span></div>
+        <div class="cm"><span class="old"><i style="background:#A78BFA"></i></span><span class="arrow">→</span><span class="new" style="background:#7E5490"></span><span><b>Ameixa</b><small>Moradia, cartão Nubank</small></span><span class="hex">#7E5490</span></div>
+        <div class="cm"><span class="old"><i style="background:#C084FC"></i></span><span class="arrow">→</span><span class="new" style="background:#9A4A72"></span><span><b>Vinho</b><small>Pets</small></span><span class="hex">#9A4A72</span></div>
+        <div class="cm"><span class="old"><i style="background:#F472B6"></i></span><span class="arrow">→</span><span class="new" style="background:#B5677E"></span><span><b>Rosa-argila</b><small>Saúde</small></span><span class="hex">#B5677E</span></div>
+        <div class="cm"><span class="old"><i style="background:#F87171"></i></span><span class="arrow">→</span><span class="new" style="background:#B9553A"></span><span><b>Telha</b><small>Delivery</small></span><span class="hex">#B9553A</span></div>
+        <div class="cm"><span class="old"><i style="background:#FB923C"></i></span><span class="arrow">→</span><span class="new" style="background:#C27A3A"></span><span><b>Canela</b><small>Compras, cartão Inter</small></span><span class="hex">#C27A3A</span></div>
+        <div class="cm"><span class="old"><i style="background:#F5B94A"></i></span><span class="arrow">→</span><span class="new" style="background:#B8902F"></span><span><b>Açafrão</b><small>Alimentação</small></span><span class="hex">#B8902F</span></div>
+        <div class="cm"><span class="old"><i style="background:#FACC15"></i></span><span class="arrow">→</span><span class="new" style="background:#7F8A3A"></span><span><b>Oliva</b><small>Contas da casa</small></span><span class="hex">#7F8A3A</span></div>
+        <div class="cm"><span class="old"><i style="background:#A3E635"></i></span><span class="arrow">→</span><span class="new" style="background:#8A6A50"></span><span><b>Castanho</b><small>livre para escolher</small></span><span class="hex">#8A6A50</span></div>
+        <div class="cm"><span class="old"><i style="background:#9AA1AB"></i></span><span class="arrow">→</span><span class="new" style="background:#7D786D"></span><span><b>Pedra</b><small>Outros</small></span><span class="hex">#7D786D</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 03 Tipografia ======================= -->
+<section class="part" id="tipografia">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">03</span>
+      <div>
+        <h2>Tipografia</h2>
+        <p>São duas famílias, cada uma com um trabalho. No app elas entram pelos pacotes <code>@expo-google-fonts/fraunces</code> e <code>@expo-google-fonts/ibm-plex-sans</code>, no lugar da Inter.</p>
+      </div>
+    </div>
+
+    <div class="why">
+      <div>
+        <h4>Fraunces</h4>
+        <p>Uma serifada de desenho macio, com um ar de livro antigo. Dá o tom de caderno aos títulos e aos valores grandes, como o saldo do mês. Pesos: SemiBold 600 e Medium 500.</p>
+      </div>
+      <div>
+        <h4 class="sans">IBM Plex Sans</h4>
+        <p>Cuida de todo o resto. É clara em tamanho pequeno, tem desenho próprio sem chamar atenção e traz algarismos de mesma largura, então as colunas de R$ alinham. Pesos: SemiBold 600, Medium 500 e Regular 400.</p>
+      </div>
+    </div>
+
+    <div class="block-head"><h3>Hierarquia</h3><p>Tamanhos em pontos do app (dp)</p></div>
+    <div class="type-row"><div class="spec"><b>Display</b>Fraunces SemiBold · 40/44 · −2%<br>Saldo do mês, o número que a pessoa veio ver</div><div class="t-display">R$ 5.765,70</div></div>
+    <div class="type-row"><div class="spec"><b>Título</b>Fraunces SemiBold · 28/34 · −1%<br>Título de tela</div><div class="t-h1">Boa tarde, Leo</div></div>
+    <div class="type-row"><div class="spec"><b>Subtítulo</b>Fraunces Medium · 20/26<br>Título de seção, sempre com um traço de Tinta embaixo</div><div class="t-h2">Gastos por categoria</div></div>
+    <div class="type-row"><div class="spec"><b>Corpo</b>Plex Sans Regular · 16/24<br>Frases do assistente e textos de ajuda</div><div class="t-body">Anotei 2 gastos de hoje. Confere antes de eu lançar:</div></div>
+    <div class="type-row"><div class="spec"><b>Corpo forte</b>Plex Sans Medium · 16/22<br>Nome do lançamento, da conta, da categoria</div><div class="t-strong">Corrida de app</div></div>
+    <div class="type-row"><div class="spec"><b>Legenda</b>Plex Sans Regular · 13/18 · Grafite<br>Detalhes embaixo do nome</div><div class="t-cap">Transporte · Crédito Nubank · vence 10/11</div></div>
+    <div class="type-row"><div class="spec"><b>Rótulo</b>Plex Sans SemiBold · 11/16 · caixa alta · +8%<br>Só para metadados, nunca para título de seção</div><div class="t-rot">Saldo do mês</div></div>
+    <div class="type-row"><div class="spec"><b>Valor</b>Plex Sans Medium · 16/22 · algarismos tabulares<br>Toda coluna de R$, alinhada à direita</div>
+      <div class="figs t-val">
+        <span class="h">Tabular (Caderneta)</span><span class="h">Proporcional (antes)</span>
+        <span>R$ 1.111,11</span><span class="prop">R$ 1.111,11</span>
+        <span>R$ 888,80</span><span class="prop">R$ 888,80</span>
+        <span>R$ 64,00</span><span class="prop">R$ 64,00</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 04 Espaço e forma ======================= -->
+<section class="part" id="espaco">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">04</span>
+      <div>
+        <h2>Espaço e forma</h2>
+        <p>Uma escala de espaçamento e nenhum valor fora dela: se a tela pedir um <code>space.sm + 2</code>, o problema está no desenho, não na escala. Seções viram um título e um traço, não uma caixa.</p>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="block-head"><h3>Escala</h3><p>px / dp</p></div>
+        <div class="scale">
+          <div class="scale-row"><b>4</b><i style="width:4px"></i><span>Entre o nome e a legenda; entre um ícone pequeno e o texto</span></div>
+          <div class="scale-row"><b>8</b><i style="width:8px"></i><span>Entre o rótulo e o campo; entre botões lado a lado</span></div>
+          <div class="scale-row"><b>12</b><i style="width:12px"></i><span>Respiro de cima e de baixo das linhas de lista</span></div>
+          <div class="scale-row"><b>16</b><i style="width:16px"></i><span>Dentro das fichas; entre um campo e outro</span></div>
+          <div class="scale-row"><b>24</b><i style="width:24px"></i><span>Margem lateral de toda tela (hoje é 16)</span></div>
+          <div class="scale-row"><b>40</b><i style="width:40px"></i><span>Entre uma seção e outra</span></div>
+          <div class="scale-row"><b>64</b><i style="width:64px"></i><span>Fim da rolagem e áreas que ficam vazias de propósito</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="block-head"><h3>Cantos</h3><p>Cada raio tem um uso</p></div>
+        <div class="radii">
+          <div><div class="radius-box" style="border-radius:0;border-width:1px 0"></div><b>0</b><span>Linhas e seções</span></div>
+          <div><div class="radius-box" style="border-radius:2px"></div><b>2</b><span>Barras e etiquetas ("só você")</span></div>
+          <div><div class="radius-box" style="border-radius:4px"></div><b>4</b><span>Tags (Mercado, Pix)</span></div>
+          <div><div class="radius-box" style="border-radius:6px"></div><b>6</b><span>Botões, campos, fichas</span></div>
+          <div><div class="radius-box" style="border-radius:12px 12px 2px 12px"></div><b>12 e 2</b><span>Balão da mensagem, com o canto reto do lado de quem falou</span></div>
+          <div><div class="radius-box" style="border-radius:16px 16px 0 0"></div><b>16 no topo</b><span>Folha de confirmação</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><h3>Regras</h3></div>
+      <div class="rules">
+        <div><b>Divisória, não caixa</b><span>As listas ficam direto no papel, separadas por uma pauta de 1 px. Não há cartão em volta de seção.</span></div>
+        <div><b>Uma caixa só</b><span>A ficha existe só no chat, onde ela separa o que o app propõe ou avisa do que foi conversado.</span></div>
+        <div><b>Borda de 1 px</b><span>Sempre. Sombra só na folha de confirmação, que fica por cima da tela.</span></div>
+        <div><b>Ícone com palavra</b><span>Todo ícone vem com uma palavra ao lado, menos os que todo mundo conhece (voltar, fechar, +, engrenagem, microfone, enviar, lixeira, "…"), que levam o nome para o leitor de tela.</span></div>
+        <div><b>Círculo só em três lugares</b><span>No botão do microfone, no interruptor e nas iniciais da pessoa (Configurações e membros da casa). O resto tem cantos de 2 a 6.</span></div>
+      </div>
+    </div>
+
+    <div class="block" id="marca">
+      <div class="block-head"><h3>A marca</h3><p>O nome e o ícone</p></div>
+      <p class="lede">O app se chama Caderneta, como este guia. O ícone é a capa da caderneta em Musgo, com o elástico de Tinta perto da borda e, escrito na capa, o "C" da Fraunces com o traço duplo dos totais, em Papel. Junta a letra dos títulos, o fim de uma conta no livro-caixa e o objeto que dá nome ao app. A apresentação do ícone, com o motivo de cada parte e o caminho do primeiro esboço até a decisão, está em <a href="icone-caderneta.html">O ícone da Caderneta</a>.</p>
+      <div class="brand-row">
+        <figure><span class="brand-icon" style="width:160px;height:160px"><svg><use href="#marca-icone"/></svg></span><figcaption>iPhone e geral</figcaption></figure>
+        <figure><div class="brand-small"><span class="brand-icon" style="width:60px;height:60px"><svg><use href="#marca-icone"/></svg></span><span class="brand-icon" style="width:40px;height:40px"><svg><use href="#marca-icone"/></svg></span><span class="brand-icon" style="width:29px;height:29px"><svg><use href="#marca-icone"/></svg></span></div><figcaption>60, 40 e 29 px</figcaption></figure>
+        <figure><div class="brand-mono"><svg><use href="#marca-icone-uma-cor"/></svg></div><figcaption>Uma cor (Android temático)</figcaption></figure>
+        <figure><div class="brand-splash"><span class="brand-icon" style="width:64px;height:64px"><svg><use href="#marca-icone"/></svg></span></div><figcaption>Splash</figcaption></figure>
+      </div>
+      <div class="rules brand-specs">
+        <div><b>Construção</b><span>Grade de 1024. Elástico de 800 a 860, de cima a baixo. "C" da Fraunces SemiBold, corpo 600, centrado em 432, com a linha de base em 660. Traço duplo de 242 a 622, nas alturas 742 e 796, com 24 de espessura.</span></div>
+        <div><b>Cores</b><span>Só as do guia: capa em Musgo, elástico em Tinta, letra e traço em Papel. Sem sombra, brilho ou degradê.</span></div>
+        <div><b>Android</b><span>O fundo é o Musgo e a frente fica 15% menor, porque o Android mostra só o círculo do meio. O temático é o desenho todo numa cor só.</span></div>
+        <div><b>Splash</b><span>O ícone com o canto do iPhone (22,4%), em 96 dp no centro, sobre o Papel. É também o primeiro quadro da animação de abertura.</span></div>
+        <div><b>Nunca</b><span>Um traço atravessando o "C" (vira o €), outra letra ou outra fonte, o ícone sem o elástico ou em outras cores.</span></div>
+        <div><b>Arquivos</b><span>Os SVG ficam em mobile/assets/brand e os PNG do app em mobile/assets/images. Os dois saem de node scripts/brand-icons.mjs, na raiz do projeto.</span></div>
+      </div>
+    </div>
+
+    <div class="block" id="icones">
+      <div class="block-head"><h3>Ícones, como num Kindle</h3><p>Lucide, a mesma família do app</p></div>
+      <p class="lede">Num Kindle, os ícones são desenhos de traço simples que ajudam a achar as coisas sem chamar atenção. Aqui é igual, com uma diferença: o ícone da categoria leva a cor dela, num tom de pigmento apagado, e isso deixa o app mais vivo. O ícone nunca fica dentro de um quadrado colorido.</p>
+      <div class="cols">
+        <div>
+          <div class="icon-sizes">
+            <figure><svg class="i" style="width:16px;height:16px"><use href="#target"/></svg><figcaption>16<br>no rótulo das fichas</figcaption></figure>
+            <figure><svg class="i" style="width:20px;height:20px;color:#4F7F4F"><use href="#cart"/></svg><figcaption>20<br>linhas, menus e abas</figcaption></figure>
+            <figure><svg class="i" style="width:24px;height:24px"><use href="#settings"/></svg><figcaption>24<br>botões só de ícone</figcaption></figure>
+            <figure><svg class="i" style="width:20px;height:20px;stroke-width:2"><use href="#house"/></svg><figcaption>traço 2<br>aba aberta</figcaption></figure>
+          </div>
+          <div class="comp-list" style="margin-top:24px">
+            <div><b>Traço</b><span>1,6 em repouso; 2 na aba aberta ou no item escolhido.</span></div>
+            <div><b>Cor</b><span>Ícone de categoria na cor da categoria. Os outros em Grafite, ou em Tinta quando o ícone é o próprio botão. Musgo, Atenção ou Tijolo só quando o ícone mostra um estado, como o alerta de conta atrasada.</span></div>
+            <div><b>Coluna fixa</b><span>Nas listas, o ícone fica numa coluna de 24 à esquerda e alinha tudo, como um sumário.</span></div>
+            <div><b>Nunca</b><span>Quadrado ou círculo colorido atrás, dois ícones no mesmo elemento ou ícone só para enfeitar.</span></div>
+          </div>
+        </div>
+        <div>
+          <ol class="icon-places">
+            <li><div><b>Abas:</b> ícone de 20 com o nome embaixo.</div></li>
+            <li><div><b>Linhas de lançamento, conta, receita fixa, orçamento e categoria:</b> o ícone da categoria, na cor dela.</div></li>
+            <li><div><b>Menu de Configurações:</b> um ícone em Grafite por item.</div></li>
+            <li><div><b>Topo das fichas do chat:</b> um ícone de 16 conforme o tipo (recibo para conferir, alvo para orçamento, calendário para conta, sino para lembrete, gráfico para o resumo da semana, lixeira para apagar).</div></li>
+            <li><div><b>Topo das telas:</b> as ações são botões de ícone de 24 (engrenagem, lixeira, +, "…").</div></li>
+            <li><div><b>Botões de ação:</b> ícone de 18 à esquerda em Paguei e Feito (✓), Lançar (+), Apagar (lixeira) e Desfazer (seta de voltar).</div></li>
+            <li><div><b>Avisos e estados vazios:</b> o alerta no aviso de contas e um ícone de 32 em Grafite, solto, em cima do estado vazio.</div></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 05 Antes e depois ======================= -->
+<section class="part" id="telas">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">05</span>
+      <div>
+        <h2>Antes e depois</h2>
+        <p>As três telas mais usadas, com os dados da casa de exemplo (Leo e Ana, outubro de 2026). Dá para rolar dentro dos celulares do Resumo e do Chat. O "antes" reproduz o app como era antes do redesign: tema escuro, Inter e as mesmas medidas do código.</p>
+      </div>
+    </div>
+
+    <!-- ---------- Início ---------- -->
+    <div class="block">
+      <div class="block-head"><h3>Início</h3><p>Abrir e lançar</p></div>
+      <div class="pair">
+        <div>
+          <div class="device-label"><b>Antes</b><span class="rotulo">antes do redesign</span></div>
+          <div class="phone"><div class="screen old">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="o-home px">
+              <div class="o-hhead">
+                <div class="o-flex">
+                  <div class="o-title">Boa tarde, Leo</div>
+                  <div class="o-body o-muted">Outubro: R$ 4.084,30 gastos · R$ 437,50 livres no orçamento</div>
+                </div>
+                <svg class="i o-gear"><use href="#settings"/></svg>
+              </div>
+              <div class="o-notice"><svg class="i o-danger"><use href="#alert"/></svg><span class="o-label o-flex">2 contas vencendo hoje ou atrasadas</span><svg class="i o-chev"><use href="#chev-r"/></svg></div>
+              <div class="o-center">
+                <div class="o-mic"><svg class="i"><use href="#mic"/></svg></div>
+                <div class="o-heading">Toque e fale</div>
+                <div class="o-caption o-faint">“gastei 30 no mercado” · “quanto gastei hoje?”</div>
+                <div class="o-manual"><svg class="i"><use href="#plus"/></svg><span class="o-label">Lançar manualmente</span></div>
+              </div>
+              <div class="o-sec"><span class="o-overline o-muted">Hoje</span></div>
+              <div class="o-card">
+                <div class="o-row"><span class="o-ci" style="background:rgba(61,214,140,.16);color:#3DD68C"><svg class="i"><use href="#cart"/></svg></span><div class="o-flex"><div class="o-label">Padaria</div><div class="o-caption o-faint">Mercado · Pix</div></div><span class="o-label num">R$ 23,50</span></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(244,114,182,.16);color:#F472B6"><svg class="i"><use href="#heart"/></svg></span><div class="o-flex"><div class="o-label">Farmácia</div><div class="o-caption o-faint">Saúde · Débito</div></div><span class="o-label num">R$ 48,90</span></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(245,185,74,.16);color:#F5B94A"><svg class="i"><use href="#utensils"/></svg></span><div class="o-flex"><div class="o-label">Café</div><div class="o-caption o-faint">Alimentação · Pix</div></div><span class="o-label num">R$ 15,10</span></div>
+                <div class="o-row o-link"><svg class="i o-accent"><use href="#receipt"/></svg><span class="o-label o-flex">Todos os lançamentos</span><svg class="i o-chev"><use href="#chev-r"/></svg></div>
+              </div>
+            </div>
+            <nav class="o-tabs">
+              <span class="o-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="o-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="o-badge">1</i></span>
+              <span class="o-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="o-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="o-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#E6E8EB"></div>
+          </div></div>
+        </div>
+
+        <div>
+          <div class="device-label"><b>Depois</b><span class="rotulo">Caderneta</span></div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-home px">
+              <div class="n-top"><span class="n-rot">Segunda, 19 de outubro</span><button class="icon-btn" type="button" aria-label="Configurações"><svg class="i"><use href="#settings"/></svg></button></div>
+              <h4 class="n-h1">Boa tarde, Leo</h4>
+              <div class="n-ledger2">
+                <div><span class="n-cap">Despesas de outubro</span><b class="n-fig">R$ 4.084,30</b><span class="n-cap">até hoje, dia 19</span></div>
+                <div><span class="n-cap">Resta nos orçamentos</span><b class="n-fig">R$ 437,50</b><span class="n-cap t-erro">Delivery estourou</span></div>
+              </div>
+              <div class="n-overdue press">
+                <span class="ci"><svg class="i"><use href="#alert"/></svg></span>
+                <div class="n-main"><b>Luz e Condomínio estão atrasadas</b><span class="n-cap">Cerca de R$ 809,00 · ver na Agenda</span></div>
+                <span class="n-chev">›</span>
+              </div>
+              <div class="n-micarea">
+                <button class="n-mic" type="button" aria-label="Falar com o assistente"><svg class="i"><use href="#mic"/></svg></button>
+                <b class="n-strong">Toque e fale</b>
+                <button class="n-link" type="button">ou lançar manualmente</button>
+              </div>
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Hoje <span class="n-cap num">· R$ 87,50</span></h5><button class="n-link sm" type="button">Ver todos</button></div>
+                <div class="n-row press"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Padaria</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 23,50</span></div>
+                <div class="n-row press"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Farmácia</b><span class="n-cap">Saúde · Débito</span></div><span class="n-amt">R$ 48,90</span></div>
+                <div class="n-row press"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Café</b><span class="n-cap">Alimentação · Pix</span></div><span class="n-amt">R$ 15,10</span></div>
+              </div>
+            </div>
+            <nav class="n-tabs">
+              <span class="n-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="n-dot">1</i></span>
+              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>O que mudou</h4>
+          <ul>
+            <li>O botão neon com anéis de brilho vira um círculo de Tinta, sem efeito. Ele continua sendo a maior coisa da tela.</li>
+            <li>O mês vira duas colunas de caderneta em vez de uma frase cinza comprida. "Livres no orçamento" vira "Resta nos orçamentos", com a legenda de qual categoria já estourou e por isso não entra na conta.</li>
+            <li>As contas atrasadas aparecem com um traço Tijolo, o alerta e o nome delas, sem caixa vermelha.</li>
+            <li>Embaixo do microfone, só "Toque e fale" e o link para lançar à mão: os exemplos de fala saem.</li>
+            <li>"Hoje" fica sem caixa, com o total do dia ao lado do título. O ícone da categoria fica solto, na cor dela, sem o quadrado.</li>
+            <li>A engrenagem volta ao topo, como botão de ícone.</li>
+            <li>As abas mantêm ícone e nome, com ícones finos e sem cor. A aba ativa fica em Tinta com um traço em cima, e o aviso não lido é um número em Mostarda.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Resumo ---------- -->
+    <div class="block">
+      <div class="block-head"><h3>Resumo</h3><p>O mês inteiro numa tela</p></div>
+      <div class="pair">
+        <div>
+          <div class="device-label"><b>Antes</b><span class="rotulo">role para ver tudo</span></div>
+          <div class="phone"><div class="screen old">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="scroll px o-pb">
+              <div class="o-month"><svg class="i"><use href="#chev-l"/></svg><span class="o-heading">Outubro 2026</span><svg class="i"><use href="#chev-r"/></svg></div>
+              <div class="o-hero">
+                <span class="o-caption o-faint">Saldo do mês</span>
+                <span class="o-display">R$ 5.765,70</span>
+                <div class="o-split">
+                  <div><span class="o-caption o-faint">Receitas ›</span><span class="o-heading o-accent">R$ 9.850,00</span></div>
+                  <div><span class="o-caption o-faint">Despesas ›</span><span class="o-heading">R$ 4.084,30</span></div>
+                </div>
+              </div>
+              <div class="o-card o-mt16"><div class="o-row o-link"><svg class="i o-accent"><use href="#receipt"/></svg><span class="o-label o-flex">Lançamentos de outubro</span><svg class="i o-chev"><use href="#chev-r"/></svg></div></div>
+
+              <div class="o-sec"><span class="o-overline o-muted">Faturas do mês</span></div>
+              <div class="o-card">
+                <div class="o-row"><div class="o-flex o-g4"><span class="o-label">Nubank · Leo</span><span class="o-caption o-faint">fecha 03/11 · vence 10/11</span></div><span class="o-heading">R$ 289,90</span></div>
+                <div class="o-row"><div class="o-flex o-g4"><span class="o-label">Inter · Ana</span><span class="o-caption o-faint">fecha 25/10 · vence 05/11</span></div><span class="o-heading">R$ 21,90</span></div>
+              </div>
+
+              <div class="o-sec"><span class="o-overline o-muted">Orçamentos</span><span class="o-label o-info">Editar</span></div>
+              <div class="o-card">
+                <div class="o-budget"><div class="o-bl"><span class="o-label">Delivery</span><span class="o-caption o-danger">R$ 512,80 de R$ 300,00</span></div><div class="o-bar"><i style="width:100%;background:#F87171"></i></div></div>
+                <div class="o-budget"><div class="o-bl"><span class="o-label">Mercado</span><span class="o-caption o-muted">R$ 684,30 de R$ 800,00</span></div><div class="o-bar"><i style="width:85%;background:#F5B94A"></i></div></div>
+                <div class="o-budget"><div class="o-bl"><span class="o-label">Transporte</span><span class="o-caption o-muted">R$ 186,20 de R$ 250,00</span></div><div class="o-bar"><i style="width:74%;background:#3DD68C"></i></div></div>
+                <div class="o-budget"><div class="o-bl"><span class="o-label">Lazer</span><span class="o-caption o-muted">R$ 142,00 de R$ 400,00</span></div><div class="o-bar"><i style="width:35%;background:#3DD68C"></i></div></div>
+              </div>
+
+              <div class="o-sec"><span class="o-overline o-muted">Próximas contas</span><span class="o-label o-info">Ver todas</span></div>
+              <div class="o-card">
+                <div class="o-row"><span class="o-ci" style="background:rgba(250,204,21,.16);color:#FACC15"><svg class="i"><use href="#zap"/></svg></span><div class="o-flex o-g4"><span class="o-label">Luz</span><span class="o-caption o-danger">atrasada há 11 dias</span></div><span class="o-label">~R$ 189,00</span></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(167,139,250,.16);color:#A78BFA"><svg class="i"><use href="#house"/></svg></span><div class="o-flex o-g4"><span class="o-label">Condomínio</span><span class="o-caption o-danger">atrasada há 9 dias</span></div><span class="o-label">R$ 620,00</span></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(167,139,250,.16);color:#A78BFA"><svg class="i"><use href="#house"/></svg></span><div class="o-flex o-g4"><span class="o-label">Aluguel</span><span class="o-caption o-muted">vence 05/11</span></div><span class="o-label">R$ 1.800,00</span></div>
+              </div>
+
+              <div class="o-sec"><span class="o-overline o-muted">Gastos por categoria</span></div>
+              <div class="o-card">
+                <div class="o-row"><span class="o-ci" style="background:rgba(167,139,250,.16);color:#A78BFA"><svg class="i"><use href="#house"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Moradia</span><span class="o-label">R$ 1.800,00</span></div><div class="o-bar"><i style="width:100%;background:#A78BFA"></i></div><span class="o-caption o-faint">44% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(61,214,140,.16);color:#3DD68C"><svg class="i"><use href="#cart"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Mercado</span><span class="o-label">R$ 684,30</span></div><div class="o-bar"><i style="width:38%;background:#3DD68C"></i></div><span class="o-caption o-faint">17% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(248,113,113,.16);color:#F87171"><svg class="i"><use href="#bike"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Delivery</span><span class="o-label">R$ 512,80</span></div><div class="o-bar"><i style="width:28%;background:#F87171"></i></div><span class="o-caption o-faint">13% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(245,185,74,.16);color:#F5B94A"><svg class="i"><use href="#utensils"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Alimentação</span><span class="o-label">R$ 298,40</span></div><div class="o-bar"><i style="width:17%;background:#F5B94A"></i></div><span class="o-caption o-faint">7% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(251,146,60,.16);color:#FB923C"><svg class="i"><use href="#bag"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Compras</span><span class="o-label">R$ 250,00</span></div><div class="o-bar"><i style="width:14%;background:#FB923C"></i></div><span class="o-caption o-faint">6% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(76,141,255,.16);color:#4C8DFF"><svg class="i"><use href="#car"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Transporte</span><span class="o-label">R$ 186,20</span></div><div class="o-bar"><i style="width:10%;background:#4C8DFF"></i></div><span class="o-caption o-faint">5% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(34,211,238,.16);color:#22D3EE"><svg class="i"><use href="#ticket"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Lazer</span><span class="o-label">R$ 142,00</span></div><div class="o-bar"><i style="width:8%;background:#22D3EE"></i></div><span class="o-caption o-faint">3% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(250,204,21,.16);color:#FACC15"><svg class="i"><use href="#zap"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Contas da casa</span><span class="o-label">R$ 99,90</span></div><div class="o-bar"><i style="width:6%;background:#FACC15"></i></div><span class="o-caption o-faint">2% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(129,140,248,.16);color:#818CF8"><svg class="i"><use href="#repeat"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Assinaturas</span><span class="o-label">R$ 61,80</span></div><div class="o-bar"><i style="width:3%;background:#818CF8"></i></div><span class="o-caption o-faint">2% das despesas</span></div></div>
+                <div class="o-row"><span class="o-ci" style="background:rgba(244,114,182,.16);color:#F472B6"><svg class="i"><use href="#heart"/></svg></span><div class="o-flex o-g4"><div class="o-bl"><span class="o-label">Saúde</span><span class="o-label">R$ 48,90</span></div><div class="o-bar"><i style="width:3%;background:#F472B6"></i></div><span class="o-caption o-faint">1% das despesas</span></div></div>
+              </div>
+
+              <div class="o-sec"><span class="o-overline o-muted">Quem gastou</span></div>
+              <div class="o-card">
+                <div class="o-row"><span class="o-label o-flex">Leo</span><span class="o-caption o-faint">71%</span><span class="o-label">R$ 2.903,10</span></div>
+                <div class="o-row"><span class="o-label o-flex">Ana</span><span class="o-caption o-faint">29%</span><span class="o-label">R$ 1.181,20</span></div>
+              </div>
+            </div>
+            <nav class="o-tabs">
+              <span class="o-tab"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="o-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="o-badge">1</i></span>
+              <span class="o-tab on"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="o-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="o-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#E6E8EB"></div>
+          </div></div>
+        </div>
+
+        <div>
+          <div class="device-label"><b>Depois</b><span class="rotulo">role para ver tudo</span></div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="scroll px n-pb">
+              <div class="n-month">
+                <button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button>
+                <div><span class="n-rot">2026</span><h4 class="n-h1">Outubro</h4></div>
+                <button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button>
+              </div>
+              <div class="n-balance">
+                <span class="n-rot">Saldo do mês</span>
+                <b class="n-display">R$ 5.765,70</b>
+                <span class="n-cap">Receitas menos despesas. Você gastou 41% do que recebeu.</span>
+              </div>
+              <div class="n-ledger2 press-cells">
+                <a><span class="n-cap">Receitas ›</span><b class="n-fig pos">+R$ 9.850,00</b></a>
+                <a><span class="n-cap">Despesas ›</span><b class="n-fig">R$ 4.084,30</b></a>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Orçamentos</h5><button class="n-link sm" type="button">Editar</button></div>
+                <div class="n-budget"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#B9553A"><svg class="i"><use href="#bike"/></svg></span><b class="n-strong">Delivery</b></span><span class="n-amt">R$ 512,80 <em>de R$ 300,00</em></span></div><div class="bar"><i class="over" style="--w:100%"></i></div><span class="n-cap">Passou R$ 212,80 do limite · 170%</span></div>
+                <div class="n-budget"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><b class="n-strong">Mercado</b></span><span class="n-amt">R$ 684,30 <em>de R$ 800,00</em></span></div><div class="bar"><i class="warn" style="--w:85%"></i></div><span class="n-cap">Restam R$ 115,70 · 85% usado</span></div>
+                <div class="n-budget"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><b class="n-strong">Transporte</b></span><span class="n-amt">R$ 186,20 <em>de R$ 250,00</em></span></div><div class="bar"><i style="--w:74%"></i></div><span class="n-cap">Restam R$ 63,80 · 74% usado</span></div>
+                <div class="n-budget"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#357A8F"><svg class="i"><use href="#ticket"/></svg></span><b class="n-strong">Lazer</b></span><span class="n-amt">R$ 142,00 <em>de R$ 400,00</em></span></div><div class="bar"><i style="--w:35%"></i></div><span class="n-cap">Restam R$ 258,00 · 35% usado</span></div>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Próximas contas</h5><button class="n-link sm" type="button">Agenda</button></div>
+                <div class="n-row press"><span class="ci" style="color:#7F8A3A"><svg class="i"><use href="#zap"/></svg></span><div class="n-main"><b class="n-strong">Luz</b><span class="n-cap t-erro" style="white-space:normal">atrasada há 11 dias · valor estimado</span></div><span class="n-amt">~R$ 189,00</span></div>
+                <div class="n-row press"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Condomínio</b><span class="n-cap t-erro">atrasada há 9 dias</span></div><span class="n-amt">R$ 620,00</span></div>
+                <div class="n-row press"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Aluguel</b><span class="n-cap">vence 05/11</span></div><span class="n-amt">R$ 1.800,00</span></div>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Faturas do mês</h5></div>
+                <div class="n-row press"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#card"/></svg></span><div class="n-main"><b class="n-strong">Nubank · Leo</b><span class="n-cap">fecha 03/11 · vence 10/11</span></div><span class="n-amt">R$ 289,90</span></div>
+                <div class="n-row press"><span class="ci" style="color:#C27A3A"><svg class="i"><use href="#card"/></svg></span><div class="n-main"><b class="n-strong">Inter · Ana</b><span class="n-cap">fecha 25/10 · vence 05/11</span></div><span class="n-amt">R$ 21,90</span></div>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Gastos por categoria</h5><span class="n-cap">% das despesas</span></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><span class="n-strong">Moradia</span></span><span class="n-amt">R$ 1.800,00</span></div><div class="n-catbar"><i style="--w:100%"></i><span class="n-cap">44%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><span class="n-strong">Mercado</span></span><span class="n-amt">R$ 684,30</span></div><div class="n-catbar"><i style="--w:38%"></i><span class="n-cap">17%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#B9553A"><svg class="i"><use href="#bike"/></svg></span><span class="n-strong">Delivery</span></span><span class="n-amt">R$ 512,80</span></div><div class="n-catbar"><i style="--w:28%"></i><span class="n-cap">13%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><span class="n-strong">Alimentação</span></span><span class="n-amt">R$ 298,40</span></div><div class="n-catbar"><i style="--w:17%"></i><span class="n-cap">7%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#C27A3A"><svg class="i"><use href="#bag"/></svg></span><span class="n-strong">Compras</span></span><span class="n-amt">R$ 250,00</span></div><div class="n-catbar"><i style="--w:14%"></i><span class="n-cap">6%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><span class="n-strong">Transporte</span></span><span class="n-amt">R$ 186,20</span></div><div class="n-catbar"><i style="--w:10%"></i><span class="n-cap">5%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#357A8F"><svg class="i"><use href="#ticket"/></svg></span><span class="n-strong">Lazer</span></span><span class="n-amt">R$ 142,00</span></div><div class="n-catbar"><i style="--w:8%"></i><span class="n-cap">3%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#7F8A3A"><svg class="i"><use href="#zap"/></svg></span><span class="n-strong">Contas da casa</span></span><span class="n-amt">R$ 99,90</span></div><div class="n-catbar"><i style="--w:6%"></i><span class="n-cap">2%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#5A5A9A"><svg class="i"><use href="#repeat"/></svg></span><span class="n-strong">Assinaturas</span></span><span class="n-amt">R$ 61,80</span></div><div class="n-catbar"><i style="--w:3%"></i><span class="n-cap">2%</span></div></div>
+                <div class="n-cat"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><span class="n-strong">Saúde</span></span><span class="n-amt">R$ 48,90</span></div><div class="n-catbar"><i style="--w:3%"></i><span class="n-cap">1%</span></div></div>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Quem gastou</h5></div>
+                <div class="split" aria-hidden="true"><i style="flex:71;background:var(--tinta)"></i><i style="flex:29;background:var(--grafite)"></i></div>
+                <div class="n-row"><span class="n-strong n-main"><span><i class="mk" style="background:var(--tinta)"></i>Leo</span></span><span class="n-cap num">71%</span><span class="n-amt">R$ 2.903,10</span></div>
+                <div class="n-row"><span class="n-strong n-main"><span><i class="mk" style="background:var(--grafite)"></i>Ana</span></span><span class="n-cap num">29%</span><span class="n-amt">R$ 1.181,20</span></div>
+              </div>
+            </div>
+            <nav class="n-tabs">
+              <span class="n-tab"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="n-dot">1</i></span>
+              <span class="n-tab on"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>O que mudou</h4>
+          <ul>
+            <li>O saldo vira o número principal da tela (Fraunces 40), com a legenda de como ele é calculado. Receitas e despesas ficam lado a lado, como numa caderneta, e cada uma abre os lançamentos.</li>
+            <li>Os orçamentos vêm primeiro e ordenados pelo que precisa de atenção, com a frase pronta: "Passou R$ 212,80 do limite", "Restam R$ 115,70". A frase fica em Grafite, para ler fácil, e o estado fica na cor da barra. O limite sempre aparece com "R$" ("de R$ 300,00").</li>
+            <li>Em "Gastos por categoria", a barra é uma só, em Tinta: o que importa é o comprimento. A cor da categoria fica no ícone.</li>
+            <li>Cada seção tem título em Fraunces e um traço de Tinta, sem cartão em volta.</li>
+            <li>Os valores ficam alinhados à direita, com algarismos de mesma largura.</li>
+            <li>Os ícones de categoria saem dos quadrados coloridos e ficam soltos, finos, na cor de pigmento. Contas e faturas ganham o ícone da categoria ou do cartão. Sai o link solto "Lançamentos de outubro", que já existe nos dois totais.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Chat ---------- -->
+    <div class="block">
+      <div class="block-head"><h3>Chat</h3><p>Aviso de orçamento e conferência de gastos</p></div>
+      <div class="pair">
+        <div>
+          <div class="device-label"><b>Antes</b><span class="rotulo">antes do redesign</span></div>
+          <div class="phone"><div class="screen old">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="o-chead px"><span class="o-logo">$</span><div class="o-flex"><div class="o-heading">Assistente</div><div class="o-caption o-muted">Casa do Leo</div></div><svg class="i o-muted" style="width:20px;height:20px"><use href="#trash"/></svg></div>
+            <div class="scroll px o-msgs">
+              <span class="o-caption o-faint o-dayl">Hoje</span>
+              <div class="o-event"><svg class="i o-warn"><use href="#bell"/></svg><span class="o-caption o-muted o-flex">Mercado chegou a 85% do limite do mês: R$ 684,30 de R$ 800,00.</span><span class="o-t10 o-faint">09:12</span></div>
+              <div class="o-card">
+                <div class="o-chd"><span class="o-overline o-muted">Orçamento perto do limite</span><span class="o-overline o-faint">outubro</span></div>
+                <div class="o-budget o-div">
+                  <div class="o-bl" style="gap:12px"><span class="o-ci s30" style="background:rgba(61,214,140,.16);color:#3DD68C"><svg class="i"><use href="#cart"/></svg></span><div class="o-flex o-g4"><span class="o-label">Mercado</span><span class="o-caption o-muted">R$ 684,30 de R$ 800,00</span></div><span class="o-label o-warn">85%</span></div>
+                  <div class="o-bar"><i style="width:85%;background:#F5B94A"></i></div>
+                </div>
+                <div class="o-cfoot"><div class="o-btn secondary">Ver lançamentos</div></div>
+              </div>
+              <div class="o-bubble user">almoço 42 no débito e corrida de 22 no nubank<span class="o-t10 o-faint">12:41</span></div>
+              <div class="o-bubble bot">Anotei 2 gastos de hoje. Confere antes de eu lançar:<span class="o-t10 o-faint">12:41</span></div>
+              <div class="o-card">
+                <div class="o-chd"><span class="o-overline o-muted">2 lançamentos</span><span class="o-overline o-faint">hoje</span></div>
+                <div class="o-row o-div"><span class="o-ci s30" style="background:rgba(245,185,74,.16);color:#F5B94A"><svg class="i"><use href="#utensils"/></svg></span><div class="o-flex"><div class="o-label">Almoço</div><div class="o-caption o-muted">Alimentação · Débito</div></div><span class="o-label o-amt">R$ 42,00</span><svg class="i o-faint" style="width:16px;height:16px"><use href="#chev-d"/></svg></div>
+                <div class="o-row"><span class="o-ci s30" style="background:rgba(76,141,255,.16);color:#4C8DFF"><svg class="i"><use href="#car"/></svg></span><div class="o-flex"><div class="o-label">Corrida de app</div><div class="o-caption o-muted">Transporte · Crédito Nubank</div></div><span class="o-label o-amt">R$ 22,00</span><svg class="i o-faint" style="width:16px;height:16px"><use href="#chev-d"/></svg></div>
+                <div class="o-row o-div" style="justify-content:space-between"><span class="o-body o-muted">Total</span><span class="o-label">R$ 64,00</span></div>
+                <div class="o-cfoot two"><div class="o-btn secondary">Cancelar</div><div class="o-btn primary">Confirmar · R$ 64,00</div></div>
+              </div>
+            </div>
+            <div class="o-composer px"><div class="o-input">Mensagem</div><div class="o-round"><svg class="i"><use href="#mic"/></svg></div></div>
+            <nav class="o-tabs">
+              <span class="o-tab"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="o-tab on"><svg class="i"><use href="#msg"/></svg>Chat</span>
+              <span class="o-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="o-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="o-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#E6E8EB"></div>
+          </div></div>
+        </div>
+
+        <div>
+          <div class="device-label"><b>Depois</b><span class="rotulo">Caderneta</span></div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-chathead px">
+              <div><h4 class="n-h1 sm">Assistente</h4><span class="n-cap">Casa do Leo</span></div>
+              <button class="icon-btn" type="button" aria-label="Limpar a conversa" style="color:var(--grafite)"><svg class="i"><use href="#trash"/></svg></button>
+            </div>
+            <div class="scroll px n-msgs">
+              <div class="n-day"><span class="n-rot">Hoje</span></div>
+              <article class="ficha">
+                <div class="ficha-head"><span class="n-rot with-icon t-aviso"><span class="ci xs"><svg class="i"><use href="#target"/></svg></span>Orçamento perto do limite</span><span class="n-time">09:12</span></div>
+                <div class="ficha-body">
+                  <div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><b class="n-strong">Mercado</b></span><b class="n-fig t-aviso">85%</b></div>
+                  <div class="bar"><i class="warn" style="--w:85%"></i></div>
+                  <span class="n-cap">R$ 684,30 de R$ 800,00 · restam R$ 115,70 em outubro</span>
+                </div>
+                <div class="ficha-link press"><span class="n-link">Ver lançamentos de Mercado</span></div>
+              </article>
+              <div class="n-user"><p>almoço 42 no débito e corrida de 22 no nubank</p><span class="n-time">12:41</span></div>
+              <div class="n-bot"><p>Anotei 2 gastos de hoje. Confere antes de eu lançar:</p></div>
+              <article class="ficha">
+                <div class="ficha-head"><span class="n-rot with-icon"><span class="ci xs"><svg class="i"><use href="#receipt"/></svg></span>Conferir · 2 gastos</span><span class="n-cap">toque para corrigir</span></div>
+                <div class="ficha-row press"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Almoço</b><span class="n-cap">Alimentação · Débito · hoje</span></div><span class="n-amt">R$ 42,00</span></div>
+                <div class="ficha-row press"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><div class="n-main"><b class="n-strong">Corrida de app</b><span class="n-cap">Transporte · Crédito Nubank</span></div><span class="n-amt">R$ 22,00</span></div>
+                <div class="ficha-total"><span class="n-strong">Total</span><b class="n-fig dbl">R$ 64,00</b></div>
+                <div class="ficha-foot"><button class="btn btn-secondary" type="button">Cancelar</button><button class="btn btn-primary grow" type="button">Confirmar R$ 64,00</button></div>
+              </article>
+              <span class="n-time">12:41</span>
+            </div>
+            <div class="n-composer px"><div class="n-field">Mensagem</div><button class="n-sq" type="button" aria-label="Gravar uma mensagem de voz"><svg class="i"><use href="#mic"/></svg></button></div>
+            <nav class="n-tabs">
+              <span class="n-tab"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="n-tab on"><svg class="i"><use href="#msg"/></svg>Chat</span>
+              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>O que mudou</h4>
+          <ul>
+            <li>O assistente fala direto no papel, sem balão. Só a mensagem da pessoa tem balão, com o canto reto do lado dela.</li>
+            <li>O aviso de orçamento vira uma ficha só, com o alvo no topo. A linha com sininho, que repetia o mesmo texto, sai. Cada tipo de ficha tem o seu ícone (recibo, alvo, calendário, sino, gráfico).</li>
+            <li>A ficha de conferir fecha com o total sublinhado duas vezes, como num livro-caixa. O botão principal é Tinta e já mostra o valor.</li>
+            <li>A setinha de abrir cada item vira o texto "toque para corrigir" no topo da ficha.</li>
+            <li>O "$" verde do topo sai: o nome "Assistente" em Fraunces basta. A lixeira fica como botão de ícone fino, e limpar pede confirmação na folha do app.</li>
+            <li>O botão de voz é um quadrado de Tinta, com o mesmo canto de 6 dos outros botões.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 06 Componentes ======================= -->
+<section class="part" id="componentes">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">06</span>
+      <div>
+        <h2>Componentes</h2>
+        <p>Os componentes base redesenhados. Todos respondem de verdade: passe o mouse, clique e use o Tab do teclado.</p>
+      </div>
+    </div>
+
+    <div class="specimens">
+      <!-- Botões -->
+      <div class="specimen">
+        <h3>Botão</h3>
+        <p>Um principal por tela. Os cantos são de 6. Os botões de ação levam um ícone de 18 à esquerda. As ações do topo das telas são botões só de ícone, de 24, com o nome para o leitor de tela. No fim dos formulários, "Apagar" é um link em Tijolo com a lixeira, e a folha de confirmação (parte 06) usa o botão Tijolo cheio. "Arquivar", "Parar de repetir" e "Remover limite" seguem o mesmo jeito, cada um com o seu ícone. No rodapé, "Salvar" leva o ✓ e o botão de criar leva o +.</p>
+        <div class="stage stage-grid">
+          <div class="btn-row">
+            <button class="btn btn-primary" type="button">Confirmar R$ 64,00</button>
+            <button class="btn btn-secondary" type="button">Cancelar</button>
+          </div>
+          <div class="btn-row">
+            <button class="btn btn-primary" type="button"><svg class="i"><use href="#plus"/></svg>Lançar</button>
+            <button class="btn btn-secondary" type="button"><svg class="i"><use href="#check"/></svg>Paguei</button>
+            <button class="btn btn-danger" type="button"><svg class="i"><use href="#trash"/></svg>Apagar gasto</button>
+          </div>
+          <div class="btn-row">
+            <button class="n-link with-icon" type="button"><svg class="i" style="width:18px;height:18px"><use href="#undo"/></svg>Desfazer</button>
+            <button class="n-link" type="button">Ver lançamentos</button>
+            <button class="n-link with-icon" type="button" style="color:var(--tijolo)"><svg class="i" style="width:18px;height:18px"><use href="#trash"/></svg>Apagar lançamento</button>
+            <button class="icon-btn" type="button" aria-label="Configurações" style="margin:0"><svg class="i"><use href="#settings"/></svg></button>
+            <button class="icon-btn" type="button" aria-label="Mais opções" style="margin:0"><svg class="i"><use href="#more"/></svg></button>
+          </div>
+          <div class="state-grid">
+            <figure><button class="btn btn-primary sm" type="button" tabindex="-1">Salvar</button><figcaption>Normal</figcaption></figure>
+            <figure><button class="btn btn-primary sm is-press" type="button" tabindex="-1">Salvar</button><figcaption>Pressionado: mais escuro e 1 px abaixo</figcaption></figure>
+            <figure><button class="btn btn-primary sm is-focus" type="button" tabindex="-1">Salvar</button><figcaption>Foco do teclado: contorno Musgo</figcaption></figure>
+            <figure><button class="btn btn-primary sm" type="button" disabled>Salvar</button><figcaption>Desabilitado</figcaption></figure>
+            <figure><button class="btn btn-primary sm" type="button" data-loading><span class="lbl">Salvar</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></button><figcaption>Carregando: clique</figcaption></figure>
+          </div>
+        </div>
+        <p class="spec-line"><b>Medidas:</b> altura 48 (40 no compacto), canto 6, Plex Sans SemiBold 15.</p>
+      </div>
+
+      <!-- Campos -->
+      <div class="specimen">
+        <h3>Campo</h3>
+        <p>O rótulo fica em cima, sempre visível. No foco, a borda engrossa em Musgo e o rótulo acompanha. O valor em R$ é escrito numa linha, como na caderneta. A categoria se escolhe numa grade de 4 colunas, pelo ícone. O botão principal do formulário fica preso embaixo da tela, num rodapé com a pauta em cima.</p>
+        <div class="stage stage-grid">
+          <div class="field"><label for="f-desc">Descrição</label><input id="f-desc" class="input" value="Almoço"><span class="hint">Aparece no extrato e no chat.</span></div>
+          <div class="field"><span class="lbl">Valor</span><div class="money"><span>R$</span><input aria-label="Valor" value="42,00" inputmode="decimal"></div></div>
+          <div class="field"><label for="f-mail">E-mail</label><input id="f-mail" class="input is-error" value="leo@exemplo"><span class="hint err">Digite um e-mail válido.</span></div>
+          <div class="field"><span class="lbl">Tipo</span><div class="seg" data-seg><button type="button" aria-pressed="true">Despesa</button><button type="button" aria-pressed="false">Receita</button></div></div>
+          <div class="field"><span class="lbl">Categoria</span>
+            <div class="cat-grid" data-seg>
+              <button class="cat-cell" type="button" aria-pressed="false"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><span>Mercado</span></button>
+              <button class="cat-cell" type="button" aria-pressed="true"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><span>Alimentação</span></button>
+              <button class="cat-cell" type="button" aria-pressed="false"><span class="ci" style="color:#B9553A"><svg class="i"><use href="#bike"/></svg></span><span>Delivery</span></button>
+              <button class="cat-cell" type="button" aria-pressed="false"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><span>Transporte</span></button>
+              <button class="cat-cell" type="button" aria-pressed="false"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><span>Moradia</span></button>
+              <button class="cat-cell" type="button" aria-pressed="false"><span class="ci" style="color:#7F8A3A"><svg class="i"><use href="#zap"/></svg></span><span>Contas da casa</span></button>
+              <button class="cat-cell" type="button" aria-pressed="false"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><span>Saúde</span></button>
+              <button class="cat-cell more" type="button"><span class="ci"><svg class="i"><use href="#grid"/></svg></span><span>Todas</span></button>
+            </div>
+            <span class="hint">As 7 primeiras de Configurações › Categorias. "Todas" abre a folha com a grade completa, e a escolhida sempre aparece aqui.</span>
+          </div>
+          <div class="toggle-row"><div class="n-main" style="white-space:normal"><b class="n-strong">Só eu vejo</b><span class="n-cap" style="white-space:normal">Os outros membros da casa não veem este gasto, nem nos totais.</span></div><label class="switch"><input type="checkbox" aria-label="Só eu vejo"><span></span></label></div>
+          <div class="form-footer"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#plus"/></svg>Lançar</button></div>
+        </div>
+      </div>
+
+      <!-- Tabela -->
+      <div class="specimen">
+        <h3>Tabela: lançamentos</h3>
+        <p>No celular, a tabela é uma lista por dia: o título do dia com o total, depois as linhas. Os valores ficam numa coluna à direita, e a receita vem com "+" em Musgo.</p>
+        <div class="stage">
+          <div class="panel">
+            <div class="n-group"><span class="n-rot">Segunda, 19 de outubro</span><span class="n-cap num">R$ 87,50</span></div>
+            <div class="n-row press"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Padaria</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 23,50</span></div>
+            <div class="n-row press"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Farmácia</b><span class="n-cap">Saúde · Débito</span></div><span class="n-amt">R$ 48,90</span></div>
+            <div class="n-row press"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Café</b><span class="n-cap">Alimentação · Pix</span></div><span class="n-amt">R$ 15,10</span></div>
+            <div class="n-group"><span class="n-rot">Domingo, 18 de outubro</span><span class="n-cap num">R$ 180,20 em gastos</span></div>
+            <div class="n-row press"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#trending"/></svg></span><div class="n-main"><b class="n-strong">Freela</b><span class="n-cap">Renda extra</span></div><span class="n-amt pos">+R$ 650,00</span></div>
+            <div class="n-row press"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Feira</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 64,20</span></div>
+            <div class="n-row press"><span class="ci" style="color:#C27A3A"><svg class="i"><use href="#bag"/></svg></span><div class="n-main"><b class="n-strong">Presente<span class="n-mini">só você</span></b><span class="n-cap">Compras · Pix</span></div><span class="n-amt">R$ 116,00</span></div>
+            <div class="n-group"><span class="n-rot">Quarta, 7 de outubro</span><span class="n-cap num">R$ 250,00</span></div>
+            <div class="n-row press"><span class="ci" style="color:#C27A3A"><svg class="i"><use href="#bag"/></svg></span><div class="n-main"><b class="n-strong">TV</b><span class="n-cap">Compras · Nubank · 2/10</span></div><span class="n-amt">R$ 250,00</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fichas -->
+      <div class="specimen">
+        <h3>Ficha (card)</h3>
+        <p>A única caixa do app. Ela aparece no chat para o que o app propõe ou avisa, com dados de verdade e no máximo uma ação principal.</p>
+        <div class="stage stage-grid" style="max-width:390px">
+          <article class="ficha">
+            <div class="ficha-head"><span class="n-rot with-icon"><span class="ci xs"><svg class="i"><use href="#chart"/></svg></span>Resumo da semana · 12 a 18/10</span><span class="n-time">dom 19:00</span></div>
+            <div class="ficha-body" style="gap:2px">
+              <span class="n-cap">Despesas da semana</span>
+              <b class="n-fig">R$ 612,40</b>
+              <span class="n-cap pos">18% a menos que a semana anterior (R$ 746,80)</span>
+            </div>
+            <div class="ficha-body" style="border-top:1px solid var(--pauta);padding-top:12px">
+              <div class="n-cat" style="border:0;padding:0"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><span class="n-strong">Mercado</span></span><span class="n-amt">R$ 248,60</span></div><div class="n-catbar"><i style="--w:100%"></i><span></span></div></div>
+              <div class="n-cat" style="border:0;padding:0"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#B9553A"><svg class="i"><use href="#bike"/></svg></span><span class="n-strong">Delivery</span></span><span class="n-amt">R$ 161,00</span></div><div class="n-catbar"><i style="--w:65%"></i><span></span></div></div>
+              <div class="n-cat" style="border:0;padding:0"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><span class="n-strong">Alimentação</span></span><span class="n-amt">R$ 112,40</span></div><div class="n-catbar"><i style="--w:45%"></i><span></span></div></div>
+              <div class="n-cat" style="border:0;padding:0"><div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><span class="n-strong">Transporte</span></span><span class="n-amt">R$ 58,90</span></div><div class="n-catbar"><i style="--w:24%"></i><span></span></div></div>
+            </div>
+          </article>
+          <article class="ficha">
+            <div class="ficha-head"><span class="n-rot with-icon t-aviso"><span class="ci xs"><svg class="i"><use href="#bell"/></svg></span>Lembrete</span><span class="n-time">10:00</span></div>
+            <div class="ficha-body"><b class="n-strong">Vacina do Rex</b><span class="n-cap">Todo ano · criado pela Ana</span></div>
+            <div class="ficha-foot"><button class="btn btn-primary sm" type="button"><svg class="i"><use href="#check"/></svg>Feito</button><button class="btn btn-secondary sm" type="button">Adiar 1 h</button><button class="btn btn-secondary sm" type="button">Amanhã</button></div>
+          </article>
+        </div>
+      </div>
+
+      <!-- Menu -->
+      <div class="specimen">
+        <h3>Menu</h3>
+        <p>A barra de abas tem ícone fino de 20 px e o nome embaixo, em Grafite. A aba ativa fica em Tinta, com traço mais grosso e uma linha em cima, então não depende só da cor. O menu de Configurações tem grupos, traços, um ícone em Grafite por item e o valor atual à direita.</p>
+        <div class="stage stage-grid">
+          <nav class="n-tabs" style="border:1px solid var(--pauta);border-radius:6px;max-width:390px" aria-label="Exemplo de abas">
+            <span class="n-tab on"><svg class="i"><use href="#house"/></svg>Início</span><span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="n-dot">2</i></span><span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span><span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span><span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+          </nav>
+          <div class="panel" style="padding-top:8px">
+            <div class="profile press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="mono">L</span><div class="n-main"><b class="n-strong">Leo</b><span class="n-cap">leo@example.com</span></div><span class="n-chev">›</span></div>
+            <div class="menu-group">
+              <span class="n-rot">Casa</span>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#pencil"/></svg></span><span class="n-strong n-main">Nome da casa</span><span class="v">Casa do Leo</span><span class="n-chev">›</span></div>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#users"/></svg></span><span class="n-strong n-main">Membros e convites</span><span class="v">2 pessoas</span><span class="n-chev">›</span></div>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#house"/></svg></span><span class="n-strong n-main">Suas casas</span><span class="v">2 casas</span><span class="n-chev">›</span></div>
+            </div>
+            <div class="menu-group">
+              <span class="n-rot">Finanças</span>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#target"/></svg></span><span class="n-strong n-main">Orçamentos</span><span class="v">4 categorias</span><span class="n-chev">›</span></div>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#bell"/></svg></span><span class="n-strong n-main">Avisos</span><span class="v">4 de 4 ligados</span><span class="n-chev">›</span></div>
+            </div>
+            <div class="menu-group">
+              <span class="n-rot">Conta</span>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci" style="color:var(--tijolo)"><svg class="i"><use href="#logout"/></svg></span><span class="n-strong n-main t-erro">Sair</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="specimen">
+        <h3>Modal: folha de confirmação</h3>
+        <p>A folha sobe de baixo, perto do polegar, e diz o que vai acontecer com os números. O botão de apagar repete o que ele faz.</p>
+        <div class="stage">
+          <div class="sheet-stage" id="sheet-stage">
+            <div class="bg" aria-hidden="true">
+              <div class="n-group"><span class="n-rot">Segunda, 19 de outubro</span><span class="n-cap num">R$ 151,50</span></div>
+              <div class="n-row"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><div class="n-main"><b class="n-strong">Corrida de app</b><span class="n-cap">Transporte · Nubank</span></div><span class="n-amt">R$ 22,00</span></div>
+              <div class="n-row"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Almoço</b><span class="n-cap">Alimentação · Débito</span></div><span class="n-amt">R$ 42,00</span></div>
+              <div class="n-row"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Padaria</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 23,50</span></div>
+            </div>
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="sheet-title">
+              <span class="handle"></span>
+              <h4 class="n-h2" id="sheet-title">Apagar este gasto?</h4>
+              <p class="n-body">Corrida de app · R$ 22,00 · hoje. Ele sai dos totais de outubro e do orçamento de Transporte.</p>
+              <div class="sheet-btns"><button class="btn btn-danger full" type="button">Apagar gasto</button><button class="btn btn-secondary full" type="button">Manter</button></div>
+            </div>
+          </div>
+          <button class="n-link replay" type="button" data-replay="sheet-stage">Abrir de novo</button>
+        </div>
+      </div>
+
+      <!-- Entrada -->
+      <div class="specimen">
+        <h3>Entrada</h3>
+        <p>A primeira tela sem login é a capa: o nome em Fraunces, o slogan "Sua casa em ordem. Sem complicação." com o subtítulo "Registre seus gastos, acompanhe suas receitas e despesas e mantenha as contas da sua casa organizadas de forma prática e intuitiva." e um exemplo de uso de verdade (uma fala e a ficha que o app devolve), com "Criar conta" e "Já tenho conta" presos embaixo. Criar conta é uma conversa em dois passos: primeiro o nome, sozinho, e depois o e-mail e a senha, já chamando a pessoa pelo nome. A senha é uma só, com o olho para mostrar o que foi digitado e três marcas que ficam em Musgo conforme a regra é atendida. Quem não tem convite lê antes de enviar que o cadastro passa por uma liberação, e "em análise" aparece como aviso em Atenção, não como erro.</p>
+        <div class="stage stage-grid">
+          <div class="auth-step">
+            <div class="bars"><i class="on"></i><i class="on"></i></div>
+            <span class="n-rot">Criar conta · 2 de 2</span>
+            <b class="n-h1">Prazer, Marina.</b>
+            <span class="n-body" style="color:var(--grafite)">Agora, o e-mail e uma senha para entrar.</span>
+          </div>
+          <div class="field"><label for="f-senha">Senha</label><input id="f-senha" class="input" value="casa20" aria-describedby="f-senha-regra">
+            <span class="pw-checks" id="f-senha-regra"><span><span class="todo"></span>8 caracteres</span><span class="ok"><svg class="i"><use href="#check"/></svg>letras</span><span class="ok"><svg class="i"><use href="#check"/></svg>números</span></span>
+          </div>
+          <div class="wait-notice"><svg class="i"><use href="#clock"/></svg><span class="n-cap" style="color:var(--tinta)">Seu cadastro ainda está em análise. Você recebe um e-mail assim que ele for liberado.</span></div>
+        </div>
+        <p class="spec-line"><b>Exceção:</b> na capa e no convite, a frase usa o tamanho Display (40), que nas outras telas é só do número principal: ali, a frase é o assunto da tela.</p>
+      </div>
+
+      <!-- Boas-vindas -->
+      <div class="specimen">
+        <h3>Boas-vindas</h3>
+        <p>Na primeira entrada em cada casa, três telas curtas com o mesmo cabeçalho de passos da entrada e "Pular" em todas: a proposta (a fala e a ficha), o que mais o app faz (uma linha por recurso) e "Por onde começar?". Os caminhos da última tela são linhas com divisória, não cartões: o toque já leva ao destino. Nada é obrigatório, e o texto diz isso.</p>
+        <div class="stage stage-grid">
+          <div class="auth-step">
+            <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></div>
+            <span class="n-rot">Boas-vindas · 3 de 3</span>
+            <b class="n-h1">Por onde começar?</b>
+            <span class="n-body" style="color:var(--grafite)">Nada é obrigatório: as categorias já estão prontas e dá para lançar agora mesmo.</span>
+          </div>
+          <div style="max-width:390px">
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#checks"/></svg></span><div class="n-main"><b class="n-strong">Configurar o essencial</b><span class="n-cap">cartões, salário e contas fixas · uns 3 minutos</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#grid"/></svg></span><div class="n-main"><b class="n-strong">Conhecer o app</b><span class="n-cap">um tour de 1 minuto pelas telas</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Explorar sozinho</b><span class="n-cap">os primeiros passos ficam no Início</span></div><span class="n-chev">›</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Primeiros passos -->
+      <div class="specimen">
+        <h3>Primeiros passos</h3>
+        <p>O checklist do começo. No Início, é uma linha só com o traço Musgo, a contagem e o próximo passo, no lugar onde fica o aviso de atraso; o microfone continua no centro. Na tela, três marcas: ✓ em Musgo para feito (calculado dos cadastros de verdade), o quadrado de Borda da Lista para "a fazer" e um traço para ignorado, com "Desfazer". Tocar num passo abre a folha, que explica e leva à tela de cadastro que já existe. Um passo feito também abre: a folha mostra o que já foi feito ("Feito: Nubank") e o botão chama para fazer de novo ("Cadastrar outro cartão", "Mudar o nome"), sem "Ignorar".</p>
+        <div class="stage stage-grid">
+          <div class="ob-steps"><div class="n-main"><b class="n-strong" style="font-size:15px">Primeiros passos · 2 de 7</b><div class="bar"><i style="--w:29%"></i></div><span class="n-cap">Próximo: seus cartões</span></div><span class="n-chev">›</span></div>
+          <div>
+            <div class="ob-row is-done"><span class="ob-mark done"><svg class="i"><use href="#check"/></svg></span><div class="n-main"><b class="n-strong">Primeiro lançamento</b><span class="n-cap">Almoço, hoje</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ob-mark todo"></span><div class="n-main"><b class="n-strong">Seus cartões</b><span class="n-cap">As compras caem na fatura certa</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row is-skip"><span class="ob-mark skip"></span><div class="n-main"><b class="n-strong">Chamar quem mora com você</b><span class="n-cap">Ignorado</span></div><button class="n-link sm" type="button">Desfazer</button></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tour -->
+      <div class="specimen">
+        <h3>Tour</h3>
+        <p>Escurece a tela com Tinta a 72% e deixa um recorte de canto 10 em volta do elemento de verdade, medido na tela. A explicação vem numa ficha, embaixo ou em cima do recorte, onde couber, com a seta apontando para ele: o progresso em traços, "Sair", um título Heading, duas linhas no máximo e "Voltar" e "Próximo". Toques fora da ficha não fazem nada. Com "Reduzir movimento", o recorte troca de lugar sem animação.</p>
+        <div class="stage">
+          <div class="ob-tour">
+            <span class="mic"><svg class="i"><use href="#mic"/></svg></span>
+            <b class="n-strong mic-label">Toque e fale</b>
+            <div class="tip">
+              <div class="n-line"><span class="ob-dots"><i class="on"></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></span><button class="n-textbtn" type="button" style="padding:8px 0 8px 12px;margin:-8px 0">Sair</button></div>
+              <b class="n-h2">Fale o que gastou</b>
+              <span class="n-body" style="color:var(--grafite);font-size:15px;line-height:22px">Toque no microfone e fale como falaria com alguém. O assistente monta a ficha e espera você conferir.</span>
+              <div class="btn-row" style="flex-wrap:nowrap;gap:8px;margin-top:4px"><button class="btn btn-secondary sm grow" type="button" disabled>Voltar</button><button class="btn btn-primary sm grow" type="button">Próximo</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Estado vazio -->
+      <div class="specimen">
+        <h3>Estado vazio</h3>
+        <p>O quadrado colorido sai. Fica um ícone de 32 em Grafite, solto, uma frase que diz o que falta e o primeiro passo.</p>
+        <div class="stage">
+          <div class="panel" style="padding:40px 24px">
+            <svg class="i empty-icon"><use href="#receipt"/></svg>
+            <h4 class="n-h2">Nada lançado em novembro</h4>
+            <p class="n-body" style="color:var(--grafite);margin-top:8px">Os gastos e as receitas do mês aparecem aqui. Fale com o assistente ou lance à mão.</p>
+            <button class="n-link" type="button" style="margin-top:16px">Lançar o primeiro gasto</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 07 Micro-interações ======================= -->
+<section class="part" id="movimento">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">07</span>
+      <div>
+        <h2>Micro-interações</h2>
+        <p>Movimentos curtos, que confirmam o que aconteceu sem enfeitar. Todos param quando o celular está com "Reduzir movimento" ligado. No app, elas usam o <code>Pressable</code> e o Reanimated, que já estão instalados, e uma vibração leve do <code>expo-haptics</code> ao confirmar e ao começar a gravar.</p>
+      </div>
+    </div>
+
+    <div class="motion">
+      <div>
+        <h3>Tocar numa linha</h3>
+        <dl class="how"><dt>Duração</dt><dd>entra na hora, sai em 150 ms</dd><dt>O quê</dt><dd>o fundo vira Papel escuro, sem onda nem brilho</dd></dl>
+        <div class="demo flat" style="padding-top:0;padding-bottom:0">
+          <div class="n-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Aluguel</b><span class="n-cap">vence 05/11 · Moradia</span></div><span class="n-amt">R$ 1.800,00</span></div>
+          <div class="n-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px;border-bottom:0"><span class="ci" style="color:#7F8A3A"><svg class="i"><use href="#zap"/></svg></span><div class="n-main"><b class="n-strong">Internet</b><span class="n-cap">paga · débito automático</span></div><span class="n-amt">R$ 99,90</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Foco no campo</h3>
+        <dl class="how"><dt>Duração</dt><dd>120 ms</dd><dt>O quê</dt><dd>a borda passa de 1 px cinza para 2 px Musgo e o rótulo acompanha a cor</dd></dl>
+        <div class="demo">
+          <div class="field"><label for="f-busca">Buscar</label><input id="f-busca" class="input" placeholder="Pela descrição"><span class="hint">Clique no campo.</span></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Carregando</h3>
+        <dl class="how"><dt>Duração</dt><dd>pulso de 1,2 s</dd><dt>O quê</dt><dd>as linhas da pauta aparecem antes dos dados e pulsam de leve, sem brilho correndo. O botão mantém a largura e mostra três pontos.</dd></dl>
+        <div class="demo">
+          <div class="sk" aria-hidden="true">
+            <div class="sk-row"><div><i style="width:46%"></i><i style="width:30%;height:8px"></i></div><i style="width:64px"></i></div>
+            <div class="sk-row"><div><i style="width:60%"></i><i style="width:38%;height:8px"></i></div><i style="width:56px"></i></div>
+            <div class="sk-row" style="border-bottom:0"><div><i style="width:40%"></i><i style="width:26%;height:8px"></i></div><i style="width:72px"></i></div>
+          </div>
+          <div class="row-btns" style="margin-top:16px"><button class="btn btn-primary" type="button" data-loading><span class="lbl">Salvar gasto</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></button></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Confirmação</h3>
+        <dl class="how"><dt>Duração</dt><dd>300 ms para o traço do ✓</dd><dt>O quê</dt><dd>o botão carrega, os botões dão lugar à linha "Lançados às 12:42" com o ✓ sendo desenhado, e o total fica Musgo. Vibração leve.</dd></dl>
+        <div class="demo flat" style="padding:0;border:0">
+          <article class="ficha" id="confirm-demo">
+            <div class="ficha-head"><span class="n-rot with-icon"><span class="ci xs"><svg class="i"><use href="#receipt"/></svg></span>Conferir · 2 gastos</span><span class="n-cap">hoje</span></div>
+            <div class="ficha-row"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Almoço</b><span class="n-cap">Alimentação · Débito</span></div><span class="n-amt">R$ 42,00</span></div>
+            <div class="ficha-row"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><div class="n-main"><b class="n-strong">Corrida de app</b><span class="n-cap">Transporte · Crédito Nubank</span></div><span class="n-amt">R$ 22,00</span></div>
+            <div class="ficha-total"><span class="n-strong">Total</span><b class="n-fig dbl">R$ 64,00</b></div>
+            <div class="ficha-foot"><button class="btn btn-secondary" type="button">Cancelar</button><button class="btn btn-primary grow" type="button" data-confirm><span class="lbl">Confirmar R$ 64,00</span><span class="dots" aria-hidden="true"><i></i><i></i><i></i></span></button></div>
+            <div class="ficha-done" aria-live="polite"><svg class="check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></svg><span>Lançados às 12:42</span><button class="n-link" type="button" data-undo>Desfazer</button></div>
+          </article>
+        </div>
+      </div>
+
+      <div>
+        <h3>Barra de orçamento</h3>
+        <dl class="how"><dt>Duração</dt><dd>450 ms para crescer, 200 ms para mudar de cor</dd><dt>O quê</dt><dd>a barra cresce até o novo valor. Ao chegar a 80% ela muda para a cor de Atenção e, a 100%, para Tijolo, com a frase de baixo trocando junto.</dd></dl>
+        <div class="demo">
+          <div class="budget-demo" id="budget-demo">
+            <div class="n-line"><span class="n-nm"><span class="ci sm" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><b class="n-strong">Mercado</b></span><span class="n-amt"><span data-spent>R$ 584,30</span> <em>de R$ 800,00</em></span></div>
+            <div class="bar"><i data-bar style="width:73%"></i></div>
+            <span class="n-cap" data-status>Restam R$ 215,70 · 73% usado</span>
+            <div class="row-btns"><button class="btn btn-secondary sm" type="button" data-add>Lançar R$ 50,00</button><button class="n-link sm" type="button" data-reset>Voltar ao início</button></div>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Gravar a voz</h3>
+        <dl class="how"><dt>Duração</dt><dd>anel de 1,4 s enquanto grava</dd><dt>O quê</dt><dd>o botão fica Tijolo, um anel fino se espalha em volta, o ícone vira "enviar" e o tempo corre. Sem os anéis de brilho de hoje.</dd></dl>
+        <div class="demo">
+          <div class="mic-demo" id="mic-demo">
+            <button class="n-mic" type="button" data-mic aria-label="Falar com o assistente"><svg class="i down"><use href="#mic"/></svg><svg class="i up"><use href="#arrow-up"/></svg></button>
+            <b class="n-strong" data-mic-label>Toque e fale</b>
+            <span class="n-cap" data-mic-sub>até 1:00</span>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Interruptor</h3>
+        <dl class="how"><dt>Duração</dt><dd>160 ms</dd><dt>O quê</dt><dd>a bolinha desliza e o trilho fica Musgo.</dd></dl>
+        <div class="demo">
+          <div class="toggle-row"><div class="n-main" style="white-space:normal"><b class="n-strong">Resumo da semana</b><span class="n-cap" style="white-space:normal">Domingo às 19h, com o gasto da semana e as contas dos próximos 7 dias.</span></div><label class="switch"><input type="checkbox" checked aria-label="Resumo da semana"><span></span></label></div>
+        </div>
+      </div>
+
+      <div>
+        <h3>Folha que sobe</h3>
+        <dl class="how"><dt>Duração</dt><dd>240 ms para subir, 180 ms para o fundo escurecer</dd><dt>O quê</dt><dd>a folha sai de baixo com uma curva que desacelera no fim, sem quicar. Veja "Abrir de novo" no modal, na parte 06.</dd></dl>
+      </div>
+
+      <div>
+        <h3>Abertura do app</h3>
+        <dl class="how"><dt>Duração</dt><dd>1,1 s para o ícone virar a capa; 0,48 s para o elástico sair e 1,25 s para a capa abrir (cerca de 2,7 s no total)</dd><dt>O quê</dt><dd>começa igual à splash do sistema (o ícone parado no centro do Papel). O ícone cresce até a tela inteira e vira a capa da caderneta; quando o app está pronto (com login, já com os dados do Início), o elástico é puxado para a direita e a capa gira na dobradiça da esquerda, mostrando a tela de verdade embaixo.</dd><dt>Regras</dt><dd>só ao abrir o app do zero (voltar do segundo plano não repete); se o app demora, a capa espera parada, sem loop; com login, espera também o nome, o resumo do mês, os lançamentos de hoje e os avisos não lidos: depois de crescer, a capa fica parada por até 3 s, para abrir sobre o Início completo, e não sobre o "Carregando…"; um toque pula, mesmo durante a espera; com "Reduzir movimento", o ícone some num fade de 200 ms.</dd><dt>Ver</dt><dd>a animação tocando, com câmera lenta, em <a href="icone-caderneta.html#abertura">O ícone da Caderneta, na parte "A abertura do app"</a>.</dd></dl>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 08 Arquivos ======================= -->
+<section class="part" id="arquivos">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">08</span>
+      <div>
+        <h2>Plano de implementação</h2>
+        <p>A API, as regras de negócio e os testes de lógica (<code>lib/__tests__</code>) não mudam. O redesign mexe na base visual, nas telas que montam essa base e nos textos dos valores (parte 09).</p>
+      </div>
+    </div>
+
+    <div class="files">
+      <div>
+        <h4>Base, que muda o app inteiro</h4>
+        <ul>
+          <li><code>mobile/src/theme/tokens.ts</code><span>Paleta, escala de 4 a 64, cantos e fontes.</span></li>
+          <li><code>mobile/src/app/_layout.tsx</code><span>Carrega Fraunces e IBM Plex Sans. A barra de status fica escura sobre o papel.</span></li>
+          <li><code>mobile/package.json</code><span>Troca <code>@expo-google-fonts/inter</code> pelas duas famílias novas (você instala com <code>npx expo install</code>).</span></li>
+          <li><code>mobile/app.json</code><span>Tema claro e fundo <code>#F4F0E8</code> na abertura.</span></li>
+          <li><code>mobile/src/components/ui/</code><span>Os 16 componentes base, mais cinco novos: <code>Sheet.tsx</code> (folha de confirmação, aberta por <code>confirm()</code> de <code>stores/confirm.ts</code>), <code>Amount.tsx</code> (valor em R$ com algarismos tabulares), <code>TextLink.tsx</code> (link em Musgo sublinhado), <code>IconButton.tsx</code> (botão só de ícone, 24 com 44 de toque) e <code>Tag.tsx</code> ("só você", "da casa"). As fichas do chat montam com as peças de <code>components/cards/Ficha.tsx</code>.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Telas, linhas e chat</h4>
+        <ul>
+          <li><code>mobile/src/app/(app)/(tabs)/</code><span>Abas com ícone fino e nome, Início, Resumo, Chat, Agenda e Lista.</span></li>
+          <li><code>mobile/src/components/</code><span>TransactionRow, BillRow, ListItemRow, SettingsRow, MonthSwitcher e MoneyInput. O CategoryIcon perde o quadrado colorido: vira o ícone da categoria, fino e na cor dela, numa coluna de 24 à esquerda das linhas.</span></li>
+          <li><code>components/chat/</code> e <code>components/cards/</code><span>Mensagens, campo de escrever e as 12 fichas.</span></li>
+          <li>As outras telas (formulários, Configurações, entrada)<span>Herdam quase tudo dos componentes, com ajustes pequenos de espaçamento.</span></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Cores de categoria</h4>
+        <ul>
+          <li><code>mobile/src/lib/categories.ts</code>, <code>lib/budgets.ts</code>, <code>components/CardForm.tsx</code><span>A lista nova de cores e as cores das barras de orçamento.</span></li>
+          <li><code>backend/app/Services/DefaultCategories.php</code><span>Cores das casas criadas daqui para frente.</span></li>
+          <li><code>backend/database/migrations/…_convert_category_colors.php</code><span>Converte as cores antigas das categorias e dos cartões que já existem, de um para um. A volta desfaz a troca.</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <ol class="steps">
+      <li><b>Base</b><span>Tokens, fontes e componentes de <code>ui/</code>. O app inteiro muda de cara, mesmo que algumas telas fiquem com o espaçamento antigo.</span></li>
+      <li><b>As cinco abas</b><span>Início, Resumo, Chat e as fichas, Agenda e Lista, como nos exemplos acima.</span></li>
+      <li><b>Telas internas</b><span>Lançamentos, contas, cartões, formulários, Configurações e entrada.</span></li>
+      <li><b>Cores</b><span>Migration e categorias padrão no backend, com teste. Feito em 20/10/2026: as quatro etapas estão no app.</span></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ======================= 09 Diretrizes ======================= -->
+<section class="part" id="diretrizes">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">09</span>
+      <div>
+        <h2>Diretrizes para novas telas</h2>
+        <p>O que conferir antes de dar uma tela nova ou alterada por pronta. Se algo daqui não couber, a diretriz muda neste guia primeiro, e a tela muda depois.</p>
+      </div>
+    </div>
+
+    <div class="cols">
+      <div>
+        <div class="block-head"><h3>Antes de dar a tela por pronta</h3></div>
+        <ol class="checklist">
+          <li><div><b>Só tokens.</b> <span>Cor, espaço, canto e fonte saem de <code>theme/tokens.ts</code>. Nenhum hex ou <code>rgba</code> escrito na tela, nenhum <code>space.sm + 2</code>.</span></div></li>
+          <li><div><b>Um número principal.</b> <span>Cada tela tem no máximo um valor em Display (40). Os outros totais usam Fraunces 22; as linhas, Plex 16.</span></div></li>
+          <li><div><b>Seção é título e traço.</b> <span>Nada de cartão em volta de lista. A ficha (caixa) é só do chat.</span></div></li>
+          <li><div><b>Ícones como num Kindle.</b> <span>Lucide, traço 1,6, nos tamanhos 16, 20 ou 24, sempre com uma palavra ao lado (menos os conhecidos de todos). Nunca dentro de um quadrado colorido, nunca dois no mesmo elemento.</span></div></li>
+          <li><div><b>Cor com motivo.</b> <span>Musgo para ação, seleção e dinheiro que entra; Atenção e Tijolo só para estado, na barra ou no ícone de estado. A cor da categoria aparece só no ícone da categoria. Textos de orçamento ficam em Grafite.</span></div></li>
+          <li><div><b>Senha sem repetir.</b> <span>Um campo só, com o olho e as marcas da regra (8 caracteres, letras, números). Nada de "Confirme a senha".</span></div></li>
+          <li><div><b>Formulário com rodapé.</b> <span>O botão principal fica preso embaixo, sempre à mão; "Apagar" fica no fim da rolagem. Categoria pela grade: as 7 primeiras e "Todas".</span></div></li>
+          <li><div><b>Valores alinhados.</b> <span>Toda coluna de R$ fica à direita, com algarismos tabulares, pelo componente <code>Amount</code>.</span></div></li>
+          <li><div><b>Textos da parte "Valores e textos".</b> <span>Rótulo em todo número, "R$" no limite, as mesmas palavras em todas as telas.</span></div></li>
+          <li><div><b>Acessibilidade conferida.</b> <span>Contraste, área de toque, fonte grande e leitor de tela, como no quadro ao lado.</span></div></li>
+        </ol>
+      </div>
+      <div>
+        <div class="block-head"><h3>Acessibilidade</h3></div>
+        <div class="comp-list">
+          <div><b>Contraste</b><span>Texto com 4,5:1 ou mais; ícones, contornos de controle e barras com 3:1 ou mais. Os pares aprovados estão na tabela da parte 02. Cor nova só entra se passar. A exceção é o ícone de categoria, que complementa o nome sempre escrito ao lado: os tons de pigmento ficam como estão (o Açafrão, o mais claro, tem 2,6:1).</span></div>
+          <div><b>Nunca só a cor</b><span>Todo estado tem palavra: "atrasada", "estourou", "paga". A aba ativa muda cor, peso e ganha o traço. O erro de campo tem a mensagem embaixo.</span></div>
+          <div><b>Área de toque</b><span>No mínimo 44 × 44. Links de texto ("Editar", "Ver todos") e tags de 36 de altura ganham <code>hitSlop</code> até chegar lá; botões só de ícone já têm 44.</span></div>
+          <div><b>Fonte do sistema</b><span>A tela aguenta a fonte do celular em 130% sem cortar valor. Quando falta espaço, o nome quebra a linha e o valor fica inteiro.</span></div>
+          <div><b>Leitor de tela</b><span>Botão de ícone sempre com <code>accessibilityLabel</code> ("Gravar uma mensagem de voz"). Linha de lançamento lida inteira: nome, valor, categoria e data.</span></div>
+          <div><b>Movimento</b><span>Com "Reduzir movimento" ligado, as animações ficam instantâneas. Nada pisca mais de 3 vezes por segundo.</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-head"><h3>Valores e textos financeiros</h3><p>As mesmas palavras em todas as telas, no app, no chat e nos avisos</p></div>
+      <table class="ledger copy">
+        <thead><tr><th>Situação</th><th>Como escrever</th><th>Exemplo</th></tr></thead>
+        <tbody>
+          <tr><td>Todo número</td><td>Tem um rótulo que diz o que ele é, em cima ou ao lado.</td><td>Despesas de outubro · R$ 4.084,30</td></tr>
+          <tr><td>Totais e filtros</td><td>"Receitas" e "Despesas", as mesmas palavras do filtro de Lançamentos. "Gasto" fica para as frases do assistente e dos avisos.</td><td>Receitas › +R$ 9.850,00</td></tr>
+          <tr><td>Sinal</td><td>"+" só em receita, em Musgo. Despesa vai sem sinal. Saldo negativo leva "−" e fica em Tijolo.</td><td>+R$ 650,00 · R$ 42,00 · −R$ 318,40</td></tr>
+          <tr><td>Saldo do mês</td><td>Com a legenda da conta e a parte da receita que foi gasta. Negativo: "Você gastou R$ x a mais do que recebeu."</td><td>Receitas menos despesas. Você gastou 41% do que recebeu.</td></tr>
+          <tr><td>Limite de orçamento</td><td>Gasto em destaque, limite em Grafite, sempre com "R$".</td><td>R$ 684,30 de R$ 800,00</td></tr>
+          <tr><td>Orçamento dentro do limite</td><td>O dinheiro que resta primeiro, a porcentagem depois. A frase fica em Grafite; o estado fica na cor da barra.</td><td>Restam R$ 115,70 · 85% usado</td></tr>
+          <tr><td>Orçamento estourado</td><td>"Passou R$ x do limite" quando há valor; "estourou" quando é só o aviso curto.</td><td>Passou R$ 212,80 do limite · 170% / Delivery estourou</td></tr>
+          <tr><td>Resta nos orçamentos</td><td>A soma do que resta nas categorias que ainda não estouraram. A legenda diz quais ficaram de fora.</td><td>R$ 437,50 · Delivery estourou</td></tr>
+          <tr><td>Valor estimado</td><td>"~" junto do valor e "valor estimado" na legenda. Em frase, "cerca de".</td><td>~R$ 189,00 · Cerca de R$ 809,00</td></tr>
+          <tr><td>Vencimento</td><td>Hoje, amanhã e atraso por extenso; o resto com dia e mês.</td><td>vence hoje · vence amanhã · atrasada há 9 dias · vence 05/11</td></tr>
+          <tr><td>Parcela</td><td>Número da parcela depois do cartão.</td><td>Compras · Nubank · 2/10</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 10 Versões ======================= -->
+<section class="part" id="versoes">
+  <div class="wrap">
+    <div class="part-head">
+      <span class="part-num">10</span>
+      <div>
+        <h2>Registro de versões</h2>
+        <p>Toda mudança de diretriz entra aqui, com o motivo.</p>
+      </div>
+    </div>
+    <table class="ledger versions">
+      <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
+      <tbody>
+        <tr><td>1.11</td><td class="num">27/10/2026</td><td>Nome da casa e passos feitos. Configurações › Casa ganha, em primeiro, "Nome da casa" (lápis, com o nome atual), só para o dono, que abre a tela de renomear; "Suas casas" passa a mostrar quantas casas a pessoa tem, para o nome não aparecer duas vezes. Nos primeiros passos, um passo feito também abre a folha, com a seta: ela mostra o que já foi feito e o botão chama para fazer de novo ("Cadastrar outro cartão", "Convidar mais alguém"). Na aba Contas da Agenda, as contas cadastradas depois do vencimento deste mês aparecem no fim, em "Começam em novembro".</td></tr>
+        <tr><td>1.10</td><td class="num">23/10/2026</td><td>Reportar uma resposta e a política de privacidade. Depois da hora de cada resposta do assistente, uma bandeirinha de 14 em Lápis, com área de toque ampliada. Ela abre a folha de confirmação ("Reportar esta resposta?", sem o botão de apagar) e, reportada, vira "· Reportada" em Grafite. Configurações › Conta ganha "Política de privacidade", que abre a página no navegador. A tela de criar conta ganha uma legenda com o link em Musgo sublinhado. A página do servidor "Política de privacidade" usa uma coluna mais larga (640), títulos de seção em Fraunces 20 e listas. Todas as páginas do servidor têm, no rodapé, os links para a política e para excluir a conta.</td></tr>
+        <tr><td>1.9</td><td class="num">23/10/2026</td><td>Excluir a conta. Em Configurações › Conta, a última linha é "Excluir conta", em Tijolo. A tela diz o que sai e o que fica nas casas compartilhadas, avisa em Tijolo que não dá para desfazer e pede a senha. O botão "Excluir conta" é o primário de Tinta e abre a folha de confirmação com o botão de apagar. A mesma coisa sem o app é a página do servidor "Excluir a conta", com o e-mail e a senha nos campos do guia e o botão de apagar em Tijolo. As páginas do servidor ganham um rodapé com o link. A folha "Receber avisos no celular?" agora espera a abertura terminar.</td></tr>
+        <tr><td>1.8</td><td class="num">23/10/2026</td><td>Notificações no celular. Antes do pedido do sistema, uma folha do app explica: sino, "Receber avisos no celular?", o que chega e onde escolher, com "Ativar avisos" (primário) e "Agora não" (texto). Ela aparece uma vez por aparelho, no Início, depois das boas-vindas e fora do tour. Configurações › Avisos ganha no topo o estado das notificações neste celular, com "Ativar notificações" ou "Abrir configurações do celular" quando foram bloqueadas. Com o app aberto, a notificação não aparece por cima: o aviso já chega no Chat. No Android, o canal "Avisos" usa o ícone em uma cor e o Musgo.</td></tr>
+        <tr><td>1.7.1</td><td class="num">22/10/2026</td><td>Quem é "Só leitura" não vê nenhuma ação de gravar: somem o "+", "Paguei", "Pular", "Arquivar", "Feito" e "Adiar", a barra de adicionar itens e o lançar à mão; as linhas que abririam uma edição ficam só para ver. O microfone continua, porque perguntar ao assistente é só leitura. "Adiar" um lembrete passa do alerta do sistema para a folha do app, com "Em 1 hora", "Amanhã" e "Em 1 semana", como no aviso do Chat.</td></tr>
+        <tr><td>1.7</td><td class="num">21/10/2026</td><td>Primeiro acesso: as boas-vindas em três telas (a proposta, o que o app faz e "Por onde começar?"), os primeiros passos (um checklist com feito, a fazer e ignorado, calculado dos cadastros de verdade, com uma linha no Início) e o tour, que destaca os elementos da tela com um recorte e explica numa ficha. Nada é obrigatório.</td></tr>
+        <tr><td>1.6.2</td><td class="num">21/10/2026</td><td>A abertura espera os dados do Início: com login, a capa só abre quando chegam o nome, o resumo do mês, os lançamentos de hoje e os avisos não lidos, e fica parada esperando por até 3 s depois de crescer. Antes, abria com as fontes e o login lidos e mostrava o Início ainda carregando.</td></tr>
+        <tr><td>1.6.1</td><td class="num">21/10/2026</td><td>Novo slogan: "Sua casa em ordem. Sem complicação.", com o subtítulo "Registre seus gastos, acompanhe suas receitas e despesas e mantenha as contas da sua casa organizadas de forma prática e intuitiva." Entra na capa do app, no rodapé dos e-mails, no README e na demonstração da abertura. Na capa, a linha quebra depois de "ordem." e o título diminui o necessário nos celulares estreitos (até o Display, 40), para cada frase caber numa linha.</td></tr>
+        <tr><td>1.6</td><td class="num">20/10/2026</td><td>A abertura do app: o ícone da splash cresce até virar a capa da caderneta e, com o app pronto, o elástico sai e a capa abre sobre a tela. Feita em código (desenho vetorial e Reanimated), e não em vídeo, para começar igual à splash do sistema, esperar o app sem emenda e terminar na tela de verdade. Tempos aprovados no protótipo.</td></tr>
+        <tr><td>1.5</td><td class="num">20/10/2026</td><td>A marca: o ícone é a capa da caderneta em Musgo, com o elástico de Tinta e o "C" com o traço duplo em Papel (estudo A+1, escolhido entre oito caminhos). Entram a construção, as versões do Android e de uma cor, a splash e o gerador dos arquivos.</td></tr>
+        <tr><td>1.4</td><td class="num">20/10/2026</td><td>Telas de entrada repensadas (comparativo de 3 opções; escolhida a mescla da capa com o passo a passo). O app passa a se chamar Caderneta, como este guia. A primeira tela sem login é a capa, com um exemplo de uso; criar conta é uma conversa em dois passos (o nome, depois o e-mail e a senha); a senha é uma só, com as marcas da regra, também em "Esqueci a senha" e "Trocar senha"; a liberação é avisada antes de enviar; "em análise" é aviso em Atenção. O link do convite sem login vira uma versão da capa.</td></tr>
+        <tr><td>1.3.3</td><td class="num">20/10/2026</td><td>Etapa 4 aplicada: categorias, cartões e as fichas guardadas no chat passaram para os tons de pigmento pela migration, de um para um, e as casas novas já nascem com eles. Os cartões escolhem entre oito tons (Ameixa, Ardósia, Louro, Açafrão, Canela, Telha, Rosa-argila e Pedra) e os tipos de lista ficam Compras em Louro, Desejos em Rosa-argila, A fazer em Ameixa e Outra em Pedra. Nas amostras de cor, o leitor de tela fala o nome do tom ("Cor Ameixa").</td></tr>
+        <tr><td>1.3.2</td><td class="num">20/10/2026</td><td>Configurações e entrada: o menu fica direto no papel, em grupos com o nome em caixa alta e o traço de Tinta, e cada linha mostra o valor atual ("2 pessoas", "4 de 4 ligados"). As iniciais da pessoa entram como o terceiro círculo do app, como já estava no exemplo do menu. Escolher o papel de um convite e abrir um convite já feito passam a usar a folha que sobe, no lugar do alerta do sistema. Nas telas de entrada, o quadrado verde com "$" sai e fica só o título em Fraunces, até o app ter nome e ícone.</td></tr>
+        <tr><td>1.3.1</td><td class="num">20/10/2026</td><td>Telas de cadastro: as ações que tiram algo de uso ("Arquivar", "Parar de repetir", "Remover limite") seguem o "Apagar": link em Tijolo no fim da rolagem, com o ícone do que fazem, e confirmação na folha. No rodapé, "Salvar" leva o ✓ e criar leva o +. As amostras de cor viram pastilhas de canto 4, já que círculo é só do microfone e do interruptor. Os dados de uma conta ou de um orçamento ficam numa tabela de pauta (rótulo em Grafite, valor à direita), sem cartão.</td></tr>
+        <tr><td>1.3</td><td class="num">20/10/2026</td><td>Novo lançamento repensado (comparativo de 4 opções, escolhida a B): a categoria se escolhe numa grade de 4 colunas com as 7 primeiras de Configurações › Categorias e "Todas", que abre a folha com a grade completa. A escolhida sempre aparece na grade. Nos formulários, o botão principal fica preso embaixo da tela.</td></tr>
+        <tr><td>1.2.1</td><td class="num">20/10/2026</td><td>Complemento para as telas internas: no fim dos formulários, "Apagar" é um link em Tijolo com a lixeira; o botão Tijolo cheio fica para a folha de confirmação. Novos componentes: IconButton e Tag.</td></tr>
+        <tr><td>1.2</td><td class="num">20/10/2026</td><td>Ícones como num Kindle: voltam às linhas, aos menus, ao topo das fichas, às ações do topo e aos botões de ação, finos e sempre com uma palavra ao lado (parte 04). O ícone da categoria fica na cor dela, nos tons de pigmento, sem quadrado atrás; o marcador de cor sai e as barras de "Gastos por categoria" seguem em Tinta. A frase do orçamento no Resumo fica em Grafite. Os exemplos de fala saem do Início, e com eles o nível Citação e o Fraunces Itálico. A legenda do aviso de contas fica mais curta ("Cerca de R$ 809,00 · ver na Agenda") para caber com o ícone.</td></tr>
+        <tr><td>1.1</td><td class="num">19/10/2026</td><td>Os ícones voltam às cinco abas, finos, sem cor e com o nome, para achar cada área rápido. Revisão de contraste: Lápis escurece para #6F6A60, tags e interruptor desligado ganham a Borda de campo, a barra de orçamento a partir de 80% passa a usar a cor de Atenção e a fatia da Ana em "Quem gastou" vira Grafite. Textos dos valores: "Livres no orçamento" vira "Resta nos orçamentos", "Entrou/Saiu" volta a "Receitas/Despesas", o limite ganha "R$", e entram a tabela de contraste, as diretrizes e este registro.</td></tr>
+        <tr><td>1.0</td><td class="num">19/10/2026</td><td>Proposta Caderneta aprovada: tema claro, Fraunces e IBM Plex Sans, menos ícones, cores de pigmento nas categorias e folha de confirmação.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">Guia de design da Caderneta. Toda tela nova ou alterada segue este documento, e os e-mails e a página de aprovação, no backend, também. Veja também <a href="icone-caderneta.html">O ícone da Caderneta</a>, a <a href="arquitetura.html">arquitetura</a> e a <a href="index.html">documentação</a>.</div>
+</footer>
+
+<script>
+// Botões com "carregando": os três pontos aparecem por 1,6 s.
+document.querySelectorAll('[data-loading]').forEach(function (button) {
+  button.addEventListener('click', function () {
+    if (button.classList.contains('is-loading')) return;
+    var label = button.querySelector('.lbl');
+    var original = label.textContent;
+    button.classList.add('is-loading');
+    button.setAttribute('aria-busy', 'true');
+    label.textContent = 'Salvando';
+    setTimeout(function () {
+      button.classList.remove('is-loading');
+      button.removeAttribute('aria-busy');
+      label.textContent = original;
+    }, 1600);
+  });
+});
+
+// Grupos de escolha única (Despesa | Receita, tags de categoria).
+document.querySelectorAll('[data-seg]').forEach(function (group) {
+  group.addEventListener('click', function (event) {
+    var picked = event.target.closest('button');
+    if (!picked) return;
+    group.querySelectorAll('button').forEach(function (button) {
+      button.setAttribute('aria-pressed', String(button === picked));
+    });
+  });
+});
+
+// Confirmação: carrega, mostra "Lançados" com o ✓; "Desfazer" volta ao começo.
+(function () {
+  var card = document.getElementById('confirm-demo');
+  var confirm = card.querySelector('[data-confirm]');
+  var label = confirm.querySelector('.lbl');
+  confirm.addEventListener('click', function () {
+    confirm.classList.add('is-loading');
+    label.textContent = 'Confirmando';
+    setTimeout(function () {
+      confirm.classList.remove('is-loading');
+      label.textContent = 'Confirmar R$ 64,00';
+      card.classList.add('is-done');
+    }, 900);
+  });
+  card.querySelector('[data-undo]').addEventListener('click', function () {
+    card.classList.remove('is-done');
+  });
+})();
+
+// Barra de orçamento: cada clique lança R$ 50,00 em Mercado (limite de R$ 800,00).
+(function () {
+  var root = document.getElementById('budget-demo');
+  var start = 58430, limit = 80000, spent = start;
+  var bar = root.querySelector('[data-bar]');
+  var spentText = root.querySelector('[data-spent]');
+  var status = root.querySelector('[data-status]');
+  function money(cents) {
+    return 'R$ ' + (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+  function render() {
+    var percent = Math.floor(spent * 100 / limit);
+    bar.style.width = Math.min(percent, 100) + '%';
+    bar.className = percent >= 100 ? 'over' : percent >= 80 ? 'warn' : '';
+    spentText.textContent = money(spent);
+    status.textContent = percent >= 100
+      ? 'Passou ' + money(spent - limit) + ' do limite · ' + percent + '%'
+      : 'Restam ' + money(limit - spent) + ' · ' + percent + '% usado';
+  }
+  root.querySelector('[data-add]').addEventListener('click', function () { spent += 5000; render(); });
+  root.querySelector('[data-reset]').addEventListener('click', function () { spent = start; render(); });
+  render();
+})();
+
+// Microfone: grava (o tempo corre), envia e volta.
+(function () {
+  var root = document.getElementById('mic-demo');
+  var button = root.querySelector('[data-mic]');
+  var label = root.querySelector('[data-mic-label]');
+  var sub = root.querySelector('[data-mic-sub]');
+  var timer = null, seconds = 0, sending = false;
+  function clock(total) { return Math.floor(total / 60) + ':' + String(total % 60).padStart(2, '0'); }
+  button.addEventListener('click', function () {
+    if (sending) return;
+    if (timer === null) {
+      seconds = 0;
+      button.classList.add('is-rec');
+      button.setAttribute('aria-label', 'Enviar o áudio');
+      label.textContent = '0:00 · toque para enviar';
+      sub.textContent = 'gravando';
+      timer = setInterval(function () { seconds += 1; label.textContent = clock(seconds) + ' · toque para enviar'; }, 1000);
+    } else {
+      clearInterval(timer);
+      timer = null;
+      sending = true;
+      button.classList.remove('is-rec');
+      label.textContent = 'Enviando…';
+      sub.textContent = clock(seconds) + ' de áudio';
+      setTimeout(function () {
+        sending = false;
+        button.setAttribute('aria-label', 'Falar com o assistente');
+        label.textContent = 'Toque e fale';
+        sub.textContent = 'até 1:00';
+      }, 900);
+    }
+  });
+})();
+
+// "Abrir de novo": refaz a animação da folha de confirmação.
+document.querySelectorAll('[data-replay]').forEach(function (button) {
+  button.addEventListener('click', function () {
+    var stage = document.getElementById(button.dataset.replay);
+    stage.querySelectorAll('.scrim, .sheet').forEach(function (element) {
+      element.style.animation = 'none';
+      void element.offsetWidth;
+      element.style.animation = '';
+    });
+  });
+});
+
+// Os chats começam rolados até a mensagem mais nova, como no app.
+document.querySelectorAll('.o-msgs, .n-msgs').forEach(function (list) { list.scrollTop = list.scrollHeight; });
+</script>
+</body>
+</html>

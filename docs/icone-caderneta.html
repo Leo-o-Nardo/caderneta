@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>O ícone da Caderneta</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Os tokens do guia Caderneta (docs/design-guide.html). */
+:root {
+  --papel: #F4F0E8;
+  --pauta: #DCD5C6;
+  --tinta: #1E1F1C;
+  --grafite: #5F5B52;
+  --musgo: #2C5440;
+  --musgo-claro: #E1E9DF;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; }
+* { margin: 0; padding: 0; }
+body { background: var(--papel); color: var(--tinta); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1160px; margin: 0 auto; padding: 0 24px; }
+.rotulo { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
+.top { padding: 56px 0 36px; border-bottom: 1px solid var(--tinta); }
+.top h1 { font: 600 48px/1.05 var(--serif); letter-spacing: -.02em; margin-top: 12px; }
+.lede { margin-top: 16px; max-width: 68ch; color: var(--grafite); font-size: 17px; }
+.part { padding: 52px 0; border-bottom: 1px solid var(--pauta); }
+.part-head { padding-bottom: 12px; border-bottom: 1px solid var(--tinta); margin-bottom: 28px; }
+.part-head h2 { font: 500 30px/1.2 var(--serif); }
+.part-head p { margin-top: 8px; color: var(--grafite); max-width: 72ch; }
+
+/* As vitrines: iPhone, Android (o círculo do meio, como o sistema mostra), tela inicial, temático e splash */
+.row { display: flex; flex-wrap: wrap; gap: 40px; align-items: flex-end; }
+figure { display: grid; gap: 10px; justify-items: center; }
+figcaption { font: 400 13px/18px var(--sans); color: var(--grafite); text-align: center; }
+.ios { overflow: hidden; border-radius: 22.4%; box-shadow: 0 18px 40px -24px rgba(30, 31, 28, .6); }
+.ios svg { width: 100%; height: 100%; display: block; }
+.android { overflow: hidden; border-radius: 50%; position: relative; box-shadow: 0 14px 30px -20px rgba(30, 31, 28, .6); }
+.android svg { position: absolute; width: 150%; height: 150%; left: -25%; top: -25%; display: block; }
+.s180 { width: 180px; height: 180px; } .s120 { width: 120px; height: 120px; }
+.s60 { width: 60px; height: 60px; } .s40 { width: 40px; height: 40px; } .s29 { width: 29px; height: 29px; }
+.home { display: flex; gap: 18px; padding: 18px 20px 14px; border-radius: 24px; }
+.home.dark { background: linear-gradient(160deg, #3c4a44, #20262a); color: #fff; }
+.home.light { background: linear-gradient(160deg, #ece6da, #c9c1b0); color: var(--tinta); }
+.app { display: grid; gap: 6px; justify-items: center; width: 60px; }
+.app .ic { width: 60px; height: 60px; border-radius: 14px; overflow: hidden; }
+.app .ic svg { width: 100%; height: 100%; display: block; }
+.app span { font: 500 11px/14px var(--sans); white-space: nowrap; }
+.home.dark .ph { background: rgba(255, 255, 255, .22); }
+.home.light .ph { background: rgba(30, 31, 28, .14); }
+.small { display: flex; gap: 16px; align-items: flex-end; padding: 18px; border-radius: 16px; background: #232a28; }
+.mono { width: 120px; height: 120px; border-radius: 50%; background: #E8E2F0; color: #4A3F63; overflow: hidden; position: relative; }
+.mono svg { position: absolute; width: 150%; height: 150%; left: -25%; top: -25%; }
+.splash { width: 170px; height: 360px; border: 7px solid #161714; border-radius: 30px; background: var(--papel); display: grid; place-items: center; }
+
+/* Os motivos e as observações */
+.reasons { list-style: none; counter-reset: r; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 0 40px; }
+.reasons li { counter-increment: r; display: grid; grid-template-columns: 30px 1fr; padding: 16px 0; border-bottom: 1px solid var(--pauta); }
+.reasons li::before { content: counter(r); font: 500 20px/1.3 var(--serif); color: var(--musgo); }
+.reasons b { display: block; font: 500 19px/1.3 var(--serif); margin-bottom: 4px; }
+.reasons span { color: var(--grafite); font-size: 15px; }
+.anatomy { display: grid; grid-template-columns: minmax(0, 300px) 1fr; gap: 40px; align-items: start; }
+@media (max-width: 760px) { .anatomy { grid-template-columns: 1fr; } }
+.anatomy-figure { position: relative; width: 100%; max-width: 300px; aspect-ratio: 1; }
+.anatomy-figure .ios { width: 100%; height: 100%; }
+.pin { position: absolute; width: 26px; height: 26px; border-radius: 50%; background: var(--papel); color: var(--tinta); border: 1.5px solid var(--tinta); font: 600 13px/23px var(--sans); text-align: center; transform: translate(-50%, -50%); }
+.parts { list-style: none; }
+.parts li { display: grid; grid-template-columns: 34px 1fr; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
+.parts li b { font-weight: 600; }
+.parts .n { font: 600 13px/22px var(--sans); width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--tinta); text-align: center; }
+.notes { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 0 40px; }
+.notes h4 { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.notes ul { list-style: none; }
+.notes li { padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
+.path-list { list-style: none; }
+.path-list li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--pauta); }
+.path-list b { font: 500 17px/1.4 var(--serif); }
+.path-list span { color: var(--grafite); font-size: 15px; }
+@media (max-width: 560px) { .path-list li { grid-template-columns: 1fr; gap: 2px; } }
+.specs { width: 100%; border-collapse: collapse; font-size: 15px; }
+.specs th { text-align: left; font: 600 12px/16px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--grafite); padding: 10px 12px 10px 0; border-bottom: 1px solid var(--tinta); }
+.specs td { padding: 12px 12px 12px 0; border-bottom: 1px solid var(--pauta); vertical-align: top; }
+.specs code, .files code { font: 500 .88em/1 ui-monospace, Consolas, monospace; background: #ECE6DA; padding: 2px 5px; border-radius: 2px; overflow-wrap: anywhere; }
+.table-wrap { overflow-x: auto; }
+/* A abertura do app (a mesma animação do components/OpeningSplash.tsx) */
+.op-stage { display: grid; grid-template-columns: 390px minmax(0, 1fr); gap: 48px; align-items: start; }
+@media (max-width: 860px) { .op-stage { grid-template-columns: 1fr; } }
+.op-phone { width: 100%; max-width: 390px; height: 844px; border: 10px solid #161714; border-radius: 46px; overflow: hidden; position: relative; background: #161714; box-shadow: 0 40px 70px -45px rgba(30, 31, 28, .55); }
+.op-screen { position: absolute; inset: 0; border-radius: 36px; overflow: hidden; background: var(--papel); }
+.op-app { position: absolute; inset: 0; display: flex; flex-direction: column; background: var(--papel); }
+.op-sbar { height: 40px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 28px 0; font-size: 14px; font-weight: 600; }
+.op-sbar i { width: 25px; height: 12px; border: 1.5px solid currentColor; border-radius: 3px; display: block; }
+.op-body { flex: 1; padding: 16px 24px 0; }
+.op-word { font: 600 20px/26px var(--serif); }
+.op-display { margin-top: 40px; font: 600 34px/38px var(--serif); letter-spacing: -.02em; }
+.op-text { margin-top: 16px; color: var(--grafite); }
+.op-foot { flex: none; display: grid; gap: 8px; padding: 12px 24px 30px; border-top: 1px solid var(--pauta); }
+.op-btn { min-height: 48px; border-radius: 6px; display: grid; place-items: center; font: 600 15px/1 var(--sans); }
+.op-btn.primary { background: var(--tinta); color: var(--papel); }
+.op-btn.secondary { box-shadow: inset 0 0 0 1px var(--tinta); }
+.op-splash { position: absolute; inset: 0; perspective: 1400px; }
+.op-paper { position: absolute; inset: 0; background: var(--papel); }
+.op-cover { position: absolute; background: var(--musgo); overflow: hidden; transform-origin: left center; backface-visibility: hidden; }
+.op-band { position: absolute; top: 0; bottom: 0; left: 78.125%; width: 5.859375%; background: var(--tinta); }
+.op-mark { position: absolute; fill: var(--papel); overflow: visible; }
+.op-shade { position: absolute; inset: 0; background: #000; opacity: 0; }
+.op-controls { display: flex; flex-wrap: wrap; gap: 12px 20px; align-items: center; margin-top: 24px; }
+.op-controls button { min-height: 44px; padding: 0 20px; border: 0; border-radius: 6px; background: var(--tinta); color: var(--papel); font: 600 15px/1 var(--sans); cursor: pointer; }
+.op-controls button:hover { background: #000; }
+.op-controls label { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; cursor: pointer; }
+.op-controls input { width: 18px; height: 18px; accent-color: var(--musgo); }
+.op-steps { list-style: none; margin-top: 8px; }
+.op-steps li { display: grid; grid-template-columns: 14px 1fr; gap: 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--pauta); color: var(--grafite); font-size: 15px; transition: color .2s; }
+.op-steps li::before { content: ""; width: 10px; height: 10px; border-radius: 2px; box-shadow: inset 0 0 0 1.5px var(--pauta); transform: translateY(1px); }
+.op-steps li b { color: var(--tinta); font-weight: 600; }
+.op-steps li.now { color: var(--tinta); }
+.op-steps li.now::before { background: var(--musgo); box-shadow: none; }
+.op-steps li.done::before { background: var(--pauta); box-shadow: none; }
+.foot { padding: 40px 0 72px; color: var(--grafite); font-size: 15px; }
+.foot a { color: inherit; text-underline-offset: 3px; }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="icone" viewBox="0 0 1024 1024"><path fill="#2C5440" d="M0 0L1024 0L1024 1024L0 1024Z"/><path fill="#1E1F1C" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="#F4F0E8" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="#F4F0E8" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="#F4F0E8" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></symbol>
+  <symbol id="android" viewBox="0 0 1024 1024"><path fill="#2C5440" d="M0 0L1024 0L1024 1024L0 1024Z"/><g transform="translate(512 512) scale(.85) translate(-512 -512)"><path fill="#1E1F1C" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="#F4F0E8" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="#F4F0E8" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="#F4F0E8" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></g></symbol>
+  <symbol id="uma-cor" viewBox="0 0 1024 1024"><g transform="translate(512 512) scale(.85) translate(-512 -512)"><path fill="currentColor" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="currentColor" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="currentColor" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="currentColor" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></g></symbol>
+  <symbol id="uma-cor-cheio" viewBox="0 0 1024 1024"><path fill="currentColor" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="currentColor" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="currentColor" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="currentColor" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></symbol>
+</svg>
+
+<header class="top">
+  <div class="wrap">
+    <span class="rotulo">Caderneta · a marca · decidido em 20/10/2026</span>
+    <h1>O ícone da Caderneta</h1>
+    <p class="lede">A capa da caderneta em Musgo, com o elástico de Tinta perto da borda e, escrito nela, o "C" dos títulos com o traço duplo de quem fecha uma conta. Esta página mostra o ícone onde ele aparece e na abertura do app, explica o porquê de cada parte e conta como se chegou a ele.</p>
+  </div>
+</header>
+
+<section class="part">
+  <div class="wrap">
+    <div class="part-head"><h2>Onde ele aparece</h2><p>No iPhone, no Android (que mostra só o círculo do meio), em tamanho real na tela inicial, no ícone temático do Android (de uma cor, pintado pelo sistema) e na splash, a tela de abertura.</p></div>
+    <div class="row">
+      <figure><div class="ios s180"><svg><use href="#icone"/></svg></div><figcaption>iPhone</figcaption></figure>
+      <figure><div class="android s120"><svg><use href="#android"/></svg></div><figcaption>Android</figcaption></figure>
+      <figure><div class="mono"><svg><use href="#uma-cor"/></svg></div><figcaption>Temático (Android)</figcaption></figure>
+      <figure><div class="splash"><div class="ios" style="width:64px;height:64px;box-shadow:none"><svg><use href="#icone"/></svg></div></div><figcaption>Splash</figcaption></figure>
+    </div>
+    <div class="row" style="margin-top:40px">
+      <figure><div class="home dark"><div class="app"><div class="ic ph"></div><span>Fotos</span></div><div class="app"><div class="ic"><svg><use href="#icone"/></svg></div><span>Caderneta</span></div><div class="app"><div class="ic ph"></div><span>Banco</span></div><div class="app"><div class="ic ph"></div><span>Mapas</span></div></div><figcaption>Tamanho real, papel de parede escuro</figcaption></figure>
+      <figure><div class="home light"><div class="app"><div class="ic ph"></div><span>Fotos</span></div><div class="app"><div class="ic"><svg><use href="#icone"/></svg></div><span>Caderneta</span></div><div class="app"><div class="ic ph"></div><span>Banco</span></div><div class="app"><div class="ic ph"></div><span>Mapas</span></div></div><figcaption>Tamanho real, papel de parede claro</figcaption></figure>
+      <figure><div class="small"><div class="ios s60"><svg><use href="#icone"/></svg></div><div class="ios s40"><svg><use href="#icone"/></svg></div><div class="ios s29"><svg><use href="#icone"/></svg></div></div><figcaption>60, 40 e 29 px</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section class="part" id="abertura">
+  <div class="wrap">
+    <div class="part-head"><h2>A abertura do app</h2><p>O ícone também abre o app. A animação começa igual à splash do sistema, com o ícone parado no centro do papel; o ícone cresce até virar a capa da caderneta e, quando o app está pronto, o elástico é puxado para o lado e a capa se abre sobre a tela de verdade. É feita em código, com o mesmo desenho do ícone, e não em vídeo.</p></div>
+    <div class="op-stage">
+      <div class="op-phone"><div class="op-screen" id="op-screen">
+        <div class="op-app" aria-hidden="true">
+          <div class="op-sbar"><span>9:41</span><i></i></div>
+          <div class="op-body">
+            <div class="op-word">Caderneta</div>
+            <div class="op-display">Sua casa em ordem.<br>Sem complicação.</div>
+            <p class="op-text">Registre seus gastos, acompanhe suas receitas e despesas e mantenha as contas da sua casa organizadas de forma prática e intuitiva.</p>
+          </div>
+          <div class="op-foot"><span class="op-btn primary">Criar conta</span><span class="op-btn secondary">Já tenho conta</span></div>
+        </div>
+        <div class="op-splash" id="op-splash" aria-hidden="true">
+          <div class="op-paper" id="op-paper"></div>
+          <div class="op-cover" id="op-cover">
+            <div class="op-band" id="op-band"></div>
+            <svg class="op-mark" id="op-mark" viewBox="238 225 390 599"><path d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></svg>
+            <div class="op-shade" id="op-shade"></div>
+          </div>
+        </div>
+      </div></div>
+      <div>
+        <ol class="op-steps" id="op-steps">
+          <li data-step="native"><span><b>Splash do sistema.</b> O ícone parado no centro do papel, enquanto o código do app carrega.</span></li>
+          <li data-step="grow"><span><b>O ícone vira a capa (1,1 s).</b> Cresce até a tela inteira, os cantos ficam retos e o "C" com o traço duplo vai para o tamanho de capa.</span></li>
+          <li data-step="open"><span><b>A caderneta abre (1,6 s).</b> O elástico é puxado para a direita e a capa gira na dobradiça da esquerda, escurecendo um pouco ao virar.</span></li>
+          <li data-step="app"><span><b>A tela do app.</b> A página embaixo da capa já é a tela de verdade: a capa de entrada ou o Início.</span></li>
+        </ol>
+        <div class="op-controls">
+          <button type="button" id="op-replay">Ver de novo</button>
+          <label><input type="checkbox" id="op-slow"> Câmera lenta (3×)</label>
+          <label><input type="checkbox" id="op-reduce"> Reduzir movimento</label>
+        </div>
+        <ul class="parts" style="margin-top:28px">
+          <li><span class="n">·</span><span><b>Nunca segura o app.</b> Se o app demora para carregar, a capa espera parada, sem loop; se ele já está pronto, a abertura segue direto.</span></li>
+          <li><span class="n">·</span><span><b>Só ao abrir do zero.</b> Voltar do segundo plano não repete, e um toque na tela pula a animação.</span></li>
+          <li><span class="n">·</span><span><b>Reduzir movimento.</b> Com a opção ligada no celular, o ícone some num fade de 200 ms, direto para a tela.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="part">
+  <div class="wrap">
+    <div class="part-head"><h2>As partes do ícone</h2><p>Cada elemento tem um motivo e vem do próprio app.</p></div>
+    <div class="anatomy">
+      <div class="anatomy-figure">
+        <div class="ios"><svg><use href="#icone"/></svg></div>
+        <span class="pin" style="left:12%;top:12%">1</span>
+        <span class="pin" style="left:81%;top:50%">2</span>
+        <span class="pin" style="left:42%;top:44%">3</span>
+        <span class="pin" style="left:42%;top:76%">4</span>
+      </div>
+      <ol class="parts">
+        <li><span class="n">1</span><span><b>A capa, em Musgo.</b> O ícone inteiro é a capa da caderneta, em vez de um caderno desenhado dentro de um quadrado. O Musgo é a cor das ações e do dinheiro que entra no app: vira a cor da marca.</span></li>
+        <li><span class="n">2</span><span><b>O elástico, em Tinta.</b> O detalhe da caderneta de bolso, que fica fechada no bolso ou na bolsa. É ele que diz "caderneta" sem precisar desenhar páginas, e que tira o ícone do lugar-comum dos apps de letra.</span></li>
+        <li><span class="n">3</span><span><b>O "C", em Papel.</b> A Fraunces SemiBold, a mesma letra dos títulos do app e do nome na capa. Liga o ícone ao nome para quem procura o app na tela.</span></li>
+        <li><span class="n">4</span><span><b>O traço duplo, em Papel.</b> O sinal que fecha uma conta no livro-caixa, o mesmo que aparece embaixo do total nas fichas do chat. Fica sempre embaixo do "C", nunca atravessando a letra, para não virar o símbolo do euro (€).</span></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section class="part">
+  <div class="wrap">
+    <div class="part-head"><h2>Por que este</h2><p>O que o A+1 resolve em relação às outras opções.</p></div>
+    <ol class="reasons">
+      <li><span><b>Junta a letra e o objeto.</b> A opção A (só a letra) era elegante, mas podia ser de qualquer marca com C; a opção B (o caderno desenhado) dizia o nome, mas parecia ilustração. Escrever a letra na capa junta as duas qualidades.</span></li>
+      <li><span><b>Tem personalidade sem barulho.</b> A letra fora do centro e o elástico na borda dão ritmo ao desenho, e o ícone continua com três cores e quatro formas retas.</span></li>
+      <li><span><b>Só as cores do guia.</b> Musgo, Papel e Tinta, as cores das telas. A Mostarda (da opção com a fita) ficou de fora porque no app ela marca o que pede atenção.</span></li>
+      <li><span><b>Lê pequeno.</b> Em 29 px ainda se vê o "C", o traço e o elástico, e a silhueta sobra no ícone temático, de uma cor.</span></li>
+      <li><span><b>Combina com o app.</b> Sem sombra, brilho ou degradê, como as telas, e com a mesma letra dos títulos: quem abre o app reconhece a capa.</span></li>
+      <li><span><b>Pronto para o Android.</b> A frente do ícone fica 15% menor no Android, e assim o traço duplo e o elástico não encostam na borda do círculo.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="part">
+  <div class="wrap">
+    <div class="part-head"><h2>Como se chegou a ele</h2><p>Do primeiro esboço à decisão, em quatro passos.</p></div>
+    <ol class="path-list">
+      <li><b>1º esboço</b><span>Quatro caminhos: o "C" com o traço duplo (A), a caderneta de capa verde (B), a página pautada (C) e o balão pautado (D). A e B chamaram atenção: a A pela simplicidade e elegância, a B por mostrar a caderneta.</span></li>
+      <li><b>Estudos</b><span>Oito variações a partir de A e B: capa com elástico, fita marcadora, orelha, etiqueta com C, C pautado, C na página, C de conversa e bloco de argolas, comparadas na tela inicial e pelos mesmos critérios.</span></li>
+      <li><b>Combinações</b><span>A opção A inteira, sozinha e somada ao elástico (A+1) e à fita (A+2). Depois de ver lado a lado, o espaço entre a letra e o detalhe aumentou: a letra foi para a esquerda e o elástico, para a borda.</span></li>
+      <li><b>Decisão</b><span>A+1: a letra e o traço duplo da opção A, escritos na capa com o elástico.</span></li>
+    </ol>
+  </div>
+</section>
+
+<section class="part">
+  <div class="wrap">
+    <div class="part-head"><h2>O que observar</h2></div>
+    <div class="notes">
+      <div><h4>Funciona bem</h4><ul>
+        <li>Reconhecível nos dois papéis de parede, pela letra clara sobre o Musgo.</li>
+        <li>Igual em todos os lugares: o mesmo desenho na tela inicial, na splash e no app.</li>
+        <li>A versão de uma cor mantém a letra, o traço e o elástico separados.</li>
+      </ul></div>
+      <div><h4>Atenção</h4><ul>
+        <li>O elástico é escuro sobre Musgo, de propósito: é textura. No papel de parede escuro ele quase some, e quem segura o reconhecimento é o "C" com o traço.</li>
+        <li>Nada de colocar o ícone sobre fundo Musgo sem borda: a capa se perde na cor.</li>
+      </ul></div>
+    </div>
+  </div>
+</section>
+
+<section class="part">
+  <div class="wrap">
+    <div class="part-head"><h2>Construção e arquivos</h2><p>Medidas numa grade de 1024. As mesmas regras estão no guia de design, na parte "A marca".</p></div>
+    <div class="table-wrap">
+      <table class="specs">
+        <thead><tr><th>Parte</th><th>Medidas</th><th>Cor</th></tr></thead>
+        <tbody>
+          <tr><td>Capa</td><td>O quadrado inteiro (o sistema arredonda os cantos)</td><td>Musgo <code>#2C5440</code></td></tr>
+          <tr><td>Elástico</td><td>De 800 a 860, de cima a baixo</td><td>Tinta <code>#1E1F1C</code></td></tr>
+          <tr><td>"C"</td><td>Fraunces SemiBold, corpo 600, centrado em 432, linha de base em 660</td><td>Papel <code>#F4F0E8</code></td></tr>
+          <tr><td>Traço duplo</td><td>De 242 a 622, nas alturas 742 e 796, com 24 de espessura e canto 4</td><td>Papel <code>#F4F0E8</code></td></tr>
+          <tr><td>Android</td><td>A frente em 85%, a partir do centro, sobre o fundo Musgo</td><td></td></tr>
+          <tr><td>Splash</td><td>O ícone com canto de 22,4%, em 96 dp, no centro do Papel</td><td>Fundo Papel</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <ul class="parts files" style="margin-top:28px">
+      <li><span class="n">·</span><span><b>SVG de referência</b> (README, documentação, site): <code>mobile/assets/brand/caderneta-icone.svg</code> e <code>caderneta-icone-uma-cor.svg</code>.</span></li>
+      <li><span class="n">·</span><span><b>PNG do app</b>: <code>mobile/assets/images/</code> (ícone geral e do iPhone, frente e temático do Android, splash e favicon).</span></li>
+      <li><span class="n">·</span><span><b>Gerar de novo</b>, na raiz do projeto: <code>node scripts/brand-icons.mjs</code>. O "C" sai do arquivo da fonte, sem depender dela instalada.</span></li>
+    </ul>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">O ícone da Caderneta. Parte da <a href="index.html">documentação</a>, com o <a href="design-guide.html">guia de design</a>.</div>
+</footer>
+
+
+<script>
+// A abertura do app: os mesmos tempos e curvas do components/OpeningSplash.tsx (guia de design, versão 1.6).
+(function () {
+  var GROW = 1100, BAND = 480, DELAY = 380, OPEN = 1250, NATIVE = 700, TILE = 96, RADIUS = 0.2236;
+  var EASE = 'cubic-bezier(.2,.7,.2,1)', EASE_BAND = 'cubic-bezier(.45,0,.55,1)', EASE_OPEN = 'cubic-bezier(.5,0,.25,1)';
+  var MARK = { x: 238, y: 225, w: 390, h: 599 };
+  var $ = function (id) { return document.getElementById(id); };
+  var screen = $('op-screen'), splash = $('op-splash'), paper = $('op-paper'), cover = $('op-cover'), band = $('op-band'), mark = $('op-mark'), shade = $('op-shade');
+  var run = 0, timer = null;
+
+  function step(name) {
+    var order = ['native', 'grow', 'open', 'app'];
+    document.querySelectorAll('#op-steps li').forEach(function (li) {
+      var i = order.indexOf(li.dataset.step), now = order.indexOf(name);
+      li.classList.toggle('now', i === now);
+      li.classList.toggle('done', i < now);
+    });
+  }
+  function px(el, r) { Object.keys(r).forEach(function (k) { el.style[k] = r[k] + 'px'; }); }
+
+  function play() {
+    run += 1;
+    var id = run, k = $('op-slow').checked ? 3 : 1, reduce = $('op-reduce').checked;
+    clearTimeout(timer);
+    document.getAnimations().forEach(function (a) { if (screen.contains(a.effect && a.effect.target)) a.cancel(); });
+    var w = screen.clientWidth, h = screen.clientHeight;
+    var tile = { left: (w - TILE) / 2, top: (h - TILE) / 2, width: TILE, height: TILE };
+    var from = { left: MARK.x * TILE / 1024, top: MARK.y * TILE / 1024, width: MARK.w * TILE / 1024 };
+    var width = 150, height = width * MARK.h / MARK.w;
+    var to = { left: ((MARK.x + MARK.w / 2) / 1024) * w - width / 2, top: h * 0.44 - height / 2, width: width };
+
+    splash.style.opacity = 1;
+    splash.hidden = false;
+    paper.style.opacity = 1;
+    cover.style.cssText = '';
+    px(cover, tile);
+    cover.style.borderRadius = TILE * RADIUS + 'px';
+    px(mark, from);
+    step('native');
+
+    timer = setTimeout(function () {
+      if (id !== run) return;
+      if (reduce) {
+        step('open');
+        splash.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 200 * k, fill: 'forwards' }).finished.then(function () { if (id === run) { splash.hidden = true; step('app'); } });
+        return;
+      }
+      step('grow');
+      var timing = { duration: GROW * k, easing: EASE, fill: 'forwards' };
+      cover.animate([
+        { left: tile.left + 'px', top: tile.top + 'px', width: TILE + 'px', height: TILE + 'px', borderRadius: TILE * RADIUS + 'px' },
+        { left: '0px', top: '0px', width: w + 'px', height: h + 'px', borderRadius: '0px' },
+      ], timing);
+      mark.animate([
+        { left: from.left + 'px', top: from.top + 'px', width: from.width + 'px' },
+        { left: to.left + 'px', top: to.top + 'px', width: to.width + 'px' },
+      ], timing).finished.then(function () {
+        if (id !== run) return;
+        step('open');
+        paper.style.opacity = 0;
+        band.animate([{ transform: 'translateX(0)' }, { transform: 'translateX(240%)', opacity: 0 }], { duration: BAND * k, easing: EASE_BAND, fill: 'forwards' });
+        var turn = { duration: OPEN * k, delay: DELAY * k, easing: EASE_OPEN, fill: 'forwards' };
+        cover.animate([{ transform: 'rotateY(0deg)' }, { transform: 'rotateY(-100deg)' }], turn);
+        shade.animate([{ opacity: 0 }, { opacity: 0.28 }], turn).finished.then(function () { if (id === run) { splash.hidden = true; step('app'); } });
+      });
+    }, NATIVE * k);
+  }
+
+  $('op-replay').addEventListener('click', play);
+  // Toca sozinha quando a seção aparece na tela, uma vez; depois, pelo "Ver de novo".
+  var seen = false;
+  new IntersectionObserver(function (entries) {
+    if (!seen && entries[0].isIntersecting) { seen = true; document.fonts.ready.then(play); }
+  }, { threshold: 0.4 }).observe(screen);
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Caderneta · Como funciona por dentro</title>
+<meta name="description" content="A arquitetura da Caderneta explicada para quem não conhece o código: as partes, as ideias que organizam o sistema e o caminho de uma mensagem de voz.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400&display=swap">
+<style>
+/* Os tokens do guia Caderneta (design-guide.html). */
+:root {
+  --papel: #F4F0E8;
+  --folha: #FBF9F4;
+  --papel-escuro: #ECE6DA;
+  --pauta: #DCD5C6;
+  --borda: #8F8778;
+  --tinta: #1E1F1C;
+  --grafite: #5F5B52;
+  --musgo: #2C5440;
+  --musgo-claro: #E1E9DF;
+  --tijolo: #A63A25;
+  --serif: 'Fraunces', Georgia, serif;
+  --sans: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', Consolas, monospace;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: var(--papel); color: var(--tinta); font: 400 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; }
+a { color: var(--musgo); text-underline-offset: 3px; }
+code { font: 400 .9em var(--mono); background: var(--papel-escuro); padding: 1px 5px; border-radius: 4px; }
+.wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+.rotulo { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
+
+/* Capa */
+.top { padding: 64px 0 48px; border-bottom: 1px solid var(--tinta); }
+.icone { display: block; width: 64px; height: 64px; margin-bottom: 28px; }
+.top h1 { font: 600 52px/1.05 var(--serif); letter-spacing: -.02em; margin-top: 10px; max-width: 16ch; }
+.lede { margin-top: 18px; max-width: 64ch; color: var(--grafite); font-size: 18px; }
+.toc { margin-top: 32px; display: flex; flex-wrap: wrap; gap: 8px 20px; list-style: none; }
+.toc a { color: var(--tinta); font-weight: 500; text-decoration: none; }
+.toc a span { color: var(--grafite); font-weight: 400; margin-right: 6px; font-variant-numeric: tabular-nums; }
+.toc a:hover { text-decoration: underline; }
+
+/* Cada parte: o número, o título, a frase, o desenho e o "como explicar" */
+.part { padding: 56px 0; border-bottom: 1px solid var(--pauta); }
+.part-head { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin-bottom: 28px; }
+.part-num { font: 600 13px/40px var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; }
+.part-head h2 { font: 500 34px/1.15 var(--serif); letter-spacing: -.01em; }
+.part-head p { margin-top: 10px; color: var(--grafite); max-width: 66ch; font-size: 17px; }
+@media (max-width: 640px) {
+  .part-head { grid-template-columns: 1fr; }
+  .part-num { line-height: 16px; }
+  .top h1 { font-size: 40px; }
+  .part-head h2 { font-size: 28px; }
+}
+.explain { margin-top: 32px; padding: 12px 0 12px 16px; border-left: 2px solid var(--musgo); max-width: 70ch; }
+.explain .rotulo { color: var(--musgo); }
+.explain p { margin-top: 6px; font: 400 18px/1.55 var(--serif); }
+
+/* Caixas do desenho: Folha com a pauta em volta, como as fichas do app */
+.box { background: var(--folha); border: 1px solid var(--pauta); border-radius: 6px; padding: 14px 16px; }
+.box b { display: block; font: 600 17px/1.3 var(--serif); }
+.box span { display: block; color: var(--grafite); font-size: 14px; line-height: 1.45; margin-top: 2px; }
+.box.ink { border-color: var(--tinta); }
+.box.moss { background: var(--musgo-claro); border-color: var(--musgo); }
+
+/* 01 · O mapa */
+.map { display: grid; grid-template-columns: 1fr 2.2fr 1fr; gap: 20px; }
+.col h3 { padding-bottom: 8px; border-bottom: 1px solid var(--tinta); margin-bottom: 14px; }
+.col .stack { display: grid; gap: 10px; }
+.col .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.paths { margin-top: 20px; display: flex; flex-wrap: wrap; gap: 10px 28px; color: var(--grafite); font-size: 15px; }
+.paths i { display: inline-block; width: 28px; height: 0; border-top: 2px solid var(--tinta); vertical-align: middle; margin-right: 8px; }
+.paths i.ws { border-color: var(--musgo); }
+.paths i.q { border-top: 2px dashed var(--grafite); }
+@media (max-width: 860px) { .map { grid-template-columns: 1fr; } }
+
+/* 02 · Três ideias */
+.ideas { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; counter-reset: idea; }
+.ideas .box b::before { counter-increment: idea; content: counter(idea) " · "; color: var(--musgo); }
+@media (max-width: 860px) { .ideas { grid-template-columns: 1fr; } }
+
+/* 03 · Os portões */
+.gates { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; list-style: none; }
+.gates li { position: relative; padding: 0 14px 0 0; }
+.gates li + li { padding-left: 14px; border-left: 1px solid var(--pauta); }
+.gates .q { font: 600 16px/1.3 var(--serif); }
+.gates .who { margin-top: 6px; font: 400 13px var(--mono); color: var(--grafite); word-break: break-word; }
+.gates .no { margin-top: 8px; font-size: 13px; color: var(--tijolo); }
+.gates .ok { margin-top: 8px; font-size: 13px; color: var(--musgo); }
+.gates .n { font: 600 12px var(--sans); color: var(--grafite); display: block; margin-bottom: 6px; }
+@media (max-width: 860px) {
+  .gates { grid-template-columns: 1fr; }
+  .gates li, .gates li + li { padding: 12px 0; border-left: 0; border-top: 1px solid var(--pauta); }
+}
+
+/* 04 · A casa como filtro */
+.houses { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.house h3 { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.house h3 b { font: 600 18px var(--serif); }
+.house.off { opacity: .45; }
+.row { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
+.row em { font-style: normal; color: var(--grafite); font-size: 13px; }
+.row.hidden { color: var(--grafite); text-decoration: line-through; text-decoration-color: var(--borda); }
+.query { margin-top: 20px; padding: 14px 16px; background: var(--tinta); color: var(--papel); border-radius: 6px; font: 400 14px/1.6 var(--mono); overflow-x: auto; }
+.query .c { color: #B7C9B3; }
+@media (max-width: 720px) { .houses { grid-template-columns: 1fr; } }
+
+/* 05 · A voz */
+.steps { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px 24px; counter-reset: s; }
+.steps li { display: grid; grid-template-columns: 28px 1fr; gap: 10px; align-items: start; }
+.steps li::before { counter-increment: s; content: counter(s); width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--musgo); color: var(--musgo); font: 600 12px/21px var(--sans); text-align: center; }
+.steps b { display: block; font-weight: 600; }
+.steps span { color: var(--grafite); font-size: 15px; }
+@media (max-width: 860px) { .steps { grid-template-columns: 1fr; } }
+.frame { margin-top: 32px; border: 1px solid var(--pauta); border-radius: 6px; overflow: hidden; background: var(--papel); }
+.frame iframe { display: block; width: 100%; aspect-ratio: 1040 / 1680; border: 0; }
+.frame-cap { margin-top: 10px; color: var(--grafite); font-size: 14px; }
+
+/* Tabelas de pauta, como o Ledger do app */
+table.ledger { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.ledger th { text-align: left; font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding: 0 16px 8px 0; border-bottom: 1px solid var(--tinta); }
+table.ledger td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--pauta); vertical-align: top; }
+table.ledger td:first-child { font-weight: 500; white-space: nowrap; }
+.tag { display: inline-block; padding: 1px 8px; border-radius: 4px; border: 1px solid var(--borda); font-size: 12px; font-weight: 500; white-space: nowrap; }
+.tag.moss { border-color: var(--musgo); color: var(--musgo); }
+.tag.brick { border-color: var(--tijolo); color: var(--tijolo); }
+@media (max-width: 640px) { table.ledger td:first-child { white-space: normal; } }
+
+/* 07 · O cofre */
+.vault { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr; gap: 14px; align-items: center; }
+.vault .arrow { color: var(--grafite); font-size: 22px; text-align: center; }
+.vault .box span.m { font: 400 14px var(--mono); color: var(--tinta); }
+/* O marcador fica no meio da frase: a regra das caixas (span em bloco) não vale para ele. */
+.box span.mark { display: inline; margin: 0; background: var(--folha); color: var(--musgo); border: 1px solid var(--musgo); border-radius: 4px; padding: 0 4px; font: 400 .92em var(--mono); }
+@media (max-width: 860px) { .vault { grid-template-columns: 1fr; } .vault .arrow { transform: rotate(90deg); } }
+
+/* 08 · Ao vivo */
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+@media (max-width: 720px) { .two { grid-template-columns: 1fr; } }
+.two h3 { font: 600 18px var(--serif); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); margin-bottom: 4px; }
+
+/* 10 · Os números */
+.figures { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--pauta); }
+.figures div { padding: 18px 16px 18px 0; border-bottom: 1px solid var(--pauta); }
+.figures div:not(:nth-child(3n + 1)) { padding-left: 16px; border-left: 1px solid var(--pauta); }
+.figures b { display: block; font: 600 40px/1.1 var(--serif); font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.02em; }
+.figures span { color: var(--grafite); font-size: 15px; }
+@media (max-width: 640px) {
+  .figures { grid-template-columns: 1fr 1fr; }
+  .figures div, .figures div:not(:nth-child(3n + 1)) { padding: 16px 12px 16px 0; border-left: 0; }
+  .figures div:nth-child(even) { padding-left: 12px; border-left: 1px solid var(--pauta); }
+}
+
+/* 11 · Em um minuto */
+.pitch { font: 400 22px/1.55 var(--serif); max-width: 62ch; }
+.pitch + .pitch { margin-top: 16px; }
+
+/* 12 · Para ir mais fundo */
+.links { list-style: none; }
+.links li { border-bottom: 1px solid var(--pauta); }
+.links a { display: grid; grid-template-columns: 1fr auto; gap: 4px 16px; padding: 14px 0; text-decoration: none; color: var(--tinta); }
+.links a b { font: 500 18px var(--serif); }
+.links a span { color: var(--grafite); font-size: 15px; grid-column: 1; }
+.links a i { font-style: normal; color: var(--musgo); grid-row: 1; grid-column: 2; font-weight: 500; }
+.links a:hover b { text-decoration: underline; text-underline-offset: 5px; text-decoration-thickness: 1px; }
+
+.foot { padding: 32px 0 56px; color: var(--grafite); font-size: 14px; }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <svg class="icone" viewBox="0 0 1024 1024" role="img" aria-label="Ícone da Caderneta"><clipPath id="icone-canto"><rect width="1024" height="1024" rx="229"/></clipPath><g clip-path="url(#icone-canto)"><path fill="#2C5440" d="M0 0L1024 0L1024 1024L0 1024Z"/><path fill="#1E1F1C" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="#F4F0E8" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="#F4F0E8" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="#F4F0E8" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></g></svg>
+    <span class="rotulo">Caderneta · Apresentação</span>
+    <h1>Como a Caderneta funciona por dentro</h1>
+    <p class="lede">Um app de celular que conversa com uma API. A API guarda tudo num banco, faz o trabalho demorado em segundo plano e avisa o celular ao vivo. Quem entende a fala é um agente de IA, que propõe; quem grava é sempre a pessoa, conferindo. Esta página explica isso em doze partes, com o que dizer em cada uma.</p>
+    <ol class="toc">
+      <li><a href="#mapa"><span>01</span>As partes</a></li>
+      <li><a href="#ideias"><span>02</span>Três ideias</a></li>
+      <li><a href="#portoes"><span>03</span>Uma requisição</a></li>
+      <li><a href="#casa"><span>04</span>A casa como filtro</a></li>
+      <li><a href="#voz"><span>05</span>Da voz ao lançamento</a></li>
+      <li><a href="#ia"><span>06</span>A IA propõe</a></li>
+      <li><a href="#cofre"><span>07</span>O cofre</a></li>
+      <li><a href="#vivo"><span>08</span>Ao vivo</a></li>
+      <li><a href="#dados"><span>09</span>Guardar × calcular</a></li>
+      <li><a href="#numeros"><span>10</span>Os números</a></li>
+      <li><a href="#minuto"><span>11</span>Em um minuto</a></li>
+      <li><a href="#fundo"><span>12</span>Mais fundo</a></li>
+    </ol>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="part" id="mapa">
+    <div class="part-head"><span class="part-num">01</span><div><h2>As partes</h2><p>Onde cada coisa roda. O servidor não é um programa só: são quatro processos com o mesmo código, cada um com uma função.</p></div></div>
+    <div class="map">
+      <div class="col">
+        <h3 class="rotulo">No celular</h3>
+        <div class="stack">
+          <div class="box ink"><b>App Caderneta</b><span>Expo · React Native. As telas, um cache dos dados e uma conexão ao vivo.</span></div>
+        </div>
+      </div>
+      <div class="col">
+        <h3 class="rotulo">No servidor · Docker</h3>
+        <div class="stack">
+          <div class="pair">
+            <div class="box ink"><b>API</b><span>Laravel. Recebe os pedidos, aplica as regras e grava.</span></div>
+            <div class="box ink"><b>Fila</b><span>O trabalho demorado: a IA, a transcrição, os e-mails.</span></div>
+          </div>
+          <div class="pair">
+            <div class="box ink"><b>Agenda</b><span>O relógio: salário no dia, avisos de contas e lembretes.</span></div>
+            <div class="box ink"><b>Reverb</b><span>O WebSocket: avisa o celular na hora.</span></div>
+          </div>
+          <div class="pair">
+            <div class="box"><b>PostgreSQL</b><span>O banco. Guarda tudo.</span></div>
+            <div class="box"><b>Redis</b><span>A fila de trabalhos e o cache.</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="col">
+        <h3 class="rotulo">Fora do servidor</h3>
+        <div class="stack">
+          <div class="box moss"><b>Agente de IA</b><span>Gemini. Conversa, pede ferramentas e transcreve a voz.</span></div>
+          <div class="box"><b>E-mail</b><span>Liberação de cadastro e código de senha.</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="paths">
+      <span><i></i>o app pede pela API (HTTP)</span>
+      <span><i class="ws"></i>e escuta pelo Reverb (WebSocket)</span>
+      <span><i class="q"></i>a API entrega o demorado à fila</span>
+    </div>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"O celular pede pela API e escuta pelo Reverb. Tudo que demora (a IA, a voz, os e-mails) sai do pedido e vai para uma fila, e o resultado volta pela conexão ao vivo. Assim o app nunca fica travado esperando."</p></div>
+  </section>
+
+  <section class="part" id="ideias">
+    <div class="part-head"><span class="part-num">02</span><div><h2>Três ideias organizam tudo</h2><p>Quase todas as decisões do código saem destas três.</p></div></div>
+    <div class="ideas">
+      <div class="box"><b>A casa é dona de tudo</b><span>Uma pessoa pode ter várias casas. Cada consulta ao banco já sai filtrada pela casa aberta, sem nenhum "se" espalhado pelo código.</span></div>
+      <div class="box"><b>A regra mora num lugar só</b><span>As regras de dinheiro ficam nos services. O app, o assistente e as rotinas da agenda usam os mesmos, então um gasto é tratado igual venha de onde vier.</span></div>
+      <div class="box"><b>A IA propõe, a pessoa confirma</b><span>A IA nunca grava o que precisa de conferência: monta uma ficha. O "Confirmar" grava pela API, sem voltar à IA.</span></div>
+    </div>
+  </section>
+
+  <section class="part" id="portoes">
+    <div class="part-head"><span class="part-num">03</span><div><h2>Uma requisição passa por portões</h2><p>O caminho de um gasto lançado pelo formulário (<code>POST /api/v1/transactions</code>). Cada portão faz uma pergunta e, se a resposta for não, devolve um código de erro.</p></div></div>
+    <ol class="gates">
+      <li><span class="n">1</span><p class="q">Quem é você?</p><p class="who">auth:sanctum</p><p class="no">não: 401</p></li>
+      <li><span class="n">2</span><p class="q">Em que casa?</p><p class="who">ResolveCurrentHousehold</p><p class="ok">guarda a casa e o papel</p></li>
+      <li><span class="n">3</span><p class="q">Pode gravar?</p><p class="who">EnsureCanWrite</p><p class="no">só leitura: 403</p></li>
+      <li><span class="n">4</span><p class="q">Os dados fazem sentido?</p><p class="who">StoreTransactionRequest</p><p class="no">não: 422, por campo</p></li>
+      <li><span class="n">5</span><p class="q">A regra</p><p class="who">TransactionService::create</p><p class="ok">fatura do cartão, orçamento</p></li>
+      <li><span class="n">6</span><p class="q">Gravado</p><p class="who">transactions</p><p class="ok">201, e o app atualiza</p></li>
+    </ol>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"Antes de o código da regra rodar, o pedido passa por uma fila de portões: quem é você, em que casa você está, você pode gravar, os dados fazem sentido. O controller é só um despachante; a regra mora no service."</p></div>
+  </section>
+
+  <section class="part" id="casa">
+    <div class="part-head"><span class="part-num">04</span><div><h2>A casa como filtro</h2><p>A Marina está em duas casas e abriu a "Casa da Marina". O que ela vê quando o app pede os lançamentos:</p></div></div>
+    <div class="houses">
+      <div class="house">
+        <h3><b>Casa da Marina</b><span class="tag moss">aberta</span></h3>
+        <div class="row"><span>Mercado <em>· da Marina</em></span><span>R$ 230,00</span></div>
+        <div class="row"><span>Luz <em>· do Pedro</em></span><span>R$ 184,30</span></div>
+        <div class="row hidden"><span>Presente <em>· do Pedro, só dele</em></span><span>R$ 120,00</span></div>
+      </div>
+      <div class="house off">
+        <h3><b>Apê da praia</b><span class="tag">outra casa</span></h3>
+        <div class="row"><span>Condomínio</span><span>R$ 610,00</span></div>
+        <div class="row"><span>Gás</span><span>R$ 95,00</span></div>
+      </div>
+    </div>
+    <pre class="query"><span class="c">-- o que o filtro acrescenta sozinho a Transaction::query()</span>
+WHERE household_id = <span class="c">/* casa aberta */</span> 7
+  AND (visibility = 'household' OR created_by = <span class="c">/* Marina */</span> 3)</pre>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"O filtro mora dentro do modelo. A requisição diz qual é a casa uma vez, logo no começo, e toda consulta depois disso já sai filtrada: pela casa e pelo que é privado de outra pessoa. Pedir pelo endereço um registro de outra casa dá 'não encontrado'."</p></div>
+  </section>
+
+  <section class="part" id="voz">
+    <div class="part-head"><span class="part-num">05</span><div><h2>Da voz ao lançamento</h2><p>O fluxo mais completo: passa pelo app, pela API, pela fila, pelo cofre, pela IA e pelo WebSocket.</p></div></div>
+    <ol class="steps">
+      <li><div><b>O app envia o áudio</b><span>m4a, até 60 s, com o token do aparelho.</span></div></li>
+      <li><div><b>A API responde na hora</b><span>Cria a pergunta e a resposta "pensando" e põe dois trabalhos na fila.</span></div></li>
+      <li><div><b>A voz vira texto</b><span>O áudio é transcrito e apagado em seguida.</span></div></li>
+      <li><div><b>A IA conversa</b><span>Lê o texto mascarado pelo cofre e pede ferramentas.</span></div></li>
+      <li><div><b>A ficha aparece ao vivo</b><span>O texto chega aos pedaços; no fim, a ficha para conferir.</span></div></li>
+      <li><div><b>Confirmar grava</b><span>Sem voltar para a IA, com as regras do formulário.</span></div></li>
+    </ol>
+    <div class="frame"><iframe src="arquitetura.html" title="Diagrama de sequência da mensagem de voz ao lançamento registrado" loading="lazy"></iframe></div>
+    <p class="frame-cap">O mesmo caminho como diagrama de sequência, com as chamadas e os eventos de verdade. <a href="arquitetura.html">Abrir em tela cheia</a> · <a href="arquitetura.html?lang=en">em inglês</a></p>
+  </section>
+
+  <section class="part" id="ia">
+    <div class="part-head"><span class="part-num">06</span><div><h2>A IA propõe, a pessoa confirma</h2><p>O assistente tem 19 ferramentas. Cada uma declara um nível de cuidado, e o nível decide o que acontece quando a IA a pede.</p></div></div>
+    <table class="ledger">
+      <thead><tr><th>Nível</th><th>Exemplos</th><th>O que acontece</th></tr></thead>
+      <tbody>
+        <tr><td><span class="tag">Consulta</span></td><td>gastos do mês, fatura, contas, orçamento</td><td>Responde na hora. Até o "Só leitura" usa.</td></tr>
+        <tr><td><span class="tag moss">Conferir</span></td><td>lançar, corrigir, pagar uma conta</td><td>Vira uma ficha editável. Nada é gravado antes do "Confirmar", e ela expira em 30 minutos.</td></tr>
+        <tr><td><span class="tag brick">Explícito</span></td><td>apagar um lançamento ou uma lista</td><td>A ficha mostra o impacto antes: "Sai R$ 42,00 dos gastos de outubro."</td></tr>
+        <tr><td><span class="tag moss">Imediato</span></td><td>itens de lista, lembretes, contas fixas, orçamentos</td><td>Grava na hora, com "Desfazer" por 2 minutos.</td></tr>
+      </tbody>
+    </table>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"A IA não grava: ela pede. Quando quer lançar um gasto, o sistema monta uma ficha com os dados já conferidos e guarda como 'esperando'. A pessoa corrige se quiser e confirma, e o app grava exatamente o que está na ficha. A IA não tem uma segunda chance de inventar um número."</p></div>
+  </section>
+
+  <section class="part" id="cofre">
+    <div class="part-head"><span class="part-num">07</span><div><h2>O cofre de privacidade</h2><p>Antes de qualquer texto chegar à IA, os dados sensíveis viram marcadores. Na volta, os valores reais são postos de novo no lugar.</p></div></div>
+    <div class="vault">
+      <div class="box"><b>O que a pessoa diz</b><span class="m">"Paguei a conta com o cartão 4111 1111 1111 1111, meu CPF é 529.982.247-25"</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="box moss"><b>O que a IA lê</b><span class="m">"Paguei a conta com o cartão <span class="mark">[CARTAO_1]</span>, meu CPF é <span class="mark">[CPF_1]</span>"</span></div>
+      <div class="arrow" aria-hidden="true">→</div>
+      <div class="box"><b>O que a pessoa vê</b><span>A resposta com os números de volta, até no meio do texto que chega ao vivo.</span></div>
+    </div>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"CPF, CNPJ, cartões, telefones, e-mails, chaves Pix e dados bancários nunca saem do servidor. O cofre envolve qualquer IA, então trocar de modelo não abre uma brecha. Os nomes das pessoas ficam, porque a IA precisa deles para entender 'a Ana pagou a luz'."</p></div>
+  </section>
+
+  <section class="part" id="vivo">
+    <div class="part-head"><span class="part-num">08</span><div><h2>Ao vivo, mas sem depender disso</h2><p>A resposta chega aos pedaços pelo WebSocket. Mas tudo também fica salvo no banco, então perder a conexão não perde nada.</p></div></div>
+    <div class="two">
+      <div>
+        <h3>Com a conexão</h3>
+        <div class="row"><span>Os pedaços de texto saem juntados a cada ~100 ms, com número de sequência.</span></div>
+        <div class="row"><span>Um canal privado por pessoa, autorizado com o mesmo token da API.</span></div>
+        <div class="row"><span>Um aviso que chega vai para o Chat da casa certa.</span></div>
+      </div>
+      <div>
+        <h3>Se a conexão cair</h3>
+        <div class="row"><span>Enquanto houver resposta pendente, o app busca a conversa a cada 2 s.</span></div>
+        <div class="row"><span>Reconecta sozinho: 1, 2, 5, 10 e depois a cada 15 s.</span></div>
+        <div class="row"><span>Ao voltar, busca a conversa e os avisos de novo.</span></div>
+      </div>
+    </div>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"O WebSocket é um atalho, não a fonte da verdade. Ele só adianta a tela. Se cair, o app pergunta ao servidor de tempos em tempos e chega ao mesmo resultado."</p></div>
+  </section>
+
+  <section class="part" id="dados">
+    <div class="part-head"><span class="part-num">09</span><div><h2>O que o banco guarda e o que calcula</h2><p>São 20 tabelas. Elas guardam fatos; vários números da tela são calculados na hora, para nunca existirem dois lugares dizendo coisas diferentes.</p></div></div>
+    <table class="ledger">
+      <thead><tr><th>Na tela</th><th>Guardado</th><th>Calculado na hora</th></tr></thead>
+      <tbody>
+        <tr><td>Uma fatura</td><td>Cada compra, com o mês da fatura em que cai</td><td>A soma das compras daquele cartão naquele mês</td></tr>
+        <tr><td>Luz de novembro</td><td>Só os meses pagos ou pulados</td><td>Os outros meses, pelo dia do vencimento</td></tr>
+        <tr><td>O saldo do mês</td><td>Os lançamentos</td><td>Entrou menos saiu, com os filtros da pessoa</td></tr>
+        <tr><td>Um orçamento</td><td>O limite da categoria</td><td>Quanto já foi usado</td></tr>
+        <tr><td>Os primeiros passos</td><td>Só o que a pessoa escolheu ignorar</td><td>O que já está feito, olhando os cadastros</td></tr>
+      </tbody>
+    </table>
+    <div class="explain"><span class="rotulo">Como explicar</span><p>"Não existe tabela de faturas: uma fatura é só a soma das compras do cartão naquele mês. Se alguém muda a data de uma compra, a fatura muda junto, porque não há uma cópia para ficar desatualizada."</p></div>
+  </section>
+
+  <section class="part" id="numeros">
+    <div class="part-head"><span class="part-num">10</span><div><h2>Os números do projeto</h2><p>Conferidos no código do commit <code>12d7180</code>.</p></div></div>
+    <div class="figures">
+      <div><b>295</b><span>testes no backend (Pest)</span></div>
+      <div><b>117</b><span>testes no app (Jest)</span></div>
+      <div><b>20</b><span>tabelas do domínio</span></div>
+      <div><b>19</b><span>ferramentas do assistente</span></div>
+      <div><b>43</b><span>telas no app</span></div>
+      <div><b>8</b><span>serviços no Docker</span></div>
+    </div>
+  </section>
+
+  <section class="part" id="minuto">
+    <div class="part-head"><span class="part-num">11</span><div><h2>Em um minuto</h2><p>Para quando só há tempo para uma resposta.</p></div></div>
+    <p class="pitch">A Caderneta é um app de finanças da casa para usar falando. O celular conversa com uma API em Laravel, que guarda tudo num PostgreSQL e manda o trabalho demorado para uma fila.</p>
+    <p class="pitch">Quando a pessoa fala, a voz vira texto, um agente de IA entende e propõe os lançamentos numa ficha, e a resposta chega ao vivo por WebSocket. A IA nunca grava sozinha: quem confirma é a pessoa, e o app grava com as mesmas regras do formulário.</p>
+    <p class="pitch">Por baixo, cada casa só enxerga os próprios dados, os dados sensíveis passam por um cofre antes de chegar à IA, e os números são calculados na hora em vez de copiados.</p>
+  </section>
+
+  <section class="part" id="fundo">
+    <div class="part-head"><span class="part-num">12</span><div><h2>Para ir mais fundo</h2><p>A documentação técnica fica no GitHub, em Markdown, com os arquivos e as classes de cada parte.</p></div></div>
+    <ul class="links">
+      <li><a href="https://github.com/Leo-o-Nardo/caderneta/blob/main/docs/tecnico/01-estrutura.md"><b>Estrutura do repositório</b><i>GitHub →</i><span>As pastas, os pontos de entrada e as dependências.</span></a></li>
+      <li><a href="https://github.com/Leo-o-Nardo/caderneta/blob/main/docs/tecnico/02-backend.md"><b>Backend</b><i>GitHub →</i><span>O caminho de uma requisição, a casa como filtro, login e permissões.</span></a></li>
+      <li><a href="https://github.com/Leo-o-Nardo/caderneta/blob/main/docs/tecnico/03-app.md"><b>App</b><i>GitHub →</i><span>Navegação, cache dos dados, estado local e tempo real.</span></a></li>
+      <li><a href="https://github.com/Leo-o-Nardo/caderneta/blob/main/docs/tecnico/04-assistente.md"><b>O assistente</b><i>GitHub →</i><span>O turno com a IA, as ferramentas, as ações, o cofre e a voz.</span></a></li>
+      <li><a href="https://github.com/Leo-o-Nardo/caderneta/blob/main/docs/tecnico/05-fluxos.md"><b>Os fluxos</b><i>GitHub →</i><span>Dez fluxos passo a passo, do cadastro ao primeiro acesso.</span></a></li>
+      <li><a href="https://github.com/Leo-o-Nardo/caderneta/blob/main/docs/tecnico/06-dados.md"><b>O modelo de dados</b><i>GitHub →</i><span>As tabelas, as regras e o que é calculado na hora.</span></a></li>
+      <li><a href="index.html"><b>Toda a documentação</b><i>Abrir →</i><span>O guia de design, o ícone e a arquitetura.</span></a></li>
+    </ul>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">Caderneta · Sua casa em ordem. Sem complicação. Parte da <a href="index.html">documentação</a>; o README está em <a href="https://github.com/Leo-o-Nardo/caderneta">github.com/Leo-o-Nardo/caderneta</a> e o código do app é privado.</div>
+</footer>
+</body>
+</html>
