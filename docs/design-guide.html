@@ -428,6 +428,10 @@ table.ledger tfoot .n { color: var(--tinta); }
 .sheet .handle { display: block; width: 36px; height: 4px; border-radius: 2px; background: var(--pauta); margin: 0 auto 16px; }
 .sheet p { margin-top: 8px; }
 .sheet-btns { display: grid; gap: 8px; margin-top: 24px; }
+.limit-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.limit-stage { height: 400px; }
+.limit-icon { display: block; width: 28px; height: 28px; color: var(--tinta); margin-bottom: 12px; }
+.limit-later { justify-self: center; margin: 0; }
 @keyframes up { from { transform: translateY(100%); } }
 .replay { margin-top: 16px; }
 
@@ -629,6 +633,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5"/></symbol>
   <symbol id="logout" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
   <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="hourglass" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
+  <symbol id="gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
   <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
   <symbol id="undo" viewBox="0 0 24 24"><path d="M9 14 4 9l5-5"/><path d="M4 9h10.5a5.5 5.5 0 0 1 5.5 5.5a5.5 5.5 0 0 1-5.5 5.5H11"/></symbol>
   <symbol id="pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
@@ -640,7 +646,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.12 · 27 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.14 · 28 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1359,6 +1365,57 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
       </div>
 
+      <!-- Limite do assistente -->
+      <div class="specimen">
+        <h3>Folha do limite do assistente</h3>
+        <p>Quando a pessoa usa todo o assistente do mês, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta e lembra o que continua funcionando sem o assistente. Na primeira vez, e só nela, oferece 7 dias de Plus, sem falar em preço. Depois de ativado, a folha diz até quando vale e pede para mandar a mensagem de novo. Com o teste já usado, a pessoa pode pedir o Plus pelo WhatsApp: a mensagem já vai pronta, e o administrador decide por e-mail se dá um mês de cortesia. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro ou tokens, e a folha nunca fala em preço ou pagamento.</p>
+        <div class="stage limit-grid">
+          <div class="sheet-stage limit-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="limit-title-1">
+              <span class="handle"></span>
+              <svg class="i limit-icon"><use href="#hourglass"/></svg>
+              <h4 class="n-h2" id="limit-title-1">Você usou o assistente deste mês</h4>
+              <p class="n-body" style="color:var(--grafite)">Ele volta no dia 09/11. Até lá, lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
+              <p class="n-cap">Quer continuar agora? Experimente o Plus por 7 dias, sem pagar nada. É uma vez só.</p>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Experimentar o Plus por 7 dias</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
+            </div>
+          </div>
+          <div class="sheet-stage limit-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="limit-title-2">
+              <span class="handle"></span>
+              <svg class="i limit-icon" style="color:var(--musgo)"><use href="#check"/></svg>
+              <h4 class="n-h2" id="limit-title-2">Plus liberado até 04/11</h4>
+              <p class="n-body" style="color:var(--grafite)">Pode mandar sua mensagem de novo. Depois dos 7 dias, volta o limite do Gratuito.</p>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button">Continuar</button></div>
+            </div>
+          </div>
+          <div class="sheet-stage limit-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="limit-title-3">
+              <span class="handle"></span>
+              <svg class="i limit-icon"><use href="#hourglass"/></svg>
+              <h4 class="n-h2" id="limit-title-3">Você usou o assistente deste mês</h4>
+              <p class="n-body" style="color:var(--grafite)">Ele volta no dia 09/11. Até lá, lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button">Entendi</button></div>
+            </div>
+          </div>
+          <div class="sheet-stage limit-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="limit-title-4">
+              <span class="handle"></span>
+              <svg class="i limit-icon"><use href="#hourglass"/></svg>
+              <h4 class="n-h2" id="limit-title-4">Você usou o assistente deste mês</h4>
+              <p class="n-body" style="color:var(--grafite)">Ele volta no dia 09/11. Até lá, lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
+              <p class="n-cap">Quer continuar agora? Peça o Plus pelo WhatsApp. A mensagem já vai pronta.</p>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
+            </div>
+          </div>
+        </div>
+        <p class="spec-line"><b>Quatro estados:</b> com o teste disponível, depois de ativar, sem o teste e o pedido pelo WhatsApp (teste já usado e número configurado no servidor; com um pedido em aberto, o texto de apoio vira "Seu pedido já foi enviado. A resposta chega por e-mail."). Ícone de 28 em Tinta (a ampulheta; o ✓ em Musgo depois de ativar), título em Fraunces 20 e o botão principal com o ícone de 18 (o presente ou o balão). Tocar fora ou no "voltar" do Android fecha, como "Agora não".</p>
+      </div>
+
       <!-- Entrada -->
       <div class="specimen">
         <h3>Entrada</h3>
@@ -1664,6 +1721,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.14</td><td class="num">28/10/2026</td><td>O pedido do Plus pelo WhatsApp: com o teste de 7 dias já usado, a folha do limite (parte 06) ganha um quarto estado, com "Pedir o Plus pelo WhatsApp" (balão de 18) e "Agora não". O app abre o WhatsApp do administrador com a mensagem pronta, e ele recebe um e-mail para dar um mês de Plus ou negar, numa página do servidor no visual da liberação de cadastro. O Chat vazio troca o título "Pergunte ou peça" por "Em que posso ajudar?", e o texto separa perguntas de pedidos: "Pergunte quanto gastou ou como está o mês. Ou peça para lançar um gasto, pagar uma conta, colocar algo na lista ou criar um lembrete." No Android, as folhas voltam a encostar no fim da tela, por cima da barra de abas.</td></tr>
+        <tr><td>1.13</td><td class="num">28/10/2026</td><td>O limite do assistente. Quando a pessoa usa todo o assistente do mês, sobe a folha do limite (parte 06) no lugar do erro, no Chat ou no Início: ampulheta, "Você usou o assistente deste mês", quando ele volta e o que continua funcionando. Na primeira vez, ela oferece 7 dias de Plus ("Experimentar o Plus por 7 dias", com o presente), sem falar em preço; ativado, mostra o ✓ em Musgo e até quando vale. O limite é dito em tempo, nunca em dinheiro ou tokens. O pedido de avaliação da loja é a janela do próprio sistema, sem nenhum desenho do app: aparece uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e nunca vem com recompensa.</td></tr>
         <tr><td>1.12</td><td class="num">27/10/2026</td><td>O guia mostra só o app de hoje. A parte 05 vira "As telas": saem os celulares do visual antigo, e cada tela fica com o quadro "Por que é assim", que diz o motivo de cada escolha em vez de compará-la com o que havia antes. As cores de categoria mostram só o tom de pigmento, sem a cor neon de antes. A parte 01 vira "O que o guia resolve": saem o levantamento das telas e dos componentes e os problemas do visual antigo, e ficam seis regras com o porquê de cada uma. A parte 08 vira "Onde o guia mora no código", com a base e as peças de cada regra, sem o plano do redesign, que já foi feito. As decisões do topo, a tipografia, a escala e as micro-interações deixam de comparar com o app antigo. Sai a fonte Inter, que só os celulares antigos usavam.</td></tr>
         <tr><td>1.11</td><td class="num">27/10/2026</td><td>Nome da casa e passos feitos. Configurações › Casa ganha, em primeiro, "Nome da casa" (lápis, com o nome atual), só para o dono, que abre a tela de renomear; "Suas casas" passa a mostrar quantas casas a pessoa tem, para o nome não aparecer duas vezes. Nos primeiros passos, um passo feito também abre a folha, com a seta: ela mostra o que já foi feito e o botão chama para fazer de novo ("Cadastrar outro cartão", "Convidar mais alguém"). Na aba Contas da Agenda, as contas cadastradas depois do vencimento deste mês aparecem no fim, em "Começam em novembro".</td></tr>
         <tr><td>1.10</td><td class="num">23/10/2026</td><td>Reportar uma resposta e a política de privacidade. Depois da hora de cada resposta do assistente, uma bandeirinha de 14 em Lápis, com área de toque ampliada. Ela abre a folha de confirmação ("Reportar esta resposta?", sem o botão de apagar) e, reportada, vira "· Reportada" em Grafite. Configurações › Conta ganha "Política de privacidade", que abre a página no navegador. A tela de criar conta ganha uma legenda com o link em Musgo sublinhado. A página do servidor "Política de privacidade" usa uma coluna mais larga (640), títulos de seção em Fraunces 20 e listas. Todas as páginas do servidor têm, no rodapé, os links para a política e para excluir a conta.</td></tr>
