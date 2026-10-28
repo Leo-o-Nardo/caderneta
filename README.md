@@ -50,7 +50,7 @@ O visual segue um guia próprio, a **Caderneta**: papel claro, tinta escura, uma
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="O começo do guia de design Caderneta, com as decisões aprovadas e o índice"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a></b></p>
-      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
+      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a tela do Plano, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="O começo da apresentação do ícone, com ele no iPhone, no Android, no ícone temático, na splash e na tela inicial"></a>
@@ -140,10 +140,11 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 
 ### Planos
 - **Gratuito e Plus:** cada plano tem um limite de uso do assistente por mês, contado a partir do dia em que a conta foi criada. O Plus tem um limite bem maior. Lançar à mão, as listas e a agenda nunca têm limite.
-- **O limite é dito em tempo:** o app fala "volta no dia 12", nunca em dinheiro ou tokens.
+- **O limite é dito em tempo:** o app fala "volta a zero no dia 12", nunca em dinheiro ou tokens.
+- **Tela do Plano:** em Configurações › Assistente › Plano, o uso do mês em porcentagem, numa barra que fica em Atenção a partir de 80%, o dia em que volta a zero e os planos, sem preço. O Plus dado diz até quando vale.
+- **Aviso no Início:** só a partir de 80% e no limite, no mesmo traço das contas que vencem. O Início não ganha mais um número fixo.
 - **Folha do limite:** quando o uso do mês acaba, uma folha mostra quando ele volta e o que continua funcionando, no lugar de uma mensagem de erro.
-- **Teste de 7 dias do Plus:** oferecido uma vez por conta, na primeira vez que a pessoa chega ao limite.
-- **Pedido do Plus pelo WhatsApp:** com o teste já usado, a folha abre o WhatsApp do administrador com a mensagem pronta. Ele recebe um e-mail para dar o Plus ou negar.
+- **Pedido do Plus pelo WhatsApp:** no limite do Gratuito, a folha e a tela do Plano abrem o WhatsApp do administrador com a mensagem pronta. Ele recebe um e-mail para dar o Plus ou negar.
 - **Avaliação na loja:** a janela do próprio sistema, uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e sem recompensa.
 
 ### Acesso e segurança
@@ -237,7 +238,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
-| Plano | `GET /assistant/usage`, `POST /assistant/plus-trial`, `POST /assistant/plus-request` |
+| Plano | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
@@ -276,7 +277,6 @@ Como o repositório privado está organizado:
 
 - **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
 - **Plus:** ainda não é vendido pelas lojas; quem libera é o administrador, pelo pedido do WhatsApp ou pela área administrativa. A cobrança pelas lojas vem depois.
-- **Barra de uso:** o app ainda não mostra quanto do mês já foi usado; hoje isso só aparece quando o limite chega.
 - **Publicação:** o app está em revisão na Play Store e na App Store. O servidor de produção roda com Docker Compose.
 
 ## Autor

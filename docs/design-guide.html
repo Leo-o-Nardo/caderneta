@@ -298,6 +298,26 @@ table.ledger tfoot .n { color: var(--tinta); }
 .n-budget { padding: 12px 0; border-bottom: 1px solid var(--pauta); display: grid; gap: 8px; }
 .split { display: flex; height: 6px; gap: 2px; margin-top: 16px; }
 .split i { display: block; border-radius: 1px; }
+/* Telas empilhadas (fora das abas): a seta fina e o título em Fraunces 20 */
+.n-head { display: flex; align-items: center; gap: 12px; padding-top: 12px; padding-bottom: 12px; flex: none; }
+.n-back { width: 24px; height: 24px; padding: 0; background: none; border: 0; color: var(--tinta); display: grid; place-items: center; cursor: pointer; }
+/* O aviso do Início no traço de Atenção (vence hoje, uso do assistente) */
+.n-overdue.n-aviso { border-left-color: var(--mostarda-escura); }
+.n-overdue.n-aviso .ci { color: var(--mostarda-escura); }
+/* Plano */
+.plan-use { display: grid; gap: 8px; margin-top: 8px; }
+.plan-use .bar { margin-top: 4px; }
+.plan-mine { display: inline-flex; align-items: center; gap: 4px; font: 500 14px/20px var(--sans); color: var(--musgo); white-space: nowrap; }
+.plan-mine .i { width: 16px; height: 16px; stroke-width: 2; }
+.plan-note { margin-top: 12px; }
+.plan-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin-top: 56px; }
+.plan-grid figure { display: grid; gap: 8px; align-content: start; }
+.plan-grid figcaption { font-size: 13px; color: var(--grafite); }
+.plan-grid .panel { max-width: none; padding-top: 16px; }
+.plan-grid .n-row:last-child { border-bottom: 0; }
+.plan-grid .btn { margin-top: 16px; }
+.plan-home { margin-top: 56px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.plan-home .panel { padding-bottom: 16px; }
 /* Chat */
 .n-chathead { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--pauta); flex: none; }
 .n-msgs { display: flex; flex-direction: column; gap: 16px; padding-top: 16px; padding-bottom: 16px; }
@@ -727,13 +747,14 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol>
   <symbol id="grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
   <symbol id="more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
+  <symbol id="gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
 </svg>
 
 <!-- ======================= Cabeçalho ======================= -->
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.15 · 28 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.16 · 28 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1279,6 +1300,105 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
     </div>
 
+    <!-- ---------- Plano ---------- -->
+    <div class="block" id="plano">
+      <div class="block-head"><h3>Plano</h3><p>Configurações › Assistente › Plano: quanto do assistente já foi usado</p></div>
+      <div class="pair">
+        <div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-head px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Plano</h4></div>
+            <div class="scroll px n-pb">
+              <div class="plan-use">
+                <span class="n-rot">Uso do assistente</span>
+                <b class="n-display">85%</b>
+                <div class="bar" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100" aria-label="Uso do assistente"><i class="warn" style="--w:85%"></i></div>
+                <span class="n-cap">Volta a zero no dia 09/11.</span>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Planos</h5></div>
+                <div class="n-row"><div class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">O assistente para o dia a dia.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Seu plano</span></div>
+                <div class="n-row"><div class="n-main"><b class="n-strong">Plus</b><span class="n-cap" style="white-space:normal">Bem mais uso do assistente, para quem lança tudo falando.</span></div></div>
+                <p class="n-cap plan-note">Lançar à mão, a Agenda, as listas, o Resumo e os avisos são iguais nos dois planos e não têm limite.</p>
+              </div>
+
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">O que conta</h5></div>
+                <p class="n-body" style="color:var(--grafite);margin-top:12px">Cada pergunta conta pelo tamanho dela: uma conversa longa ou uma pergunta sobre o ano todo contam mais do que lançar um café, e a voz conta um pouco mais que o texto.</p>
+                <p class="n-body" style="color:var(--grafite);margin-top:12px">O plano é seu e vale em todas as suas casas.</p>
+                <p class="n-cap plan-note">Quando o uso do mês acabar, você pode pedir o Plus pelo WhatsApp.</p>
+              </div>
+            </div>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>O número principal é a porcentagem, em Fraunces 40. O limite é medido pelo custo da IA, mas dinheiro e tokens nunca aparecem no app: a porcentagem e o dia em que volta respondem o que a pessoa quer saber, quanto ainda dá e até quando.</li>
+            <li>A barra é a mesma dos orçamentos, em Musgo até 79% e em Atenção a partir de 80%. No limite ela fica cheia em Atenção, e não em Tijolo: chegar ao limite não é erro nem dívida, é só esperar o dia de voltar.</li>
+            <li>"Volta a zero no dia 09/11", sempre com dia e mês: o mês de uso começa no dia em que a conta foi criada, e não no dia 1º, então a data não é óbvia.</li>
+            <li>Os planos aparecem como lista, com "Seu plano" em Musgo ao lado do atual e sem preço: o Plus é liberado pelo administrador, e a tela não promete o que a pessoa não pode fazer.</li>
+            <li>O Plus com data diz até quando vale e o que vem depois ("Depois, volta o Gratuito"), para o fim do Plus dado não pegar ninguém de surpresa.</li>
+            <li>O pedido pelo WhatsApp só aparece aqui no limite, com o mesmo botão da folha do limite. Antes disso, uma legenda conta que ele existe.</li>
+            <li>"O que conta" explica em palavras por que a porcentagem sobe mais numa pergunta do que em outra, sem falar em tokens.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plan-grid">
+        <figure>
+          <div class="panel">
+            <div class="plan-use"><span class="n-rot">Uso do assistente</span><b class="n-display">34%</b><div class="bar"><i style="--w:34%"></i></div><span class="n-cap">Volta a zero no dia 09/11.</span></div>
+            <div class="n-sec" style="margin-top:24px"><div class="n-row"><div class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">O assistente para o dia a dia.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Seu plano</span></div></div>
+          </div>
+          <figcaption>Gratuito, dentro do limite</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="plan-use"><span class="n-rot">Uso do assistente</span><b class="n-display">100%</b><div class="bar"><i class="warn" style="--w:100%"></i></div><span class="n-cap" style="color:var(--tinta)">Você usou o assistente deste mês. Ele volta no dia 09/11.</span></div>
+            <button class="btn btn-primary full" type="button"><svg class="i" style="width:18px;height:18px"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button>
+          </div>
+          <figcaption>Gratuito no limite</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="plan-use"><span class="n-rot">Uso do assistente</span><b class="n-display">12%</b><div class="bar"><i style="--w:12%"></i></div><span class="n-cap">Volta a zero no dia 09/11.</span></div>
+            <div class="n-sec" style="margin-top:24px"><div class="n-row"><div class="n-main"><b class="n-strong">Plus</b><span class="n-cap" style="white-space:normal">Até 15/01/2027. Depois, volta o Gratuito.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Seu plano</span></div></div>
+          </div>
+          <figcaption>Plus dado pelo administrador</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="plan-use"><span class="n-rot">Uso do assistente</span><b class="n-display">12%</b><div class="bar"><i style="--w:12%"></i></div><span class="n-cap">Volta a zero no dia 09/11.</span></div>
+            <div class="n-sec" style="margin-top:24px"><div class="n-row"><div class="n-main"><b class="n-strong">Plus</b><span class="n-cap">Sem data para acabar.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Seu plano</span></div></div>
+          </div>
+          <figcaption>Plus fixo</figcaption>
+        </figure>
+      </div>
+      <p class="spec-line"><b>Quatro estados.</b> O que muda é a barra (Musgo ou Atenção), a legenda e a linha do plano. No limite, no Gratuito, a legenda passa para Tinta e vem "Pedir o Plus pelo WhatsApp" (o balão); com um pedido em aberto, uma linha a mais diz "Seu pedido já foi enviado. A resposta chega por e-mail.", e o botão abre o WhatsApp de novo. Sem o número do WhatsApp no servidor, fica só a legenda. O Plus também tem limite: no limite, ele mostra só a legenda. A porcentagem é buscada ao abrir a tela e o Início, e de novo depois de cada resposta do assistente.</p>
+
+      <div class="plan-home">
+        <figure style="display:grid;gap:8px">
+          <div class="panel">
+            <div class="n-overdue n-aviso press"><span class="ci"><svg class="i"><use href="#gauge"/></svg></span><div class="n-main"><b>Você já usou 85% do assistente</b><span class="n-cap">Volta a zero no dia 09/11 · ver o plano</span></div><span class="n-chev">›</span></div>
+            <div class="n-overdue n-aviso press"><span class="ci"><svg class="i"><use href="#hourglass"/></svg></span><div class="n-main"><b>Você usou o assistente deste mês</b><span class="n-cap">Ele volta no dia 09/11 · ver o plano</span></div><span class="n-chev">›</span></div>
+          </div>
+          <figcaption style="font-size:13px;color:var(--grafite)">No Início, a partir de 80% e no limite</figcaption>
+        </figure>
+        <div class="notes">
+          <h4>No Início, só o aviso</h4>
+          <ul>
+            <li>Nada fixo no Início: mais um número competiria com o microfone e com as duas colunas do mês. O aviso só aparece a partir de 80%, logo abaixo do das contas, no mesmo traço de Atenção, e o toque abre o Plano.</li>
+            <li>O ícone diz o caso: o medidor a partir de 80% e a ampulheta no limite, a mesma da folha do limite.</li>
+            <li>Com contas vencendo e o assistente perto do limite, os dois avisos aparecem, um embaixo do outro, as contas primeiro.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
     <!-- ---------- Área administrativa ---------- -->
     <div class="block" id="admin">
       <div class="block-head"><h3>Área administrativa</h3><p>No navegador, só para o administrador (/admin)</p></div>
@@ -1397,7 +1517,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                     <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio@example.com</span></div></td><td>Plus <span class="n-cap">até 28/11</span></td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i style="--w:8%"></i></div><span>8%</span></div></td><td class="n">02/10/2026</td></tr>
                     <tr class="press"><td><div class="adm-who"><b class="n-strong">Leo Nardo</b><span class="n-cap">leo@caderneta.example.com</span></div></td><td>Plus <span class="n-cap">fixo</span></td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i style="--w:3%"></i></div><span>3%</span></div></td><td class="n">07/10/2026</td></tr>
                     <tr class="press"><td><div class="adm-who"><b class="n-strong">Marina Costa</b><span class="n-cap">marina.costa@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag wait">Esperando</span></td><td><span class="n-cap">—</span></td><td class="n">27/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito <span class="n-cap">teste até 31/10</span></td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">11/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">11/10/2026</td></tr>
                     <tr class="press"><td><div class="adm-who"><b class="n-strong">Gil Moura</b><span class="n-cap">gil.moura@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag no">Recusado</span></td><td><span class="n-cap">—</span></td><td class="n">20/10/2026</td></tr>
                   </tbody>
                 </table>
@@ -1405,7 +1525,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <div class="adm-pages"><span class="n-cap">1 a 25 de 128</span><div class="btn-row"><button class="btn btn-secondary sm" type="button" disabled>Anterior</button><button class="btn btn-secondary sm" type="button">Próxima</button></div></div>
             </div>
           </div>
-          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. O plano diz de onde vem ("até 28/11" para o Plus dado, "fixo" para a marcação, "teste até…" no teste de 7 dias). O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
+          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. O plano diz de onde vem ("até 28/11" para o Plus dado, "fixo" para a marcação). O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
         </div>
 
         <!-- Pessoa -->
@@ -1430,7 +1550,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                   <div class="adm-kv">
                     <div><span>Plano</span><span>Gratuito</span></div>
                     <div><span>Marcação manual</span><span>Automático</span></div>
-                    <div><span>Teste do Plus</span><span>Usado em 14/10 (até 21/10)</span></div>
                     <div><span>Casas</span><span>Casa da Maria (dona) · Apê da praia (membro)</span></div>
                     <div><span>Cadastro</span><span>09/10/2026, 08:31</span></div>
                   </div>
@@ -1492,7 +1611,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
             </div>
             <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Feitos pelo WhatsApp, na folha do limite, depois do teste de 7 dias</p></div></div>
+              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Feitos pelo WhatsApp, na folha do limite</p></div></div>
               <div class="adm-tools">
                 <div class="tags">
                   <button class="tag" type="button" aria-pressed="true">Em aberto <span class="n-cap">2</span></button>
@@ -1501,11 +1620,11 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               </div>
               <div class="adm-table-wrap">
                 <table class="adm-table">
-                  <thead><tr><th>Pessoa</th><th>Pedido</th><th>Teste do Plus</th><th>Uso</th><th>Decidir</th></tr></thead>
+                  <thead><tr><th>Pessoa</th><th>Pedido</th><th>Cadastro</th><th>Uso</th><th>Decidir</th></tr></thead>
                   <tbody>
-                    <tr><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Hoje, 10:12</td><td>14/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
+                    <tr><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Hoje, 10:12</td><td>09/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
                       <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
-                    <tr><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Ontem, 16:55</td><td>02/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
+                    <tr><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Ontem, 16:55</td><td>27/09</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
                       <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
                   </tbody>
                 </table>
@@ -1726,6 +1845,10 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#bell"/></svg></span><span class="n-strong n-main">Avisos</span><span class="v">4 de 4 ligados</span><span class="n-chev">›</span></div>
             </div>
             <div class="menu-group">
+              <span class="n-rot">Assistente</span>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#gauge"/></svg></span><span class="n-strong n-main">Plano</span><span class="v">Gratuito · 85%</span><span class="n-chev">›</span></div>
+            </div>
+            <div class="menu-group">
               <span class="n-rot">Conta</span>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci" style="color:var(--tijolo)"><svg class="i"><use href="#logout"/></svg></span><span class="n-strong n-main t-erro">Sair</span></div>
             </div>
@@ -1760,29 +1883,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <!-- Limite do assistente -->
       <div class="specimen">
         <h3>Folha do limite do assistente</h3>
-        <p>Quando a pessoa usa todo o assistente do mês, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta e lembra o que continua funcionando sem o assistente. Na primeira vez, e só nela, oferece 7 dias de Plus, sem falar em preço. Depois de ativado, a folha diz até quando vale e pede para mandar a mensagem de novo. Com o teste já usado, a pessoa pode pedir o Plus pelo WhatsApp: a mensagem já vai pronta, e o administrador decide por e-mail se dá um mês de cortesia. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro ou tokens, e a folha nunca fala em preço ou pagamento.</p>
+        <p>Quando a pessoa usa todo o assistente do mês, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta e lembra o que continua funcionando sem o assistente. No Gratuito, a pessoa pode pedir o Plus pelo WhatsApp: a mensagem já vai pronta, e o administrador decide por e-mail se dá o Plus. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro ou tokens, e a folha nunca fala em preço ou pagamento.</p>
         <div class="stage limit-grid">
-          <div class="sheet-stage limit-stage">
-            <div class="scrim"></div>
-            <div class="sheet" role="dialog" aria-labelledby="limit-title-1">
-              <span class="handle"></span>
-              <svg class="i limit-icon"><use href="#hourglass"/></svg>
-              <h4 class="n-h2" id="limit-title-1">Você usou o assistente deste mês</h4>
-              <p class="n-body" style="color:var(--grafite)">Ele volta no dia 09/11. Até lá, lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
-              <p class="n-cap">Quer continuar agora? Experimente o Plus por 7 dias, sem pagar nada. É uma vez só.</p>
-              <div class="sheet-btns"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Experimentar o Plus por 7 dias</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
-            </div>
-          </div>
-          <div class="sheet-stage limit-stage">
-            <div class="scrim"></div>
-            <div class="sheet" role="dialog" aria-labelledby="limit-title-2">
-              <span class="handle"></span>
-              <svg class="i limit-icon" style="color:var(--musgo)"><use href="#check"/></svg>
-              <h4 class="n-h2" id="limit-title-2">Plus liberado até 04/11</h4>
-              <p class="n-body" style="color:var(--grafite)">Pode mandar sua mensagem de novo. Depois dos 7 dias, volta o limite do Gratuito.</p>
-              <div class="sheet-btns"><button class="btn btn-primary full" type="button">Continuar</button></div>
-            </div>
-          </div>
           <div class="sheet-stage limit-stage">
             <div class="scrim"></div>
             <div class="sheet" role="dialog" aria-labelledby="limit-title-3">
@@ -1805,7 +1907,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
           </div>
         </div>
-        <p class="spec-line"><b>Quatro estados:</b> com o teste disponível, depois de ativar, sem o teste e o pedido pelo WhatsApp (teste já usado e número configurado no servidor; com um pedido em aberto, o texto de apoio vira "Seu pedido já foi enviado. A resposta chega por e-mail."). Ícone de 28 em Tinta (a ampulheta; o ✓ em Musgo depois de ativar), título em Fraunces 20 e o botão principal com o ícone de 18 (o presente ou o balão). Tocar fora ou no "voltar" do Android fecha, como "Agora não".</p>
+        <p class="spec-line"><b>Dois estados:</b> só o aviso, com "Entendi" (no Plus, ou sem o número do WhatsApp configurado no servidor), e o pedido pelo WhatsApp, no Gratuito. Com um pedido em aberto, o texto de apoio vira "Seu pedido já foi enviado. A resposta chega por e-mail.", e o botão abre o WhatsApp de novo. Ícone de 28 em Tinta (a ampulheta), título em Fraunces 20 e o botão principal com o ícone de 18 (o balão). Tocar fora ou no "voltar" do Android fecha, como "Agora não".</p>
       </div>
 
       <!-- Entrada -->
@@ -2094,6 +2196,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <tr><td>Valor estimado</td><td>"~" junto do valor e "valor estimado" na legenda. Em frase, "cerca de".</td><td>~R$ 189,00 · Cerca de R$ 809,00</td></tr>
           <tr><td>Vencimento</td><td>Hoje, amanhã e atraso por extenso; o resto com dia e mês.</td><td>vence hoje · vence amanhã · atrasada há 9 dias · vence 05/11</td></tr>
           <tr><td>Parcela</td><td>Número da parcela depois do cartão.</td><td>Compras · Nubank · 2/10</td></tr>
+          <tr><td>Uso do assistente</td><td>Em porcentagem e em tempo, nunca em dinheiro ou tokens. A data em que volta sempre com dia e mês.</td><td>85% · Volta a zero no dia 09/11</td></tr>
+          <tr><td>Plus com data</td><td>Até quando vale e o que vem depois.</td><td>Até 15/01/2027. Depois, volta o Gratuito.</td></tr>
         </tbody>
       </table>
     </div>
@@ -2113,6 +2217,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.16</td><td class="num">28/10/2026</td><td>O Plano no app (parte 05, depois do Chat). Configurações ganha o grupo "Assistente", com "Plano" (o medidor) e o plano e a porcentagem à direita ("Gratuito · 85%"). A tela mostra o uso do assistente em porcentagem (Fraunces 40), na barra dos orçamentos (Musgo até 79%, Atenção a partir de 80%, cheia em Atenção no limite, nunca em Tijolo), o dia em que volta a zero, os planos em lista com "Seu plano" em Musgo e sem preço, e "O que conta". O Plus dado diz até quando vale e que depois volta o Gratuito; o Plus fixo diz "Sem data para acabar". No limite, a tela traz o mesmo botão da folha do limite. Sai o teste de 7 dias do Plus: o Plus é só o que o administrador libera, e a folha do limite fica com dois estados, só o aviso e o pedido pelo WhatsApp, que agora vale já no primeiro limite. Na área administrativa, o teste sai da página da pessoa e da lista, e a coluna "Teste do Plus" dos pedidos vira "Cadastro". No Início não entra número novo: a partir de 80%, um aviso no traço de Atenção ("Você já usou 85% do assistente"), e no limite, com a ampulheta, os dois levando ao Plano. Novo ícone: o medidor (gauge). "Valores e textos financeiros" ganha o uso do assistente e o Plus com data.</td></tr>
         <tr><td>1.15</td><td class="num">28/10/2026</td><td>A área administrativa (parte 05, depois do Chat): as páginas do navegador em /admin, só para o administrador. Entrar com e-mail e senha, e um código por e-mail só num navegador novo (ele fica conhecido por 60 dias); a visão geral com o que espera decisão; a lista de pessoas em tabela de livro-caixa, com busca, filtros em tags e a barra do uso; a página de cada pessoa, com dar Plus por 1, 3, 6 ou 12 meses (somando ao Plus dado) e a marcação manual, só Automático ou Plus fixo (o Gratuito fixo fica no terminal, para testes); os pedidos de Plus, com dar ou negar na própria linha; e o uso da IA por dia, por modelo e por pessoa, em dólar ou em reais (pela cotação do dia). É o mesmo papel das páginas do servidor, na largura toda da janela, com margem igual dos lados; só aqui aparece o custo da IA.</td></tr>
         <tr><td>1.14</td><td class="num">28/10/2026</td><td>O pedido do Plus pelo WhatsApp: com o teste de 7 dias já usado, a folha do limite (parte 06) ganha um quarto estado, com "Pedir o Plus pelo WhatsApp" (balão de 18) e "Agora não". O app abre o WhatsApp do administrador com a mensagem pronta, e ele recebe um e-mail para dar um mês de Plus ou negar, numa página do servidor no visual da liberação de cadastro. O Chat vazio troca o título "Pergunte ou peça" por "Em que posso ajudar?", e o texto separa perguntas de pedidos: "Pergunte quanto gastou ou como está o mês. Ou peça para lançar um gasto, pagar uma conta, colocar algo na lista ou criar um lembrete." No Android, as folhas voltam a encostar no fim da tela, por cima da barra de abas.</td></tr>
         <tr><td>1.13</td><td class="num">28/10/2026</td><td>O limite do assistente. Quando a pessoa usa todo o assistente do mês, sobe a folha do limite (parte 06) no lugar do erro, no Chat ou no Início: ampulheta, "Você usou o assistente deste mês", quando ele volta e o que continua funcionando. Na primeira vez, ela oferece 7 dias de Plus ("Experimentar o Plus por 7 dias", com o presente), sem falar em preço; ativado, mostra o ✓ em Musgo e até quando vale. O limite é dito em tempo, nunca em dinheiro ou tokens. O pedido de avaliação da loja é a janela do próprio sistema, sem nenhum desenho do app: aparece uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e nunca vem com recompensa.</td></tr>

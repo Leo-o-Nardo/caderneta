@@ -53,7 +53,7 @@ The visual design follows its own guide, **Caderneta**: light paper, dark ink, a
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the approved decisions and the table of contents"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a></b></p>
-      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
+      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the Plan screen, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="The start of the icon presentation, with the icon on iPhone, Android, the themed icon, the splash and the home screen"></a>
@@ -143,10 +143,11 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 
 ### Plans
 - **Free and Plus:** each plan has a monthly limit on assistant use, counted from the day the account was created. Plus has a much higher limit. Logging by hand, lists and the schedule never have a limit.
-- **The limit is told in time:** the app says "back on the 12th", never in money or tokens.
+- **The limit is told in time:** the app says "back to zero on the 12th", never in money or tokens.
+- **Plan screen:** in Settings › Assistant › Plan, the month's use as a percentage, on a bar that turns to the warning color from 80% on, the day it goes back to zero, and the plans, with no price. Granted Plus says until when it lasts.
+- **Notice on the home screen:** only from 80% on and at the limit, with the same rule as bills that are due. The home screen does not get one more fixed number.
 - **Limit sheet:** when the month's use runs out, a sheet shows when it comes back and what keeps working, instead of an error message.
-- **7-day Plus trial:** offered once per account, the first time the person reaches the limit.
-- **Asking for Plus on WhatsApp:** once the trial is used, the sheet opens the administrator's WhatsApp with the message ready. The administrator gets an e-mail to grant Plus or decline.
+- **Asking for Plus on WhatsApp:** at the Free limit, the sheet and the Plan screen open the administrator's WhatsApp with the message ready. The administrator gets an e-mail to grant Plus or decline.
 - **Store review:** the system's own prompt, once per device, after the 5th confirmed card and 7 days of use, and with no reward.
 
 ### Access and security
@@ -240,7 +241,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
-| Plan | `GET /assistant/usage`, `POST /assistant/plus-trial`, `POST /assistant/plus-request` |
+| Plan | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
@@ -279,7 +280,6 @@ How the private repository is organized:
 
 - **Invitation:** it carries only the 6-character code; there is no link that opens the app directly yet.
 - **Plus:** it is not sold through the stores yet; the administrator grants it, through the WhatsApp request or the admin area. Store billing comes later.
-- **Usage bar:** the app does not show yet how much of the month has been used; today that only shows up when the limit is reached.
 - **Release:** the app is in review on the Play Store and the App Store. The production server runs with Docker Compose.
 
 ## Author
