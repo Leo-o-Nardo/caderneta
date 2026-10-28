@@ -53,7 +53,7 @@ The visual design follows its own guide, **Caderneta**: light paper, dark ink, a
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the approved decisions and the table of contents"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a></b></p>
-      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
+      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="The start of the icon presentation, with the icon on iPhone, Android, the themed icon, the splash and the home screen"></a>
@@ -141,13 +141,32 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - Reminders at the scheduled time, with "Done", "Snooze 1 h" and "Tomorrow".
 - Each kind of alert can be turned off.
 
+### Plans
+- **Free and Plus:** each plan has a monthly limit on assistant use, counted from the day the account was created. Plus has a much higher limit. Logging by hand, lists and the schedule never have a limit.
+- **The limit is told in time:** the app says "back on the 12th", never in money or tokens.
+- **Limit sheet:** when the month's use runs out, a sheet shows when it comes back and what keeps working, instead of an error message.
+- **7-day Plus trial:** offered once per account, the first time the person reaches the limit.
+- **Asking for Plus on WhatsApp:** once the trial is used, the sheet opens the administrator's WhatsApp with the message ready. The administrator gets an e-mail to grant Plus or decline.
+- **Store review:** the system's own prompt, once per device, after the 5th confirmed card and 7 days of use, and with no reward.
+
 ### Access and security
 - **Sign-up with approval:** whoever signs up alone waits for the administrator. The administrator gets an e-mail with a signed link to an approval page.
 - **Invitations get in right away:** people who come through an invitation join immediately, and the administrator is only notified.
 - **Forgot password** with a 6-digit code by e-mail.
 - **One session per device**, with "sign out of all devices".
 - **Privacy before the AI:** CPF and CNPJ (Brazilian tax IDs), card numbers, Pix keys, phone numbers, e-mails, bank branch and account are replaced by markers before any text reaches the model.
-- **Limits:** messages per person per day, and a log of AI usage and cost.
+- **Limits:** messages per person per day, plus each plan's monthly limit (see [Plans](#plans)).
+
+### Admin area
+Browser pages at `/admin`, only for the administrator and in the same visual style as the app. They are drawn in the [admin area part of the design guide](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin) (in Portuguese).
+
+- **Two-step sign-in:** e-mail and password and, on a new browser, a 6-digit code by e-mail. After the code, the browser stays trusted for 60 days.
+- **Overview:** what is waiting for a decision (sign-ups to approve and Plus requests), how many people are on Plus, and today's and this month's cost.
+- **People:** search by name or e-mail, filters, and each person's use against their plan's limit.
+- **Each person's plan:** grant Plus for 1, 3, 6 or 12 months (the months add to the Plus they already have), take Plus away, or set Plus as fixed.
+- **Plus requests:** grant or decline right on the list row.
+- **AI usage:** cost per day or per month, per model and per person, in dollars or in reais. The exchange rate is fetched once a day and cached, and the last good rate covers a failed fetch.
+- **It is the only place with the AI cost:** in the app, nobody sees dollar amounts.
 
 ## Architecture
 
@@ -179,6 +198,14 @@ Every text sent to the AI, typed or transcribed, first goes through a vault (`Se
 - Tool calls are sent back to the model exactly as it sent them, still masked, so the thought signature the provider requires stays valid.
 - Household members' names stay visible: the assistant needs them to understand "Ana paid the electricity bill".
 
+### A limit based on cost
+The assistant's limit does not count messages: it counts what each question actually cost.
+
+- Every call to the model logs the tokens and the cost, at the price of the model used and with the cache discount. Voice and text add up together, in each person's period.
+- The cost of a question is only known after the reply. So the last question of the month may go slightly over the limit: that is better than cutting a reply in half.
+- The app only gets the percentage used and the day the limit comes back. The dollar amount stays on the server and in the admin area.
+- A switch turns enforcement on. When it is off, nobody is blocked, and the report shows who would go over the limit, so the values can be tuned before they apply.
+
 ### Design as a system
 The visual design follows its own guide, "Caderneta" (see [Design and brand](#design-and-brand)). Two pieces show how seriously it was taken:
 
@@ -190,7 +217,7 @@ The visual design follows its own guide, "Caderneta" (see [Design and brand](#de
 | Layer | Technologies |
 |---|---|
 | App | Expo SDK 57, React Native 0.86 (New Architecture), React 19, TypeScript, Expo Router, TanStack Query, Zustand, Reanimated 4, react-native-svg, expo-audio |
-| API | PHP 8.4, Laravel 13, Sanctum (token per device), Pest |
+| API | PHP 8.4, Laravel 13, Sanctum (token per device), Laravel session for the admin area, Pest |
 | Real time | Laravel Reverb (WebSocket) |
 | Assistant | AI agent with tools (chat, actions and voice transcription), behind a provider interface, and a rule-based "fake" provider for development and tests |
 | Data | PostgreSQL 16, Redis 7 (queue and cache) |
@@ -213,6 +240,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
+| Plan | `GET /assistant/usage`, `POST /assistant/plus-trial`, `POST /assistant/plus-request` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
@@ -229,12 +257,12 @@ How the private repository is organized:
 │   ├── app/
 │   │   ├── Assistant/          # the assistant: providers, tools, actions, privacy vault, voice
 │   │   ├── Alerts/             # bill, budget, weekly summary and reminder alerts
-│   │   ├── Services/           # rules for entries, installments, bills, budgets and access
-│   │   ├── Http/               # API controllers, requests and resources
+│   │   ├── Services/           # rules for entries, installments, bills, budgets, access, plans and AI usage
+│   │   ├── Http/               # controllers, requests and resources for the API and the admin area
 │   │   ├── Mail/               # the Caderneta-style e-mail
-│   │   └── Notifications/      # sign-up, access approved, password code
+│   │   └── Notifications/      # sign-up, access approved, password and sign-in codes, Plus request
 │   ├── database/               # migrations, factories and the demo household
-│   ├── resources/views/        # e-mails and the sign-up approval page
+│   ├── resources/views/        # e-mails, the approval pages and the admin area
 │   └── tests/                  # API, rules and assistant tests (Pest)
 └── mobile/                     # Expo app
     ├── assets/                 # icon, splash and the brand in SVG
@@ -250,6 +278,8 @@ How the private repository is organized:
 ## Limitations and next steps
 
 - **Invitation:** it carries only the 6-character code; there is no link that opens the app directly yet.
+- **Plus:** it is not sold through the stores yet; the administrator grants it, through the WhatsApp request or the admin area. Store billing comes later.
+- **Usage bar:** the app does not show yet how much of the month has been used; today that only shows up when the limit is reached.
 - **Release:** the app is in review on the Play Store and the App Store. The production server runs with Docker Compose.
 
 ## Author

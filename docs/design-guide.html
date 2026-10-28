@@ -433,6 +433,91 @@ table.ledger tfoot .n { color: var(--tinta); }
 .limit-icon { display: block; width: 28px; height: 28px; color: var(--tinta); margin-bottom: 12px; }
 .limit-later { justify-self: center; margin: 0; }
 @keyframes up { from { transform: translateY(100%); } }
+
+/* ============ Área administrativa (navegador) ============ */
+.adm-shots { display: grid; gap: 48px; }
+.adm-pair { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+.adm-win { border: 1px solid var(--pauta); border-radius: 8px; overflow: hidden; background: var(--papel); box-shadow: 0 18px 40px -28px rgba(30, 31, 28, .45); }
+.adm-chrome { display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 14px; background: var(--papel-escuro); border-bottom: 1px solid var(--pauta); }
+.adm-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--pauta); }
+.adm-url { flex: 1; max-width: 420px; margin: 0 auto; height: 22px; display: flex; align-items: center; padding: 0 10px; border-radius: 4px; background: var(--folha); font: 400 12px var(--sans); color: var(--grafite); white-space: nowrap; overflow: hidden; }
+.adm-shot-cap { margin-top: 12px; font-size: 13px; color: var(--grafite); }
+.adm-shot-cap b { color: var(--tinta); font-weight: 600; }
+/* A entrada: a mesma coluna estreita das páginas do servidor. */
+.adm-narrow { max-width: 400px; margin: 0 auto; padding: 40px 24px 32px; }
+.adm-brand { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--tinta); }
+.adm-brand svg { width: 28px; height: 28px; }
+.adm-brand span { font: 600 20px/26px var(--serif); }
+.adm-brand em { font: 600 11px/16px var(--sans); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); margin-left: 4px; }
+.adm-form { display: grid; gap: 20px; margin-top: 24px; }
+.adm-code { font: 500 28px/1 var(--sans); letter-spacing: .4em; text-align: center; font-variant-numeric: tabular-nums; }
+.adm-again { justify-self: center; }
+/* As páginas de dentro: topo com o menu e uma coluna larga. */
+.adm-top { display: flex; align-items: center; gap: 24px; padding: 0 clamp(16px, 4vw, 64px); height: 60px; border-bottom: 1px solid var(--tinta); }
+.adm-top .adm-brand { padding: 0; border: 0; }
+.adm-nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
+.adm-nav a { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 4px; text-decoration: none; font: 500 14px var(--sans); color: var(--grafite); white-space: nowrap; }
+.adm-nav a:hover { background: var(--papel-escuro); color: var(--tinta); }
+.adm-nav a[aria-current="page"] { color: var(--tinta); box-shadow: inset 0 -2px 0 var(--tinta); border-radius: 0; }
+.adm-count { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--mostarda-clara); color: var(--mostarda-escura); font: 600 12px/20px var(--sans); text-align: center; font-variant-numeric: tabular-nums; }
+.adm-out { display: inline-flex; align-items: center; gap: 6px; font: 500 14px var(--sans); color: var(--grafite); text-decoration: none; white-space: nowrap; }
+.adm-out .i { width: 18px; height: 18px; }
+.adm-body { padding: 32px clamp(16px, 4vw, 64px) 40px; }
+.adm-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
+.adm-head .n-cap { margin-top: 4px; }
+.adm-back { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 8px; font: 500 14px var(--sans); color: var(--musgo); text-decoration: none; }
+.adm-back .i { width: 16px; height: 16px; }
+.adm-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 24px; border-top: 1px solid var(--tinta); border-bottom: 1px solid var(--pauta); }
+.adm-stats > * { display: grid; gap: 4px; padding: 16px 16px 16px 0; text-decoration: none; }
+.adm-stats > * + * { border-left: 1px solid var(--pauta); padding-left: 16px; }
+.adm-stats .t-aviso { color: var(--mostarda-escura); }
+.adm-cols { display: grid; gap: 32px 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); margin-top: 40px; }
+.adm-sec > .n-rot { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.adm-sec > .n-rot a { font: 500 13px var(--sans); letter-spacing: 0; text-transform: none; color: var(--musgo); }
+.adm-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
+.adm-row .n-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.adm-row .n-main .n-cap { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.adm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 24px; }
+.adm-search { position: relative; flex: 1 1 280px; max-width: 420px; }
+.adm-search .i { position: absolute; left: 12px; top: 12px; width: 20px; height: 20px; color: var(--grafite); }
+.adm-search .input { padding-left: 42px; }
+.adm-tag { display: inline-block; font: 600 11px/14px var(--sans); letter-spacing: .08em; text-transform: uppercase; border: 1px solid currentColor; border-radius: 2px; padding: 2px 6px; white-space: nowrap; }
+.adm-tag.ok { color: var(--musgo); } .adm-tag.wait { color: var(--mostarda-escura); } .adm-tag.no { color: var(--tijolo); } .adm-tag.plain { color: var(--grafite); }
+.adm-table-wrap { margin-top: 16px; overflow-x: auto; }
+table.adm-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 15px; }
+table.adm-table th { text-align: left; font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding: 0 16px 8px 0; border-bottom: 1px solid var(--tinta); white-space: nowrap; }
+table.adm-table td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--pauta); vertical-align: middle; }
+table.adm-table tr.press { cursor: pointer; }
+table.adm-table tr.press:hover td { background: var(--papel-escuro); }
+table.adm-table .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+table.adm-table th.n { text-align: right; }
+table.adm-table tfoot td { border-bottom: 0; border-top: 1px solid var(--tinta); font-weight: 600; }
+.adm-who { display: grid; gap: 2px; }
+.adm-who .n-cap { white-space: nowrap; }
+.adm-use { display: grid; grid-template-columns: 72px auto; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.adm-use .bar { width: 72px; }
+.adm-pages { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
+.adm-split { display: grid; gap: 40px 48px; grid-template-columns: minmax(0, 1.4fr) minmax(min(100%, 320px), 1fr); margin-top: 32px; align-items: start; }
+@media (max-width: 860px) { .adm-split { grid-template-columns: minmax(0, 1fr); } }
+.adm-kv { border-top: 1px solid var(--pauta); }
+.adm-kv > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
+.adm-kv > div > span:first-child { color: var(--grafite); }
+.adm-kv > div > span:last-child { text-align: right; }
+.adm-meter { display: grid; gap: 8px; margin-top: 16px; }
+.adm-meter .n-cap b { color: var(--tinta); font-weight: 600; }
+.adm-actions { background: var(--folha); border: 1px solid var(--pauta); border-radius: 6px; padding: 20px; display: grid; gap: 16px; }
+.adm-actions + .adm-actions { margin-top: 16px; }
+.adm-actions h4 { font: 500 20px/26px var(--serif); }
+.adm-actions .seg button { height: 36px; }
+.adm-check { display: flex; align-items: center; gap: 10px; font-size: 15px; }
+.adm-check input { width: 18px; height: 18px; accent-color: var(--musgo); }
+.adm-note { padding-left: 12px; border-left: 2px solid var(--mostarda); font-size: 14px; color: var(--grafite); }
+.adm-danger { justify-self: start; padding: 4px 0; background: none; border: 0; font: 500 15px/20px var(--sans); color: var(--tijolo); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.adm-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
+.adm-inline .seg { width: 200px; }
+.adm-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 24px; }
+.adm-fig { border-top: 1px solid var(--tinta); padding-top: 12px; display: grid; gap: 4px; }
+.adm-fig .n-fig { font-size: 30px; line-height: 36px; }
 .replay { margin-top: 16px; }
 
 /* ============ Micro-interações ============ */
@@ -633,6 +718,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5"/></symbol>
   <symbol id="logout" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
   <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+  <symbol id="mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
   <symbol id="hourglass" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
   <symbol id="gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
   <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
@@ -646,7 +733,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.14 · 28 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.15 · 28 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1191,6 +1278,311 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
       </div>
     </div>
+
+    <!-- ---------- Área administrativa ---------- -->
+    <div class="block" id="admin">
+      <div class="block-head"><h3>Área administrativa</h3><p>No navegador, só para o administrador (/admin)</p></div>
+      <p class="spec-line" style="max-width:780px;margin:-8px 0 32px"><b>O mesmo papel do app, em tela larga.</b> As páginas do servidor (liberação de cadastro, pedido de Plus) já usam o Papel, a Tinta e o Fraunces numa coluna de 420; a área administrativa usa a mesma coluna para entrar e, no resto, a largura toda da janela, com margem igual dos dois lados (de 16 a 64, conforme a tela) e tabelas de livro-caixa. O topo usa a mesma margem, para a marca e o título ficarem na mesma linha. No celular, as tabelas rolam para o lado e o menu também. Aqui, e só aqui, aparecem valores em dinheiro da IA (em dólar ou em reais): a pessoa no app nunca vê custo nem tokens.</p>
+
+      <div class="adm-shots">
+        <!-- Entrar e o código -->
+        <div>
+          <div class="adm-pair">
+            <div class="adm-win">
+              <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/entrar</span></div>
+              <div class="adm-narrow">
+                <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+                <p class="n-rot" style="margin-top:32px">Área administrativa</p>
+                <h4 class="n-h1" style="margin-top:6px">Entrar</h4>
+                <form class="adm-form" onsubmit="return false">
+                  <div class="field"><label for="adm-email">E-mail</label><input id="adm-email" class="input" value="leo@caderneta.example.com" autocomplete="off"></div>
+                  <div class="field"><label for="adm-senha">Senha</label><input id="adm-senha" class="input" type="password" value="senhasecreta"></div>
+                  <button class="btn btn-primary full" type="button">Entrar</button>
+                </form>
+                <p class="n-cap" style="margin-top:20px">A mesma senha do app. Num navegador novo, pedimos também um código enviado por e-mail.</p>
+              </div>
+            </div>
+            <div class="adm-win">
+              <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/codigo</span></div>
+              <div class="adm-narrow">
+                <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+                <svg class="i limit-icon" style="margin-top:32px"><use href="#mail"/></svg>
+                <h4 class="n-h1">Confira seu e-mail</h4>
+                <p class="n-body" style="color:var(--grafite);margin-top:6px">Mandamos um código de 6 dígitos para leo@caderneta.example.com. Ele vale 10 minutos.</p>
+                <form class="adm-form" onsubmit="return false">
+                  <div class="field"><label for="adm-cod">Código</label><input id="adm-cod" class="input adm-code" value="482913" inputmode="numeric" autocomplete="one-time-code"></div>
+                  <button class="btn btn-primary full" type="button">Confirmar</button>
+                  <button class="n-link adm-again" type="button">Mandar outro código</button>
+                </form>
+                <p class="n-cap" style="margin-top:20px">Depois do código, este navegador fica conhecido por 60 dias: até lá, basta a senha.</p>
+              </div>
+            </div>
+          </div>
+          <p class="adm-shot-cap"><b>Entrar e o código.</b> Só a conta do administrador passa; para qualquer outra, a mesma mensagem de "e-mail ou senha incorretos". O código só aparece num navegador novo ou depois de 60 dias. Errado, o campo fica em Tijolo com "Código incorreto. Restam 4 tentativas."; vencido, "Este código venceu. Mande outro."</p>
+        </div>
+
+        <!-- Visão geral -->
+        <div>
+          <div class="adm-win">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin</span></div>
+            <div class="adm-top">
+              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+              <nav class="adm-nav" aria-label="Área administrativa">
+                <a href="#admin" aria-current="page">Visão geral</a>
+                <a href="#admin">Pessoas</a>
+                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
+                <a href="#admin">Uso da IA</a>
+              </nav>
+              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
+            </div>
+            <div class="adm-body">
+              <div class="adm-head">
+                <div><h4 class="n-h1">Visão geral</h4><p class="n-cap">Quarta-feira, 28 de outubro de 2026</p></div>
+              </div>
+              <div class="adm-stats">
+                <a href="#admin"><span class="n-fig">128</span><span class="n-cap">Pessoas</span></a>
+                <a href="#admin"><span class="n-fig t-aviso">3</span><span class="n-cap">Esperando liberação</span></a>
+                <a href="#admin"><span class="n-fig t-aviso">2</span><span class="n-cap">Pedidos de Plus em aberto</span></a>
+                <a href="#admin"><span class="n-fig">9</span><span class="n-cap">Com Plus agora</span></a>
+                <a href="#admin"><span class="n-fig">US$ 0,41</span><span class="n-cap">IA hoje · US$ 8,73 no mês</span></a>
+              </div>
+              <div class="adm-cols">
+                <section class="adm-sec">
+                  <p class="n-rot">Esperando liberação <a href="#admin">Ver todos</a></p>
+                  <div class="adm-row"><div class="n-main"><b class="n-strong">Marina Costa</b><span class="n-cap">marina.costa@example.com · ontem, 21:14</span></div><button class="btn btn-secondary sm" type="button">Liberar</button></div>
+                  <div class="adm-row"><div class="n-main"><b class="n-strong">Rafa Lima</b><span class="n-cap">rafa@example.com · 26/10, 09:02</span></div><button class="btn btn-secondary sm" type="button">Liberar</button></div>
+                  <div class="adm-row"><div class="n-main"><b class="n-strong">Jô Andrade</b><span class="n-cap">jo.andrade@example.com · 25/10, 18:40</span></div><button class="btn btn-secondary sm" type="button">Liberar</button></div>
+                </section>
+                <section class="adm-sec">
+                  <p class="n-rot">Pedidos de Plus em aberto <a href="#admin">Ver todos</a></p>
+                  <div class="adm-row"><div class="n-main"><b class="n-strong">Maria Souza</b><span class="n-cap">Pediu hoje, 10:12 · usou 100% · teste em 14/10</span></div><button class="btn btn-secondary sm" type="button">Decidir</button></div>
+                  <div class="adm-row"><div class="n-main"><b class="n-strong">Caio Prado</b><span class="n-cap">Pediu ontem, 16:55 · usou 100% · teste em 02/10</span></div><button class="btn btn-secondary sm" type="button">Decidir</button></div>
+                </section>
+              </div>
+            </div>
+          </div>
+          <p class="adm-shot-cap"><b>Visão geral.</b> O topo tem a marca, o menu (o item aberto sublinhado em Tinta, o número de pendências em Mostarda) e "Sair". Os números são links para a lista já filtrada. O que espera uma decisão fica logo embaixo, com o botão para resolver ali.</p>
+        </div>
+
+        <!-- Pessoas -->
+        <div>
+          <div class="adm-win">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pessoas</span></div>
+            <div class="adm-top">
+              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+              <nav class="adm-nav" aria-label="Área administrativa">
+                <a href="#admin">Visão geral</a>
+                <a href="#admin" aria-current="page">Pessoas</a>
+                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
+                <a href="#admin">Uso da IA</a>
+              </nav>
+              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
+            </div>
+            <div class="adm-body">
+              <div class="adm-head"><div><h4 class="n-h1">Pessoas</h4><p class="n-cap">128 contas</p></div></div>
+              <div class="adm-tools">
+                <div class="adm-search"><svg class="i"><use href="#search"/></svg><input class="input" placeholder="Buscar por nome ou e-mail" aria-label="Buscar por nome ou e-mail"></div>
+                <div class="tags">
+                  <button class="tag" type="button" aria-pressed="true">Todas <span class="n-cap">128</span></button>
+                  <button class="tag" type="button" aria-pressed="false">Esperando <span class="n-cap">3</span></button>
+                  <button class="tag" type="button" aria-pressed="false">Plus <span class="n-cap">9</span></button>
+                  <button class="tag" type="button" aria-pressed="false">No limite <span class="n-cap">4</span></button>
+                </div>
+              </div>
+              <div class="adm-table-wrap">
+                <table class="adm-table">
+                  <thead><tr><th>Pessoa</th><th>Plano</th><th>Acesso</th><th>Uso do período</th><th class="n">Cadastro</th></tr></thead>
+                  <tbody>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td><td class="n">09/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio@example.com</span></div></td><td>Plus <span class="n-cap">até 28/11</span></td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i style="--w:8%"></i></div><span>8%</span></div></td><td class="n">02/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Leo Nardo</b><span class="n-cap">leo@caderneta.example.com</span></div></td><td>Plus <span class="n-cap">fixo</span></td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i style="--w:3%"></i></div><span>3%</span></div></td><td class="n">07/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Marina Costa</b><span class="n-cap">marina.costa@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag wait">Esperando</span></td><td><span class="n-cap">—</span></td><td class="n">27/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito <span class="n-cap">teste até 31/10</span></td><td><span class="adm-tag ok">Liberado</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">11/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Gil Moura</b><span class="n-cap">gil.moura@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag no">Recusado</span></td><td><span class="n-cap">—</span></td><td class="n">20/10/2026</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="adm-pages"><span class="n-cap">1 a 25 de 128</span><div class="btn-row"><button class="btn btn-secondary sm" type="button" disabled>Anterior</button><button class="btn btn-secondary sm" type="button">Próxima</button></div></div>
+            </div>
+          </div>
+          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. O plano diz de onde vem ("até 28/11" para o Plus dado, "fixo" para a marcação, "teste até…" no teste de 7 dias). O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
+        </div>
+
+        <!-- Pessoa -->
+        <div>
+          <div class="adm-win">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pessoas/42</span></div>
+            <div class="adm-top">
+              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+              <nav class="adm-nav" aria-label="Área administrativa">
+                <a href="#admin">Visão geral</a>
+                <a href="#admin" aria-current="page">Pessoas</a>
+                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
+                <a href="#admin">Uso da IA</a>
+              </nav>
+              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
+            </div>
+            <div class="adm-body">
+              <a class="adm-back" href="#admin"><svg class="i"><use href="#chev-l"/></svg>Pessoas</a>
+              <div class="adm-head"><div><h4 class="n-h1">Maria Souza</h4><p class="n-cap">maria.souza@example.com</p></div><span class="adm-tag ok">Liberado</span></div>
+              <div class="adm-split">
+                <div>
+                  <div class="adm-kv">
+                    <div><span>Plano</span><span>Gratuito</span></div>
+                    <div><span>Marcação manual</span><span>Automático</span></div>
+                    <div><span>Teste do Plus</span><span>Usado em 14/10 (até 21/10)</span></div>
+                    <div><span>Casas</span><span>Casa da Maria (dona) · Apê da praia (membro)</span></div>
+                    <div><span>Cadastro</span><span>09/10/2026, 08:31</span></div>
+                  </div>
+                  <section class="adm-sec" style="margin-top:32px">
+                    <p class="n-rot">Uso do período · 09/10 a 08/11</p>
+                    <div class="adm-meter">
+                      <div class="bar"><i class="over" style="--w:100%"></i></div>
+                      <p class="n-cap"><b>US$ 0,10 de US$ 0,10</b> · 100% · 31 perguntas · renova em 09/11</p>
+                    </div>
+                    <div class="adm-table-wrap">
+                      <table class="adm-table" style="min-width:420px">
+                        <thead><tr><th>Período</th><th class="n">Perguntas</th><th class="n">Custo</th></tr></thead>
+                        <tbody>
+                          <tr><td>09/10 a 08/11</td><td class="n">31</td><td class="n">US$ 0,10</td></tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </section>
+                  <section class="adm-sec" style="margin-top:32px">
+                    <p class="n-rot">Pedidos de Plus</p>
+                    <div class="adm-row"><div class="n-main"><b class="n-strong">Hoje, 10:12</b><span class="n-cap">Pelo WhatsApp, na folha do limite</span></div><span class="adm-tag wait">Esperando</span></div>
+                  </section>
+                </div>
+                <aside>
+                  <div class="adm-actions">
+                    <h4>Dar Plus</h4>
+                    <div class="field"><span class="lbl">Por quanto tempo</span>
+                      <div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="false">1 mês</button><button type="button" aria-pressed="true">3 meses</button><button type="button" aria-pressed="false">6 meses</button><button type="button" aria-pressed="false">12 meses</button></div>
+                    </div>
+                    <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
+                    <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 3 meses de Plus</button>
+                    <p class="n-cap">Vale até 28/01/2027. Com Plus dado ainda valendo, os meses somam a partir do fim dele. O pedido em aberto fica como atendido.</p>
+                  </div>
+                  <div class="adm-actions">
+                    <h4>Marcação manual</h4>
+                    <div class="seg" role="group" aria-label="Marcação manual"><button type="button" aria-pressed="true">Automático</button><button type="button" aria-pressed="false">Plus fixo</button></div>
+                    <p class="n-cap">Automático segue o Plus dado e o teste. Plus fixo vale sem prazo, até voltar ao automático: use para a sua conta e a conta de revisão das lojas.</p>
+                    <button class="btn btn-secondary full" type="button">Salvar marcação</button>
+                  </div>
+                </aside>
+              </div>
+            </div>
+          </div>
+          <p class="adm-shot-cap"><b>Uma pessoa.</b> À esquerda, o que é (plano, de onde ele vem, casas e uso, com os períodos anteriores); à direita, o que dá para fazer, em painéis de Folha. Com Plus dado valendo, o primeiro painel mostra também "Tirar o Plus" em Tijolo sublinhado, com a folha de confirmação. Quem espera liberação vê, no lugar do painel do Plus, "Liberar acesso" (primário) e "Recusar cadastro" (Tijolo), como na página do e-mail.</p>
+        </div>
+
+        <!-- Pedidos de Plus -->
+        <div>
+          <div class="adm-win">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pedidos</span></div>
+            <div class="adm-top">
+              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+              <nav class="adm-nav" aria-label="Área administrativa">
+                <a href="#admin">Visão geral</a>
+                <a href="#admin">Pessoas</a>
+                <a href="#admin" aria-current="page">Pedidos de Plus <span class="adm-count">2</span></a>
+                <a href="#admin">Uso da IA</a>
+              </nav>
+              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
+            </div>
+            <div class="adm-body">
+              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Feitos pelo WhatsApp, na folha do limite, depois do teste de 7 dias</p></div></div>
+              <div class="adm-tools">
+                <div class="tags">
+                  <button class="tag" type="button" aria-pressed="true">Em aberto <span class="n-cap">2</span></button>
+                  <button class="tag" type="button" aria-pressed="false">Decididos <span class="n-cap">14</span></button>
+                </div>
+              </div>
+              <div class="adm-table-wrap">
+                <table class="adm-table">
+                  <thead><tr><th>Pessoa</th><th>Pedido</th><th>Teste do Plus</th><th>Uso</th><th>Decidir</th></tr></thead>
+                  <tbody>
+                    <tr><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Hoje, 10:12</td><td>14/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
+                      <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
+                    <tr><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Ontem, 16:55</td><td>02/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
+                      <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <p class="adm-shot-cap"><b>Pedidos de Plus.</b> Os meses em segmentos (1 já marcado, como no e-mail) e "Dar" ao lado; "Negar" em Tijolo sublinhado, sem confirmação, porque dá para dar depois. Nos decididos, a coluna "Decidir" vira a situação ("Mês dado até 28/11" ou "Negado") e a data.</p>
+        </div>
+
+        <!-- Uso da IA -->
+        <div>
+          <div class="adm-win">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/uso</span></div>
+            <div class="adm-top">
+              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
+              <nav class="adm-nav" aria-label="Área administrativa">
+                <a href="#admin">Visão geral</a>
+                <a href="#admin">Pessoas</a>
+                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
+                <a href="#admin" aria-current="page">Uso da IA</a>
+              </nav>
+              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
+            </div>
+            <div class="adm-body">
+              <div class="adm-head"><div><h4 class="n-h1">Uso da IA</h4><p class="n-cap">Custo estimado pela tabela de preços, no fuso de Brasília</p></div>
+                <div class="adm-inline"><div class="seg" role="group" aria-label="Período" style="width:260px"><button type="button" aria-pressed="false">Hoje</button><button type="button" aria-pressed="true">30 dias</button><button type="button" aria-pressed="false">6 meses</button></div><div class="seg" role="group" aria-label="Moeda" style="width:120px"><button type="button" aria-pressed="true">US$</button><button type="button" aria-pressed="false">R$</button></div></div>
+              </div>
+              <div class="adm-figs">
+                <div class="adm-fig"><span class="n-cap">Custo</span><span class="n-fig">US$ 11,42</span><span class="n-cap">US$ 0,0011 por pergunta</span></div>
+                <div class="adm-fig"><span class="n-cap">Perguntas</span><span class="n-fig">10.680</span><span class="n-cap">1.204 por voz</span></div>
+                <div class="adm-fig"><span class="n-cap">Do cache</span><span class="n-fig">61%</span><span class="n-cap">dos tokens de entrada</span></div>
+                <div class="adm-fig"><span class="n-cap">Erros</span><span class="n-fig">0,4%</span><span class="n-cap">43 chamadas</span></div>
+              </div>
+              <div class="adm-cols" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))">
+                <section class="adm-sec">
+                  <p class="n-rot">Por dia</p>
+                  <table class="adm-table" style="min-width:0">
+                    <thead><tr><th>Dia</th><th class="n">Perguntas</th><th class="n">Voz</th><th class="n">Custo</th></tr></thead>
+                    <tbody>
+                      <tr><td>Hoje</td><td class="n">382</td><td class="n">41</td><td class="n">US$ 0,41</td></tr>
+                      <tr><td>Ontem</td><td class="n">415</td><td class="n">52</td><td class="n">US$ 0,44</td></tr>
+                      <tr><td>26/10</td><td class="n">398</td><td class="n">37</td><td class="n">US$ 0,42</td></tr>
+                      <tr><td>25/10</td><td class="n">351</td><td class="n">30</td><td class="n">US$ 0,37</td></tr>
+                    </tbody>
+                    <tfoot><tr><td>30 dias</td><td class="n">10.680</td><td class="n">1.204</td><td class="n">US$ 11,42</td></tr></tfoot>
+                  </table>
+                </section>
+                <section class="adm-sec">
+                  <p class="n-rot">Por modelo e uso</p>
+                  <table class="adm-table" style="min-width:0">
+                    <thead><tr><th>Modelo</th><th>Uso</th><th class="n">Chamadas</th><th class="n">Custo</th></tr></thead>
+                    <tbody>
+                      <tr><td>modelo-principal</td><td>Assistente</td><td class="n">15.020</td><td class="n">US$ 10,63</td></tr>
+                      <tr><td>modelo-principal</td><td>Voz</td><td class="n">1.204</td><td class="n">US$ 0,61</td></tr>
+                      <tr><td>modelo-principal</td><td>Cache</td><td class="n">720</td><td class="n">US$ 0,18</td></tr>
+                    </tbody>
+                  </table>
+                </section>
+              </div>
+              <section class="adm-sec" style="margin-top:40px">
+                <p class="n-rot">Quem mais usou no período</p>
+                <div class="adm-table-wrap" style="margin-top:0">
+                  <table class="adm-table">
+                    <thead><tr><th>Pessoa</th><th>Plano</th><th class="n">Perguntas</th><th class="n">Custo</th><th>Do limite agora</th></tr></thead>
+                    <tbody>
+                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Plus</td><td class="n">612</td><td class="n">US$ 0,66</td><td><div class="adm-use"><div class="bar"><i style="--w:44%"></i></div><span>44%</span></div></td></tr>
+                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito</td><td class="n">31</td><td class="n">US$ 0,10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td></tr>
+                    </tbody>
+                  </table>
+                </div>
+              </section>
+            </div>
+          </div>
+          <p class="adm-shot-cap"><b>Uso da IA.</b> O mesmo que o <code>assistant:usage</code> e o <code>assistant:usage-periods</code> mostram no terminal, sem os comandos: os números grandes em Fraunces, as tabelas por dia e por modelo e quem mais usou, com a barra do limite. Os valores são em dólar. "Do limite agora" é o período atual de cada pessoa, não o intervalo escolhido; em 6 meses, a tabela por dia vira por mês. Os valores saem em dólar ou em reais (US$ | R$, a escolha vale para toda a área administrativa), pela cotação do dia, buscada uma vez por dia; em R$, uma linha embaixo do título diz a cotação usada e de quando ela é ("US$ 1 = R$ 5,38, cotação de 28/10, 15:19").</p>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1721,6 +2113,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.15</td><td class="num">28/10/2026</td><td>A área administrativa (parte 05, depois do Chat): as páginas do navegador em /admin, só para o administrador. Entrar com e-mail e senha, e um código por e-mail só num navegador novo (ele fica conhecido por 60 dias); a visão geral com o que espera decisão; a lista de pessoas em tabela de livro-caixa, com busca, filtros em tags e a barra do uso; a página de cada pessoa, com dar Plus por 1, 3, 6 ou 12 meses (somando ao Plus dado) e a marcação manual, só Automático ou Plus fixo (o Gratuito fixo fica no terminal, para testes); os pedidos de Plus, com dar ou negar na própria linha; e o uso da IA por dia, por modelo e por pessoa, em dólar ou em reais (pela cotação do dia). É o mesmo papel das páginas do servidor, na largura toda da janela, com margem igual dos lados; só aqui aparece o custo da IA.</td></tr>
         <tr><td>1.14</td><td class="num">28/10/2026</td><td>O pedido do Plus pelo WhatsApp: com o teste de 7 dias já usado, a folha do limite (parte 06) ganha um quarto estado, com "Pedir o Plus pelo WhatsApp" (balão de 18) e "Agora não". O app abre o WhatsApp do administrador com a mensagem pronta, e ele recebe um e-mail para dar um mês de Plus ou negar, numa página do servidor no visual da liberação de cadastro. O Chat vazio troca o título "Pergunte ou peça" por "Em que posso ajudar?", e o texto separa perguntas de pedidos: "Pergunte quanto gastou ou como está o mês. Ou peça para lançar um gasto, pagar uma conta, colocar algo na lista ou criar um lembrete." No Android, as folhas voltam a encostar no fim da tela, por cima da barra de abas.</td></tr>
         <tr><td>1.13</td><td class="num">28/10/2026</td><td>O limite do assistente. Quando a pessoa usa todo o assistente do mês, sobe a folha do limite (parte 06) no lugar do erro, no Chat ou no Início: ampulheta, "Você usou o assistente deste mês", quando ele volta e o que continua funcionando. Na primeira vez, ela oferece 7 dias de Plus ("Experimentar o Plus por 7 dias", com o presente), sem falar em preço; ativado, mostra o ✓ em Musgo e até quando vale. O limite é dito em tempo, nunca em dinheiro ou tokens. O pedido de avaliação da loja é a janela do próprio sistema, sem nenhum desenho do app: aparece uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e nunca vem com recompensa.</td></tr>
         <tr><td>1.12</td><td class="num">27/10/2026</td><td>O guia mostra só o app de hoje. A parte 05 vira "As telas": saem os celulares do visual antigo, e cada tela fica com o quadro "Por que é assim", que diz o motivo de cada escolha em vez de compará-la com o que havia antes. As cores de categoria mostram só o tom de pigmento, sem a cor neon de antes. A parte 01 vira "O que o guia resolve": saem o levantamento das telas e dos componentes e os problemas do visual antigo, e ficam seis regras com o porquê de cada uma. A parte 08 vira "Onde o guia mora no código", com a base e as peças de cada regra, sem o plano do redesign, que já foi feito. As decisões do topo, a tipografia, a escala e as micro-interações deixam de comparar com o app antigo. Sai a fonte Inter, que só os celulares antigos usavam.</td></tr>

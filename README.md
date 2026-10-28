@@ -50,7 +50,7 @@ O visual segue um guia próprio, a **Caderneta**: papel claro, tinta escura, uma
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="O começo do guia de design Caderneta, com as decisões aprovadas e o índice"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a></b></p>
-      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
+      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="O começo da apresentação do ícone, com ele no iPhone, no Android, no ícone temático, na splash e na tela inicial"></a>
@@ -138,13 +138,32 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - Lembretes na hora marcada, com "Feito", "Adiar 1 h" e "Amanhã".
 - Cada tipo de aviso pode ser desligado.
 
+### Planos
+- **Gratuito e Plus:** cada plano tem um limite de uso do assistente por mês, contado a partir do dia em que a conta foi criada. O Plus tem um limite bem maior. Lançar à mão, as listas e a agenda nunca têm limite.
+- **O limite é dito em tempo:** o app fala "volta no dia 12", nunca em dinheiro ou tokens.
+- **Folha do limite:** quando o uso do mês acaba, uma folha mostra quando ele volta e o que continua funcionando, no lugar de uma mensagem de erro.
+- **Teste de 7 dias do Plus:** oferecido uma vez por conta, na primeira vez que a pessoa chega ao limite.
+- **Pedido do Plus pelo WhatsApp:** com o teste já usado, a folha abre o WhatsApp do administrador com a mensagem pronta. Ele recebe um e-mail para dar o Plus ou negar.
+- **Avaliação na loja:** a janela do próprio sistema, uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e sem recompensa.
+
 ### Acesso e segurança
 - **Cadastro com liberação:** quem se cadastra sozinho espera o administrador liberar. Ele recebe um e-mail com um link assinado para uma página de aprovação.
 - **Convite libera na hora:** quem chega por convite entra direto, e o administrador só é avisado.
 - **Esqueci a senha** com código de 6 números por e-mail.
 - **Sessão por aparelho**, com "sair de todos os aparelhos".
 - **Privacidade antes da IA:** CPF, CNPJ, cartões, chaves Pix, telefones, e-mails, agência e conta são trocados por marcadores antes de qualquer texto chegar ao modelo.
-- **Limites:** número de mensagens por pessoa por dia e registro do uso e do custo da IA.
+- **Limites:** número de mensagens por pessoa por dia, além do limite do mês de cada plano (veja [Planos](#planos)).
+
+### Área administrativa
+Páginas no navegador, em `/admin`, só para o administrador e no mesmo visual do app. Estão desenhadas na [parte do guia sobre a área administrativa](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin).
+
+- **Entrada em dois passos:** e-mail e senha e, num navegador novo, um código de 6 números por e-mail. Depois do código, o navegador fica conhecido por 60 dias.
+- **Visão geral:** o que espera uma decisão (cadastros para liberar e pedidos de Plus), quantas pessoas estão no Plus e o custo de hoje e do mês.
+- **Pessoas:** busca por nome ou e-mail, filtros e o uso de cada pessoa contra o limite do plano.
+- **Plano de cada pessoa:** dar o Plus por 1, 3, 6 ou 12 meses (os meses somam ao Plus que ela já tem), tirar o Plus ou marcar o Plus fixo.
+- **Pedidos de Plus:** dar ou negar na própria linha da lista.
+- **Uso da IA:** custo por dia ou por mês, por modelo e por pessoa, em dólar ou em reais. A cotação é consultada uma vez por dia e fica guardada em cache, e a última que deu certo cobre uma falha da consulta.
+- **É o único lugar com o custo da IA:** no app, ninguém vê valores em dólar.
 
 ## Arquitetura
 
@@ -176,6 +195,14 @@ Todo texto que vai para a IA, digitado ou transcrito, passa antes por um cofre (
 - As chamadas de ferramenta são devolvidas ao modelo exatamente como ele as mandou, ainda mascaradas, para não invalidar a assinatura de raciocínio que o provedor exige.
 - Os nomes dos membros da casa continuam visíveis: o assistente precisa deles para entender "a Ana pagou a luz".
 
+### O limite pelo custo
+O limite do assistente não conta mensagens: conta quanto cada pergunta custou de verdade.
+
+- Cada chamada ao modelo registra os tokens e o custo, pelo preço do modelo usado e com o desconto do cache. Voz e texto somam juntos, no período de cada pessoa.
+- O custo de uma pergunta só se sabe depois da resposta. Por isso a última pergunta do mês pode passar um pouco do limite: é melhor do que cortar uma resposta no meio.
+- O app recebe só a porcentagem usada e o dia em que o limite volta. O valor em dólar fica no servidor e na área administrativa.
+- Uma chave liga a cobrança do limite. Desligada, ninguém é barrado, e o relatório mostra quem passaria do limite, para calibrar os valores antes de valer.
+
 ### O design como sistema
 O visual segue um guia próprio, a "Caderneta" (veja a seção [Design e marca](#design-e-marca)). Duas partes mostram como ele foi levado a sério:
 
@@ -187,7 +214,7 @@ O visual segue um guia próprio, a "Caderneta" (veja a seção [Design e marca](
 | Camada | Tecnologias |
 |---|---|
 | App | Expo SDK 57, React Native 0.86 (New Architecture), React 19, TypeScript, Expo Router, TanStack Query, Zustand, Reanimated 4, react-native-svg, expo-audio |
-| API | PHP 8.4, Laravel 13, Sanctum (token por aparelho), Pest |
+| API | PHP 8.4, Laravel 13, Sanctum (token por aparelho), sessão do Laravel na área administrativa, Pest |
 | Tempo real | Laravel Reverb (WebSocket) |
 | Assistente | Agente de IA com ferramentas (conversa, ações e transcrição de voz), atrás de uma interface de provedor, e um provedor "fake" por regras para desenvolvimento e testes |
 | Dados | PostgreSQL 16, Redis 7 (fila e cache) |
@@ -210,6 +237,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
+| Plano | `GET /assistant/usage`, `POST /assistant/plus-trial`, `POST /assistant/plus-request` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
 
@@ -226,12 +254,12 @@ Como o repositório privado está organizado:
 │   ├── app/
 │   │   ├── Assistant/          # o assistente: provedores, ferramentas, ações, cofre de privacidade, voz
 │   │   ├── Alerts/             # avisos de contas, orçamentos, resumo da semana e lembretes
-│   │   ├── Services/           # regras de lançamentos, parcelas, contas, orçamentos e acesso
-│   │   ├── Http/               # controllers, requests e resources da API
+│   │   ├── Services/           # regras de lançamentos, parcelas, contas, orçamentos, acesso, planos e uso da IA
+│   │   ├── Http/               # controllers, requests e resources da API e da área administrativa
 │   │   ├── Mail/               # o e-mail no estilo Caderneta
-│   │   └── Notifications/      # cadastro, acesso liberado, código de senha
+│   │   └── Notifications/      # cadastro, acesso liberado, códigos de senha e de entrada, pedido de Plus
 │   ├── database/               # migrations, factories e a casa de demonstração
-│   ├── resources/views/        # e-mails e a página de aprovação de cadastro
+│   ├── resources/views/        # e-mails, as páginas de aprovação e a área administrativa
 │   └── tests/                  # testes de API, regras e assistente (Pest)
 └── mobile/                     # app Expo
     ├── assets/                 # ícone, splash e a marca em SVG
@@ -247,6 +275,8 @@ Como o repositório privado está organizado:
 ## Limitações e próximos passos
 
 - **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
+- **Plus:** ainda não é vendido pelas lojas; quem libera é o administrador, pelo pedido do WhatsApp ou pela área administrativa. A cobrança pelas lojas vem depois.
+- **Barra de uso:** o app ainda não mostra quanto do mês já foi usado; hoje isso só aparece quando o limite chega.
 - **Publicação:** o app está em revisão na Play Store e na App Store. O servidor de produção roda com Docker Compose.
 
 ## Autor
