@@ -50,7 +50,7 @@ O visual segue um guia próprio, a **Caderneta**: papel claro, tinta escura, uma
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="O começo do guia de design Caderneta, com as decisões aprovadas e o índice"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a></b></p>
-      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a tela do Plano, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
+      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a tela do Plano, o arrastar para ordenar, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="O começo da apresentação do ícone, com ele no iPhone, no Android, no ícone temático, na splash e na tela inicial"></a>
@@ -121,13 +121,13 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - **Contas fixas:** com valor fixo ou variável (a estimativa é a média dos últimos 3 pagamentos), pular um mês, desfazer um pagamento e débito automático, que lança a despesa sozinho no dia.
 - **Receitas fixas:** o salário entra sozinho todo mês, no dia certo.
 - **Orçamentos** por categoria, com a média dos últimos meses como sugestão.
-- **Categorias** com ícone, cor e ordem, que aparecem numa grade na hora de lançar.
+- **Categorias** com ícone, cor e ordem, que aparecem numa grade na hora de lançar. A ordem muda arrastando pela alça, no modo Organizar.
 - **Resumo do mês:** saldo, receitas e despesas, gastos por categoria, quem gastou quanto, faturas e próximas contas.
 
 ### Agenda, listas e lembretes
 - **Agenda** com contas, cartões e lembretes num lugar só.
 - **Lembretes** com repetição ("a cada 6 meses"), da casa ou só seus.
-- **Listas** de compras, desejos, coisas a fazer ou do jeito que você quiser, com toque para marcar no mercado.
+- **Listas** de compras, desejos, coisas a fazer ou do jeito que você quiser, com toque para marcar no mercado. Os itens e as próprias listas se ordenam arrastando.
 
 ### Avisos no chat e no celular
 - Cada aviso chega no chat e, com as notificações ligadas, também como push no celular. Tocar na notificação abre o chat da casa certa.
@@ -237,7 +237,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Lançamentos | `/transactions`, `/installment-plans`, `/categories`, `PUT /categories/order` |
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
-| Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
+| Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
 | Plano | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |

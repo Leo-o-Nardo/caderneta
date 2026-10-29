@@ -318,6 +318,29 @@ table.ledger tfoot .n { color: var(--tinta); }
 .plan-grid .btn { margin-top: 16px; }
 .plan-home { margin-top: 56px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
 .plan-home .panel { padding-bottom: 16px; }
+/* Ordenar arrastando: a alça à direita, a linha levantada e o espaço onde ela vai cair */
+.sort-head .n-h2 { flex: 1; }
+.sort-hint { margin: 12px 0 8px; display: block; }
+.sort-list { position: relative; border-top: 1px solid var(--pauta); }
+.sort-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 6px 0; border-bottom: 1px solid var(--pauta); background: var(--papel); }
+.sort-row .n-main { flex: 1; }
+.sort-grip { width: 44px; height: 44px; margin-right: -10px; display: grid; place-items: center; color: var(--lapis); cursor: grab; touch-action: none; flex: none; }
+.sort-grip .i { width: 20px; height: 20px; }
+.sort-row.is-lifted { position: relative; z-index: 2; margin: 0 -12px -28px; padding-left: 12px; padding-right: 12px; background: var(--folha); border-bottom-color: transparent; border-radius: 6px; box-shadow: 0 14px 28px -14px rgba(30, 31, 28, .5), 0 0 0 1px var(--pauta); transform: scale(1.02); }
+.sort-row.is-lifted .sort-grip { color: var(--tinta); cursor: grabbing; }
+.sort-gap { height: 56px; border-bottom: 1px solid var(--pauta); }
+.sort-title { display: flex; align-items: center; gap: 4px; }
+.sort-title .n-main { flex: 1; }
+.sort-box { width: 22px; height: 22px; border: 1.5px solid var(--lapis); border-radius: 4px; flex: none; }
+.sort-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 56px; }
+.sort-grid figure { display: grid; gap: 8px; align-content: start; }
+.sort-grid figcaption { font-size: 13px; color: var(--grafite); }
+.sort-grid .panel { max-width: none; padding-top: 12px; }
+.sort-grid .seg { margin-top: 4px; }
+.sort-demo .sort-list { user-select: none; -webkit-user-select: none; }
+.sort-demo .sort-row { transition: transform .18s var(--curva), box-shadow .15s ease-out; }
+.sort-demo .sort-row.is-dragging { position: relative; z-index: 2; transition: box-shadow .15s ease-out; background: var(--folha); border-radius: 6px; box-shadow: 0 14px 28px -14px rgba(30, 31, 28, .5), 0 0 0 1px var(--pauta); }
+.sort-demo .sort-row.is-dragging .sort-grip { color: var(--tinta); cursor: grabbing; }
 /* Chat */
 .n-chathead { display: flex; justify-content: space-between; align-items: flex-end; padding-top: 8px; padding-bottom: 12px; border-bottom: 1px solid var(--pauta); flex: none; }
 .n-msgs { display: flex; flex-direction: column; gap: 16px; padding-top: 16px; padding-bottom: 16px; }
@@ -748,13 +771,15 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="grid" viewBox="0 0 24 24"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></symbol>
   <symbol id="more" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></symbol>
   <symbol id="gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+  <symbol id="grip" viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
+  <symbol id="arrow-up-down" viewBox="0 0 24 24"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></symbol>
 </svg>
 
 <!-- ======================= Cabeçalho ======================= -->
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.16 · 28 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.17 · 28 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1076,6 +1101,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li><div><b>Topo das telas:</b> as ações são botões de ícone de 24 (engrenagem, lixeira, +, "…").</div></li>
             <li><div><b>Botões de ação:</b> ícone de 18 à esquerda em Paguei e Feito (✓), Lançar (+), Apagar (lixeira) e Desfazer (seta de voltar).</div></li>
             <li><div><b>Avisos e estados vazios:</b> o alerta no aviso de contas e um ícone de 32 em Grafite, solto, em cima do estado vazio.</div></li>
+            <li><div><b>Ordenar:</b> as duas setas (para cima e para baixo) no topo abrem o modo Organizar; a alça de seis pontos, em Lápis, fica à direita de cada linha e é por ela que se arrasta.</div></li>
           </ol>
         </div>
       </div>
@@ -1397,6 +1423,91 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           </ul>
         </div>
       </div>
+    </div>
+
+    <!-- ---------- Ordenar arrastando ---------- -->
+    <div class="block" id="ordenar">
+      <div class="block-head"><h3>Ordenar arrastando</h3><p>Categorias, os itens de uma lista e as próprias listas, no modo Organizar</p></div>
+      <div class="pair">
+        <div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-head px sort-head"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Organizar</h4><button class="n-link" type="button">Pronto</button></div>
+            <div class="scroll px n-pb">
+              <div class="seg" style="margin-top:4px"><button type="button" aria-pressed="true">Despesas</button><button type="button" aria-pressed="false">Receitas</button></div>
+              <span class="n-cap sort-hint" style="margin-top:20px">As 7 primeiras aparecem na grade, na hora de lançar. Arraste pela alça e toque em Pronto para salvar.</span>
+              <div class="sort-list">
+                <div class="sort-row"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Moradia</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-row"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Mercado</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-row is-lifted"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><div class="n-main"><b class="n-strong">Transporte</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-gap" aria-hidden="true"></div>
+                <div class="sort-row"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Alimentação</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-row"><span class="ci" style="color:#7F8A3A"><svg class="i"><use href="#zap"/></svg></span><div class="n-main"><b class="n-strong">Contas da casa</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-row"><span class="ci" style="color:#B9553A"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Saúde</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-row"><span class="ci" style="color:#5A5A9A"><svg class="i"><use href="#ticket"/></svg></span><div class="n-main"><b class="n-strong">Lazer</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+                <div class="sort-row"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#bag"/></svg></span><div class="n-main"><b class="n-strong">Compras</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+              </div>
+              <button class="n-link" type="button" style="margin-top:24px;padding:0">Descartar mudanças</button>
+            </div>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>Ordenar é um modo, e não um gesto escondido: as duas setas no topo abrem o "Organizar", o título muda e "Pronto" grava. Fora dele, tocar e segurar continuam fazendo o que já faziam (abrir a categoria, marcar e editar o item).</li>
+            <li>Arrasta-se pela alça, à direita, em Lápis, com 44 de toque. Começa na hora, sem precisar segurar, e o resto da linha continua rolando a tela: o dedo que rola não leva uma linha junto sem querer.</li>
+            <li>A linha levantada fica em Folha, com uma sombra curta e 2% maior, e a alça passa para Tinta. As outras abrem espaço enquanto ela passa (180 ms). Uma vibração leve ao levantar e uma bem curta a cada lugar trocado.</li>
+            <li>Perto do topo ou do fim da tela, a lista rola sozinha, devagar, para dar para levar uma categoria do fim ao começo numa vez só.</li>
+            <li>As três setas de antes (topo, subir e descer) saem: a linha fica livre para o nome. Com o leitor de tela, cada linha tem as ações "Subir", "Descer" e "Para o topo", e diz a posição ("Transporte, 3 de 12").</li>
+            <li>Nada é gravado no meio do caminho: "Pronto" manda a ordem inteira, e "Descartar mudanças" volta à de antes. Se não der para salvar, a ordem volta e aparece o aviso de sempre.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="sort-grid">
+        <figure>
+          <div class="panel">
+            <div class="sort-title">
+              <div class="n-main"><b class="n-h2" style="font-size:24px;line-height:30px;font-weight:600">Mercado</b><span class="n-cap">Compras · lista padrão</span></div>
+              <button class="n-iconbtn" type="button" aria-label="Organizar os itens e as listas"><svg class="i"><use href="#arrow-up-down"/></svg></button>
+              <button class="n-iconbtn" type="button" aria-label="Opções da lista" style="margin-right:-10px"><svg class="i"><use href="#more"/></svg></button>
+            </div>
+            <div class="n-row" style="margin-top:8px;border-top:1px solid var(--pauta)"><span class="sort-box" aria-hidden="true"></span><div class="n-main"><span class="n-body">Leite</span><span class="n-cap">2 caixas</span></div></div>
+            <div class="n-row" style="border-bottom:0"><span class="sort-box" aria-hidden="true"></span><div class="n-main"><span class="n-body">Café</span></div></div>
+          </div>
+          <figcaption>Na aba Listas: as setas ao lado do "…" abrem o Organizar</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-head sort-head" style="padding-top:4px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Organizar</h4><button class="n-link" type="button">Pronto</button></div>
+            <div class="seg"><button type="button" aria-pressed="true">Itens</button><button type="button" aria-pressed="false">Listas</button></div>
+            <span class="n-cap sort-hint" style="margin-top:16px">Os itens que faltam pegar em Mercado. Os já pegos ficam embaixo, como sempre.</span>
+            <div class="sort-list">
+              <div class="sort-row"><div class="n-main"><span class="n-body">Leite</span><span class="n-cap">2 caixas</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+              <div class="sort-row"><div class="n-main"><span class="n-body">Pão</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+              <div class="sort-row"><div class="n-main"><span class="n-body">Café</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+              <div class="sort-row" style="border-bottom:0"><div class="n-main"><span class="n-body">Detergente</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+            </div>
+          </div>
+          <figcaption>Organizar › Itens, da lista que estava aberta</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-head sort-head" style="padding-top:4px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Organizar</h4><button class="n-link" type="button">Pronto</button></div>
+            <div class="seg"><button type="button" aria-pressed="false">Itens</button><button type="button" aria-pressed="true">Listas</button></div>
+            <span class="n-cap sort-hint" style="margin-top:16px">A ordem das tags no topo da aba Listas.</span>
+            <div class="sort-list">
+              <div class="sort-row"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Mercado</b><span class="n-cap">Compras · lista padrão</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+              <div class="sort-row"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#checks"/></svg></span><div class="n-main"><b class="n-strong">Casa</b><span class="n-cap">A fazer</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+              <div class="sort-row" style="border-bottom:0"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#gift"/></svg></span><div class="n-main"><b class="n-strong">Presentes</b><span class="n-cap">Desejos · só você</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+            </div>
+          </div>
+          <figcaption>Organizar › Listas</figcaption>
+        </figure>
+      </div>
+      <p class="spec-line"><b>Uma tela para as listas.</b> Arrastar as tags de lado, no topo, brigaria com a rolagem delas e esconderia a lista no fim da fila. Por isso as setas ao lado do "…" abrem a tela "Organizar", com "Itens" (os que faltam pegar na lista aberta) e "Listas" (a ordem das tags). "Pronto" grava o que mudou nas duas partes. Os itens já pegos não entram: eles continuam embaixo, na seção "Já pegos". A lista padrão segue sendo a que abre primeiro, onde quer que esteja. Quem só pode ver a casa não vê as setas, nem aqui nem nas Categorias. Uma parte com menos de dois itens diz "Nada para ordenar ainda."</p>
     </div>
 
     <!-- ---------- Área administrativa ---------- -->
@@ -2088,6 +2199,20 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
 
       <div>
+        <h3>Arrastar para ordenar</h3>
+        <dl class="how"><dt>Duração</dt><dd>na hora ao levantar, 180 ms para as outras linhas abrirem espaço, 200 ms para encaixar ao soltar</dd><dt>O quê</dt><dd>a linha sobe em Folha, com sombra curta e 2% maior, e segue o dedo; as outras deslizam para o lado de lá. Vibração leve ao levantar e bem curta a cada lugar trocado.</dd></dl>
+        <div class="demo flat sort-demo" style="padding-top:8px;padding-bottom:8px">
+          <div class="sort-list" id="sort-demo" style="border-top:0">
+            <div class="sort-row" data-sort-row><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Moradia</b></div><span class="sort-grip" aria-label="Arrastar Moradia"><svg class="i"><use href="#grip"/></svg></span></div>
+            <div class="sort-row" data-sort-row><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Mercado</b></div><span class="sort-grip" aria-label="Arrastar Mercado"><svg class="i"><use href="#grip"/></svg></span></div>
+            <div class="sort-row" data-sort-row><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><div class="n-main"><b class="n-strong">Transporte</b></div><span class="sort-grip" aria-label="Arrastar Transporte"><svg class="i"><use href="#grip"/></svg></span></div>
+            <div class="sort-row" data-sort-row style="border-bottom:0"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Alimentação</b></div><span class="sort-grip" aria-label="Arrastar Alimentação"><svg class="i"><use href="#grip"/></svg></span></div>
+          </div>
+        </div>
+        <span class="n-cap" style="display:block;margin-top:8px">Arraste pelos seis pontos.</span>
+      </div>
+
+      <div>
         <h3>Folha que sobe</h3>
         <dl class="how"><dt>Duração</dt><dd>240 ms para subir, 180 ms para o fundo escurecer</dd><dt>O quê</dt><dd>a folha sai de baixo com uma curva que desacelera no fim, sem quicar. Veja "Abrir de novo" no modal, na parte 06.</dd></dl>
       </div>
@@ -2125,6 +2250,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <ul>
           <li><code>mobile/src/components/ui/</code><span>Os componentes do guia: texto, botão, campo, interruptor, barra de progresso e os outros da parte 06. Entre eles, <code>Sheet.tsx</code> (folha de confirmação, aberta por <code>confirm()</code> de <code>stores/confirm.ts</code>), <code>Amount.tsx</code> (valor em R$ com algarismos tabulares), <code>TextLink.tsx</code> (link em Musgo sublinhado), <code>IconButton.tsx</code> (botão só de ícone, 24 com 44 de toque) e <code>Tag.tsx</code> ("só você", "da casa").</span></li>
           <li><code>mobile/src/components/CategoryIcon.tsx</code><span>O ícone da categoria, fino e na cor dela, numa coluna de 24 à esquerda das linhas.</span></li>
+          <li><code>mobile/src/components/SortableList.tsx</code><span>A lista de arrastar pela alça do modo Organizar (Categorias e Listas), com a linha levantada, a rolagem perto das bordas e as ações do leitor de tela.</span></li>
           <li><code>mobile/src/components/cards/Ficha.tsx</code><span>As peças das fichas do chat: topo com o ícone do tipo, linhas, total sublinhado duas vezes e rodapé com os botões.</span></li>
         </ul>
       </div>
@@ -2217,6 +2343,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.17</td><td class="num">28/10/2026</td><td>Ordenar arrastando (parte 05, depois do Plano, e parte 07). As Categorias seguem com o modo Organizar, mas as três setas de cada linha (topo, subir, descer) dão lugar à alça de seis pontos, em Lápis, à direita, por onde se arrasta, sem precisar segurar. A linha levantada fica em Folha, com sombra curta e 2% maior; as outras abrem espaço em 180 ms, a lista rola sozinha perto das bordas, e há vibração ao levantar e a cada lugar trocado. Na aba Listas, as setas ao lado do "…" abrem a tela "Organizar", com "Itens" (os que faltam pegar na lista aberta) e "Listas" (a ordem das tags); as tags não se arrastam de lado. Nada é gravado antes de "Pronto", e "Descartar mudanças" volta à ordem de antes. Com o leitor de tela, cada linha tem "Subir", "Descer" e "Para o topo" e diz a posição. Novos ícones: a alça (grip-vertical) e as setas de ordenar (arrow-up-down). Nova peça: <code>SortableList.tsx</code>.</td></tr>
         <tr><td>1.16</td><td class="num">28/10/2026</td><td>O Plano no app (parte 05, depois do Chat). Configurações ganha o grupo "Assistente", com "Plano" (o medidor) e o plano e a porcentagem à direita ("Gratuito · 85%"). A tela mostra o uso do assistente em porcentagem (Fraunces 40), na barra dos orçamentos (Musgo até 79%, Atenção a partir de 80%, cheia em Atenção no limite, nunca em Tijolo), o dia em que volta a zero, os planos em lista com "Seu plano" em Musgo e sem preço, e "O que conta". O Plus dado diz até quando vale e que depois volta o Gratuito; o Plus fixo diz "Sem data para acabar". No limite, a tela traz o mesmo botão da folha do limite. Sai o teste de 7 dias do Plus: o Plus é só o que o administrador libera, e a folha do limite fica com dois estados, só o aviso e o pedido pelo WhatsApp, que agora vale já no primeiro limite. Na área administrativa, o teste sai da página da pessoa e da lista, e a coluna "Teste do Plus" dos pedidos vira "Cadastro". No Início não entra número novo: a partir de 80%, um aviso no traço de Atenção ("Você já usou 85% do assistente"), e no limite, com a ampulheta, os dois levando ao Plano. Novo ícone: o medidor (gauge). "Valores e textos financeiros" ganha o uso do assistente e o Plus com data.</td></tr>
         <tr><td>1.15</td><td class="num">28/10/2026</td><td>A área administrativa (parte 05, depois do Chat): as páginas do navegador em /admin, só para o administrador. Entrar com e-mail e senha, e um código por e-mail só num navegador novo (ele fica conhecido por 60 dias); a visão geral com o que espera decisão; a lista de pessoas em tabela de livro-caixa, com busca, filtros em tags e a barra do uso; a página de cada pessoa, com dar Plus por 1, 3, 6 ou 12 meses (somando ao Plus dado) e a marcação manual, só Automático ou Plus fixo (o Gratuito fixo fica no terminal, para testes); os pedidos de Plus, com dar ou negar na própria linha; e o uso da IA por dia, por modelo e por pessoa, em dólar ou em reais (pela cotação do dia). É o mesmo papel das páginas do servidor, na largura toda da janela, com margem igual dos lados; só aqui aparece o custo da IA.</td></tr>
         <tr><td>1.14</td><td class="num">28/10/2026</td><td>O pedido do Plus pelo WhatsApp: com o teste de 7 dias já usado, a folha do limite (parte 06) ganha um quarto estado, com "Pedir o Plus pelo WhatsApp" (balão de 18) e "Agora não". O app abre o WhatsApp do administrador com a mensagem pronta, e ele recebe um e-mail para dar um mês de Plus ou negar, numa página do servidor no visual da liberação de cadastro. O Chat vazio troca o título "Pergunte ou peça" por "Em que posso ajudar?", e o texto separa perguntas de pedidos: "Pergunte quanto gastou ou como está o mês. Ou peça para lançar um gasto, pagar uma conta, colocar algo na lista ou criar um lembrete." No Android, as folhas voltam a encostar no fim da tela, por cima da barra de abas.</td></tr>
@@ -2369,6 +2496,57 @@ document.querySelectorAll('[data-replay]').forEach(function (button) {
     });
   });
 });
+
+// Arrastar para ordenar: a linha segue o ponteiro pela alça, e as outras abrem espaço.
+(function () {
+  var list = document.getElementById('sort-demo');
+  var drag = null;
+  function rows() { return Array.prototype.slice.call(list.querySelectorAll('[data-sort-row]')); }
+  function lastBorder() {
+    rows().forEach(function (row, index, all) { row.style.borderBottom = index === all.length - 1 ? '0' : ''; });
+  }
+  list.addEventListener('pointerdown', function (event) {
+    var grip = event.target.closest('.sort-grip');
+    if (!grip) return;
+    var row = grip.closest('[data-sort-row]');
+    var all = rows();
+    drag = { row: row, from: all.indexOf(row), to: all.indexOf(row), startY: event.clientY, height: row.offsetHeight, all: all };
+    row.classList.add('is-dragging');
+    grip.setPointerCapture(event.pointerId);
+    event.preventDefault();
+  });
+  list.addEventListener('pointermove', function (event) {
+    if (!drag) return;
+    var dy = event.clientY - drag.startY;
+    var last = drag.all.length - 1;
+    // Não passa do topo nem do fim da lista.
+    dy = Math.max(-drag.from * drag.height, Math.min((last - drag.from) * drag.height, dy));
+    drag.row.style.transform = 'translateY(' + dy + 'px) scale(1.02)';
+    drag.to = Math.round(drag.from + dy / drag.height);
+    drag.all.forEach(function (other, index) {
+      if (other === drag.row) return;
+      var shift = 0;
+      if (drag.to > drag.from && index > drag.from && index <= drag.to) shift = -drag.height;
+      if (drag.to < drag.from && index < drag.from && index >= drag.to) shift = drag.height;
+      other.style.transform = shift ? 'translateY(' + shift + 'px)' : '';
+    });
+  });
+  function drop() {
+    if (!drag) return;
+    var all = drag.all, row = drag.row, to = drag.to;
+    all.forEach(function (other) { other.style.transition = 'none'; other.style.transform = ''; });
+    row.classList.remove('is-dragging');
+    var rest = all.filter(function (other) { return other !== row; });
+    rest.splice(to, 0, row);
+    rest.forEach(function (other) { list.appendChild(other); });
+    lastBorder();
+    void list.offsetWidth;
+    all.forEach(function (other) { other.style.transition = ''; });
+    drag = null;
+  }
+  list.addEventListener('pointerup', drop);
+  list.addEventListener('pointercancel', drop);
+})();
 
 // Os chats começam rolados até a mensagem mais nova, como no app.
 document.querySelectorAll('.n-msgs').forEach(function (list) { list.scrollTop = list.scrollHeight; });

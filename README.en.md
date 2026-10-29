@@ -53,7 +53,7 @@ The visual design follows its own guide, **Caderneta**: light paper, dark ink, a
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the approved decisions and the table of contents"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a></b></p>
-      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the Plan screen, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
+      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the Plan screen, drag to reorder, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="The start of the icon presentation, with the icon on iPhone, Android, the themed icon, the splash and the home screen"></a>
@@ -124,13 +124,13 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - **Recurring bills:** fixed or variable amounts (the estimate is the average of the last 3 payments), skip a month, undo a payment, and autopay, which logs the expense by itself on the due date.
 - **Recurring income:** the salary comes in by itself every month, on the right day.
 - **Budgets** per category, with the average of the last months as a suggestion.
-- **Categories** with icon, color and order, shown in a grid when logging.
+- **Categories** with icon, color and order, shown in a grid when logging. The order changes by dragging the handle, in Organize mode.
 - **Monthly summary:** balance, income and expenses, spending by category, who spent how much, invoices and upcoming bills.
 
 ### Schedule, lists and reminders
 - **Schedule** with bills, cards and reminders in one place.
 - **Reminders** that repeat ("every 6 months"), shared with the household or private.
-- **Lists** for groceries, wishes, to-dos or anything else, with tap-to-check for the supermarket.
+- **Lists** for groceries, wishes, to-dos or anything else, with tap-to-check for the supermarket. Items and the lists themselves are reordered by dragging.
 
 ### Alerts in the chat and on the phone
 - Each alert arrives in the chat and, with notifications on, also as a push notification. Tapping it opens the chat of the right household.
@@ -240,7 +240,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Entries | `/transactions`, `/installment-plans`, `/categories`, `PUT /categories/order` |
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
-| Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `/lists/{list}/items`, `/list-items/{item}` |
+| Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
 | Plan | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
