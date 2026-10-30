@@ -328,6 +328,70 @@ table.ledger tfoot .n { color: var(--tinta); }
 .sort-demo .sort-row { transition: transform .18s var(--curva), box-shadow .15s ease-out; }
 .sort-demo .sort-row.is-dragging { position: relative; z-index: 2; transition: box-shadow .15s ease-out; background: var(--folha); border-radius: 6px; box-shadow: 0 14px 28px -14px rgba(30, 31, 28, .5), 0 0 0 1px var(--pauta); }
 .sort-demo .sort-row.is-dragging .sort-grip { color: var(--tinta); cursor: grabbing; }
+/* Agenda (1.21): a semana da Rotina, a marcação do dia e o calendário próprio do app */
+.rt-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.rt-week { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; margin-top: 16px; }
+.rt-day { display: grid; justify-items: center; gap: 2px; padding: 6px 0; background: none; border: 0; border-radius: 4px; font: 500 12px/16px var(--sans); color: var(--grafite); }
+.rt-day b { font: 500 16px/22px var(--sans); font-variant-numeric: tabular-nums; color: var(--tinta); }
+.rt-day.on { background: var(--musgo); color: var(--papel); }
+.rt-day.on b { color: var(--papel); }
+.rt-progress { display: grid; gap: 8px; margin-top: 16px; }
+.rt-box { width: 22px; height: 22px; flex: none; display: grid; place-items: center; border: 1.5px solid var(--borda); border-radius: 4px; }
+.rt-box.done { border-color: var(--musgo); color: var(--musgo); }
+.rt-box.skip { color: var(--grafite); }
+.rt-box.off { border-color: var(--pauta); }
+.rt-box .i { width: 16px; height: 16px; stroke-width: 2.4; }
+.rt-opts { margin-top: 12px; border-top: 1px solid var(--pauta); }
+.rt-opts .danger { color: var(--tijolo); }
+.rt-empty { display: grid; justify-items: center; gap: 8px; padding: 32px 0 8px; text-align: center; }
+.rt-empty .i { width: 32px; height: 32px; color: var(--grafite); }
+.rt-empty .btn { margin-top: 8px; }
+.rt-done .n-strong { font-weight: 400; color: var(--grafite); }
+.rt-form { display: grid; gap: 16px; margin-top: 12px; }
+.rt-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
+.rt-days button { height: 40px; padding: 0; background: var(--folha); border: 1px solid var(--borda); border-radius: 4px; font: 500 13px var(--sans); color: var(--tinta); }
+.rt-days button[aria-pressed="true"] { background: var(--musgo); border-color: var(--musgo); color: var(--papel); }
+.rt-tags { display: flex; gap: 8px; }
+.rt-input { display: flex; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
+.cal-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.cal-grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); align-content: start; min-height: 286px; }
+.cal-grid span { display: grid; place-items: center; height: 22px; font: 400 13px/18px var(--sans); color: var(--grafite); }
+.cal-grid button { height: 44px; padding: 0; background: none; border: 0; border-radius: 4px; font: 400 16px var(--sans); font-variant-numeric: tabular-nums; color: var(--tinta); }
+.cal-grid button.today { font-weight: 600; color: var(--musgo); text-decoration: underline; text-underline-offset: 3px; }
+.cal-grid button[aria-pressed="true"] { background: var(--musgo); color: var(--papel); font-weight: 500; text-decoration: none; }
+.cal-foot { display: flex; justify-content: center; margin-top: 8px; }
+.wheel { position: relative; display: grid; grid-template-columns: 1fr 16px 1fr; align-items: center; margin-top: 12px; }
+.wheel::before { content: ""; position: absolute; left: 0; right: 0; top: 88px; height: 44px; border-radius: 4px; background: var(--musgo); }
+.wheel-col { position: relative; height: 220px; padding: 88px 0; overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; overscroll-behavior: contain; }
+.wheel-col::-webkit-scrollbar { display: none; }
+.wheel-col button { display: block; width: 100%; height: 44px; padding: 0; background: none; border: 0; scroll-snap-align: center; font: 400 18px var(--sans); font-variant-numeric: tabular-nums; color: var(--grafite); cursor: pointer; }
+.wheel-col button[aria-pressed="true"] { color: var(--papel); font-weight: 500; }
+.wheel-sep { position: relative; text-align: center; font: 500 18px var(--sans); color: var(--papel); }
+/* A linha do tempo da Rotina: o horário, o ícone sobre a linha, o nome e o quadrado de marcar */
+.tl { margin-top: 8px; }
+.tl-row { position: relative; display: grid; grid-template-columns: 44px 24px minmax(0, 1fr) 24px; align-items: center; column-gap: 12px; min-height: 56px; margin: 0 -24px; padding: 6px 24px; }
+.tl-row::before { content: ""; position: absolute; left: 91px; top: 0; bottom: 0; width: 2px; background: var(--borda); }
+.tl-row:first-child::before { top: 50%; }
+.tl-row:last-child::before { bottom: 50%; }
+.tl-row.free::before { display: none; }
+.tl-ico { position: relative; width: 24px; height: 26px; display: grid; place-items: center; background: var(--papel); }
+.tl-ico .i { width: 20px; height: 20px; }
+.tl-time { font: 500 14px/20px var(--sans); font-variant-numeric: tabular-nums; color: var(--grafite); }
+.tl-free { display: block; margin-top: 16px; }
+.rt-name { display: flex; gap: 8px; }
+.rt-name .input { flex: 1; min-width: 0; }
+.rt-icon { width: 48px; flex: none; display: grid; place-items: center; background: var(--folha); border: 1px solid var(--borda); border-radius: 4px; cursor: pointer; }
+.pick-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.pick-grid button { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; background: none; border: 1px solid transparent; border-radius: 6px; color: var(--grafite); cursor: pointer; }
+.pick-grid button[aria-pressed="true"] { border-color: var(--musgo); background: rgba(44, 84, 64, .1); }
+.pick-grid .swatch { width: 28px; height: 28px; border-radius: 4px; display: block; }
+.pick-more { display: block; margin-top: 8px; }
+.pick-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.pick-scroll { max-height: 490px; margin: 8px -24px 0; padding: 0 24px 8px; overflow-y: auto; scrollbar-width: none; overscroll-behavior: contain; }
+.pick-scroll::-webkit-scrollbar { display: none; }
+.pick-scroll .n-cap { display: block; margin-top: 12px; }
+.agenda-sheets .sheet-stage { height: 480px; }
+.agenda-sheets .sheet { padding-bottom: 16px; }
 /* Período gratuito do assistente: o fim no Plano e o Chat sem o campo */
 .trial-end { margin-top: 8px; }
 .trial-end .btn { margin-top: 16px; }
@@ -622,6 +686,18 @@ table.adm-table tfoot td { border-bottom: 0; border-top: 1px solid var(--tinta);
 .n-mic.is-rec .down { display: none; }
 .n-mic.is-rec::after { content: ""; position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--tijolo); animation: ring 1.4s ease-out infinite; }
 @keyframes ring { from { transform: scale(1); opacity: .8; } to { transform: scale(1.5); opacity: 0; } }
+/* A notificação do sistema: o desenho é do celular, o app só escolhe o texto e os botões */
+.push-grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.push-grid figure { margin: 0; }
+.push-grid figcaption { display: block; margin-bottom: 8px; }
+.push-card { max-width: 390px; padding: 16px 16px 8px; background: var(--folha); border: 1px solid var(--pauta); border-radius: 16px; }
+.push-top { display: flex; align-items: center; gap: 8px; }
+.push-tile { width: 18px; height: 18px; border-radius: 4px; background: var(--musgo); color: var(--papel); display: grid; place-items: center; font: 600 11px/1 var(--serif); }
+.push-top .n-cap { font-size: 12px; }
+.push-card .n-strong { display: block; margin-top: 8px; }
+.push-card > .n-cap { display: block; color: var(--tinta); font-size: 14px; }
+.push-actions { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; }
+.push-actions span { min-height: 40px; display: inline-flex; align-items: center; font: 500 13px/1 var(--sans); color: var(--musgo); }
 .budget-demo { display: grid; gap: 8px; }
 .budget-demo .bar i { animation: none; transition: width .45s var(--curva), background-color .2s ease-out; }
 .budget-demo .n-cap { transition: color .2s ease-out; }
@@ -769,6 +845,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="mic" viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></symbol>
   <symbol id="mic-off" viewBox="0 0 24 24"><path d="M2 2l20 20"/><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"/><path d="M5 10v2a7 7 0 0 0 12 5"/><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12"/><path d="M12 19v3"/></symbol>
   <symbol id="plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
+  <symbol id="minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
   <symbol id="arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
   <symbol id="chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
   <symbol id="chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
@@ -801,6 +878,32 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="key" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z"/><circle cx="16.5" cy="7.5" r=".5"/></symbol>
   <symbol id="logout" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
   <symbol id="check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5"/></symbol>
+  <symbol id="pill" viewBox="0 0 24 24"><path d="m10.5 20.5 10-10a4.95 4.95 0 1 0-7-7l-10 10a4.95 4.95 0 1 0 7 7Z"/><path d="m8.5 8.5 7 7"/></symbol>
+  <symbol id="dumbbell" viewBox="0 0 24 24"><path d="M17.596 12.768a2 2 0 1 0 2.829-2.829l-1.768-1.767a2 2 0 0 0 2.828-2.829l-2.828-2.828a2 2 0 0 0-2.829 2.828l-1.767-1.768a2 2 0 1 0-2.829 2.829z"/><path d="m2.5 21.5 1.4-1.4"/><path d="m20.1 3.9 1.4-1.4"/><path d="M5.343 21.485a2 2 0 1 0 2.829-2.828l1.767 1.768a2 2 0 1 0 2.829-2.829l-6.364-6.364a2 2 0 1 0-2.829 2.829l1.768 1.767a2 2 0 0 0-2.828 2.829z"/><path d="m9.6 14.4 4.8-4.8"/></symbol>
+  <symbol id="book" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol>
+  <symbol id="droplet" viewBox="0 0 24 24"><path d="M12 22a7 7 0 0 0 7-7c0-2-1-3.9-3-5.5s-3.5-4-4-6.5c-.5 2.5-2 4.9-4 6.5C6 11.1 5 13 5 15a7 7 0 0 0 7 7z"/></symbol>
+  <symbol id="music" viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></symbol>
+  <symbol id="apple" viewBox="0 0 24 24"><path d="M12 6.528V3a1 1 0 0 1 1-1h0"/><path d="M18.237 21A15 15 0 0 0 22 11a6 6 0 0 0-10-4.472A6 6 0 0 0 2 11a15.1 15.1 0 0 0 3.763 10 3 3 0 0 0 3.648.648 5.5 5.5 0 0 1 5.178 0A3 3 0 0 0 18.237 21"/></symbol>
+  <symbol id="bed" viewBox="0 0 24 24"><path d="M2 4v16"/><path d="M2 8h18a2 2 0 0 1 2 2v10"/><path d="M2 17h20"/><path d="M6 8v9"/></symbol>
+  <symbol id="briefcase" viewBox="0 0 24 24"><path d="M16 20V4a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/><rect width="20" height="14" x="2" y="6" rx="2"/></symbol>
+  <symbol id="graduation" viewBox="0 0 24 24"><path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z"/><path d="M22 10v6"/><path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5"/></symbol>
+  <symbol id="laptop" viewBox="0 0 24 24"><path d="M20 16V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v9m16 0H4m16 0 1.28 2.55a1 1 0 0 1-.9 1.45H3.62a1 1 0 0 1-.9-1.45L4 16"/></symbol>
+  <symbol id="shirt" viewBox="0 0 24 24"><path d="M20.38 3.46 16 2a4 4 0 0 1-8 0L3.62 3.46a2 2 0 0 0-1.34 2.23l.58 3.47a1 1 0 0 0 .99.84H6v10c0 1.1.9 2 2 2h8a2 2 0 0 0 2-2V10h2.15a1 1 0 0 0 .99-.84l.58-3.47a2 2 0 0 0-1.34-2.23z"/></symbol>
+  <symbol id="paw" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="20" cy="16" r="2"/><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z"/></symbol>
+  <symbol id="sprout" viewBox="0 0 24 24"><path d="M7 20h10"/><path d="M10 20c5.5-2.5.8-6.4 3-10"/><path d="M9.5 9.4c1.1.8 1.8 2.2 2.3 3.7-2 .4-3.5.4-4.8-.3-1.2-.6-2.3-1.9-3-4.2 2.8-.5 4.4 0 5.5.8z"/><path d="M14.1 6a7 7 0 0 0-1.1 4c1.9-.1 3.3-.6 4.3-1.4 1-1 1.6-2.3 1.7-4.6-2.7.1-4 1-4.9 2z"/></symbol>
+  <symbol id="sparkles" viewBox="0 0 24 24"><path d="M9.937 15.5A2 2 0 0 0 8.5 14.063l-6.135-1.582a.5.5 0 0 1 0-.962L8.5 9.936A2 2 0 0 0 9.937 8.5l1.582-6.135a.5.5 0 0 1 .963 0L14.063 8.5A2 2 0 0 0 15.5 9.937l6.135 1.581a.5.5 0 0 1 0 .964L15.5 14.063a2 2 0 0 0-1.437 1.437l-1.582 6.135a.5.5 0 0 1-.963 0z"/></symbol>
+  <symbol id="wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></symbol>
+  <symbol id="gamepad" viewBox="0 0 24 24"><line x1="6" x2="10" y1="12" y2="12"/><line x1="8" x2="8" y1="10" y2="14"/><line x1="15" x2="15.01" y1="13" y2="13"/><line x1="18" x2="18.01" y1="11" y2="11"/><rect width="20" height="12" x="2" y="6" rx="2"/></symbol>
+  <symbol id="camera" viewBox="0 0 24 24"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></symbol>
+  <symbol id="plane" viewBox="0 0 24 24"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></symbol>
+  <symbol id="tree" viewBox="0 0 24 24"><path d="m17 14 3 3.3a1 1 0 0 1-.7 1.7H4.7a1 1 0 0 1-.7-1.7L7 14h-.3a1 1 0 0 1-.7-1.7L9 9h-.2A1 1 0 0 1 8 7.3L12 3l4 4.3a1 1 0 0 1-.8 1.7H15l3 3.3a1 1 0 0 1-.7 1.7H17Z"/><path d="M12 22v-3"/></symbol>
+  <symbol id="flame" viewBox="0 0 24 24"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></symbol>
+  <symbol id="scissors" viewBox="0 0 24 24"><circle cx="6" cy="6" r="3"/><path d="M8.12 8.12 12 12"/><path d="M20 4 8.12 15.88"/><circle cx="6" cy="18" r="3"/><path d="M14.8 14.8 20 20"/></symbol>
+  <symbol id="bath" viewBox="0 0 24 24"><path d="M9 6 6.5 3.5a1.5 1.5 0 0 0-1-.5C4.683 3 4 3.683 4 4.5V17a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/><line x1="10" x2="8" y1="5" y2="7"/><line x1="2" x2="22" y1="12" y2="12"/><line x1="7" x2="7" y1="19" y2="21"/><line x1="17" x2="17" y1="19" y2="21"/></symbol>
+  <symbol id="washer" viewBox="0 0 24 24"><path d="M3 6h3"/><path d="M17 6h.01"/><rect width="18" height="20" x="3" y="2" rx="2"/><circle cx="12" cy="13" r="5"/><path d="M12 18a2.5 2.5 0 0 0 0-5 2.5 2.5 0 0 1 0-5"/></symbol>
+  <symbol id="moon" viewBox="0 0 24 24"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></symbol>
+  <symbol id="sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol>
+  <symbol id="coffee" viewBox="0 0 24 24"><path d="M10 2v2"/><path d="M14 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/><path d="M6 2v2"/></symbol>
   <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
   <symbol id="hourglass" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
@@ -819,7 +922,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.20 · 30 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.24 · 30 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1108,7 +1211,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div><b>Construção</b><span>Grade de 1024. Elástico de 800 a 860, de cima a baixo. "C" da Fraunces SemiBold, corpo 600, centrado em 432, com a linha de base em 660. Traço duplo de 242 a 622, nas alturas 742 e 796, com 24 de espessura.</span></div>
         <div><b>Cores</b><span>Só as do guia: capa em Musgo, elástico em Tinta, letra e traço em Papel. Sem sombra, brilho ou degradê.</span></div>
         <div><b>Android</b><span>O fundo é o Musgo e a frente fica 15% menor, porque o Android mostra só o círculo do meio. O temático é o desenho todo numa cor só.</span></div>
-        <div><b>Splash</b><span>O ícone com o canto do iPhone (22,4%), em 96 dp no centro, sobre o Papel. É também o primeiro quadro da animação de abertura.</span></div>
+        <div><b>Splash</b><span>O ícone com o canto do iPhone (22,4%), em 96 dp no centro, sobre o Papel. É também o primeiro quadro da <a href="icone-caderneta.html#abertura">animação de abertura</a>.</span></div>
         <div><b>Nunca</b><span>Um traço atravessando o "C" (vira o €), outra letra ou outra fonte, o ícone sem o elástico ou em outras cores.</span></div>
         <div><b>Arquivos</b><span>Os SVG ficam em mobile/assets/brand e os PNG do app em mobile/assets/images. Os dois saem de node scripts/brand-icons.mjs, na raiz do projeto.</span></div>
       </div>
@@ -1212,6 +1315,62 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>"Hoje" fica direto no papel, com o total do dia ao lado do título. O ícone da categoria fica solto, na cor dela: a cor ajuda a achar a categoria sem virar mais uma caixa.</li>
             <li>A engrenagem fica no topo, como botão de ícone: as Configurações são usadas pouco e não precisam de uma aba.</li>
             <li>As abas têm ícone fino e nome, sem cor. A ativa fica em Tinta com um traço em cima, e os avisos não lidos são um número em Mostarda, a cor do que pede atenção.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Início: foco em rotina ---------- -->
+    <div class="block" id="inicio-rotina">
+      <div class="block-head"><h3>Início: foco em rotina</h3><p>A mesma tela, com o dia no lugar do mês</p></div>
+      <div class="pair">
+        <div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-home px">
+              <div class="n-top"><span class="n-rot">Segunda, 19 de outubro</span><button class="icon-btn" type="button" aria-label="Configurações"><svg class="i"><use href="#settings"/></svg></button></div>
+              <h4 class="n-h1">Boa tarde, Leo</h4>
+              <div class="n-ledger2">
+                <div><span class="n-cap">Rotina de hoje</span><b class="n-fig">2 de 5</b><span class="n-cap">faltam 3</span></div>
+                <div><span class="n-cap">A próxima</span><b class="n-fig">18:30</b><span class="n-cap">Academia</span></div>
+              </div>
+              <div class="n-overdue press">
+                <span class="ci"><svg class="i"><use href="#alert"/></svg></span>
+                <div class="n-main"><b>Luz e Condomínio estão atrasadas</b><span class="n-cap">Cerca de R$ 809,00 · ver na Agenda</span></div>
+                <span class="n-chev">›</span>
+              </div>
+              <div class="n-micarea">
+                <button class="n-mic" type="button" aria-label="Falar com o assistente"><svg class="i"><use href="#mic"/></svg></button>
+                <b class="n-strong">Toque e fale</b>
+                <button class="n-link" type="button">ou lançar manualmente</button>
+              </div>
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Hoje</h5><button class="n-link sm" type="button">Ver tudo</button></div>
+                <div class="tl">
+                  <div class="tl-row press"><span class="tl-time">18:30</span><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></span><div class="n-main"><b class="n-strong">Academia</b></div><span class="rt-box" aria-hidden="true"></span></div>
+                  <div class="tl-row press"><span class="tl-time">20:00</span><span class="tl-ico" style="color:#7F8A3A"><svg class="i"><use href="#trash"/></svg></span><div class="n-main"><b class="n-strong">Levar o lixo</b></div><span class="rt-box" aria-hidden="true"></span></div>
+                </div>
+              </div>
+            </div>
+            <nav class="n-tabs">
+              <span class="n-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat<i class="n-dot">1</i></span>
+              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>O foco em finanças é o Início do bloco acima, e é o padrão. Aqui, só mudam as duas colunas de cima e a lista de baixo: o microfone, as contas atrasadas e as abas ficam no mesmo lugar, e a tela também não rola.</li>
+            <li>"Hoje" mostra só o que falta, pelo horário, com as duas próximas atividades. O dia inteiro fica em "Ver tudo", na Agenda.</li>
+            <li>O que não coube tem lugar certo: orçamentos e saldo no Resumo, contas e lembretes na Agenda, itens na Lista.</li>
+            <li>Sem rotina cadastrada, as colunas e "Hoje" dão lugar a um convite para criar a primeira. Com tudo feito, "Hoje" diz "Tudo feito por hoje".</li>
+            <li>A escolha fica em Configurações › Tela inicial. A troca aparece na hora e acompanha a conta em qualquer celular.</li>
           </ul>
         </div>
       </div>
@@ -1359,8 +1518,297 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>Cada aviso é uma ficha só, com o ícone do tipo no topo (recibo, alvo, calendário, sino, gráfico) e a frase completa dentro, sem uma linha à parte repetindo o mesmo texto.</li>
             <li>A ficha de conferir fecha com o total sublinhado duas vezes, como num livro-caixa. O botão principal é Tinta e já mostra o valor, para a pessoa saber exatamente o que vai gravar.</li>
             <li>"Toque para corrigir", no topo da ficha, diz de uma vez que cada linha se abre, sem uma setinha em cada item.</li>
+            <li>A Rotina no Chat usa as fichas que já existem. Criar, marcar e mudar gravam na hora, com "Desfazer". Parar pede confirmação, como apagar, com o botão "Parar" em Tijolo e a frase "Os dias que já passaram continuam como estão."</li>
             <li>O topo tem só o nome "Assistente" em Fraunces e a casa: o nome basta, sem logotipo. A lixeira é um botão de ícone fino, e limpar a conversa pede confirmação na folha do app.</li>
             <li>O botão de voz é um quadrado de Tinta, com o mesmo canto de 6 dos outros botões: ele é um botão como os outros, só que sempre à mão, ao lado do campo.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Agenda ---------- -->
+    <div class="block" id="agenda">
+      <div class="block-head"><h3>Agenda</h3><p>Rotina, Lembretes e Contas: o que fazer hoje e o que vence</p></div>
+      <div class="home-options" style="margin-top:0">
+        <figure>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-home px">
+              <div class="rt-head"><h4 class="n-h1">Agenda</h4><button class="icon-btn" type="button" aria-label="Nova rotina"><svg class="i"><use href="#plus"/></svg></button></div>
+              <div class="seg" role="group" aria-label="Seção da Agenda"><button type="button" aria-pressed="true">Rotina</button><button type="button" aria-pressed="false">Lembretes</button><button type="button" aria-pressed="false">Contas</button></div>
+              <div class="rt-week" role="group" aria-label="Dia da semana">
+                <button class="rt-day on" type="button">Seg<b>19</b></button>
+                <button class="rt-day" type="button">Ter<b>20</b></button>
+                <button class="rt-day" type="button">Qua<b>21</b></button>
+                <button class="rt-day" type="button">Qui<b>22</b></button>
+                <button class="rt-day" type="button">Sex<b>23</b></button>
+                <button class="rt-day" type="button">Sáb<b>24</b></button>
+                <button class="rt-day" type="button">Dom<b>25</b></button>
+              </div>
+              <div class="rt-progress"><b class="n-strong">Hoje · 2 de 5</b><div class="bar"><i style="--w:40%"></i></div></div>
+              <div class="tl">
+                <div class="tl-row press rt-done"><span class="tl-time">08:00</span><span class="tl-ico" style="color:#B5677E"><svg class="i"><use href="#pill"/></svg></span><div class="n-main"><b class="n-strong">Tomar o remédio</b></div><span class="rt-box done" aria-hidden="true"><svg class="i"><use href="#check"/></svg></span></div>
+                <div class="tl-row press"><span class="tl-time">18:30</span><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></span><div class="n-main"><b class="n-strong">Academia</b></div><span class="rt-box" aria-hidden="true"></span></div>
+                <div class="tl-row press"><span class="tl-time">20:00</span><span class="tl-ico" style="color:#7F8A3A"><svg class="i"><use href="#trash"/></svg></span><div class="n-main"><b class="n-strong">Levar o lixo</b><span class="n-cap">Da casa</span></div><span class="rt-box" aria-hidden="true"></span></div>
+              </div>
+              <span class="n-rot tl-free">Sem horário</span>
+              <div>
+                <div class="tl-row free press"><span></span><span class="tl-ico" style="color:#7E5490"><svg class="i"><use href="#book"/></svg></span><div class="n-main"><b class="n-strong">Ler 20 páginas</b></div><span class="rt-box" aria-hidden="true"></span></div>
+                <div class="tl-row free press rt-done"><span></span><span class="tl-ico" style="color:#357A8F"><svg class="i"><use href="#droplet"/></svg></span><div class="n-main"><b class="n-strong">Regar as plantas</b><span class="n-cap">Da casa · feito por Ana</span></div><span class="rt-box done" aria-hidden="true"><svg class="i"><use href="#check"/></svg></span></div>
+              </div>
+            </div>
+            <nav class="n-tabs">
+              <span class="n-tab"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat</span>
+              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="n-tab on"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+          <figcaption><b>Rotina.</b> Uma linha do tempo liga o dia pelo horário, e o que não tem horário vem depois, por nome. Marcar não tira a atividade do lugar. O quadrado marca, sem confirmar; tocar na atividade abre uma folha com "Hoje não", "Editar" e "Parar a rotina". Dias passados aceitam marcar; os futuros só mostram.</figcaption>
+        </figure>
+        <figure>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-home px">
+              <h4 class="n-h1">Nova rotina</h4>
+              <div class="rt-form">
+                <div class="field"><label for="rt-nome">Nome</label><div class="rt-name"><button class="rt-icon" type="button" aria-label="Escolher ícone e cor" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></button><input id="rt-nome" class="input" value="Academia" autocomplete="off"></div></div>
+                <div class="field"><span class="lbl">Dias</span>
+                  <div class="rt-days" role="group" aria-label="Dias da semana"><button type="button" aria-pressed="true">Seg</button><button type="button" aria-pressed="false">Ter</button><button type="button" aria-pressed="true">Qua</button><button type="button" aria-pressed="false">Qui</button><button type="button" aria-pressed="true">Sex</button><button type="button" aria-pressed="false">Sáb</button><button type="button" aria-pressed="false">Dom</button></div>
+                  <div class="rt-tags"><button class="tag" type="button">Todo dia</button><button class="tag" type="button">Seg a sex</button></div>
+                </div>
+                <div class="field"><span class="lbl">Horário (opcional)</span><div class="input rt-input"><span class="ci sm"><svg class="i"><use href="#clock"/></svg></span>18:30</div></div>
+                <div class="toggle-row"><div class="n-main" style="white-space:normal"><b class="n-strong">Avisar neste horário</b><span class="n-cap" style="white-space:normal">Uma notificação no celular.</span></div><label class="switch"><input type="checkbox" checked aria-label="Avisar neste horário"><span></span></label></div>
+                <div class="seg" role="group" aria-label="Quem vê"><button type="button" aria-pressed="true">Só minha</button><button type="button" aria-pressed="false">Da casa</button></div>
+                <button class="btn btn-primary full" type="button">Criar rotina</button>
+              </div>
+            </div>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+          <figcaption><b>O formulário.</b> Só o que a rotina precisa: o ícone e a cor, o nome, os dias, o horário e quem vê. "A cada 15 dias" ou "todo mês" continuam nos lembretes.</figcaption>
+        </figure>
+      </div>
+
+      <div class="limit-grid agenda-sheets" style="margin-top:56px">
+        <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
+          <div class="sheet-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="cal-title">
+              <span class="handle"></span>
+              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2" id="cal-title">Outubro de 2026</h4><button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button></div>
+              <div class="cal-grid">
+                <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+                <i></i><i></i><i></i><button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button>
+                <button type="button">5</button><button type="button">6</button><button type="button">7</button><button type="button">8</button><button type="button">9</button><button type="button">10</button><button type="button">11</button>
+                <button type="button">12</button><button type="button">13</button><button type="button">14</button><button type="button">15</button><button type="button">16</button><button type="button">17</button><button type="button">18</button>
+                <button class="today" type="button">19</button><button type="button">20</button><button type="button">21</button><button type="button" aria-pressed="true">22</button><button type="button">23</button><button type="button">24</button><button type="button">25</button>
+                <button type="button">26</button><button type="button">27</button><button type="button">28</button><button type="button">29</button><button type="button">30</button><button type="button">31</button>
+              </div>
+              <div class="cal-foot"><button class="n-link" type="button">Hoje</button></div>
+            </div>
+          </div>
+          <figcaption><b>O calendário.</b> Vale para toda data do app, no lugar do calendário do celular. Tocar num dia ou em "Hoje" escolhe e fecha. Hoje fica em Musgo, sublinhado. A grade guarda o espaço de seis semanas, para as setas não saírem do lugar ao trocar de mês.</figcaption>
+        </figure>
+        <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
+          <div class="sheet-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="hora-title">
+              <span class="handle"></span>
+              <h4 class="n-h2" id="hora-title">Horário</h4>
+              <div class="wheel" id="wheel-demo">
+                <div class="wheel-col" data-count="24" data-start="18" role="group" aria-label="Hora"></div>
+                <span class="wheel-sep" aria-hidden="true">:</span>
+                <div class="wheel-col" data-count="60" data-start="30" role="group" aria-label="Minutos"></div>
+              </div>
+              <div class="sheet-btns"><button class="btn btn-primary full" id="wheel-ok" type="button">Escolher 18:30</button></div>
+            </div>
+          </div>
+          <figcaption><b>O horário.</b> Duas colunas, de 00 a 23 e de 00 a 59, que dão qualquer hora do dia. Rolar ou tocar num número escolhe, e a faixa mostra o que está valendo. Experimente aqui.</figcaption>
+        </figure>
+        <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
+          <div class="sheet-stage" style="height:640px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="icone-title">
+              <span class="handle"></span>
+              <h4 class="n-h2" id="icone-title">Ícone e cor</h4>
+              <span class="n-cap" style="display:block;margin-top:12px">Ícone</span>
+              <div class="pick-grid" style="color:#4A6A9A">
+                <button type="button" aria-label="Remédio"><svg class="i"><use href="#pill"/></svg></button>
+                <button type="button" aria-pressed="true" aria-label="Academia" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></button>
+                <button type="button" aria-label="Leitura"><svg class="i"><use href="#book"/></svg></button>
+                <button type="button" aria-label="Água"><svg class="i"><use href="#droplet"/></svg></button>
+                <button type="button" aria-label="Sono"><svg class="i"><use href="#moon"/></svg></button>
+                <button type="button" aria-label="Manhã"><svg class="i"><use href="#sun"/></svg></button>
+                <button type="button" aria-label="Café"><svg class="i"><use href="#coffee"/></svg></button>
+                <button type="button" aria-label="Refeição"><svg class="i"><use href="#utensils"/></svg></button>
+                <button type="button" aria-label="Limpeza"><svg class="i"><use href="#trash"/></svg></button>
+                <button type="button" aria-label="Saúde"><svg class="i"><use href="#heart"/></svg></button>
+                <button type="button" aria-label="Casa"><svg class="i"><use href="#house"/></svg></button>
+                <button type="button" aria-label="Bicicleta"><svg class="i"><use href="#bike"/></svg></button>
+              </div>
+              <button class="n-link sm pick-more" type="button">Ver todos os ícones</button>
+              <span class="n-cap" style="display:block;margin-top:12px">Cor</span>
+              <div class="pick-grid">
+                <button type="button" aria-label="Louro"><i class="swatch" style="background:#4F7F4F"></i></button>
+                <button type="button" aria-label="Verde-água"><i class="swatch" style="background:#3A8577"></i></button>
+                <button type="button" aria-label="Petróleo"><i class="swatch" style="background:#357A8F"></i></button>
+                <button type="button" aria-pressed="true" aria-label="Ardósia"><i class="swatch" style="background:#4A6A9A"></i></button>
+                <button type="button" aria-label="Índigo"><i class="swatch" style="background:#5A5A9A"></i></button>
+                <button type="button" aria-label="Ameixa"><i class="swatch" style="background:#7E5490"></i></button>
+                <button type="button" aria-label="Vinho"><i class="swatch" style="background:#9A4A72"></i></button>
+                <button type="button" aria-label="Rosa-argila"><i class="swatch" style="background:#B5677E"></i></button>
+                <button type="button" aria-label="Telha"><i class="swatch" style="background:#B9553A"></i></button>
+                <button type="button" aria-label="Canela"><i class="swatch" style="background:#C27A3A"></i></button>
+                <button type="button" aria-label="Açafrão"><i class="swatch" style="background:#B8902F"></i></button>
+                <button type="button" aria-label="Oliva"><i class="swatch" style="background:#7F8A3A"></i></button>
+                <button type="button" aria-label="Castanho"><i class="swatch" style="background:#8A6A50"></i></button>
+                <button type="button" aria-label="Pedra"><i class="swatch" style="background:#7D786D"></i></button>
+              </div>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button">Pronto</button></div>
+            </div>
+          </div>
+          <figcaption><b>O ícone e a cor.</b> A folha abre pelo botão ao lado do nome, com 12 ícones de uso comum e os mesmos 14 tons das categorias. Um ícone escolhido na lista completa entra no começo da grade.</figcaption>
+        </figure>
+        <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
+          <div class="sheet-stage" style="height:640px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="todos-title">
+              <span class="handle"></span>
+              <div class="pick-head"><h4 class="n-h2" id="todos-title">Todos os ícones</h4><button class="n-link sm" type="button">Voltar</button></div>
+              <div class="pick-scroll">
+                <span class="n-cap">Saúde e corpo</span>
+                <div class="pick-grid" data-icons="pill dumbbell heart bed apple droplet"></div>
+                <span class="n-cap">Casa</span>
+                <div class="pick-grid" data-icons="house trash washer bath wrench sprout tree shirt scissors sparkles"></div>
+                <span class="n-cap">Comida</span>
+                <div class="pick-grid" data-icons="utensils coffee cart"></div>
+                <span class="n-cap">Estudo e trabalho</span>
+                <div class="pick-grid" data-icons="book graduation pencil laptop briefcase mail"></div>
+                <span class="n-cap">Lazer</span>
+                <div class="pick-grid" data-icons="music gamepad camera ticket plane"></div>
+                <span class="n-cap">Pessoas e animais</span>
+                <div class="pick-grid" data-icons="users paw gift"></div>
+                <span class="n-cap">Tempo</span>
+                <div class="pick-grid" data-icons="sun moon clock bell cal repeat target flame"></div>
+                <span class="n-cap">Transporte e dinheiro</span>
+                <div class="pick-grid" data-icons="car bike card receipt"></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Todos os ícones.</b> Cerca de 100, em oito grupos, numa lista que rola. Tocar num ícone escolhe e volta para a folha anterior. O guia mostra uma amostra de cada grupo.</figcaption>
+        </figure>
+      </div>
+
+      <div class="plan-grid" id="rotina-estados">
+        <figure>
+          <div class="sheet-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="rt-folha">
+              <span class="handle"></span>
+              <h4 class="n-h2" id="rt-folha">Academia</h4>
+              <span class="n-cap">Seg, Qua e Sex · 18:30</span>
+              <div class="rt-opts">
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Hoje não</b><span class="n-cap">Sai da conta de hoje.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Editar</b><span class="n-cap">Os dias novos valem daqui em diante.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Parar a rotina</b><span class="n-cap">Os dias que passaram ficam como estão.</span></div><span class="n-chev">›</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>A folha da atividade.</b> Abre ao tocar na atividade. Em outro dia, "Hoje não" vira "Neste dia não"; num dia futuro, ela some, porque ainda não dá para marcar. Depois de marcada, vira "Desfazer o Hoje não".</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="rt-progress"><b class="n-strong">Hoje · 0 de 1</b><div class="bar"><i style="--w:0%"></i></div></div>
+            <div class="tl">
+              <div class="tl-row rt-done"><span class="tl-time">07:00</span><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></span><div class="n-main"><b class="n-strong">Academia</b><span class="n-cap">Hoje não</span></div><span class="rt-box skip" aria-hidden="true"><svg class="i"><use href="#minus"/></svg></span></div>
+              <div class="tl-row"><span class="tl-time">08:00</span><span class="tl-ico" style="color:#B5677E"><svg class="i"><use href="#pill"/></svg></span><div class="n-main"><b class="n-strong">Tomar o remédio</b></div><span class="rt-box" aria-hidden="true"></span></div>
+            </div>
+            <div class="rt-progress" style="margin-top:24px"><b class="n-strong">Qui, 22/10 · 1 atividade</b></div>
+            <div class="tl">
+              <div class="tl-row"><span class="tl-time">20:00</span><span class="tl-ico" style="color:#7F8A3A"><svg class="i"><use href="#trash"/></svg></span><div class="n-main"><b class="n-strong">Levar o lixo</b></div><span class="rt-box off" aria-hidden="true"></span></div>
+            </div>
+          </div>
+          <figcaption><b>Hoje não e dia futuro.</b> "Hoje não" fica na lista, com um traço no quadrado, e sai da conta; tocar no quadrado marca como feito mesmo assim. Num dia futuro, o quadrado fica apagado e não há barra.</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="rt-empty"><svg class="i"><use href="#repeat"/></svg><b class="n-strong">Nenhuma rotina ainda</b><span class="n-cap">Remédio, academia, levar o lixo… cada dia você marca o que fez.</span><button class="btn btn-primary" type="button">Criar rotina</button></div>
+            <p class="n-cap" style="margin:32px 0 0;padding-top:16px;border-top:1px solid var(--pauta)">Nada na rotina neste dia.</p>
+          </div>
+          <figcaption><b>Sem rotina.</b> Sem nenhuma, o convite para criar a primeira, sem a semana. Com rotinas, mas nenhuma naquele dia, a semana continua e fica só esta frase embaixo.</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-sec-head" style="margin-top:16px"><h5 class="n-h2">Faturas</h5></div>
+            <div class="n-row"><span class="tl-ico" style="color:#5A5A9A"><svg class="i"><use href="#card"/></svg></span><div class="n-main"><b class="n-strong">Nubank · Leo</b><span class="n-cap">fecha 03/11 · vence 10/11</span></div><b class="n-strong">R$ 842,10</b></div>
+            <div class="n-row"><span class="tl-ico" style="color:#B9553A"><svg class="i"><use href="#card"/></svg></span><div class="n-main"><b class="n-strong">Inter · Ana</b><span class="n-cap">fecha 20/10 · vence 27/10</span></div><b class="n-strong">R$ 310,00</b></div>
+          </div>
+          <figcaption><b>As faturas em Contas.</b> Embaixo do "A pagar", as mesmas linhas do Resumo, com as faturas que vencem no mês. Tocar abre a fatura. O cadastro fica em Configurações › Finanças › Cartões, com a lista que os cartões já tinham.</figcaption>
+        </figure>
+      </div>
+
+      <div class="plan-home">
+        <p class="spec-line" style="margin:0"><b>Os cartões saem da Agenda.</b> O cadastro vai para Configurações › Finanças › Cartões. O vencimento das faturas continua em Contas, num bloco "Faturas" embaixo de "A pagar", e o Resumo segue igual. Assim, a Agenda fica com três seções, e todas têm a ver com o que acontece em cada dia.</p>
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>Lista "o que fazer", lembrete e rotina são coisas diferentes. A lista acontece uma vez e não tem data; o lembrete tem data e avisa; a rotina repete nos dias da semana, e cada dia é marcado à parte.</li>
+            <li>O dia que passou não se acumula e não fica em Tijolo: rotina é para ajudar, não para cobrar. "Hoje não" tira a atividade da conta do progresso.</li>
+            <li>Na rotina da casa, quem marca conclui para todos, e a atividade diz quem fez.</li>
+            <li>O aviso da rotina é só notificação no celular, ligado rotina a rotina. Ele não entra no Chat. Os botões estão no bloco Notificações, logo abaixo.</li>
+            <li>O ícone fica solto, na cor escolhida, como nas categorias, e a linha do tempo passa por trás dele. Ela não pinta o que já foi feito: quem mostra isso é o quadrado.</li>
+            <li>Os dias são quadrados: o círculo continua só no microfone, no botão de ligar e nas iniciais. A semana começa na segunda, igual na Rotina e no calendário.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Notificações ---------- -->
+    <div class="block" id="notificacoes">
+      <div class="block-head"><h3>Notificações</h3><p>Lembrete e rotina se resolvem pelos botões, sem abrir o app</p></div>
+      <div class="push-grid">
+        <figure>
+          <figcaption class="rotulo">Lembrete</figcaption>
+          <div class="push-card">
+            <div class="push-top"><span class="push-tile" aria-hidden="true">C</span><span class="n-cap">Caderneta · agora</span></div>
+            <b class="n-strong">Lembrete</b>
+            <span class="n-cap">Pagar o IPVA</span>
+            <div class="push-actions"><span>Feito</span><span>Adiar 15 min</span><span>Adiar 1 h</span></div>
+          </div>
+        </figure>
+        <figure>
+          <figcaption class="rotulo">Rotina</figcaption>
+          <div class="push-card">
+            <div class="push-top"><span class="push-tile" aria-hidden="true">C</span><span class="n-cap">Caderneta · 18:30</span></div>
+            <b class="n-strong">Rotina</b>
+            <span class="n-cap">Academia, às 18:30</span>
+            <div class="push-actions"><span>Feito</span><span>Adiar 15 min</span><span>Hoje não</span></div>
+          </div>
+        </figure>
+      </div>
+
+      <div class="plan-home" style="margin-top:32px">
+        <table class="ledger">
+          <thead><tr><th>Botão</th><th>O que faz</th></tr></thead>
+          <tbody>
+            <tr><td>Feito</td><td>Conclui o lembrete ou marca o dia da rotina. Na rotina da casa, conclui para todos.</td></tr>
+            <tr><td>Adiar 15 min</td><td>Avisa de novo daqui a 15 minutos, com os mesmos botões. Na rotina da casa, só para quem adiou.</td></tr>
+            <tr><td>Adiar 1 h</td><td>O mesmo, daqui a 1 hora. Só no lembrete.</td></tr>
+            <tr><td>Hoje não</td><td>Tira a atividade da conta do dia, como na Agenda. Só na rotina.</td></tr>
+          </tbody>
+        </table>
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>São três botões porque o Android mostra no máximo três. "Amanhã" continua no card do lembrete, no Chat.</li>
+            <li>Não há "Estou fazendo agora": a rotina só conhece "Feito" e "Hoje não", e um terceiro estado teria que aparecer na Agenda e no progresso.</li>
+            <li>No Android, o botão resolve sem abrir o app, e a notificação some. Sem internet, chega outra: "Não deu para marcar Academia. Toque para abrir."</li>
+            <li>No iPhone, o botão abre o app e resolve lá, porque o sistema não roda o app fechado para isso.</li>
+            <li>Tocar fora dos botões abre o lugar do aviso: o lembrete no Chat, a rotina na Agenda, no dia dela.</li>
+            <li>Na rotina da casa, só avisa quem pode marcar, e não avisa se alguém já marcou o dia. Quem é só leitura recebe o lembrete da casa sem botões.</li>
+            <li>O lembrete resolvido pelo botão aparece resolvido no Chat ("Feito", "Adiado para 15:00"), como se o botão do card tivesse sido tocado.</li>
           </ul>
         </div>
       </div>
@@ -2239,6 +2687,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
             <div class="menu-group">
               <span class="n-rot">Finanças</span>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#card"/></svg></span><span class="n-strong n-main">Cartões</span><span class="v">2 cartões</span><span class="n-chev">›</span></div>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#target"/></svg></span><span class="n-strong n-main">Orçamentos</span><span class="v">4 categorias</span><span class="n-chev">›</span></div>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#bell"/></svg></span><span class="n-strong n-main">Avisos</span><span class="v">4 de 4 ligados</span><span class="n-chev">›</span></div>
             </div>
@@ -2524,11 +2973,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <h3>Folha que sobe</h3>
         <dl class="how"><dt>Duração</dt><dd>240 ms para subir, 180 ms para o fundo escurecer</dd><dt>O quê</dt><dd>a folha sai de baixo com uma curva que desacelera no fim, sem quicar. Veja "Abrir de novo" no modal, na parte 06.</dd></dl>
       </div>
-
-      <div>
-        <h3>Abertura do app</h3>
-        <dl class="how"><dt>Duração</dt><dd>1,1 s para o ícone virar a capa; 0,48 s para o elástico sair e 1,25 s para a capa abrir (cerca de 2,7 s no total)</dd><dt>O quê</dt><dd>começa igual à splash do sistema (o ícone parado no centro do Papel). O ícone cresce até a tela inteira e vira a capa da caderneta; quando o app está pronto (com login, já com os dados do Início), o elástico é puxado para a direita e a capa gira na dobradiça da esquerda, mostrando a tela de verdade embaixo.</dd><dt>Regras</dt><dd>só ao abrir o app do zero (voltar do segundo plano não repete); se o app demora, a capa espera parada, sem loop; com login, espera também o nome, o resumo do mês, os lançamentos de hoje e os avisos não lidos: depois de crescer, a capa fica parada por até 3 s, para abrir sobre o Início completo, e não sobre o "Carregando…"; um toque pula, mesmo durante a espera; com "Reduzir movimento", o ícone some num fade de 200 ms.</dd><dt>Ver</dt><dd>a animação tocando, com câmera lenta, em <a href="icone-caderneta.html#abertura">O ícone da Caderneta, na parte "A abertura do app"</a>.</dd></dl>
-      </div>
     </div>
   </div>
 </section>
@@ -2653,6 +3097,10 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.24</td><td class="num">30/10/2026</td><td>Notificações (parte 05): os botões do lembrete e da rotina. Movimento (parte 07): a abertura do app sai daqui e fica só na página do ícone, que é onde ela tem os passos e a câmera lenta.</td></tr>
+        <tr><td>1.23</td><td class="num">30/10/2026</td><td>Movimento (parte 07): a abertura do app passa a tocar aqui mesmo, em miniatura. Chat (parte 05): as fichas das ações da Rotina.</td></tr>
+        <tr><td>1.22</td><td class="num">30/10/2026</td><td>Agenda (parte 05): os estados da Rotina que faltavam (a folha da atividade, "Hoje não", dia futuro e sem rotina) e as faturas em Contas. Menu (parte 06): a linha Cartões em Finanças.</td></tr>
+        <tr><td>1.21</td><td class="num">30/10/2026</td><td>Agenda (parte 05, bloco novo): a Agenda passa a ser Rotina, Lembretes e Contas, e o cadastro dos cartões vai para Configurações › Finanças, com as faturas em Contas. A Rotina tem a semana, o progresso do dia e a marcação por dia, e o aviso dela é só notificação. A Rotina vira uma linha do tempo pelo horário, com cor e ícone à escolha, numa lista reduzida que abre uma completa. O app ganha calendário e seletor de horário próprios, em colunas, no lugar dos do celular. Início (parte 05): o foco em rotina, na mesma tela limpa, com o dia no lugar do mês.</td></tr>
         <tr><td>1.20</td><td class="num">30/10/2026</td><td>Níveis de acesso (parte 05, bloco novo): sem acesso, app sem assistente, Gratuito e Plus. No app, o estado do assistente desligado no Plano, no Chat, na folha do limite (parte 06), no tour e nos primeiros passos, com o ícone do microfone riscado; no Início, o círculo do microfone vira "Lançar". Na área administrativa, um painel só, "Acesso", no lugar de "Dar Plus", "Marcação manual" e "Acesso"; a lista de pessoas ganha a coluna do nível e novos filtros, e a visão geral, a contagem de "App sem assistente". O texto do Chat sem o assistente passa a dizer "volte ao Início", porque o Início não tem o botão +. O bloco "Ordenar arrastando" sai da parte 05: o movimento segue em "Arrastar para ordenar", na parte 07.</td></tr>
         <tr><td>1.19</td><td class="num">29/10/2026</td><td>O campo de valor no foco (parte 06, Campo), para ficar claro que o número está sendo digitado. A linha do valor passa de Tinta 1 px a Musgo 2 px, e um cursor Musgo de 2 px pisca depois do último número, onde o próximo entra (parado com "Reduzir movimento"). O campo pequeno das fichas do chat ganha a borda Musgo dos outros campos, com o rótulo junto, e o mesmo cursor.</td></tr>
         <tr><td>1.18</td><td class="num">29/10/2026</td><td>Conta nova com confirmação do e-mail e período gratuito do assistente (parte 05, dois blocos novos). Sai a liberação manual: todo cadastro, com ou sem convite, confirma o e-mail pelo link (válido por 3 dias) e já entra. Depois de "Criar conta", a tela "Confirme seu e-mail", com o endereço por inteiro, "Já confirmei, entrar" e "Reenviar e-mail"; entrar antes de confirmar mostra o aviso em Atenção, com o mesmo reenviar. O e-mail e as páginas do link no visual das páginas do servidor: "E-mail confirmado" e "Este link venceu", com "Enviar um link novo" ali mesmo. No Gratuito, o assistente vale por 7 dias a partir da confirmação, contados no servidor, junto com o limite do mês. O Plano diz "Com o assistente até 05/11" e, depois, mostra o fim no lugar da porcentagem, com o pedido pelo WhatsApp; o Início avisa 2 dias antes e depois de acabar; no Chat, sem o assistente (fim do período ou limite do mês), a mensagem e o botão ficam no lugar do campo e do microfone, e a conversa continua para ler. A folha do limite ganha o terceiro estado, "O período gratuito acabou". Na área administrativa, "Esperando liberação" vira "Sem confirmar o e-mail", o acesso é "Ativa", "Sem confirmar" ou "Bloqueada", a página da pessoa mostra o período gratuito e ganha "Ativar sem o e-mail" e "Bloquear acesso". Novo ícone: o círculo com ✓ (check-circle). "Valores e textos financeiros" ganha o período gratuito.</td></tr>
@@ -2859,6 +3307,48 @@ document.querySelectorAll('[data-replay]').forEach(function (button) {
   }
   list.addEventListener('pointerup', drop);
   list.addEventListener('pointercancel', drop);
+})();
+
+// A lista completa de ícones da Rotina: cada grupo diz os seus em data-icons.
+document.querySelectorAll('.pick-grid[data-icons]').forEach(function (grid) {
+  grid.innerHTML = grid.dataset.icons.split(' ').map(function (icon) {
+    return '<button type="button" aria-label="' + icon + '"><svg class="i"><use href="#' + icon + '"/></svg></button>';
+  }).join('');
+});
+
+// O seletor de horário (Agenda): duas colunas que param num número, e o botão diz o que foi escolhido.
+(function () {
+  var wheel = document.getElementById('wheel-demo');
+  if (!wheel) return;
+  var ROW = 44;
+  var ok = document.getElementById('wheel-ok');
+  var columns = Array.prototype.slice.call(wheel.querySelectorAll('.wheel-col'));
+  function two(value) { return String(value).padStart(2, '0'); }
+  function sync() {
+    var picked = columns.map(function (column) {
+      var index = Math.round(column.scrollTop / ROW);
+      Array.prototype.forEach.call(column.children, function (button, position) {
+        button.setAttribute('aria-pressed', position === index ? 'true' : 'false');
+      });
+      return two(index);
+    });
+    ok.textContent = 'Escolher ' + picked.join(':');
+  }
+  columns.forEach(function (column) {
+    for (var value = 0; value < Number(column.dataset.count); value++) {
+      var button = document.createElement('button');
+      button.type = 'button';
+      button.textContent = two(value);
+      column.appendChild(button);
+    }
+    column.scrollTop = Number(column.dataset.start) * ROW;
+    column.addEventListener('scroll', sync, { passive: true });
+    column.addEventListener('click', function (event) {
+      var index = Array.prototype.indexOf.call(column.children, event.target);
+      if (index >= 0) column.scrollTo({ top: index * ROW, behavior: 'smooth' });
+    });
+  });
+  sync();
 })();
 
 // Os chats começam rolados até a mensagem mais nova, como no app.
