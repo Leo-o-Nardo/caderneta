@@ -140,16 +140,17 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 
 ### Planos
 - **Gratuito e Plus:** cada plano tem um limite de uso do assistente por mês, contado a partir do dia em que a conta foi criada. O Plus tem um limite bem maior. Lançar à mão, as listas e a agenda nunca têm limite.
+- **Período gratuito:** no Gratuito, o assistente fica com a pessoa por 7 dias, contados da confirmação do e-mail. Depois, o app continua funcionando sem ele: o Plano mostra até quando ele ficou, o Início avisa 2 dias antes e o Chat troca o campo por um aviso com o pedido do Plus.
 - **O limite é dito em tempo:** o app fala "volta a zero no dia 12", nunca em dinheiro ou tokens.
 - **Tela do Plano:** em Configurações › Assistente › Plano, o uso do mês em porcentagem, numa barra que fica em Atenção a partir de 80%, o dia em que volta a zero e os planos, sem preço. O Plus dado diz até quando vale.
-- **Aviso no Início:** só a partir de 80% e no limite, no mesmo traço das contas que vencem. O Início não ganha mais um número fixo.
-- **Folha do limite:** quando o uso do mês acaba, uma folha mostra quando ele volta e o que continua funcionando, no lugar de uma mensagem de erro.
-- **Pedido do Plus pelo WhatsApp:** no limite do Gratuito, a folha e a tela do Plano abrem o WhatsApp do administrador com a mensagem pronta. Ele recebe um e-mail para dar o Plus ou negar.
+- **Aviso no Início:** só a partir de 80%, no limite e perto do fim do período gratuito, no mesmo traço das contas que vencem. O Início não ganha mais um número fixo.
+- **Folha do limite:** quando o uso do mês ou o período gratuito acaba, uma folha mostra quando o assistente volta (ou até quando ficou) e o que continua funcionando, no lugar de uma mensagem de erro.
+- **Pedido do Plus pelo WhatsApp:** no limite do Gratuito ou no fim do período gratuito, a folha, o Chat e a tela do Plano abrem o WhatsApp do administrador com a mensagem pronta. Ele recebe um e-mail para dar o Plus ou negar.
 - **Avaliação na loja:** a janela do próprio sistema, uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e sem recompensa.
 
 ### Acesso e segurança
-- **Cadastro com liberação:** quem se cadastra sozinho espera o administrador liberar. Ele recebe um e-mail com um link assinado para uma página de aprovação.
-- **Convite libera na hora:** quem chega por convite entra direto, e o administrador só é avisado.
+- **Cadastro com confirmação do e-mail:** toda conta nova, com ou sem convite, recebe um link assinado, válido por 3 dias. Confirmar já ativa a conta, sem liberação manual, e quem veio por convite entra direto na casa do convite. O administrador recebe um aviso e pode bloquear a conta.
+- **Contas sem confirmar** são apagadas depois de 14 dias, e o e-mail fica livre para um cadastro novo.
 - **Esqueci a senha** com código de 6 números por e-mail.
 - **Sessão por aparelho**, com "sair de todos os aparelhos".
 - **Privacidade antes da IA:** CPF, CNPJ, cartões, chaves Pix, telefones, e-mails, agência e conta são trocados por marcadores antes de qualquer texto chegar ao modelo.
@@ -159,7 +160,8 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 Páginas no navegador, em `/admin`, só para o administrador e no mesmo visual do app. Estão desenhadas na [parte do guia sobre a área administrativa](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin).
 
 - **Entrada em dois passos:** e-mail e senha e, num navegador novo, um código de 6 números por e-mail. Depois do código, o navegador fica conhecido por 60 dias.
-- **Visão geral:** o que espera uma decisão (cadastros para liberar e pedidos de Plus), quantas pessoas estão no Plus e o custo de hoje e do mês.
+- **Visão geral:** as contas novas, quantas ainda não confirmaram o e-mail, os pedidos de Plus em aberto, quantas pessoas estão no Plus e o custo de hoje e do mês.
+- **Acesso de cada pessoa:** ativar sem o e-mail (para quem não recebe o link), bloquear e desbloquear.
 - **Pessoas:** busca por nome ou e-mail, filtros e o uso de cada pessoa contra o limite do plano.
 - **Plano de cada pessoa:** dar o Plus por 1, 3, 6 ou 12 meses (os meses somam ao Plus que ela já tem), tirar o Plus ou marcar o Plus fixo.
 - **Pedidos de Plus:** dar ou negar na própria linha da lista.
@@ -258,9 +260,9 @@ Como o repositório privado está organizado:
 │   │   ├── Services/           # regras de lançamentos, parcelas, contas, orçamentos, acesso, planos e uso da IA
 │   │   ├── Http/               # controllers, requests e resources da API e da área administrativa
 │   │   ├── Mail/               # o e-mail no estilo Caderneta
-│   │   └── Notifications/      # cadastro, acesso liberado, códigos de senha e de entrada, pedido de Plus
+│   │   └── Notifications/      # confirmação do e-mail, conta ativada, códigos de senha e de entrada, pedido de Plus
 │   ├── database/               # migrations, factories e a casa de demonstração
-│   ├── resources/views/        # e-mails, as páginas de aprovação e a área administrativa
+│   ├── resources/views/        # e-mails, as páginas dos links e a área administrativa
 │   └── tests/                  # testes de API, regras e assistente (Pest)
 └── mobile/                     # app Expo
     ├── assets/                 # ícone, splash e a marca em SVG

@@ -143,16 +143,17 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 
 ### Plans
 - **Free and Plus:** each plan has a monthly limit on assistant use, counted from the day the account was created. Plus has a much higher limit. Logging by hand, lists and the schedule never have a limit.
+- **Free period:** on Free, the assistant is there for 7 days, counted from the e-mail confirmation. After that the app keeps working without it: the Plan screen shows until when it lasted, the home screen warns 2 days before, and the Chat swaps the field for a notice with the Plus request.
 - **The limit is told in time:** the app says "back to zero on the 12th", never in money or tokens.
 - **Plan screen:** in Settings › Assistant › Plan, the month's use as a percentage, on a bar that turns to the warning color from 80% on, the day it goes back to zero, and the plans, with no price. Granted Plus says until when it lasts.
-- **Notice on the home screen:** only from 80% on and at the limit, with the same rule as bills that are due. The home screen does not get one more fixed number.
-- **Limit sheet:** when the month's use runs out, a sheet shows when it comes back and what keeps working, instead of an error message.
-- **Asking for Plus on WhatsApp:** at the Free limit, the sheet and the Plan screen open the administrator's WhatsApp with the message ready. The administrator gets an e-mail to grant Plus or decline.
+- **Notice on the home screen:** only from 80% on, at the limit and near the end of the free period, with the same rule as bills that are due. The home screen does not get one more fixed number.
+- **Limit sheet:** when the month's use or the free period runs out, a sheet shows when the assistant comes back (or until when it lasted) and what keeps working, instead of an error message.
+- **Asking for Plus on WhatsApp:** at the Free limit or at the end of the free period, the sheet, the Chat and the Plan screen open the administrator's WhatsApp with the message ready. The administrator gets an e-mail to grant Plus or decline.
 - **Store review:** the system's own prompt, once per device, after the 5th confirmed card and 7 days of use, and with no reward.
 
 ### Access and security
-- **Sign-up with approval:** whoever signs up alone waits for the administrator. The administrator gets an e-mail with a signed link to an approval page.
-- **Invitations get in right away:** people who come through an invitation join immediately, and the administrator is only notified.
+- **Sign-up with e-mail confirmation:** every new account, invited or not, gets a signed link that is valid for 3 days. Confirming activates the account right away, with no manual approval, and invited people go straight into the inviting household. The administrator gets a notice and can block the account.
+- **Unconfirmed accounts** are deleted after 14 days, and the e-mail is free for a new sign-up.
 - **Forgot password** with a 6-digit code by e-mail.
 - **One session per device**, with "sign out of all devices".
 - **Privacy before the AI:** CPF and CNPJ (Brazilian tax IDs), card numbers, Pix keys, phone numbers, e-mails, bank branch and account are replaced by markers before any text reaches the model.
@@ -162,7 +163,8 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 Browser pages at `/admin`, only for the administrator and in the same visual style as the app. They are drawn in the [admin area part of the design guide](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin) (in Portuguese).
 
 - **Two-step sign-in:** e-mail and password and, on a new browser, a 6-digit code by e-mail. After the code, the browser stays trusted for 60 days.
-- **Overview:** what is waiting for a decision (sign-ups to approve and Plus requests), how many people are on Plus, and today's and this month's cost.
+- **Overview:** the new accounts, how many have not confirmed their e-mail yet, the open Plus requests, how many people are on Plus, and today's and this month's cost.
+- **Each person's access:** activate without the e-mail (for someone who does not get the link), block and unblock.
 - **People:** search by name or e-mail, filters, and each person's use against their plan's limit.
 - **Each person's plan:** grant Plus for 1, 3, 6 or 12 months (the months add to the Plus they already have), take Plus away, or set Plus as fixed.
 - **Plus requests:** grant or decline right on the list row.
@@ -261,9 +263,9 @@ How the private repository is organized:
 │   │   ├── Services/           # rules for entries, installments, bills, budgets, access, plans and AI usage
 │   │   ├── Http/               # controllers, requests and resources for the API and the admin area
 │   │   ├── Mail/               # the Caderneta-style e-mail
-│   │   └── Notifications/      # sign-up, access approved, password and sign-in codes, Plus request
+│   │   └── Notifications/      # e-mail confirmation, account activated, password and sign-in codes, Plus request
 │   ├── database/               # migrations, factories and the demo household
-│   ├── resources/views/        # e-mails, the approval pages and the admin area
+│   ├── resources/views/        # e-mails, the link pages and the admin area
 │   └── tests/                  # API, rules and assistant tests (Pest)
 └── mobile/                     # Expo app
     ├── assets/                 # icon, splash and the brand in SVG
