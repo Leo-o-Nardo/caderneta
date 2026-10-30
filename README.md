@@ -141,6 +141,7 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 ### Planos
 - **Gratuito e Plus:** cada plano tem um limite de uso do assistente por mês, contado a partir do dia em que a conta foi criada. O Plus tem um limite bem maior. Lançar à mão, as listas e a agenda nunca têm limite.
 - **Período gratuito:** no Gratuito, o assistente fica com a pessoa por 7 dias, contados da confirmação do e-mail. Depois, o app continua funcionando sem ele: o Plano mostra até quando ele ficou, o Início avisa 2 dias antes e o Chat troca o campo por um aviso com o pedido do Plus.
+- **Níveis de acesso:** cada conta está em um de quatro níveis, os mesmos em todas as casas dela: sem acesso, app sem assistente, Gratuito e Plus. O fim do período gratuito leva a pessoa para "app sem assistente" sozinho, com o pedido do Plus. Quando é o administrador quem desliga, o Início troca o microfone por um círculo "Lançar", o Plano mostra só esse aviso, e o tour e os primeiros passos deixam de falar do assistente. O Chat continua nos dois casos, para os avisos e a conversa antiga.
 - **O limite é dito em tempo:** o app fala "volta a zero no dia 12", nunca em dinheiro ou tokens.
 - **Tela do Plano:** em Configurações › Assistente › Plano, o uso do mês em porcentagem, numa barra que fica em Atenção a partir de 80%, o dia em que volta a zero e os planos, sem preço. O Plus dado diz até quando vale.
 - **Aviso no Início:** só a partir de 80%, no limite e perto do fim do período gratuito, no mesmo traço das contas que vencem. O Início não ganha mais um número fixo.
@@ -160,10 +161,9 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 Páginas no navegador, em `/admin`, só para o administrador e no mesmo visual do app. Estão desenhadas na [parte do guia sobre a área administrativa](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin).
 
 - **Entrada em dois passos:** e-mail e senha e, num navegador novo, um código de 6 números por e-mail. Depois do código, o navegador fica conhecido por 60 dias.
-- **Visão geral:** as contas novas, quantas ainda não confirmaram o e-mail, os pedidos de Plus em aberto, quantas pessoas estão no Plus e o custo de hoje e do mês.
-- **Acesso de cada pessoa:** ativar sem o e-mail (para quem não recebe o link), bloquear e desbloquear.
-- **Pessoas:** busca por nome ou e-mail, filtros e o uso de cada pessoa contra o limite do plano.
-- **Plano de cada pessoa:** dar o Plus por 1, 3, 6 ou 12 meses (os meses somam ao Plus que ela já tem), tirar o Plus ou marcar o Plus fixo.
+- **Visão geral:** as contas novas, quantas ainda não confirmaram o e-mail, os pedidos de Plus em aberto, quantas pessoas estão no Plus, quantas estão sem o assistente e o custo de hoje e do mês.
+- **Pessoas:** busca por nome ou e-mail, filtros por nível e o uso de cada pessoa contra o limite do plano.
+- **Acesso de cada pessoa:** um painel só, com os quatro níveis. Ativar sem o e-mail (para quem não recebe o link), bloquear e desbloquear; desligar e religar o assistente; dar mais 7, 15 ou 30 dias de assistente no Gratuito; dar o Plus por 1, 3, 6 ou 12 meses (os meses somam ao Plus já dado) ou sem prazo, e tirar o Plus.
 - **Pedidos de Plus:** dar ou negar na própria linha da lista.
 - **Uso da IA:** custo por dia ou por mês, por modelo e por pessoa, em dólar ou em reais. A cotação é consultada uma vez por dia e fica guardada em cache, e a última que deu certo cobre uma falha da consulta.
 - **É o único lugar com o custo da IA:** no app, ninguém vê valores em dólar.

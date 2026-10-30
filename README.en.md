@@ -144,6 +144,7 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 ### Plans
 - **Free and Plus:** each plan has a monthly limit on assistant use, counted from the day the account was created. Plus has a much higher limit. Logging by hand, lists and the schedule never have a limit.
 - **Free period:** on Free, the assistant is there for 7 days, counted from the e-mail confirmation. After that the app keeps working without it: the Plan screen shows until when it lasted, the home screen warns 2 days before, and the Chat swaps the field for a notice with the Plus request.
+- **Access levels:** each account is on one of four levels, the same in all of its households: no access, app without the assistant, Free and Plus. The end of the free period moves the person to "app without the assistant" on its own, with the Plus request. When the administrator is the one who turns it off, the home screen swaps the microphone for a "Log" circle, the Plan screen shows only that notice, and the tour and the first steps stop talking about the assistant. The Chat stays in both cases, for the alerts and the old conversation.
 - **The limit is told in time:** the app says "back to zero on the 12th", never in money or tokens.
 - **Plan screen:** in Settings › Assistant › Plan, the month's use as a percentage, on a bar that turns to the warning color from 80% on, the day it goes back to zero, and the plans, with no price. Granted Plus says until when it lasts.
 - **Notice on the home screen:** only from 80% on, at the limit and near the end of the free period, with the same rule as bills that are due. The home screen does not get one more fixed number.
@@ -163,10 +164,9 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 Browser pages at `/admin`, only for the administrator and in the same visual style as the app. They are drawn in the [admin area part of the design guide](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin) (in Portuguese).
 
 - **Two-step sign-in:** e-mail and password and, on a new browser, a 6-digit code by e-mail. After the code, the browser stays trusted for 60 days.
-- **Overview:** the new accounts, how many have not confirmed their e-mail yet, the open Plus requests, how many people are on Plus, and today's and this month's cost.
-- **Each person's access:** activate without the e-mail (for someone who does not get the link), block and unblock.
-- **People:** search by name or e-mail, filters, and each person's use against their plan's limit.
-- **Each person's plan:** grant Plus for 1, 3, 6 or 12 months (the months add to the Plus they already have), take Plus away, or set Plus as fixed.
+- **Overview:** the new accounts, how many have not confirmed their e-mail yet, the open Plus requests, how many people are on Plus, how many are without the assistant, and today's and this month's cost.
+- **People:** search by name or e-mail, filters by level, and each person's use against their plan's limit.
+- **Each person's access:** a single panel with the four levels. Activate without the e-mail (for someone who does not get the link), block and unblock; turn the assistant off and on; give 7, 15 or 30 more days of the assistant on Free; grant Plus for 1, 3, 6 or 12 months (the months add to the Plus already granted) or with no end date, and take Plus away.
 - **Plus requests:** grant or decline right on the list row.
 - **AI usage:** cost per day or per month, per model and per person, in dollars or in reais. The exchange rate is fetched once a day and cached, and the last good rate covers a failed fetch.
 - **It is the only place with the AI cost:** in the app, nobody sees dollar amounts.

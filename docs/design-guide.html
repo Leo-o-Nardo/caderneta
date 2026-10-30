@@ -318,25 +318,12 @@ table.ledger tfoot .n { color: var(--tinta); }
 .plan-grid .btn { margin-top: 16px; }
 .plan-home { margin-top: 56px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
 .plan-home .panel { padding-bottom: 16px; }
-/* Ordenar arrastando: a alça à direita, a linha levantada e o espaço onde ela vai cair */
-.sort-head .n-h2 { flex: 1; }
-.sort-hint { margin: 12px 0 8px; display: block; }
+/* Arrastar para ordenar (parte 07): a linha com a alça à direita */
 .sort-list { position: relative; border-top: 1px solid var(--pauta); }
 .sort-row { display: flex; align-items: center; gap: 12px; min-height: 56px; padding: 6px 0; border-bottom: 1px solid var(--pauta); background: var(--papel); }
 .sort-row .n-main { flex: 1; }
 .sort-grip { width: 44px; height: 44px; margin-right: -10px; display: grid; place-items: center; color: var(--lapis); cursor: grab; touch-action: none; flex: none; }
 .sort-grip .i { width: 20px; height: 20px; }
-.sort-row.is-lifted { position: relative; z-index: 2; margin: 0 -12px -28px; padding-left: 12px; padding-right: 12px; background: var(--folha); border-bottom-color: transparent; border-radius: 6px; box-shadow: 0 14px 28px -14px rgba(30, 31, 28, .5), 0 0 0 1px var(--pauta); transform: scale(1.02); }
-.sort-row.is-lifted .sort-grip { color: var(--tinta); cursor: grabbing; }
-.sort-gap { height: 56px; border-bottom: 1px solid var(--pauta); }
-.sort-title { display: flex; align-items: center; gap: 4px; }
-.sort-title .n-main { flex: 1; }
-.sort-box { width: 22px; height: 22px; border: 1.5px solid var(--lapis); border-radius: 4px; flex: none; }
-.sort-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 56px; }
-.sort-grid figure { display: grid; gap: 8px; align-content: start; }
-.sort-grid figcaption { font-size: 13px; color: var(--grafite); }
-.sort-grid .panel { max-width: none; padding-top: 12px; }
-.sort-grid .seg { margin-top: 4px; }
 .sort-demo .sort-list { user-select: none; -webkit-user-select: none; }
 .sort-demo .sort-row { transition: transform .18s var(--curva), box-shadow .15s ease-out; }
 .sort-demo .sort-row.is-dragging { position: relative; z-index: 2; transition: box-shadow .15s ease-out; background: var(--folha); border-radius: 6px; box-shadow: 0 14px 28px -14px rgba(30, 31, 28, .5), 0 0 0 1px var(--pauta); }
@@ -348,6 +335,22 @@ table.ledger tfoot .n { color: var(--tinta); }
 .trial-lock .with-icon { display: flex; align-items: center; gap: 8px; }
 .trial-lock .with-icon .i { width: 20px; height: 20px; color: var(--mostarda-escura); }
 .trial-lock .btn { margin-top: 12px; }
+.trial-lock .with-icon .i.off { color: var(--grafite); }
+/* Níveis de acesso (1.20): o assistente desligado no app e as duas opções do Início. */
+.access-end .limit-icon { color: var(--grafite); }
+.home-options { display: grid; gap: 32px 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 390px)); margin-top: 56px; }
+.home-options figure { display: grid; gap: 12px; align-content: start; }
+.home-options figcaption { font-size: 15px; line-height: 1.5; }
+.home-options figcaption b { font-weight: 600; }
+/* O painel "Acesso" da área administrativa: os quatro níveis e, embaixo, o que fazer no escolhido. */
+.lvl-list { border-top: 1px solid var(--pauta); }
+.lvl { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 2px 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--pauta); cursor: pointer; }
+.lvl input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--musgo); }
+.lvl .n-main { display: grid; gap: 2px; min-width: 0; }
+.lvl-note { padding-left: 12px; border-left: 2px solid var(--mostarda); }
+.lvl-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 32px; align-items: start; }
+.lvl-grid figure { display: grid; gap: 8px; align-content: start; }
+.lvl-grid figcaption { font-size: 13px; color: var(--grafite); }
 .trial-msg { align-self: flex-start; max-width: 80%; padding: 10px 14px; border-radius: 12px; background: var(--folha); border: 1px solid var(--pauta); font: 400 15px/22px var(--sans); }
 .trial-msg.me { align-self: flex-end; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
 .trial-chat { display: flex; flex-direction: column; gap: 8px; opacity: .55; }
@@ -764,6 +767,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <!-- Desenhos dos ícones (lucide, o mesmo pacote do app) -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mic" viewBox="0 0 24 24"><path d="M12 19v3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><rect x="9" y="2" width="6" height="13" rx="3"/></symbol>
+  <symbol id="mic-off" viewBox="0 0 24 24"><path d="M2 2l20 20"/><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"/><path d="M5 10v2a7 7 0 0 0 12 5"/><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12"/><path d="M12 19v3"/></symbol>
   <symbol id="plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
   <symbol id="arrow-up" viewBox="0 0 24 24"><path d="m5 12 7-7 7 7"/><path d="M12 19V5"/></symbol>
   <symbol id="chev-r" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6"/></symbol>
@@ -809,14 +813,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="gauge" viewBox="0 0 24 24"><path d="m12 14 4-4"/><path d="M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
   <symbol id="check-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></symbol>
   <symbol id="grip" viewBox="0 0 24 24"><circle cx="9" cy="12" r="1"/><circle cx="9" cy="5" r="1"/><circle cx="9" cy="19" r="1"/><circle cx="15" cy="12" r="1"/><circle cx="15" cy="5" r="1"/><circle cx="15" cy="19" r="1"/></symbol>
-  <symbol id="arrow-up-down" viewBox="0 0 24 24"><path d="m21 16-4 4-4-4"/><path d="M17 20V4"/><path d="m3 8 4-4 4 4"/><path d="M7 4v16"/></symbol>
 </svg>
 
 <!-- ======================= Cabeçalho ======================= -->
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.19 · 29 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.20 · 30 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1500,7 +1503,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
             <div class="trial-lock">
               <span class="with-icon"><svg class="i"><use href="#hourglass"/></svg><b class="n-strong">O período gratuito acabou</b></span>
-              <span class="n-cap">A conversa fica para consultar. Para lançar, use o + do Início.</span>
+              <span class="n-cap">A conversa fica para consultar. Para lançar, volte ao Início.</span>
               <button class="btn btn-primary full" type="button"><svg class="i" style="width:18px;height:18px"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button>
             </div>
           </div>
@@ -1525,89 +1528,98 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
     </div>
 
-    <!-- ---------- Ordenar arrastando ---------- -->
-    <div class="block" id="ordenar">
-      <div class="block-head"><h3>Ordenar arrastando</h3><p>Categorias, os itens de uma lista e as próprias listas, no modo Organizar</p></div>
-      <div class="pair">
-        <div>
+    <!-- ---------- Níveis de acesso ---------- -->
+    <div class="block" id="niveis">
+      <div class="block-head"><h3>Níveis de acesso</h3><p>O que cada conta pode usar, escolhido num lugar só, na área administrativa</p></div>
+      <table class="ledger copy">
+        <thead><tr><th>Nível</th><th>O app</th><th>O assistente</th><th>Como chega aqui</th></tr></thead>
+        <tbody>
+          <tr><td>Sem acesso</td><td>Não entra.</td><td>—</td><td>O administrador bloqueia.</td></tr>
+          <tr><td>App sem assistente</td><td>Entra e usa tudo.</td><td>Desligado.</td><td>O período gratuito acaba, ou o administrador desliga. O motivo fica à parte, porque o que a pessoa vê muda.</td></tr>
+          <tr><td>Gratuito</td><td>Entra e usa tudo.</td><td>Até o fim do período, com o limite do Gratuito.</td><td>Confirma o e-mail, ou o administrador dá mais dias.</td></tr>
+          <tr><td>Plus</td><td>Entra e usa tudo.</td><td>Com o limite do Plus.</td><td>O administrador dá o Plus, com prazo ou sem.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="plan-grid">
+        <figure>
+          <div class="panel">
+            <div class="trial-end access-end">
+              <svg class="i limit-icon"><use href="#mic-off"/></svg>
+              <h4 class="n-h2">O assistente está desligado nesta conta</h4>
+              <p class="n-body" style="color:var(--grafite);margin-top:4px">Lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
+            </div>
+          </div>
+          <figcaption>Plano: só este bloco, sem porcentagem e sem a lista de planos</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="trial-chat" aria-hidden="true">
+              <span class="trial-msg me">gastei 42 no almoço</span>
+              <span class="trial-msg">Lancei Almoço, R$ 42,00, em Alimentação.</span>
+            </div>
+            <div class="trial-lock">
+              <span class="with-icon"><svg class="i off"><use href="#mic-off"/></svg><b class="n-strong">O assistente está desligado nesta conta</b></span>
+              <span class="n-cap">A conversa fica para consultar. Para lançar, volte ao Início.</span>
+            </div>
+          </div>
+          <figcaption>Chat: no lugar do campo e do microfone, sem botão</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-row"><div class="n-main"><b class="n-strong">Plano</b></div><span class="n-cap">Desligado</span><span class="n-chev">›</span></div>
+          </div>
+          <figcaption>Configurações › Assistente: a linha do Plano</figcaption>
+        </figure>
+      </div>
+
+      <div class="home-options">
+        <figure>
           <div class="phone"><div class="screen new">
             <div class="sbar"><span>12:41</span><i class="bat"></i></div>
-            <div class="n-head px sort-head"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Organizar</h4><button class="n-link" type="button">Pronto</button></div>
-            <div class="scroll px n-pb">
-              <div class="seg" style="margin-top:4px"><button type="button" aria-pressed="true">Despesas</button><button type="button" aria-pressed="false">Receitas</button></div>
-              <span class="n-cap sort-hint" style="margin-top:20px">As 7 primeiras aparecem na grade, na hora de lançar. Arraste pela alça e toque em Pronto para salvar.</span>
-              <div class="sort-list">
-                <div class="sort-row"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong">Moradia</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-row"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Mercado</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-row is-lifted"><span class="ci" style="color:#4A6A9A"><svg class="i"><use href="#car"/></svg></span><div class="n-main"><b class="n-strong">Transporte</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-gap" aria-hidden="true"></div>
-                <div class="sort-row"><span class="ci" style="color:#B8902F"><svg class="i"><use href="#utensils"/></svg></span><div class="n-main"><b class="n-strong">Alimentação</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-row"><span class="ci" style="color:#7F8A3A"><svg class="i"><use href="#zap"/></svg></span><div class="n-main"><b class="n-strong">Contas da casa</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-row"><span class="ci" style="color:#B9553A"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Saúde</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-row"><span class="ci" style="color:#5A5A9A"><svg class="i"><use href="#ticket"/></svg></span><div class="n-main"><b class="n-strong">Lazer</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-                <div class="sort-row"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#bag"/></svg></span><div class="n-main"><b class="n-strong">Compras</b></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
+            <div class="n-home px">
+              <div class="n-top"><span class="n-rot">Segunda, 19 de outubro</span><button class="icon-btn" type="button" aria-label="Configurações"><svg class="i"><use href="#settings"/></svg></button></div>
+              <h4 class="n-h1">Boa tarde, Leo</h4>
+              <div class="n-ledger2">
+                <div><span class="n-cap">Despesas de outubro</span><b class="n-fig">R$ 4.084,30</b><span class="n-cap">até hoje, dia 19</span></div>
+                <div><span class="n-cap">Resta nos orçamentos</span><b class="n-fig">R$ 437,50</b><span class="n-cap">em 3 categorias</span></div>
               </div>
-              <button class="n-link" type="button" style="margin-top:24px;padding:0">Descartar mudanças</button>
+              <div class="n-micarea">
+                <button class="n-mic" type="button" aria-label="Lançar"><svg class="i"><use href="#plus"/></svg></button>
+                <b class="n-strong">Lançar</b>
+              </div>
+              <div class="n-sec">
+                <div class="n-sec-head"><h5 class="n-h2">Hoje <span class="n-cap num">· R$ 72,40</span></h5><button class="n-link sm" type="button">Ver todos</button></div>
+                <div class="n-row press"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Padaria</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 23,50</span></div>
+                <div class="n-row press"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Farmácia</b><span class="n-cap">Saúde · Débito</span></div><span class="n-amt">R$ 48,90</span></div>
+              </div>
             </div>
+            <nav class="n-tabs">
+              <span class="n-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
+              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat</span>
+              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
+              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
+              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
+            </nav>
             <div class="homebar" style="color:#1E1F1C"></div>
           </div></div>
-        </div>
+          <figcaption><b>Início: o círculo vira "Lançar".</b> Desligado pelo administrador, o mesmo círculo de Tinta, com o +, abre o formulário, e o link embaixo sai. A tela continua com uma ação principal, e ela funciona. No "Só leitura", que não lança, o círculo não aparece.</figcaption>
+        </figure>
+      </div>
 
+      <div class="plan-home">
+        <p class="spec-line" style="margin:0"><b>Os dois motivos.</b> Depois do período gratuito, tudo fica como na parte acima: a ampulheta, o microfone que abre a folha e o pedido do Plus, porque o assistente pode voltar e a pessoa pode pedir. Desligado pelo administrador, o ícone é o microfone riscado, e não a ampulheta (não há o que esperar), sem pedido do Plus e sem aviso no Início. A folha do limite ganha esse estado (parte 06), para quando o assistente é desligado com o app aberto.</p>
         <div class="notes">
           <h4>Por que é assim</h4>
           <ul>
-            <li>Ordenar é um modo, e não um gesto escondido: as duas setas no topo abrem o "Organizar", o título muda e "Pronto" grava. Fora dele, tocar e segurar continuam fazendo o que já faziam (abrir a categoria, marcar e editar o item).</li>
-            <li>Arrasta-se pela alça, à direita, em Lápis, com 44 de toque. Começa na hora, sem precisar segurar, e o resto da linha continua rolando a tela: o dedo que rola não leva uma linha junto sem querer.</li>
-            <li>A linha levantada fica em Folha, com uma sombra curta e 2% maior, e a alça passa para Tinta. As outras abrem espaço enquanto ela passa (180 ms). Uma vibração leve ao levantar e uma bem curta a cada lugar trocado.</li>
-            <li>Perto do topo ou do fim da tela, a lista rola sozinha, devagar, para dar para levar uma categoria do fim ao começo numa vez só.</li>
-            <li>As três setas de antes (topo, subir e descer) saem: a linha fica livre para o nome. Com o leitor de tela, cada linha tem as ações "Subir", "Descer" e "Para o topo", e diz a posição ("Transporte, 3 de 12").</li>
-            <li>Nada é gravado no meio do caminho: "Pronto" manda a ordem inteira, e "Descartar mudanças" volta à de antes. Se não der para salvar, a ordem volta e aparece o aviso de sempre.</li>
+            <li>O nível é da conta e vale em todas as casas. O papel na casa ("Só leitura") é outra coisa e continua à parte.</li>
+            <li>O Chat fica em todos os níveis com acesso ao app: os avisos de contas e lembretes chegam lá, e a conversa antiga fica para consultar. Sem o assistente, a conversa vazia diz "Nenhuma mensagem ainda" e "Os avisos de contas e lembretes chegam aqui.", sem os atalhos de pergunta.</li>
+            <li>O texto não diz por que foi desligado nem fala em administrador: a tela não promete nada que a pessoa possa fazer.</li>
+            <li><b>Tour.</b> Em "App sem assistente", o primeiro passo vira "Lance o que gastou", no círculo do Início, e o do Chat fala só dos avisos e da conversa guardada. Os outros passos são os mesmos.</li>
+            <li><b>Primeiros passos.</b> Em "App sem assistente", o "Primeiro lançamento" fala só do formulário, sem o microfone e sem "Escrever no Chat".</li>
           </ul>
         </div>
       </div>
-
-      <div class="sort-grid">
-        <figure>
-          <div class="panel">
-            <div class="sort-title">
-              <div class="n-main"><b class="n-h2" style="font-size:24px;line-height:30px;font-weight:600">Mercado</b><span class="n-cap">Compras · lista padrão</span></div>
-              <button class="n-iconbtn" type="button" aria-label="Organizar os itens e as listas"><svg class="i"><use href="#arrow-up-down"/></svg></button>
-              <button class="n-iconbtn" type="button" aria-label="Opções da lista" style="margin-right:-10px"><svg class="i"><use href="#more"/></svg></button>
-            </div>
-            <div class="n-row" style="margin-top:8px;border-top:1px solid var(--pauta)"><span class="sort-box" aria-hidden="true"></span><div class="n-main"><span class="n-body">Leite</span><span class="n-cap">2 caixas</span></div></div>
-            <div class="n-row" style="border-bottom:0"><span class="sort-box" aria-hidden="true"></span><div class="n-main"><span class="n-body">Café</span></div></div>
-          </div>
-          <figcaption>Na aba Listas: as setas ao lado do "…" abrem o Organizar</figcaption>
-        </figure>
-        <figure>
-          <div class="panel">
-            <div class="n-head sort-head" style="padding-top:4px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Organizar</h4><button class="n-link" type="button">Pronto</button></div>
-            <div class="seg"><button type="button" aria-pressed="true">Itens</button><button type="button" aria-pressed="false">Listas</button></div>
-            <span class="n-cap sort-hint" style="margin-top:16px">Os itens que faltam pegar em Mercado. Os já pegos ficam embaixo, como sempre.</span>
-            <div class="sort-list">
-              <div class="sort-row"><div class="n-main"><span class="n-body">Leite</span><span class="n-cap">2 caixas</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-              <div class="sort-row"><div class="n-main"><span class="n-body">Pão</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-              <div class="sort-row"><div class="n-main"><span class="n-body">Café</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-              <div class="sort-row" style="border-bottom:0"><div class="n-main"><span class="n-body">Detergente</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-            </div>
-          </div>
-          <figcaption>Organizar › Itens, da lista que estava aberta</figcaption>
-        </figure>
-        <figure>
-          <div class="panel">
-            <div class="n-head sort-head" style="padding-top:4px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Organizar</h4><button class="n-link" type="button">Pronto</button></div>
-            <div class="seg"><button type="button" aria-pressed="false">Itens</button><button type="button" aria-pressed="true">Listas</button></div>
-            <span class="n-cap sort-hint" style="margin-top:16px">A ordem das tags no topo da aba Listas.</span>
-            <div class="sort-list">
-              <div class="sort-row"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Mercado</b><span class="n-cap">Compras · lista padrão</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-              <div class="sort-row"><span class="ci" style="color:#7E5490"><svg class="i"><use href="#checks"/></svg></span><div class="n-main"><b class="n-strong">Casa</b><span class="n-cap">A fazer</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-              <div class="sort-row" style="border-bottom:0"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#gift"/></svg></span><div class="n-main"><b class="n-strong">Presentes</b><span class="n-cap">Desejos · só você</span></div><span class="sort-grip"><svg class="i"><use href="#grip"/></svg></span></div>
-            </div>
-          </div>
-          <figcaption>Organizar › Listas</figcaption>
-        </figure>
-      </div>
-      <p class="spec-line"><b>Uma tela para as listas.</b> Arrastar as tags de lado, no topo, brigaria com a rolagem delas e esconderia a lista no fim da fila. Por isso as setas ao lado do "…" abrem a tela "Organizar", com "Itens" (os que faltam pegar na lista aberta) e "Listas" (a ordem das tags). "Pronto" grava o que mudou nas duas partes. Os itens já pegos não entram: eles continuam embaixo, na seção "Já pegos". A lista padrão segue sendo a que abre primeiro, onde quer que esteja. Quem só pode ver a casa não vê as setas, nem aqui nem nas Categorias. Uma parte com menos de dois itens diz "Nada para ordenar ainda."</p>
     </div>
 
     <!-- ---------- Confirmar o e-mail ---------- -->
@@ -1768,6 +1780,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                 <a href="#admin"><span class="n-fig">3</span><span class="n-cap">Sem confirmar o e-mail</span></a>
                 <a href="#admin"><span class="n-fig t-aviso">2</span><span class="n-cap">Pedidos de Plus em aberto</span></a>
                 <a href="#admin"><span class="n-fig">9</span><span class="n-cap">Com Plus agora</span></a>
+                <a href="#admin"><span class="n-fig">41</span><span class="n-cap">App sem assistente</span></a>
                 <a href="#admin"><span class="n-fig">US$ 0,41</span><span class="n-cap">IA hoje · US$ 8,73 no mês</span></a>
               </div>
               <div class="adm-cols">
@@ -1809,27 +1822,31 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                 <div class="tags">
                   <button class="tag" type="button" aria-pressed="true">Todas <span class="n-cap">128</span></button>
                   <button class="tag" type="button" aria-pressed="false">Sem confirmar <span class="n-cap">3</span></button>
+                  <button class="tag" type="button" aria-pressed="false">Sem acesso <span class="n-cap">2</span></button>
+                  <button class="tag" type="button" aria-pressed="false">App sem assistente <span class="n-cap">41</span></button>
+                  <button class="tag" type="button" aria-pressed="false">Gratuito <span class="n-cap">73</span></button>
                   <button class="tag" type="button" aria-pressed="false">Plus <span class="n-cap">9</span></button>
                   <button class="tag" type="button" aria-pressed="false">No limite <span class="n-cap">4</span></button>
                 </div>
               </div>
               <div class="adm-table-wrap">
                 <table class="adm-table">
-                  <thead><tr><th>Pessoa</th><th>Plano</th><th>Acesso</th><th>Uso do período</th><th class="n">Cadastro</th></tr></thead>
+                  <thead><tr><th>Pessoa</th><th>Nível</th><th>Uso do período</th><th class="n">Cadastro</th></tr></thead>
                   <tbody>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito <span class="n-cap">sem assistente</span></td><td><span class="adm-tag ok">Ativa</span></td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td><td class="n">09/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio@example.com</span></div></td><td>Plus <span class="n-cap">até 28/11</span></td><td><span class="adm-tag ok">Ativa</span></td><td><div class="adm-use"><div class="bar"><i style="--w:8%"></i></div><span>8%</span></div></td><td class="n">02/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Leo Nardo</b><span class="n-cap">leo@caderneta.example.com</span></div></td><td>Plus <span class="n-cap">fixo</span></td><td><span class="adm-tag ok">Ativa</span></td><td><div class="adm-use"><div class="bar"><i style="--w:3%"></i></div><span>3%</span></div></td><td class="n">07/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Rafa Lima</b><span class="n-cap">rafa.lima@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag wait">Sem confirmar</span></td><td><span class="n-cap">—</span></td><td class="n">26/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito <span class="n-cap">assistente até 03/11</span></td><td><span class="adm-tag ok">Ativa</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">27/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Gil Moura</b><span class="n-cap">gil.moura@example.com</span></div></td><td>Gratuito</td><td><span class="adm-tag no">Bloqueada</span></td><td><span class="n-cap">—</span></td><td class="n">20/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>App sem assistente <span class="n-cap">o período acabou</span></td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td><td class="n">09/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio@example.com</span></div></td><td>Plus <span class="n-cap">até 28/11</span></td><td><div class="adm-use"><div class="bar"><i style="--w:8%"></i></div><span>8%</span></div></td><td class="n">02/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Leo Nardo</b><span class="n-cap">leo@caderneta.example.com</span></div></td><td>Plus <span class="n-cap">sem prazo</span></td><td><div class="adm-use"><div class="bar"><i style="--w:3%"></i></div><span>3%</span></div></td><td class="n">07/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Rafa Lima</b><span class="n-cap">rafa.lima@example.com</span></div></td><td><span class="adm-tag wait">Sem confirmar</span></td><td><span class="n-cap">—</span></td><td class="n">26/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito <span class="n-cap">até 03/11</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">27/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Nina Dias</b><span class="n-cap">nina.dias@example.com</span></div></td><td>App sem assistente <span class="n-cap">desligado</span></td><td><span class="n-cap">—</span></td><td class="n">21/10/2026</td></tr>
+                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Gil Moura</b><span class="n-cap">gil.moura@example.com</span></div></td><td><span class="adm-tag no">Sem acesso</span></td><td><span class="n-cap">—</span></td><td class="n">20/10/2026</td></tr>
                   </tbody>
                 </table>
               </div>
               <div class="adm-pages"><span class="n-cap">1 a 25 de 128</span><div class="btn-row"><button class="btn btn-secondary sm" type="button" disabled>Anterior</button><button class="btn btn-secondary sm" type="button">Próxima</button></div></div>
             </div>
           </div>
-          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. O plano diz de onde vem ("até 28/11" para o Plus dado, "fixo" para a marcação) e, no Gratuito, se ainda tem o assistente ("assistente até 03/11" ou "sem assistente"). O acesso é "Ativa", "Sem confirmar" (o e-mail) ou "Bloqueada". O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
+          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. A coluna do nível junta o que eram plano e acesso (parte 05, "Níveis de acesso"): o nível com o detalhe ao lado ("até 28/11", "sem prazo", "o período acabou", "desligado") e, em tag, só o que não entra no app ("Sem confirmar" e "Sem acesso"). O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
         </div>
 
         <!-- Pessoa -->
@@ -1848,12 +1865,11 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
             <div class="adm-body">
               <a class="adm-back" href="#admin"><svg class="i"><use href="#chev-l"/></svg>Pessoas</a>
-              <div class="adm-head"><div><h4 class="n-h1">Maria Souza</h4><p class="n-cap">maria.souza@example.com</p></div><span class="adm-tag ok">Ativa</span></div>
+              <div class="adm-head"><div><h4 class="n-h1">Maria Souza</h4><p class="n-cap">maria.souza@example.com</p></div><span class="adm-tag plain">App sem assistente</span></div>
               <div class="adm-split">
                 <div>
                   <div class="adm-kv">
-                    <div><span>Plano</span><span>Gratuito</span></div>
-                    <div><span>Marcação manual</span><span>Automático</span></div>
+                    <div><span>Nível</span><span>App sem assistente <span class="n-cap">o período acabou</span></span></div>
                     <div><span>Período gratuito</span><span>Acabou em 16/10/2026</span></div>
                     <div><span>Casas</span><span>Casa da Maria (dona) · Apê da praia (membro)</span></div>
                     <div><span>Cadastro</span><span>09/10/2026, 08:31 · e-mail confirmado às 08:40</span></div>
@@ -1880,30 +1896,94 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                 </div>
                 <aside>
                   <div class="adm-actions">
-                    <h4>Dar Plus</h4>
+                    <h4>Acesso</h4>
+                    <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
+                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Sem acesso</b><span class="n-cap">Não entra no app.</span></span></label>
+                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">O período acabou. Pode pedir o Plus.</span></span><span class="adm-tag plain">Agora</span></label>
+                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">O assistente por alguns dias.</span></span></label>
+                      <label class="lvl"><input type="radio" name="lvl-page" checked><span class="n-main"><b class="n-strong">Plus</b><span class="n-cap">O assistente com o limite maior.</span></span></label>
+                    </div>
                     <div class="field"><span class="lbl">Por quanto tempo</span>
                       <div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="false">1 mês</button><button type="button" aria-pressed="true">3 meses</button><button type="button" aria-pressed="false">6 meses</button><button type="button" aria-pressed="false">12 meses</button></div>
                     </div>
+                    <label class="adm-check"><input type="checkbox"> Sem prazo</label>
                     <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
                     <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 3 meses de Plus</button>
                     <p class="n-cap">Vale até 28/01/2027. Com Plus dado ainda valendo, os meses somam a partir do fim dele. O pedido em aberto fica como atendido.</p>
-                  </div>
-                  <div class="adm-actions">
-                    <h4>Marcação manual</h4>
-                    <div class="seg" role="group" aria-label="Marcação manual"><button type="button" aria-pressed="true">Automático</button><button type="button" aria-pressed="false">Plus fixo</button></div>
-                    <p class="n-cap">Automático segue o Plus dado; sem ele, o Gratuito, com o assistente só no período gratuito. Plus fixo vale sem prazo, até voltar ao automático: use para a sua conta e a conta de revisão das lojas.</p>
-                    <button class="btn btn-secondary full" type="button">Salvar marcação</button>
-                  </div>
-                  <div class="adm-actions">
-                    <h4>Acesso</h4>
-                    <p class="n-cap">Bloquear tira a pessoa de todos os aparelhos e impede de entrar de novo. Nada é enviado por e-mail.</p>
-                    <button class="adm-danger" type="button">Bloquear acesso</button>
                   </div>
                 </aside>
               </div>
             </div>
           </div>
-          <p class="adm-shot-cap"><b>Uma pessoa.</b> À esquerda, o que é (plano, de onde ele vem, casas e uso, com os períodos anteriores); à direita, o que dá para fazer, em painéis de Folha. Com Plus dado valendo, o primeiro painel mostra também "Tirar o Plus" em Tijolo sublinhado, com a folha de confirmação. "Período gratuito" diz até quando vai ("Até 05/11/2026") ou quando acabou, e some no Plus fixo. Quem ainda não confirmou o e-mail vê, no lugar do painel do Plus, "Ativar sem o e-mail" (primário), para quando o e-mail caiu no spam: ativa na hora e começa o período gratuito. Bloquear pede a folha de confirmação; com a conta bloqueada, o painel traz "Desbloquear" (secundário).</p>
+          <p class="adm-shot-cap"><b>Uma pessoa.</b> À esquerda, o que é (o nível, o período gratuito, casas e uso, com os períodos anteriores); à direita, um painel só, "Acesso", com os quatro níveis (parte 05, "Níveis de acesso"). "Agora" marca o nível atual, e escolher outro mostra embaixo o que fazer nele, sem mudar nada até tocar no botão.</p>
+          <div class="lvl-grid">
+            <figure>
+              <div class="adm-actions">
+                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
+                  <label class="lvl"><input type="radio" name="lvl-free"><span class="n-main"><b class="n-strong">App sem assistente</b></span><span class="adm-tag plain">Agora</span></label>
+                  <label class="lvl"><input type="radio" name="lvl-free" checked><span class="n-main"><b class="n-strong">Gratuito</b></span></label>
+                </div>
+                <div class="field"><span class="lbl">Mais dias de assistente</span>
+                  <div class="seg" role="group" aria-label="Dias de assistente"><button type="button" aria-pressed="true">7 dias</button><button type="button" aria-pressed="false">15 dias</button><button type="button" aria-pressed="false">30 dias</button></div>
+                </div>
+                <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
+                <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 7 dias de assistente</button>
+                <p class="n-cap">Vale até 06/11/2026. Os dias somam a partir do fim do período ou, se ele já acabou, de hoje.</p>
+                <p class="n-cap lvl-note">O limite do mês continua valendo: 100% já usado, e volta a zero em 09/11.</p>
+              </div>
+              <figcaption>Gratuito, depois do período. O aviso do limite só aparece a partir de 80%.</figcaption>
+            </figure>
+            <figure>
+              <div class="adm-actions">
+                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
+                  <label class="lvl"><input type="radio" name="lvl-off" checked><span class="n-main"><b class="n-strong">App sem assistente</b></span></label>
+                  <label class="lvl"><input type="radio" name="lvl-off"><span class="n-main"><b class="n-strong">Plus</b></span><span class="adm-tag plain">Agora</span></label>
+                </div>
+                <p class="n-cap">Entra e usa tudo, menos o assistente. A conversa fica para consultar, e o pedido do Plus sai do app.</p>
+                <p class="n-cap lvl-note">O Plus dado até 15/01/2027 sai junto.</p>
+                <button class="btn btn-secondary full" type="button">Desligar o assistente</button>
+              </div>
+              <figcaption>Desligar com Plus valendo: pede a folha de confirmação</figcaption>
+            </figure>
+            <figure>
+              <div class="adm-actions">
+                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
+                  <label class="lvl"><input type="radio" name="lvl-on" checked><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">Desligado em 20/10/2026.</span></span><span class="adm-tag plain">Agora</span></label>
+                </div>
+                <p class="n-cap">Religando, o período gratuito volta a contar: o assistente fica até 05/11. Se o período já tiver acabado, a conta continua sem o assistente, mas pode pedir o Plus.</p>
+                <button class="btn btn-secondary full" type="button">Religar o assistente</button>
+              </div>
+              <figcaption>Já desligado</figcaption>
+            </figure>
+            <figure>
+              <div class="adm-actions">
+                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
+                  <label class="lvl"><input type="radio" name="lvl-none" checked><span class="n-main"><b class="n-strong">Sem acesso</b></span></label>
+                </div>
+                <p class="n-cap">Bloquear tira a pessoa de todos os aparelhos e impede de entrar de novo. Nada é enviado por e-mail.</p>
+                <button class="adm-danger" type="button">Bloquear acesso</button>
+              </div>
+              <figcaption>Sem acesso: pede a folha de confirmação</figcaption>
+            </figure>
+            <figure>
+              <div class="adm-actions">
+                <h4>Acesso</h4>
+                <p class="n-cap">A pessoa não entra no app enquanto a conta estiver bloqueada. Desbloquear volta ao nível de antes (Gratuito, até 05/11) e não envia nada por e-mail.</p>
+                <button class="btn btn-secondary full" type="button">Desbloquear</button>
+              </div>
+              <figcaption>Com a conta bloqueada, sem a lista</figcaption>
+            </figure>
+            <figure>
+              <div class="adm-actions">
+                <h4>Sem confirmar o e-mail</h4>
+                <p class="n-cap">O link saiu ontem, 21:14. Se ele caiu no spam ou não chegou, dá para ativar daqui: a conta entra na hora e o período gratuito começa.</p>
+                <button class="btn btn-primary full" type="button">Ativar sem o e-mail</button>
+                <button class="adm-danger" type="button">Bloquear acesso</button>
+              </div>
+              <figcaption>Sem confirmar o e-mail, sem a lista</figcaption>
+            </figure>
+          </div>
+          <p class="spec-line"><b>Os outros casos do painel.</b> No Plus, a opção Plus mostra também "Tirar o Plus" em Tijolo sublinhado, com a folha de confirmação: a pessoa volta ao que o período gratuito disser. Dar meses a quem tem Plus sem prazo troca o "sem prazo" pelos meses. Em "Gratuito", quem tem Plus vê "Tirar o Plus e dar 7 dias". A conta do administrador não tem a opção "Sem acesso". O Gratuito fixo, para testar o limite, continua só no terminal.</p>
         </div>
 
         <!-- Pedidos de Plus -->
@@ -2235,8 +2315,18 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <div class="sheet-btns"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
             </div>
           </div>
+          <div class="sheet-stage limit-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="limit-title-6">
+              <span class="handle"></span>
+              <svg class="i limit-icon"><use href="#mic-off"/></svg>
+              <h4 class="n-h2" id="limit-title-6">O assistente está desligado nesta conta</h4>
+              <p class="n-body" style="color:var(--grafite)">Lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button">Entendi</button></div>
+            </div>
+          </div>
         </div>
-        <p class="spec-line"><b>Três estados:</b> só o aviso, com "Entendi" (no Plus, ou sem o número do WhatsApp configurado no servidor), o pedido pelo WhatsApp, no Gratuito, e o fim do período gratuito (parte 05, "Período gratuito do assistente"), que sempre traz o pedido quando o número está configurado. Com um pedido em aberto, o texto de apoio vira "Seu pedido já foi enviado. A resposta chega por e-mail.", e o botão abre o WhatsApp de novo. Ícone de 28 em Tinta (a ampulheta), título em Fraunces 20 e o botão principal com o ícone de 18 (o balão). Tocar fora ou no "voltar" do Android fecha, como "Agora não".</p>
+        <p class="spec-line"><b>Quatro estados:</b> só o aviso, com "Entendi" (no Plus, ou sem o número do WhatsApp configurado no servidor), o pedido pelo WhatsApp, no Gratuito, o fim do período gratuito (parte 05, "Período gratuito do assistente"), que sempre traz o pedido quando o número está configurado, e o assistente desligado (parte 05, "Níveis de acesso"), com o microfone riscado e nunca com o pedido. Com um pedido em aberto, o texto de apoio vira "Seu pedido já foi enviado. A resposta chega por e-mail.", e o botão abre o WhatsApp de novo. Ícone de 28 em Tinta (a ampulheta), título em Fraunces 20 e o botão principal com o ícone de 18 (o balão). Tocar fora ou no "voltar" do Android fecha, como "Agora não".</p>
       </div>
 
       <!-- Entrada -->
@@ -2542,6 +2632,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <tr><td>Parcela</td><td>Número da parcela depois do cartão.</td><td>Compras · Nubank · 2/10</td></tr>
           <tr><td>Uso do assistente</td><td>Em porcentagem e em tempo, nunca em dinheiro ou tokens. A data em que volta sempre com dia e mês.</td><td>85% · Volta a zero no dia 09/11</td></tr>
           <tr><td>Plus com data</td><td>Até quando vale e o que vem depois.</td><td>Até 15/01/2027. Depois, volta o Gratuito.</td></tr>
+          <tr><td>Assistente desligado</td><td>"Desligado nesta conta", sem dizer por quê e sem falar em administrador. Em seguida, o que continua funcionando.</td><td>O assistente está desligado nesta conta</td></tr>
           <tr><td>Período gratuito</td><td>Sempre "período gratuito" e com a data: até quando vai e, depois, desde quando acabou. Nunca "teste", "trial" ou horas.</td><td>Com o assistente até 05/11 · O período gratuito acabou</td></tr>
         </tbody>
       </table>
@@ -2562,6 +2653,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.20</td><td class="num">30/10/2026</td><td>Níveis de acesso (parte 05, bloco novo): sem acesso, app sem assistente, Gratuito e Plus. No app, o estado do assistente desligado no Plano, no Chat, na folha do limite (parte 06), no tour e nos primeiros passos, com o ícone do microfone riscado; no Início, o círculo do microfone vira "Lançar". Na área administrativa, um painel só, "Acesso", no lugar de "Dar Plus", "Marcação manual" e "Acesso"; a lista de pessoas ganha a coluna do nível e novos filtros, e a visão geral, a contagem de "App sem assistente". O texto do Chat sem o assistente passa a dizer "volte ao Início", porque o Início não tem o botão +. O bloco "Ordenar arrastando" sai da parte 05: o movimento segue em "Arrastar para ordenar", na parte 07.</td></tr>
         <tr><td>1.19</td><td class="num">29/10/2026</td><td>O campo de valor no foco (parte 06, Campo), para ficar claro que o número está sendo digitado. A linha do valor passa de Tinta 1 px a Musgo 2 px, e um cursor Musgo de 2 px pisca depois do último número, onde o próximo entra (parado com "Reduzir movimento"). O campo pequeno das fichas do chat ganha a borda Musgo dos outros campos, com o rótulo junto, e o mesmo cursor.</td></tr>
         <tr><td>1.18</td><td class="num">29/10/2026</td><td>Conta nova com confirmação do e-mail e período gratuito do assistente (parte 05, dois blocos novos). Sai a liberação manual: todo cadastro, com ou sem convite, confirma o e-mail pelo link (válido por 3 dias) e já entra. Depois de "Criar conta", a tela "Confirme seu e-mail", com o endereço por inteiro, "Já confirmei, entrar" e "Reenviar e-mail"; entrar antes de confirmar mostra o aviso em Atenção, com o mesmo reenviar. O e-mail e as páginas do link no visual das páginas do servidor: "E-mail confirmado" e "Este link venceu", com "Enviar um link novo" ali mesmo. No Gratuito, o assistente vale por 7 dias a partir da confirmação, contados no servidor, junto com o limite do mês. O Plano diz "Com o assistente até 05/11" e, depois, mostra o fim no lugar da porcentagem, com o pedido pelo WhatsApp; o Início avisa 2 dias antes e depois de acabar; no Chat, sem o assistente (fim do período ou limite do mês), a mensagem e o botão ficam no lugar do campo e do microfone, e a conversa continua para ler. A folha do limite ganha o terceiro estado, "O período gratuito acabou". Na área administrativa, "Esperando liberação" vira "Sem confirmar o e-mail", o acesso é "Ativa", "Sem confirmar" ou "Bloqueada", a página da pessoa mostra o período gratuito e ganha "Ativar sem o e-mail" e "Bloquear acesso". Novo ícone: o círculo com ✓ (check-circle). "Valores e textos financeiros" ganha o período gratuito.</td></tr>
         <tr><td>1.17</td><td class="num">28/10/2026</td><td>Ordenar arrastando (parte 05, depois do Plano, e parte 07). As Categorias seguem com o modo Organizar, mas as três setas de cada linha (topo, subir, descer) dão lugar à alça de seis pontos, em Lápis, à direita, por onde se arrasta, sem precisar segurar. A linha levantada fica em Folha, com sombra curta e 2% maior; as outras abrem espaço em 180 ms, a lista rola sozinha perto das bordas, e há vibração ao levantar e a cada lugar trocado. Na aba Listas, as setas ao lado do "…" abrem a tela "Organizar", com "Itens" (os que faltam pegar na lista aberta) e "Listas" (a ordem das tags); as tags não se arrastam de lado. Nada é gravado antes de "Pronto", e "Descartar mudanças" volta à ordem de antes. Com o leitor de tela, cada linha tem "Subir", "Descer" e "Para o topo" e diz a posição. Novos ícones: a alça (grip-vertical) e as setas de ordenar (arrow-up-down). Nova peça: <code>SortableList.tsx</code>.</td></tr>
