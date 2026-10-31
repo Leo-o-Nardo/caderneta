@@ -104,7 +104,7 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - Marcar uma conta como paga, corrigir ou apagar um lançamento.
 - Consultar gastos por período, categoria ou cartão, e montar gráficos.
 - Criar contas fixas, receitas fixas (como o salário), orçamentos, listas, lembretes e rotinas.
-- Marcar e mudar rotinas, e dizer o que a pessoa tem num dia ("o que tenho hoje?").
+- Marcar, mudar e excluir rotinas, só por um dia ou dali em diante ("só hoje o remédio é às 10h"), e dizer o que a pessoa tem num dia ("o que tenho hoje?").
 - Colocar e marcar itens nas listas ("coloca leite e café na lista").
 - Não dá conselho de investimento.
 
@@ -126,8 +126,8 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - **Resumo do mês:** saldo, receitas e despesas, gastos por categoria, quem gastou quanto, faturas e próximas contas.
 
 ### Agenda, rotina, listas e lembretes
-- **Agenda** com rotina, contas, cartões e lembretes num lugar só.
-- **Rotina:** atividades que se repetem em dias da semana, com horário opcional, da casa ou só suas. Tocar marca o dia, segurar abre as opções, e marcar um dia não mexe nos outros.
+- **Agenda** com rotina, lembretes e contas num lugar só, e um calendário que navega para o passado e o futuro, com o progresso de cada dia.
+- **Rotina:** atividades de um dia só ou que se repetem em dias da semana, com descrição, início e término opcionais, da casa ou só suas. O quadrado marca o dia e a linha abre os detalhes. Mudar ou excluir vale só para aquele dia ou dali em diante, e o que já passou nunca muda.
 - **Tela inicial:** foco em finanças ou em rotina, escolhido nas primeiras boas-vindas ou em Configurações.
 - **Lembretes** com repetição ("a cada 6 meses"), da casa ou só seus.
 - **Listas** de compras, desejos, coisas a fazer ou do jeito que você quiser, com toque para marcar no mercado. Os itens e as próprias listas se ordenam arrastando.
@@ -188,7 +188,7 @@ Nem toda ação do assistente pede o mesmo cuidado, então elas se dividem em tr
 | Nível | Exemplos | Como funciona |
 |---|---|---|
 | Confirmar | lançar gastos, parcelar, pagar conta, corrigir um lançamento | A ficha aparece editável e nada é gravado antes do "Confirmar". |
-| Explícito | apagar um lançamento, apagar uma lista, parar uma rotina | A ficha mostra o impacto ("sai dos totais de outubro") antes de confirmar. |
+| Explícito | apagar um lançamento, apagar uma lista, excluir uma rotina | A ficha mostra o impacto ("sai dos totais de outubro") antes de confirmar. |
 | Imediato, com desfazer | itens de lista, lembretes, rotinas, contas fixas, orçamentos | Feito na hora, com "Desfazer" por 2 minutos. |
 
 A decisão importante: **a confirmação nunca volta para a IA**. Quando o modelo propõe uma ação, o app valida os dados com as regras dele e guarda uma ação pendente já pronta para gravar. Ao tocar em "Confirmar", o app grava exatamente o que está na ficha (com as edições da pessoa). O modelo não tem uma segunda chance de inventar um valor na hora de gravar.
@@ -244,7 +244,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
-| Rotina | `/routines`, `GET /routines/day`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
+| Rotina | `/routines`, `GET /routines/day`, `GET /routines/days`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
 | Plano | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |

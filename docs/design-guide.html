@@ -395,6 +395,32 @@ table.ledger tfoot .n { color: var(--tinta); }
 .pick-scroll .n-cap { display: block; margin-top: 12px; }
 .agenda-sheets .sheet-stage { height: 480px; }
 .agenda-sheets .sheet { padding-bottom: 16px; }
+/* Rotina (1.29): andar entre as semanas, o progresso em cada dia, o cadastro e a folha de detalhes */
+.rt-nav { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 8px -10px -8px 0; }
+.rt-month { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0; background: none; border: 0; font: 500 16px/22px var(--sans); color: var(--tinta); cursor: pointer; }
+.rt-month .i { width: 18px; height: 18px; color: var(--grafite); }
+.rt-nav-end { display: flex; align-items: center; }
+.rt-nav-end .n-link { margin-right: 8px; }
+.rt-mark { display: block; width: 20px; height: 3px; margin-top: 2px; border-radius: 2px; background: var(--borda); overflow: hidden; }
+.rt-mark i { display: block; height: 100%; width: var(--w, 0%); background: var(--musgo); }
+.rt-mark.none { background: none; }
+.rt-day.on .rt-mark, .cal-grid button[aria-pressed="true"] .rt-mark { background: rgba(244, 240, 232, .4); }
+.rt-day.on .rt-mark i, .cal-grid button[aria-pressed="true"] .rt-mark i { background: var(--papel); }
+.cal-grid.marked button { display: grid; justify-items: center; align-content: center; gap: 3px; }
+.cal-grid.marked button .rt-mark { display: block; height: 3px; margin-top: 0; }
+.cal-grid.marked button.today { text-decoration: none; }
+.rt-times { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.rt-times .n-cap { display: block; margin-bottom: 4px; }
+.rt-tags.dur .tag { flex: 1; justify-content: center; padding: 0 4px; }
+.rt-note-field { height: auto; min-height: 68px; padding-top: 12px; padding-bottom: 12px; resize: none; font-family: var(--sans); }
+.rt-sheet-head { display: flex; align-items: center; gap: 12px; }
+.rt-sheet-head .tl-ico { background: none; }
+.rt-facts { display: grid; gap: 8px; margin-top: 12px; }
+.rt-fact { display: flex; align-items: flex-start; gap: 8px; font: 400 14px/20px var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; }
+.rt-fact .i { width: 16px; height: 16px; flex: none; margin-top: 2px; }
+.rt-fact.done { color: var(--musgo); }
+.rt-about { margin: 12px 0 0; font: 400 15px/22px var(--sans); color: var(--tinta); }
+.rt-action { margin-top: 16px; }
 /* Período gratuito do assistente: o fim no Plano e o Chat sem o campo */
 .trial-end { margin-top: 8px; }
 .trial-end .btn { margin-top: 16px; }
@@ -926,7 +952,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.28 · 30 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.30 · 31 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1373,7 +1399,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>O foco em finanças é o Início do bloco acima, e é o padrão. Aqui, só mudam as duas colunas de cima e a lista de baixo: o microfone, as contas atrasadas e as abas ficam no mesmo lugar, e a tela também não rola.</li>
             <li>"Hoje" mostra só o que falta, pelo horário, com as duas primeiras atividades. O dia inteiro fica em "Ver tudo", na Agenda.</li>
             <li>A atividade que passou da hora continua em "Hoje", sem cor de alerta: o mais comum é marcar logo depois de fazer. "A próxima" olha o relógio, para dizer o que vem pela frente.</li>
-            <li>Marcar deixa a linha no lugar, com o quadrado marcado, até a pessoa sair da tela: tocar de novo desfaz, e a lista não pula embaixo do dedo. Tocar no resto da linha abre a Agenda.</li>
+            <li>Marcar deixa a linha no lugar, com o quadrado marcado, até a pessoa sair da tela: tocar de novo desfaz, e a lista não pula embaixo do dedo. Tocar no resto da linha, ou segurá-la, abre os detalhes da atividade, na mesma folha da Agenda.</li>
             <li>O que não coube tem lugar certo: orçamentos e saldo no Resumo, contas e lembretes na Agenda, itens na Lista.</li>
             <li>A escolha fica em Configurações › Tela inicial, no bloco abaixo.</li>
           </ul>
@@ -1600,7 +1626,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>Cada aviso é uma ficha só, com o ícone do tipo no topo (recibo, alvo, calendário, sino, gráfico) e a frase completa dentro, sem uma linha à parte repetindo o mesmo texto.</li>
             <li>A ficha de conferir fecha com o total sublinhado duas vezes, como num livro-caixa. O botão principal é Tinta e já mostra o valor, para a pessoa saber exatamente o que vai gravar.</li>
             <li>"Toque para corrigir", no topo da ficha, diz de uma vez que cada linha se abre, sem uma setinha em cada item.</li>
-            <li>A Rotina no Chat usa as fichas que já existem. Criar, marcar e mudar gravam na hora, com "Desfazer". Parar pede confirmação, como apagar, com o botão "Parar" em Tijolo e a frase "Os dias que já passaram continuam como estão."</li>
+            <li>A Rotina no Chat usa as fichas que já existem. Criar, marcar e mudar gravam na hora, com "Desfazer". Excluir pede confirmação, como apagar, com o botão "Excluir" em Tijolo e a frase do que acontece: "Os dias que já passaram continuam como estão.", "Os outros dias continuam como estão." ou, na atividade de um dia, "Ela acontece uma vez só, e sai da Rotina."</li>
             <li>O topo tem só o nome "Assistente" em Fraunces e a casa: o nome basta, sem logotipo. A lixeira é um botão de ícone fino, e limpar a conversa pede confirmação na folha do app.</li>
             <li>O botão de voz é um quadrado de Tinta, com o mesmo canto de 6 dos outros botões: ele é um botão como os outros, só que sempre à mão, ao lado do campo.</li>
           </ul>
@@ -1618,19 +1644,23 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <div class="n-home px">
               <div class="rt-head"><h4 class="n-h1">Agenda</h4><button class="icon-btn" type="button" aria-label="Nova rotina"><svg class="i"><use href="#plus"/></svg></button></div>
               <div class="seg" role="group" aria-label="Seção da Agenda"><button type="button" aria-pressed="true">Rotina</button><button type="button" aria-pressed="false">Lembretes</button><button type="button" aria-pressed="false">Contas</button></div>
+              <div class="rt-nav">
+                <button class="rt-month" type="button" aria-label="Outubro de 2026. Abrir o calendário"><svg class="i"><use href="#cal"/></svg>Outubro de 2026</button>
+                <span class="rt-nav-end"><button class="n-iconbtn" type="button" aria-label="Semana anterior"><svg class="i"><use href="#chev-l"/></svg></button><button class="n-iconbtn" type="button" aria-label="Próxima semana"><svg class="i"><use href="#chev-r"/></svg></button></span>
+              </div>
               <div class="rt-week" role="group" aria-label="Dia da semana">
-                <button class="rt-day on" type="button">Seg<b>19</b></button>
-                <button class="rt-day" type="button">Ter<b>20</b></button>
-                <button class="rt-day" type="button">Qua<b>21</b></button>
-                <button class="rt-day" type="button">Qui<b>22</b></button>
-                <button class="rt-day" type="button">Sex<b>23</b></button>
-                <button class="rt-day" type="button">Sáb<b>24</b></button>
-                <button class="rt-day" type="button">Dom<b>25</b></button>
+                <button class="rt-day" type="button" aria-label="Segunda, dia 19, 3 de 3 feitas">Seg<b>19</b><span class="rt-mark"><i style="--w:100%"></i></span></button>
+                <button class="rt-day" type="button" aria-label="Terça, dia 20, 1 de 2 feitas">Ter<b>20</b><span class="rt-mark"><i style="--w:50%"></i></span></button>
+                <button class="rt-day on" type="button" aria-label="Quarta, dia 21, hoje, 2 de 5 feitas">Qua<b>21</b><span class="rt-mark"><i style="--w:40%"></i></span></button>
+                <button class="rt-day" type="button" aria-label="Quinta, dia 22, 1 atividade">Qui<b>22</b><span class="rt-mark"></span></button>
+                <button class="rt-day" type="button" aria-label="Sexta, dia 23, 3 atividades">Sex<b>23</b><span class="rt-mark"></span></button>
+                <button class="rt-day" type="button" aria-label="Sábado, dia 24, nada na rotina">Sáb<b>24</b><span class="rt-mark none"></span></button>
+                <button class="rt-day" type="button" aria-label="Domingo, dia 25, 1 atividade">Dom<b>25</b><span class="rt-mark"></span></button>
               </div>
               <div class="rt-progress"><b class="n-strong">Hoje · 2 de 5</b><div class="bar"><i style="--w:40%"></i></div></div>
               <div class="tl">
                 <div class="tl-row press rt-done"><span class="tl-time">08:00</span><span class="tl-ico" style="color:#B5677E"><svg class="i"><use href="#pill"/></svg></span><div class="n-main"><b class="n-strong">Tomar o remédio</b></div><span class="rt-box done" aria-hidden="true"><svg class="i"><use href="#check"/></svg></span></div>
-                <div class="tl-row press"><span class="tl-time">18:30</span><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></span><div class="n-main"><b class="n-strong">Academia</b></div><span class="rt-box" aria-hidden="true"></span></div>
+                <div class="tl-row press"><span class="tl-time">18:30</span><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></span><div class="n-main"><b class="n-strong">Academia</b><span class="n-cap">até 19:30 · 1h</span></div><span class="rt-box" aria-hidden="true"></span></div>
                 <div class="tl-row press"><span class="tl-time">20:00</span><span class="tl-ico" style="color:#7F8A3A"><svg class="i"><use href="#trash"/></svg></span><div class="n-main"><b class="n-strong">Levar o lixo</b><span class="n-cap">Da casa</span></div><span class="rt-box" aria-hidden="true"></span></div>
               </div>
               <span class="n-rot tl-free">Sem horário</span>
@@ -1648,7 +1678,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </nav>
             <div class="homebar" style="color:#1E1F1C"></div>
           </div></div>
-          <figcaption><b>Rotina.</b> Uma linha do tempo liga o dia pelo horário, e o que não tem horário vem depois, por nome. Marcar não tira a atividade do lugar. Tocar na atividade marca, sem confirmar, e outro toque desfaz; segurar abre uma folha com "Hoje não", "Editar" e "Parar a rotina". Dias passados aceitam marcar; nos futuros, que só mostram, o toque abre a folha.</figcaption>
+          <figcaption><b>Rotina.</b> Uma linha do tempo liga o dia pelo horário, e o que não tem horário vem depois, por nome. Marcar não tira a atividade do lugar. Tocar na atividade ou no quadrado marca, sem confirmar, e outro toque desfaz; segurar a atividade abre a folha de detalhes. Dias passados aceitam marcar; nos futuros, que só mostram, tocar na atividade abre a folha, e o quadrado não responde. As setas andam de semana em semana, sem limite, e o mês abre o calendário. O traço embaixo de cada dia mostra quanto foi feito; vazio, é um dia com atividades que ainda não foram feitas; sem traço, é um dia livre.</figcaption>
         </figure>
         <figure>
           <div class="phone"><div class="screen new">
@@ -1656,20 +1686,26 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <div class="n-home px">
               <h4 class="n-h1">Nova rotina</h4>
               <div class="rt-form">
-                <div class="field"><label for="rt-nome">Nome</label><div class="rt-name"><button class="rt-icon" type="button" aria-label="Escolher ícone e cor" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></button><input id="rt-nome" class="input" value="Academia" autocomplete="off"></div></div>
-                <div class="field"><span class="lbl">Dias</span>
-                  <div class="rt-days" role="group" aria-label="Dias da semana"><button type="button" aria-pressed="true">Seg</button><button type="button" aria-pressed="false">Ter</button><button type="button" aria-pressed="true">Qua</button><button type="button" aria-pressed="false">Qui</button><button type="button" aria-pressed="true">Sex</button><button type="button" aria-pressed="false">Sáb</button><button type="button" aria-pressed="false">Dom</button></div>
-                  <div class="rt-tags"><button class="tag" type="button">Todo dia</button><button class="tag" type="button">Seg a sex</button></div>
+                <div class="field"><label for="rt-nome">Nome</label><div class="rt-name"><button class="rt-icon" type="button" aria-label="Escolher ícone e cor" style="color:#357A8F"><svg class="i"><use href="#bath"/></svg></button><input id="rt-nome" class="input" value="Lavar o banheiro" autocomplete="off"></div></div>
+                <div class="field"><span class="lbl">Quando</span>
+                  <div class="seg" role="group" aria-label="Quando"><button type="button" aria-pressed="true">Hoje</button><button type="button" aria-pressed="false">Amanhã</button><button type="button" aria-pressed="false">Outro dia</button><button type="button" aria-pressed="false">Repetir</button></div>
                 </div>
-                <div class="field"><span class="lbl">Horário (opcional)</span><div class="input rt-input"><span class="ci sm"><svg class="i"><use href="#clock"/></svg></span>18:30</div></div>
-                <div class="toggle-row"><div class="n-main" style="white-space:normal"><b class="n-strong">Avisar neste horário</b><span class="n-cap" style="white-space:normal">Uma notificação no celular.</span></div><label class="switch"><input type="checkbox" checked aria-label="Avisar neste horário"><span></span></label></div>
+                <div class="field"><span class="lbl">Horário (opcional)</span>
+                  <div class="rt-times">
+                    <div><span class="n-cap">Início</span><div class="input rt-input"><span class="ci sm"><svg class="i"><use href="#clock"/></svg></span>14:00</div></div>
+                    <div><span class="n-cap">Término</span><div class="input rt-input"><span class="ci sm"><svg class="i"><use href="#clock"/></svg></span>15:00</div></div>
+                  </div>
+                  <div class="rt-tags dur" role="group" aria-label="Duração"><button class="tag" type="button">15 min</button><button class="tag" type="button">30 min</button><button class="tag" type="button">45 min</button><button class="tag" type="button" aria-pressed="true">1h</button><button class="tag" type="button">1h30</button></div>
+                </div>
+                <div class="toggle-row"><div class="n-main" style="white-space:normal"><b class="n-strong">Avisar no início</b><span class="n-cap" style="white-space:normal">Uma notificação no celular.</span></div><label class="switch"><input type="checkbox" aria-label="Avisar no início"><span></span></label></div>
+                <div class="field"><label for="rt-descricao">Descrição (opcional)</label><textarea id="rt-descricao" class="input rt-note-field" rows="2" placeholder="Um detalhe para lembrar depois"></textarea></div>
                 <div class="seg" role="group" aria-label="Quem vê"><button type="button" aria-pressed="true">Só minha</button><button type="button" aria-pressed="false">Da casa</button></div>
                 <button class="btn btn-primary full" type="button">Criar rotina</button>
               </div>
             </div>
             <div class="homebar" style="color:#1E1F1C"></div>
           </div></div>
-          <figcaption><b>O formulário.</b> Só o que a rotina precisa: o ícone e a cor, o nome, os dias, o horário e quem vê. "A cada 15 dias" ou "todo mês" continuam nos lembretes.</figcaption>
+          <figcaption><b>O formulário.</b> O ícone e a cor, o nome, quando acontece, o horário, a descrição e quem vê. O ícone acompanha o nome até a pessoa escolher outro. "A cada 15 dias" ou "todo mês" continuam nos lembretes.</figcaption>
         </figure>
       </div>
 
@@ -1692,6 +1728,25 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
           </div>
           <figcaption><b>O calendário.</b> Vale para toda data do app, no lugar do calendário do celular. Tocar num dia ou em "Hoje" escolhe e fecha. Hoje fica em Musgo, sublinhado. A grade guarda o espaço de seis semanas, para as setas não saírem do lugar ao trocar de mês.</figcaption>
+        </figure>
+        <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
+          <div class="sheet-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="cal-rotina-title">
+              <span class="handle"></span>
+              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2" id="cal-rotina-title">Outubro de 2026</h4><button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button></div>
+              <div class="cal-grid marked">
+                <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
+                <i></i><i></i><i></i><button type="button">1<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">2<span class="rt-mark"><i style="--w:50%"></i></span></button><button type="button">3<span class="rt-mark none"></span></button><button type="button">4<span class="rt-mark"><i style="--w:100%"></i></span></button>
+                <button type="button">5<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">6<span class="rt-mark"><i style="--w:66%"></i></span></button><button type="button">7<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">8<span class="rt-mark"><i style="--w:0%"></i></span></button><button type="button">9<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">10<span class="rt-mark none"></span></button><button type="button">11<span class="rt-mark"><i style="--w:100%"></i></span></button>
+                <button type="button">12<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">13<span class="rt-mark"><i style="--w:33%"></i></span></button><button type="button">14<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">15<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">16<span class="rt-mark"><i style="--w:50%"></i></span></button><button type="button">17<span class="rt-mark none"></span></button><button type="button">18<span class="rt-mark"><i style="--w:100%"></i></span></button>
+                <button type="button">19<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">20<span class="rt-mark"><i style="--w:50%"></i></span></button><button class="today" type="button" aria-pressed="true">21<span class="rt-mark"><i style="--w:40%"></i></span></button><button type="button">22<span class="rt-mark"></span></button><button type="button">23<span class="rt-mark"></span></button><button type="button">24<span class="rt-mark none"></span></button><button type="button">25<span class="rt-mark"></span></button>
+                <button type="button">26<span class="rt-mark"></span></button><button type="button">27<span class="rt-mark"></span></button><button type="button">28<span class="rt-mark"></span></button><button type="button">29<span class="rt-mark"></span></button><button type="button">30<span class="rt-mark"></span></button><button type="button">31<span class="rt-mark none"></span></button>
+              </div>
+              <div class="cal-foot"><button class="n-link" type="button">Hoje</button></div>
+            </div>
+          </div>
+          <figcaption><b>O calendário da Rotina.</b> O mesmo calendário, com o traço de cada dia. Ele aparece só aqui: nas outras datas do app, o calendário continua limpo. Hoje fica em Musgo e mais forte, sem o sublinhado, para não encostar no traço.</figcaption>
         </figure>
         <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
           <div class="sheet-stage">
@@ -1785,20 +1840,150 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 
       <div class="plan-grid" id="rotina-estados">
         <figure>
-          <div class="sheet-stage">
+          <div class="sheet-stage" style="height:600px">
             <div class="scrim"></div>
             <div class="sheet" role="dialog" aria-labelledby="rt-folha">
               <span class="handle"></span>
-              <h4 class="n-h2" id="rt-folha">Academia</h4>
-              <span class="n-cap">Seg, Qua e Sex · 18:30</span>
+              <div class="rt-sheet-head"><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#dumbbell"/></svg></span><h4 class="n-h2" id="rt-folha">Academia</h4></div>
+              <div class="rt-facts">
+                <span class="rt-fact"><svg class="i"><use href="#clock"/></svg>18:30–19:30 · 1h</span>
+                <span class="rt-fact"><svg class="i"><use href="#repeat"/></svg>Seg, Qua e Sex</span>
+                <span class="rt-fact"><svg class="i"><use href="#hourglass"/></svg>Pendente</span>
+              </div>
+              <p class="rt-about">Treino B e 20 minutos de esteira.</p>
+              <button class="btn btn-primary full rt-action" type="button"><svg class="i"><use href="#check"/></svg>Marcar como feita</button>
               <div class="rt-opts">
                 <div class="n-row press"><div class="n-main"><b class="n-strong">Hoje não</b><span class="n-cap">Sai da conta de hoje.</span></div><span class="n-chev">›</span></div>
-                <div class="n-row press"><div class="n-main"><b class="n-strong">Editar</b><span class="n-cap">Os dias novos valem daqui em diante.</span></div><span class="n-chev">›</span></div>
-                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Parar a rotina</b><span class="n-cap">Os dias que passaram ficam como estão.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Editar</b><span class="n-cap">Só este dia ou este e os próximos.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Excluir</b><span class="n-cap">Só este dia ou este e os próximos.</span></div><span class="n-chev">›</span></div>
               </div>
             </div>
           </div>
-          <figcaption><b>A folha da atividade.</b> Abre ao segurar a atividade, assim que passa o tempo do toque longo, sem esperar soltar. Em outro dia, "Hoje não" vira "Neste dia não"; num dia futuro, ela some, porque ainda não dá para marcar. Depois de marcada, vira "Desfazer o Hoje não".</figcaption>
+          <figcaption><b>A folha de detalhes.</b> Abre ao tocar ou segurar a atividade no Início e ao segurá-la na Agenda, assim que passa o tempo do toque longo. Mostra tudo sem passar pela edição. Em outro dia, "Hoje não" vira "Neste dia não".</figcaption>
+        </figure>
+        <figure>
+          <div class="sheet-stage" style="height:600px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="rt-folha-um">
+              <span class="handle"></span>
+              <div class="rt-sheet-head"><span class="tl-ico" style="color:#357A8F"><svg class="i"><use href="#bath"/></svg></span><h4 class="n-h2" id="rt-folha-um">Lavar o banheiro</h4></div>
+              <div class="rt-facts">
+                <span class="rt-fact"><svg class="i"><use href="#clock"/></svg>14:00–15:00 · 1h</span>
+                <span class="rt-fact"><svg class="i"><use href="#cal"/></svg>Só hoje</span>
+                <span class="rt-fact"><svg class="i"><use href="#hourglass"/></svg>Pendente</span>
+              </div>
+              <button class="btn btn-primary full rt-action" type="button"><svg class="i"><use href="#check"/></svg>Marcar como feita</button>
+              <div class="rt-opts">
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Fazer amanhã</b><span class="n-cap">Passa para qui, 22/10.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Editar</b><span class="n-cap">Muda o dia, o horário ou o nome.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Excluir</b><span class="n-cap">Pede confirmação.</span></div><span class="n-chev">›</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>A atividade de um dia.</b> "Fazer amanhã" fica no lugar de "Hoje não". Editar e excluir não perguntam sobre outros dias, porque ela acontece uma vez. Em outra data, "Só hoje" vira "Só em sáb, 24/10".</figcaption>
+        </figure>
+        <figure>
+          <div class="sheet-stage" style="height:600px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="rt-folha-feita">
+              <span class="handle"></span>
+              <div class="rt-sheet-head"><span class="tl-ico" style="color:#357A8F"><svg class="i"><use href="#droplet"/></svg></span><h4 class="n-h2" id="rt-folha-feita">Regar as plantas</h4></div>
+              <div class="rt-facts">
+                <span class="rt-fact"><svg class="i"><use href="#repeat"/></svg>Todo dia · Da casa</span>
+                <span class="rt-fact done"><svg class="i"><use href="#check-circle"/></svg>Feita por Ana</span>
+              </div>
+              <button class="btn btn-secondary full rt-action" type="button"><svg class="i"><use href="#undo"/></svg>Desmarcar</button>
+              <div class="rt-opts">
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Editar</b><span class="n-cap">Só este dia ou este e os próximos.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Excluir</b><span class="n-cap">Só este dia ou este e os próximos.</span></div><span class="n-chev">›</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Os outros estados.</b> Feita, o botão desmarca. No "Hoje não", ele vira "Desfazer o Hoje não". Num dia futuro, não há botão nem "Hoje não". Para quem é "Só leitura", a folha mostra só as informações.</figcaption>
+        </figure>
+        <figure>
+          <div class="sheet-stage" style="height:340px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="rt-alcance">
+              <span class="handle"></span>
+              <h4 class="n-h2" id="rt-alcance">Onde vale a mudança?</h4>
+              <span class="n-cap">Academia · qua, 21/10</span>
+              <div class="rt-opts">
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Só este dia</b><span class="n-cap">Os outros dias continuam como estão.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong">Este e os próximos</b><span class="n-cap">Os dias que passaram continuam como estão.</span></div><span class="n-chev">›</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Editar e excluir uma rotina que repete.</b> A pergunta vem ao salvar a edição, e "Excluir" faz a mesma pergunta, em Tijolo. Num dia que já passou, a segunda opção vira "De hoje em diante". Ícone, cor, aviso e quem vê valem para a rotina inteira, sem perguntar, porque não mudam o que aconteceu em cada dia.</figcaption>
+        </figure>
+        <figure id="rotina-antiga">
+          <div class="sheet-stage" style="height:440px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="rt-folha-antiga">
+              <span class="handle"></span>
+              <div class="rt-sheet-head"><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#droplet"/></svg></span><h4 class="n-h2" id="rt-folha-antiga">Natação</h4></div>
+              <div class="rt-facts">
+                <span class="rt-fact"><svg class="i"><use href="#clock"/></svg>07:00–08:00 · 1h</span>
+                <span class="rt-fact"><svg class="i"><use href="#repeat"/></svg>Ter e Qui</span>
+                <span class="rt-fact done"><svg class="i"><use href="#check-circle"/></svg>Feita</span>
+              </div>
+              <button class="btn btn-secondary full rt-action" type="button"><svg class="i"><use href="#undo"/></svg>Desmarcar</button>
+              <div class="rt-opts">
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Excluir</b><span class="n-cap">Só este dia ou todos os que passaram.</span></div><span class="n-chev">›</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Uma rotina que já acabou.</b> Parada, ou a parte antiga de uma rotina que mudou. Aparece só nos dias que passaram: não dá para editar, mas marcar continua valendo, e "Excluir" limpa o histórico.</figcaption>
+        </figure>
+        <figure id="rotina-antiga-excluir">
+          <div class="sheet-stage" style="height:440px">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="rt-excluir-antiga">
+              <span class="handle"></span>
+              <h4 class="n-h2" id="rt-excluir-antiga">O que excluir?</h4>
+              <span class="n-cap">Natação · ter, 06/10</span>
+              <div class="rt-opts">
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Só este dia</b><span class="n-cap">Os outros dias continuam como estão.</span></div><span class="n-chev">›</span></div>
+                <div class="n-row press"><div class="n-main"><b class="n-strong danger">Todos os dias que passaram</b><span class="n-cap">A rotina antiga e as marcas dela saem de vez.</span></div><span class="n-chev">›</span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Excluir o que já acabou.</b> "Todos os dias que passaram" pede confirmação, porque não dá para desfazer. Se a rotina mudou e continua valendo, a parte de hoje em diante fica como está. Para apagar uma rotina ativa, ela para primeiro: "Excluir" e "Este e os próximos".</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="rt-form" style="margin-top:16px">
+              <div class="field"><span class="lbl">Quando</span>
+                <div class="seg" role="group" aria-label="Quando"><button type="button" aria-pressed="false">Hoje</button><button type="button" aria-pressed="false">Amanhã</button><button type="button" aria-pressed="false">Outro dia</button><button type="button" aria-pressed="true">Repetir</button></div>
+                <div class="rt-days" role="group" aria-label="Dias da semana"><button type="button" aria-pressed="true">Seg</button><button type="button" aria-pressed="false">Ter</button><button type="button" aria-pressed="true">Qua</button><button type="button" aria-pressed="false">Qui</button><button type="button" aria-pressed="true">Sex</button><button type="button" aria-pressed="false">Sáb</button><button type="button" aria-pressed="false">Dom</button></div>
+                <div class="rt-tags"><button class="tag" type="button">Todo dia</button><button class="tag" type="button">Seg a sex</button></div>
+              </div>
+              <div class="field"><span class="lbl">Quando</span>
+                <div class="seg" role="group" aria-label="Quando"><button type="button" aria-pressed="false">Hoje</button><button type="button" aria-pressed="false">Amanhã</button><button type="button" aria-pressed="true">Outro dia</button><button type="button" aria-pressed="false">Repetir</button></div>
+                <div class="input rt-input"><span class="ci sm"><svg class="i"><use href="#cal"/></svg></span>Sáb, 24/10</div>
+              </div>
+            </div>
+          </div>
+          <figcaption><b>Repetir e Outro dia.</b> Repetir abre os dias da semana; Outro dia abre o calendário. Se a pessoa estiver olhando outro dia na Agenda, o "+" já vem com esse dia. Sem início, o término e os atalhos de duração ficam de fora. O término é sempre depois do início, no mesmo dia.</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="rt-nav" style="margin-top:12px">
+              <button class="rt-month" type="button" aria-label="Outubro de 2026. Abrir o calendário"><svg class="i"><use href="#cal"/></svg>Outubro de 2026</button>
+              <span class="rt-nav-end"><button class="n-link sm" type="button">Hoje</button><button class="n-iconbtn" type="button" aria-label="Semana anterior"><svg class="i"><use href="#chev-l"/></svg></button><button class="n-iconbtn" type="button" aria-label="Próxima semana"><svg class="i"><use href="#chev-r"/></svg></button></span>
+            </div>
+            <div class="rt-week" role="group" aria-label="Dia da semana">
+              <button class="rt-day" type="button">Seg<b>5</b><span class="rt-mark"><i style="--w:100%"></i></span></button>
+              <button class="rt-day" type="button">Ter<b>6</b><span class="rt-mark"><i style="--w:66%"></i></span></button>
+              <button class="rt-day on" type="button">Qua<b>7</b><span class="rt-mark"><i style="--w:100%"></i></span></button>
+              <button class="rt-day" type="button">Qui<b>8</b><span class="rt-mark"><i style="--w:0%"></i></span></button>
+              <button class="rt-day" type="button">Sex<b>9</b><span class="rt-mark"><i style="--w:100%"></i></span></button>
+              <button class="rt-day" type="button">Sáb<b>10</b><span class="rt-mark none"></span></button>
+              <button class="rt-day" type="button">Dom<b>11</b><span class="rt-mark"><i style="--w:100%"></i></span></button>
+            </div>
+            <div class="rt-progress"><b class="n-strong">Qua, 07/10 · 3 de 3</b><div class="bar"><i style="--w:100%"></i></div></div>
+          </div>
+          <figcaption><b>Outra semana.</b> Fora da semana atual, "Hoje" aparece ao lado das setas e leva de volta. Trocar de semana abre o mesmo dia da semana. Um dia passado também pode ser marcado, e a data no título diz qual é.</figcaption>
         </figure>
         <figure>
           <div class="panel">
@@ -1836,7 +2021,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div class="notes">
           <h4>Por que é assim</h4>
           <ul>
-            <li>Lista "o que fazer", lembrete e rotina são coisas diferentes. A lista acontece uma vez e não tem data; o lembrete tem data e avisa; a rotina repete nos dias da semana, e cada dia é marcado à parte.</li>
+            <li>Lista "o que fazer", lembrete e rotina são coisas diferentes. A lista não tem data; o lembrete existe para avisar em uma data; a rotina organiza o que se faz no dia, uma vez ou repetindo nos dias da semana, e cada dia é marcado à parte.</li>
+            <li>Editar ou excluir uma rotina nunca muda o que já passou sem a pessoa pedir: cada mudança diz, antes de gravar, quais dias ela alcança.</li>
             <li>O dia que passou não se acumula e não fica em Tijolo: rotina é para ajudar, não para cobrar. "Hoje não" tira a atividade da conta do progresso.</li>
             <li>Na rotina da casa, quem marca conclui para todos, e a atividade diz quem fez.</li>
             <li>O aviso da rotina é só notificação no celular, ligado rotina a rotina. Ele não entra no Chat. Os botões estão no bloco Notificações, logo abaixo.</li>
@@ -2408,13 +2594,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                     <p class="n-rot">Uso do período · 09/10 a 08/11</p>
                     <div class="adm-meter">
                       <div class="bar"><i class="over" style="--w:100%"></i></div>
-                      <p class="n-cap"><b>US$ 0,10 de US$ 0,10</b> · 100% · 31 perguntas · renova em 09/11</p>
+                      <p class="n-cap"><b>US$ 0,05 de US$ 0,05</b> · 100% · 85 perguntas · renova em 09/11</p>
                     </div>
                     <div class="adm-table-wrap">
                       <table class="adm-table" style="min-width:420px">
                         <thead><tr><th>Período</th><th class="n">Perguntas</th><th class="n">Custo</th></tr></thead>
                         <tbody>
-                          <tr><td>09/10 a 08/11</td><td class="n">31</td><td class="n">US$ 0,10</td></tr>
+                          <tr><td>09/10 a 08/11</td><td class="n">85</td><td class="n">US$ 0,05</td></tr>
                         </tbody>
                       </table>
                     </div>
@@ -2611,7 +2797,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                     <thead><tr><th>Pessoa</th><th>Plano</th><th class="n">Perguntas</th><th class="n">Custo</th><th>Do limite agora</th></tr></thead>
                     <tbody>
                       <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Plus</td><td class="n">612</td><td class="n">US$ 0,66</td><td><div class="adm-use"><div class="bar"><i style="--w:44%"></i></div><span>44%</span></div></td></tr>
-                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito</td><td class="n">31</td><td class="n">US$ 0,10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td></tr>
+                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito</td><td class="n">85</td><td class="n">US$ 0,05</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td></tr>
                     </tbody>
                   </table>
                 </div>
@@ -3197,6 +3383,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.30</td><td class="num">31/10/2026</td><td>Agenda (parte 05): excluir uma rotina que já acabou, só em um dia ou em todos os que passaram. Início com foco em rotina (parte 05): segurar a linha também abre os detalhes. Chat: a ficha da rotina passa de "Parar" para "Excluir", com o mesmo nome do app.</td></tr>
+        <tr><td>1.29</td><td class="num">31/10/2026</td><td>Agenda (parte 05): andar entre as semanas, o progresso em cada dia e no calendário, a rotina de um dia, início e término com atalhos de duração, a descrição, o ícone sugerido, a folha de detalhes e a escolha entre "Só este dia" e "Este e os próximos". Início com foco em rotina (parte 05): tocar na linha abre os detalhes.</td></tr>
         <tr><td>1.28</td><td class="num">30/10/2026</td><td>Boas-vindas (parte 07): nas primeiras da conta, a tela "O que ver primeiro?" com os dois focos do Início.</td></tr>
         <tr><td>1.27</td><td class="num">30/10/2026</td><td>Agenda (parte 05): na Rotina, tocar na atividade marca e segurar abre a folha, porque marcar é o que se faz todo dia.</td></tr>
         <tr><td>1.26</td><td class="num">30/10/2026</td><td>Primeiros passos (parte 06): o passo "Criar sua rotina". Tour (parte 06): os textos no foco em rotina e o passo da Agenda abrindo na Rotina.</td></tr>

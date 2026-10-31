@@ -107,7 +107,7 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - Mark a bill as paid, fix or delete an entry.
 - Look up spending by period, category or card, and draw charts.
 - Create recurring bills, recurring income (like a salary), budgets, lists, reminders and routines.
-- Check off and change routines, and say what you have on a given day ("what do I have today?").
+- Check off, change and delete routines, for one day or from then on ("only today the medicine is at 10"), and say what you have on a given day ("what do I have today?").
 - Add and check items on lists ("put milk and coffee on the list").
 - It does not give investment advice.
 
@@ -129,8 +129,8 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - **Monthly summary:** balance, income and expenses, spending by category, who spent how much, invoices and upcoming bills.
 
 ### Schedule, routines, lists and reminders
-- **Schedule** with routines, bills, cards and reminders in one place.
-- **Routines:** activities that repeat on days of the week, with an optional time, shared with the household or private. A tap checks off the day, holding opens the options, and checking off one day does not touch the others.
+- **Schedule** with routines, reminders and bills in one place, and a calendar that moves into the past and the future, with each day's progress.
+- **Routines:** activities for a single day or repeating on days of the week, with an optional description, start and end time, shared with the household or private. The square checks off the day and the row opens the details. Changing or deleting applies to that day alone or from then on, and what already happened never changes.
 - **Home screen:** focused on finances or on routines, chosen in the first welcome or in Settings.
 - **Reminders** that repeat ("every 6 months"), shared with the household or private.
 - **Lists** for groceries, wishes, to-dos or anything else, with tap-to-check for the supermarket. Items and the lists themselves are reordered by dragging.
@@ -191,7 +191,7 @@ Not every action of the assistant needs the same care, so they fall into three l
 | Level | Examples | How it works |
 |---|---|---|
 | Confirm | log expenses, installments, pay a bill, fix an entry | The card shows up editable and nothing is saved before "Confirm". |
-| Explicit | delete an entry, delete a list, stop a routine | The card shows the impact ("leaves October's totals") before confirming. |
+| Explicit | delete an entry, delete a list, delete a routine | The card shows the impact ("leaves October's totals") before confirming. |
 | Immediate, with undo | list items, reminders, routines, recurring bills, budgets | Done right away, with "Undo" for 2 minutes. |
 
 The key decision: **the confirmation never goes back to the AI**. When the model proposes an action, the app validates the data with its own rules and stores a pending action that is ready to save. When you tap "Confirm", the app saves exactly what is on the card (with your edits). The model never gets a second chance to make up an amount at save time.
@@ -247,7 +247,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
-| Routines | `/routines`, `GET /routines/day`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
+| Routines | `/routines`, `GET /routines/day`, `GET /routines/days`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
 | Plan | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
