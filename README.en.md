@@ -6,7 +6,7 @@
 
 <p align="center"><a href="README.md">Português</a> · <b>English</b></p>
 
-A household finance app you use by talking. You say "I spent 42 on lunch and 18 on coffee, debit", the assistant understands, builds a card with the entries and waits for your confirmation. Behind it, the app handles credit cards and invoices, recurring bills, budgets, lists and reminders, and warns you in the chat before a bill is due. It is built for a household with several people, each with their own role.
+A household finance app you use by talking. You say "I spent 42 on lunch and 18 on coffee, debit", the assistant understands, builds a card with the entries and waits for your confirmation. Behind it, the app handles credit cards and invoices, recurring bills, budgets, routines, lists and reminders, and warns you in the chat before a bill is due. It is built for a household with several people, each with their own role.
 
 *"Caderneta" is the small notebook Brazilian families have always used to write down the household money. The app's interface is in Brazilian Portuguese.*
 
@@ -106,14 +106,15 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - Log expenses and income, including installment purchases on a credit card.
 - Mark a bill as paid, fix or delete an entry.
 - Look up spending by period, category or card, and draw charts.
-- Create recurring bills, recurring income (like a salary), budgets, lists and reminders.
+- Create recurring bills, recurring income (like a salary), budgets, lists, reminders and routines.
+- Check off and change routines, and say what you have on a given day ("what do I have today?").
 - Add and check items on lists ("put milk and coffee on the list").
 - It does not give investment advice.
 
 ### The household
 - **Roles:** owner, member and read-only.
 - **Invitations** by link and by a 6-character code, valid for 7 days.
-- **Private or shared:** every entry, list and reminder can belong only to whoever created it.
+- **Private or shared:** every entry, list, reminder and routine can belong only to whoever created it.
 - **Several households per person:** the family one and the one shared with roommates, for example.
 - **Cards per person:** each member has their own, and purchases land on the right card.
 
@@ -127,8 +128,10 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - **Categories** with icon, color and order, shown in a grid when logging. The order changes by dragging the handle, in Organize mode.
 - **Monthly summary:** balance, income and expenses, spending by category, who spent how much, invoices and upcoming bills.
 
-### Schedule, lists and reminders
-- **Schedule** with bills, cards and reminders in one place.
+### Schedule, routines, lists and reminders
+- **Schedule** with routines, bills, cards and reminders in one place.
+- **Routines:** activities that repeat on days of the week, with an optional time, shared with the household or private. A tap checks off the day, holding opens the options, and checking off one day does not touch the others.
+- **Home screen:** focused on finances or on routines, chosen in the first welcome or in Settings.
 - **Reminders** that repeat ("every 6 months"), shared with the household or private.
 - **Lists** for groceries, wishes, to-dos or anything else, with tap-to-check for the supermarket. Items and the lists themselves are reordered by dragging.
 
@@ -139,6 +142,7 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - Budget reaching 80% and going over 100%.
 - Weekly summary, on Sunday evening.
 - Reminders at the scheduled time, with "Done", "Snooze 1 h" and "Tomorrow".
+- Routines at their time, for those who turned the alert on: on the phone only, without going through the chat, with "Done", "Snooze 15 min" and "Not today".
 - Each kind of alert can be turned off.
 
 ### Plans
@@ -187,8 +191,8 @@ Not every action of the assistant needs the same care, so they fall into three l
 | Level | Examples | How it works |
 |---|---|---|
 | Confirm | log expenses, installments, pay a bill, fix an entry | The card shows up editable and nothing is saved before "Confirm". |
-| Explicit | delete an entry, delete a list | The card shows the impact ("leaves October's totals") before confirming. |
-| Immediate, with undo | list items, reminders, recurring bills, budgets | Done right away, with "Undo" for 2 minutes. |
+| Explicit | delete an entry, delete a list, stop a routine | The card shows the impact ("leaves October's totals") before confirming. |
+| Immediate, with undo | list items, reminders, routines, recurring bills, budgets | Done right away, with "Undo" for 2 minutes. |
 
 The key decision: **the confirmation never goes back to the AI**. When the model proposes an action, the app validates the data with its own rules and stores a pending action that is ready to save. When you tap "Confirm", the app saves exactly what is on the card (with your edits). The model never gets a second chance to make up an amount at save time.
 
@@ -243,9 +247,10 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Cards and bills | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
+| Routines | `/routines`, `GET /routines/day`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
 | Plan | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
-| Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
+| Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
 
 ## Code structure
 
@@ -259,7 +264,7 @@ How the private repository is organized:
 ├── backend/                    # Laravel API
 │   ├── app/
 │   │   ├── Assistant/          # the assistant: providers, tools, actions, privacy vault, voice
-│   │   ├── Alerts/             # bill, budget, weekly summary and reminder alerts
+│   │   ├── Alerts/             # bill, budget, weekly summary, reminder and routine alerts
 │   │   ├── Services/           # rules for entries, installments, bills, budgets, access, plans and AI usage
 │   │   ├── Http/               # controllers, requests and resources for the API and the admin area
 │   │   ├── Mail/               # the Caderneta-style e-mail

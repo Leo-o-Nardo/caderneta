@@ -346,6 +346,9 @@ table.ledger tfoot .n { color: var(--tinta); }
 .rt-empty { display: grid; justify-items: center; gap: 8px; padding: 32px 0 8px; text-align: center; }
 .rt-empty .i { width: 32px; height: 32px; color: var(--grafite); }
 .rt-empty .btn { margin-top: 8px; }
+.rt-invite { display: grid; gap: 4px; justify-items: start; margin-top: 16px; padding: 12px 0; border-top: 1px solid var(--pauta); border-bottom: 1px solid var(--pauta); }
+.rt-invite .n-cap { white-space: normal; }
+.rt-invite .n-link { margin-top: 4px; }
 .rt-done .n-strong { font-weight: 400; color: var(--grafite); }
 .rt-form { display: grid; gap: 16px; margin-top: 12px; }
 .rt-days { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px; }
@@ -794,7 +797,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 .ob-row.is-done b, .ob-row.is-skip b { color: var(--grafite); font-weight: 400; }
 .ob-steps { display: flex; align-items: center; gap: 12px; padding: 10px 0 10px 12px; border-left: 2px solid var(--musgo); max-width: 390px; }
 .ob-steps .bar { margin: 6px 0 2px; }
-.ob-tour { position: relative; max-width: 390px; height: 330px; border-radius: 6px; overflow: hidden; background: var(--papel); }
+.ob-tour { position: relative; max-width: 390px; height: 400px; border-radius: 6px; overflow: hidden; background: var(--papel); }
 .ob-tour::before { content: ""; position: absolute; left: 112px; top: 24px; width: 166px; height: 136px; border-radius: 10px; box-shadow: 0 0 0 600px rgba(30, 31, 28, .72); }
 .ob-tour .mic { position: absolute; left: 159px; top: 36px; width: 72px; height: 72px; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; }
 .ob-tour .mic .i { width: 28px; height: 28px; }
@@ -854,6 +857,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
   <symbol id="pie" viewBox="0 0 24 24"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></symbol>
   <symbol id="cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
+  <symbol id="cal-check" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="m9 16 2 2 4-4"/></symbol>
   <symbol id="checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
   <symbol id="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
   <symbol id="alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></symbol>
@@ -922,7 +926,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.24 · 30 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.28 · 30 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1367,10 +1371,88 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <h4>Por que é assim</h4>
           <ul>
             <li>O foco em finanças é o Início do bloco acima, e é o padrão. Aqui, só mudam as duas colunas de cima e a lista de baixo: o microfone, as contas atrasadas e as abas ficam no mesmo lugar, e a tela também não rola.</li>
-            <li>"Hoje" mostra só o que falta, pelo horário, com as duas próximas atividades. O dia inteiro fica em "Ver tudo", na Agenda.</li>
+            <li>"Hoje" mostra só o que falta, pelo horário, com as duas primeiras atividades. O dia inteiro fica em "Ver tudo", na Agenda.</li>
+            <li>A atividade que passou da hora continua em "Hoje", sem cor de alerta: o mais comum é marcar logo depois de fazer. "A próxima" olha o relógio, para dizer o que vem pela frente.</li>
+            <li>Marcar deixa a linha no lugar, com o quadrado marcado, até a pessoa sair da tela: tocar de novo desfaz, e a lista não pula embaixo do dedo. Tocar no resto da linha abre a Agenda.</li>
             <li>O que não coube tem lugar certo: orçamentos e saldo no Resumo, contas e lembretes na Agenda, itens na Lista.</li>
-            <li>Sem rotina cadastrada, as colunas e "Hoje" dão lugar a um convite para criar a primeira. Com tudo feito, "Hoje" diz "Tudo feito por hoje".</li>
-            <li>A escolha fica em Configurações › Tela inicial. A troca aparece na hora e acompanha a conta em qualquer celular.</li>
+            <li>A escolha fica em Configurações › Tela inicial, no bloco abaixo.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plan-grid">
+        <figure>
+          <div class="panel">
+            <h4 class="n-h1">Boa tarde, Leo</h4>
+            <div class="rt-invite"><b class="n-strong">Crie sua primeira rotina</b><span class="n-cap">Remédio, academia, levar o lixo… cada dia você marca o que fez.</span><button class="n-link" type="button">Criar rotina</button></div>
+          </div>
+          <figcaption>Sem rotina: o convite fica no lugar das colunas, e "Hoje" sai. Para quem é "Só leitura", o texto diz que ela aparece aqui quando alguém da casa criar, sem o botão</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-ledger2" style="margin-top:0">
+              <div><span class="n-cap">Rotina de hoje</span><b class="n-fig">5 de 5</b><span class="n-cap">tudo feito</span></div>
+              <div><span class="n-cap">A próxima</span><b class="n-fig">—</b><span class="n-cap">nada mais hoje</span></div>
+            </div>
+            <div class="n-sec"><div class="n-sec-head"><h5 class="n-h2">Hoje</h5><button class="n-link sm" type="button">Ver tudo</button></div><p class="n-cap" style="margin-top:12px">Tudo feito por hoje.</p></div>
+          </div>
+          <figcaption>Tudo feito</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-ledger2" style="margin-top:0">
+              <div><span class="n-cap">Rotina de hoje</span><b class="n-fig">Dia livre</b><span class="n-cap">nada a fazer hoje</span></div>
+              <div><span class="n-cap">A próxima</span><b class="n-fig">—</b><span class="n-cap">nada mais hoje</span></div>
+            </div>
+            <div class="n-sec"><div class="n-sec-head"><h5 class="n-h2">Hoje</h5><button class="n-link sm" type="button">Ver tudo</button></div><p class="n-cap" style="margin-top:12px">Nada na rotina hoje.</p></div>
+          </div>
+          <figcaption>Um dia sem atividades, ou com todas em "Hoje não"</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-ledger2" style="margin-top:0">
+              <div><span class="n-cap">Rotina de hoje</span><b class="n-fig">3 de 5</b><span class="n-cap">faltam 2</span></div>
+              <div><span class="n-cap">A próxima</span><b class="n-fig">—</b><span class="n-cap">sem mais horários</span></div>
+            </div>
+            <div class="n-sec"><div class="n-sec-head"><h5 class="n-h2">Hoje</h5><button class="n-link sm" type="button">Ver tudo</button></div>
+              <div class="tl">
+                <div class="tl-row free press"><span class="tl-time">08:00</span><span class="tl-ico" style="color:#A63A25"><svg class="i"><use href="#repeat"/></svg></span><div class="n-main"><b class="n-strong">Remédio</b></div><span class="rt-box" aria-hidden="true"></span></div>
+                <div class="tl-row free press"><span class="tl-time"></span><span class="tl-ico" style="color:#4A6A9A"><svg class="i"><use href="#repeat"/></svg></span><div class="n-main"><b class="n-strong">Ler um pouco</b></div><span class="rt-box" aria-hidden="true"></span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption>Fim do dia: a que passou da hora e a que não tem horário</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <!-- ---------- Tela inicial ---------- -->
+    <div class="block" id="tela-inicial">
+      <div class="block-head"><h3>Tela inicial</h3><p>Configurações › Preferências › Tela inicial: o que aparece primeiro ao abrir o app</p></div>
+      <div class="pair">
+        <div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-head px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Tela inicial</h4></div>
+            <div class="scroll px n-pb">
+              <p class="n-body" style="color:var(--grafite);margin-top:8px">O que você quer ver primeiro ao abrir o app.</p>
+              <div style="margin-top:16px;border-top:1px solid var(--pauta)">
+                <div class="n-row press" role="radio" aria-checked="false"><div class="n-main"><b class="n-strong">Foco em finanças</b><span class="n-cap" style="white-space:normal">As despesas do mês, o que resta nos orçamentos e o que foi lançado hoje.</span></div></div>
+                <div class="n-row press" role="radio" aria-checked="true"><div class="n-main"><b class="n-strong">Foco em rotina</b><span class="n-cap" style="white-space:normal">O progresso do dia, a próxima atividade e o que falta fazer hoje.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Escolhida</span></div>
+              </div>
+              <p class="n-cap plan-note">O microfone, as contas atrasadas e as abas ficam iguais nas duas. A escolha vale para a sua conta, em qualquer celular.</p>
+            </div>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>São duas linhas de texto, com "Escolhida" e o sinal em Musgo ao lado da atual, como "Seu plano" no Plano: a seleção não depende só da cor.</li>
+            <li>Não há botão de salvar. O toque troca na hora, e o Início já está pronto ao voltar. Se a API recusar, a escolha volta e um aviso explica.</li>
+            <li>Foco em finanças é o padrão: quem já usa o app abre na mesma tela de sempre. Quem entra pela primeira vez escolhe nas boas-vindas.</li>
+            <li>A preferência é da pessoa, não da casa, e vale também para quem é "Só leitura".</li>
           </ul>
         </div>
       </div>
@@ -1566,7 +1648,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </nav>
             <div class="homebar" style="color:#1E1F1C"></div>
           </div></div>
-          <figcaption><b>Rotina.</b> Uma linha do tempo liga o dia pelo horário, e o que não tem horário vem depois, por nome. Marcar não tira a atividade do lugar. O quadrado marca, sem confirmar; tocar na atividade abre uma folha com "Hoje não", "Editar" e "Parar a rotina". Dias passados aceitam marcar; os futuros só mostram.</figcaption>
+          <figcaption><b>Rotina.</b> Uma linha do tempo liga o dia pelo horário, e o que não tem horário vem depois, por nome. Marcar não tira a atividade do lugar. Tocar na atividade marca, sem confirmar, e outro toque desfaz; segurar abre uma folha com "Hoje não", "Editar" e "Parar a rotina". Dias passados aceitam marcar; nos futuros, que só mostram, o toque abre a folha.</figcaption>
         </figure>
         <figure>
           <div class="phone"><div class="screen new">
@@ -1716,7 +1798,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               </div>
             </div>
           </div>
-          <figcaption><b>A folha da atividade.</b> Abre ao tocar na atividade. Em outro dia, "Hoje não" vira "Neste dia não"; num dia futuro, ela some, porque ainda não dá para marcar. Depois de marcada, vira "Desfazer o Hoje não".</figcaption>
+          <figcaption><b>A folha da atividade.</b> Abre ao segurar a atividade, assim que passa o tempo do toque longo, sem esperar soltar. Em outro dia, "Hoje não" vira "Neste dia não"; num dia futuro, ela some, porque ainda não dá para marcar. Depois de marcada, vira "Desfazer o Hoje não".</figcaption>
         </figure>
         <figure>
           <div class="panel">
@@ -1730,7 +1812,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <div class="tl-row"><span class="tl-time">20:00</span><span class="tl-ico" style="color:#7F8A3A"><svg class="i"><use href="#trash"/></svg></span><div class="n-main"><b class="n-strong">Levar o lixo</b></div><span class="rt-box off" aria-hidden="true"></span></div>
             </div>
           </div>
-          <figcaption><b>Hoje não e dia futuro.</b> "Hoje não" fica na lista, com um traço no quadrado, e sai da conta; tocar no quadrado marca como feito mesmo assim. Num dia futuro, o quadrado fica apagado e não há barra.</figcaption>
+          <figcaption><b>Hoje não e dia futuro.</b> "Hoje não" fica na lista, com um traço no quadrado, e sai da conta; tocar na atividade marca como feito mesmo assim. Num dia futuro, o quadrado fica apagado e não há barra.</figcaption>
         </figure>
         <figure>
           <div class="panel">
@@ -2680,6 +2762,10 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <div class="panel" style="padding-top:8px">
             <div class="profile press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="mono">L</span><div class="n-main"><b class="n-strong">Leo</b><span class="n-cap">leo@example.com</span></div><span class="n-chev">›</span></div>
             <div class="menu-group">
+              <span class="n-rot">Preferências</span>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#house"/></svg></span><span class="n-strong n-main">Tela inicial</span><span class="v">Finanças</span><span class="n-chev">›</span></div>
+            </div>
+            <div class="menu-group">
               <span class="n-rot">Casa</span>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#pencil"/></svg></span><span class="n-strong n-main">Nome da casa</span><span class="v">Casa do Leo</span><span class="n-chev">›</span></div>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#users"/></svg></span><span class="n-strong n-main">Membros e convites</span><span class="v">2 pessoas</span><span class="n-chev">›</span></div>
@@ -2689,7 +2775,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <span class="n-rot">Finanças</span>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#card"/></svg></span><span class="n-strong n-main">Cartões</span><span class="v">2 cartões</span><span class="n-chev">›</span></div>
               <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#target"/></svg></span><span class="n-strong n-main">Orçamentos</span><span class="v">4 categorias</span><span class="n-chev">›</span></div>
-              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#bell"/></svg></span><span class="n-strong n-main">Avisos</span><span class="v">4 de 4 ligados</span><span class="n-chev">›</span></div>
+              <div class="menu-row press" style="margin:0 -24px;padding-left:24px;padding-right:24px"><span class="ci"><svg class="i"><use href="#bell"/></svg></span><span class="n-strong n-main">Avisos</span><span class="v">5 de 5 ligados</span><span class="n-chev">›</span></div>
             </div>
             <div class="menu-group">
               <span class="n-rot">Assistente</span>
@@ -2800,7 +2886,20 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <!-- Boas-vindas -->
       <div class="specimen">
         <h3>Boas-vindas</h3>
-        <p>Na primeira entrada em cada casa, três telas curtas com o mesmo cabeçalho de passos da entrada e "Pular" em todas: a proposta (a fala e a ficha), o que mais o app faz (uma linha por recurso) e "Por onde começar?". Os caminhos da última tela são linhas com divisória, não cartões: o toque já leva ao destino. Nada é obrigatório, e o texto diz isso.</p>
+        <p>Na primeira entrada em cada casa, três telas curtas com o mesmo cabeçalho de passos da entrada e "Pular" em todas: a proposta (a fala e a ficha), o que mais o app faz (uma linha por recurso) e "Por onde começar?". Quem chega por convite não vê a segunda. Os caminhos da última tela são linhas com divisória, não cartões: o toque já leva ao destino. Nada é obrigatório, e o texto diz isso.</p>
+        <p>Só nas primeiras boas-vindas da conta, uma tela a mais vem antes da última: "O que ver primeiro?". São as mesmas linhas, e o toque já grava a escolha e segue. Em "Pular", fica o foco em finanças. Quem já tem conta e entra em outra casa não responde de novo: a preferência é da pessoa e continua em Configurações › Tela inicial.</p>
+        <div class="stage stage-grid" id="bv-foco">
+          <div class="auth-step">
+            <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i><i></i></div>
+            <span class="n-rot">Boas-vindas · 3 de 4</span>
+            <b class="n-h1">O que ver primeiro?</b>
+            <span class="n-body" style="color:var(--grafite)">A tela inicial muda conforme o que mais importa para você. Dá para trocar depois em Configurações.</span>
+          </div>
+          <div style="max-width:390px">
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#chart"/></svg></span><div class="n-main"><b class="n-strong">Foco em finanças</b><span class="n-cap">as despesas do mês e o que resta nos orçamentos</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ci"><svg class="i"><use href="#cal-check"/></svg></span><div class="n-main"><b class="n-strong">Foco em rotina</b><span class="n-cap">o progresso do dia e o que falta fazer hoje</span></div><span class="n-chev">›</span></div>
+          </div>
+        </div>
         <div class="stage stage-grid">
           <div class="auth-step">
             <div class="bars"><i class="on"></i><i class="on"></i><i class="on"></i></div>
@@ -2819,11 +2918,12 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <!-- Primeiros passos -->
       <div class="specimen">
         <h3>Primeiros passos</h3>
-        <p>O checklist do começo. No Início, é uma linha só com o traço Musgo, a contagem e o próximo passo, no lugar onde fica o aviso de atraso; o microfone continua no centro. Na tela, três marcas: ✓ em Musgo para feito (calculado dos cadastros de verdade), o quadrado de Borda da Lista para "a fazer" e um traço para ignorado, com "Desfazer". Tocar num passo abre a folha, que explica e leva à tela de cadastro que já existe. Um passo feito também abre: a folha mostra o que já foi feito ("Feito: Nubank") e o botão chama para fazer de novo ("Cadastrar outro cartão", "Mudar o nome"), sem "Ignorar".</p>
+        <p>O checklist do começo. No Início, é uma linha só com o traço Musgo, a contagem e o próximo passo, no lugar onde fica o aviso de atraso; o microfone continua no centro. Na tela, três marcas: ✓ em Musgo para feito (calculado dos cadastros de verdade), o quadrado de Borda da Lista para "a fazer" e um traço para ignorado, com "Desfazer". Tocar num passo abre a folha, que explica e leva à tela de cadastro que já existe. Um passo feito também abre: a folha mostra o que já foi feito ("Feito: Nubank") e o botão chama para fazer de novo ("Cadastrar outro cartão", "Mudar o nome"), sem "Ignorar". "Criar sua rotina" vem logo depois do primeiro lançamento e dá para ignorar ("Não quero usar rotina"). Sozinho, esse passo não traz a linha do Início de volta: quem já tinha concluído o resto o encontra em Configurações.</p>
         <div class="stage stage-grid">
-          <div class="ob-steps"><div class="n-main"><b class="n-strong" style="font-size:15px">Primeiros passos · 2 de 7</b><div class="bar"><i style="--w:29%"></i></div><span class="n-cap">Próximo: seus cartões</span></div><span class="n-chev">›</span></div>
+          <div class="ob-steps"><div class="n-main"><b class="n-strong" style="font-size:15px">Primeiros passos · 2 de 8</b><div class="bar"><i style="--w:25%"></i></div><span class="n-cap">Próximo: criar sua rotina</span></div><span class="n-chev">›</span></div>
           <div>
             <div class="ob-row is-done"><span class="ob-mark done"><svg class="i"><use href="#check"/></svg></span><div class="n-main"><b class="n-strong">Primeiro lançamento</b><span class="n-cap">Almoço, hoje</span></div><span class="n-chev">›</span></div>
+            <div class="ob-row"><span class="ob-mark todo"></span><div class="n-main"><b class="n-strong">Criar sua rotina</b><span class="n-cap">O que se repete, com cada dia marcado</span></div><span class="n-chev">›</span></div>
             <div class="ob-row"><span class="ob-mark todo"></span><div class="n-main"><b class="n-strong">Seus cartões</b><span class="n-cap">As compras caem na fatura certa</span></div><span class="n-chev">›</span></div>
             <div class="ob-row is-skip"><span class="ob-mark skip"></span><div class="n-main"><b class="n-strong">Chamar quem mora com você</b><span class="n-cap">Ignorado</span></div><button class="n-link sm" type="button">Desfazer</button></div>
           </div>
@@ -2833,7 +2933,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <!-- Tour -->
       <div class="specimen">
         <h3>Tour</h3>
-        <p>Escurece a tela com Tinta a 72% e deixa um recorte de canto 10 em volta do elemento de verdade, medido na tela. A explicação vem numa ficha, embaixo ou em cima do recorte, onde couber, com a seta apontando para ele: o progresso em traços, "Sair", um título Heading, duas linhas no máximo e "Voltar" e "Próximo". Toques fora da ficha não fazem nada. Com "Reduzir movimento", o recorte troca de lugar sem animação.</p>
+        <p>Escurece a tela com Tinta a 72% e deixa um recorte de canto 10 em volta do elemento de verdade, medido na tela. A explicação vem numa ficha, embaixo ou em cima do recorte, onde couber, com a seta apontando para ele: o progresso em traços, "Sair", um título Heading, duas linhas no máximo e "Voltar" e "Próximo". Toques fora da ficha não fazem nada. Com "Reduzir movimento", o recorte troca de lugar sem animação. O tour tem a mesma quantidade de passos nos dois focos do Início: no foco em rotina, os passos das colunas e de "Hoje" falam do dia. O passo da Agenda abre sempre na Rotina.</p>
         <div class="stage">
           <div class="ob-tour">
             <span class="mic"><svg class="i"><use href="#mic"/></svg></span>
@@ -3097,6 +3197,10 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.28</td><td class="num">30/10/2026</td><td>Boas-vindas (parte 07): nas primeiras da conta, a tela "O que ver primeiro?" com os dois focos do Início.</td></tr>
+        <tr><td>1.27</td><td class="num">30/10/2026</td><td>Agenda (parte 05): na Rotina, tocar na atividade marca e segurar abre a folha, porque marcar é o que se faz todo dia.</td></tr>
+        <tr><td>1.26</td><td class="num">30/10/2026</td><td>Primeiros passos (parte 06): o passo "Criar sua rotina". Tour (parte 06): os textos no foco em rotina e o passo da Agenda abrindo na Rotina.</td></tr>
+        <tr><td>1.25</td><td class="num">30/10/2026</td><td>Início com foco em rotina (parte 05): os estados que faltavam (sem rotina, tudo feito, dia livre e fim do dia) e o que acontece ao marcar. Tela inicial (parte 05): a escolha entre os dois focos. Menu (parte 06): o grupo Preferências.</td></tr>
         <tr><td>1.24</td><td class="num">30/10/2026</td><td>Notificações (parte 05): os botões do lembrete e da rotina. Movimento (parte 07): a abertura do app sai daqui e fica só na página do ícone, que é onde ela tem os passos e a câmera lenta.</td></tr>
         <tr><td>1.23</td><td class="num">30/10/2026</td><td>Movimento (parte 07): a abertura do app passa a tocar aqui mesmo, em miniatura. Chat (parte 05): as fichas das ações da Rotina.</td></tr>
         <tr><td>1.22</td><td class="num">30/10/2026</td><td>Agenda (parte 05): os estados da Rotina que faltavam (a folha da atividade, "Hoje não", dia futuro e sem rotina) e as faturas em Contas. Menu (parte 06): a linha Cartões em Finanças.</td></tr>

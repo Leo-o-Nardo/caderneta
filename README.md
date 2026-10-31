@@ -6,7 +6,7 @@
 
 <p align="center"><b>Português</b> · <a href="README.en.md">English</a></p>
 
-Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoço e 18 no café, no débito", o assistente entende, monta uma ficha com os lançamentos e espera a confirmação. Por trás, o app cuida de cartões e faturas, contas fixas, orçamentos, listas e lembretes, e avisa antes de uma conta vencer. Tudo pensado para uma casa com várias pessoas, cada uma com o seu papel.
+Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoço e 18 no café, no débito", o assistente entende, monta uma ficha com os lançamentos e espera a confirmação. Por trás, o app cuida de cartões e faturas, contas fixas, orçamentos, rotina, listas e lembretes, e avisa antes de uma conta vencer. Tudo pensado para uma casa com várias pessoas, cada uma com o seu papel.
 
 > **O código do app é privado.** Este repositório é a vitrine do projeto: o que o app faz e as decisões de design e de arquitetura. Para conversar sobre o código, fale comigo pelo [LinkedIn](https://www.linkedin.com/in/leonardo-ferreira-de-souza/).
 
@@ -103,14 +103,15 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - Lançar gastos e receitas, inclusive compras parceladas no cartão.
 - Marcar uma conta como paga, corrigir ou apagar um lançamento.
 - Consultar gastos por período, categoria ou cartão, e montar gráficos.
-- Criar contas fixas, receitas fixas (como o salário), orçamentos, listas e lembretes.
+- Criar contas fixas, receitas fixas (como o salário), orçamentos, listas, lembretes e rotinas.
+- Marcar e mudar rotinas, e dizer o que a pessoa tem num dia ("o que tenho hoje?").
 - Colocar e marcar itens nas listas ("coloca leite e café na lista").
 - Não dá conselho de investimento.
 
 ### A casa
 - **Papéis:** dono, membro e só leitura.
 - **Convites** por link e por código de 6 caracteres, válidos por 7 dias.
-- **Privado ou da casa:** cada lançamento, lista e lembrete pode ser só de quem criou.
+- **Privado ou da casa:** cada lançamento, lista, lembrete e rotina pode ser só de quem criou.
 - **Várias casas por pessoa:** a da família e a que divide com quem mora junto, por exemplo.
 - **Cartões por pessoa:** cada um tem os seus, e as compras caem no cartão certo.
 
@@ -124,8 +125,10 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - **Categorias** com ícone, cor e ordem, que aparecem numa grade na hora de lançar. A ordem muda arrastando pela alça, no modo Organizar.
 - **Resumo do mês:** saldo, receitas e despesas, gastos por categoria, quem gastou quanto, faturas e próximas contas.
 
-### Agenda, listas e lembretes
-- **Agenda** com contas, cartões e lembretes num lugar só.
+### Agenda, rotina, listas e lembretes
+- **Agenda** com rotina, contas, cartões e lembretes num lugar só.
+- **Rotina:** atividades que se repetem em dias da semana, com horário opcional, da casa ou só suas. Tocar marca o dia, segurar abre as opções, e marcar um dia não mexe nos outros.
+- **Tela inicial:** foco em finanças ou em rotina, escolhido nas primeiras boas-vindas ou em Configurações.
 - **Lembretes** com repetição ("a cada 6 meses"), da casa ou só seus.
 - **Listas** de compras, desejos, coisas a fazer ou do jeito que você quiser, com toque para marcar no mercado. Os itens e as próprias listas se ordenam arrastando.
 
@@ -136,6 +139,7 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - Orçamento chegando a 80% e passando de 100%.
 - Resumo da semana, no domingo à noite.
 - Lembretes na hora marcada, com "Feito", "Adiar 1 h" e "Amanhã".
+- Rotinas no horário, para quem ligou o aviso: só no celular, sem passar pelo chat, com "Feito", "Adiar 15 min" e "Hoje não".
 - Cada tipo de aviso pode ser desligado.
 
 ### Planos
@@ -184,8 +188,8 @@ Nem toda ação do assistente pede o mesmo cuidado, então elas se dividem em tr
 | Nível | Exemplos | Como funciona |
 |---|---|---|
 | Confirmar | lançar gastos, parcelar, pagar conta, corrigir um lançamento | A ficha aparece editável e nada é gravado antes do "Confirmar". |
-| Explícito | apagar um lançamento, apagar uma lista | A ficha mostra o impacto ("sai dos totais de outubro") antes de confirmar. |
-| Imediato, com desfazer | itens de lista, lembretes, contas fixas, orçamentos | Feito na hora, com "Desfazer" por 2 minutos. |
+| Explícito | apagar um lançamento, apagar uma lista, parar uma rotina | A ficha mostra o impacto ("sai dos totais de outubro") antes de confirmar. |
+| Imediato, com desfazer | itens de lista, lembretes, rotinas, contas fixas, orçamentos | Feito na hora, com "Desfazer" por 2 minutos. |
 
 A decisão importante: **a confirmação nunca volta para a IA**. Quando o modelo propõe uma ação, o app valida os dados com as regras dele e guarda uma ação pendente já pronta para gravar. Ao tocar em "Confirmar", o app grava exatamente o que está na ficha (com as edições da pessoa). O modelo não tem uma segunda chance de inventar um valor na hora de gravar.
 
@@ -240,9 +244,10 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Cartões e contas | `/cards`, `GET /cards/{card}/invoice`, `/bills`, `POST /bills/{bill}/pay`, `/bills/{bill}/skip`, `/recurring-incomes` |
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
+| Rotina | `/routines`, `GET /routines/day`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
 | Plano | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
-| Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /push-tokens` |
+| Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
 
 ## Estrutura do código
 
@@ -256,7 +261,7 @@ Como o repositório privado está organizado:
 ├── backend/                    # API Laravel
 │   ├── app/
 │   │   ├── Assistant/          # o assistente: provedores, ferramentas, ações, cofre de privacidade, voz
-│   │   ├── Alerts/             # avisos de contas, orçamentos, resumo da semana e lembretes
+│   │   ├── Alerts/             # avisos de contas, orçamentos, resumo da semana, lembretes e rotinas
 │   │   ├── Services/           # regras de lançamentos, parcelas, contas, orçamentos, acesso, planos e uso da IA
 │   │   ├── Http/               # controllers, requests e resources da API e da área administrativa
 │   │   ├── Mail/               # o e-mail no estilo Caderneta
