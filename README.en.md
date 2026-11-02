@@ -155,13 +155,12 @@ On Android and iPhone, with [its design in the guide](https://leo-o-nardo.github
 
 ### Plans
 - **Free and Plus:** each plan has a monthly limit on assistant use, counted from the day the account was created. Plus has a much higher limit. Logging by hand, lists and the schedule never have a limit.
-- **Free period:** on Free, the assistant is there for 7 days, counted from the e-mail confirmation. After that the app keeps working without it: the Plan screen shows until when it lasted, the home screen warns 2 days before, and the Chat swaps the field for a notice with the Plus request.
-- **Access levels:** each account is on one of four levels, the same in all of its households: no access, app without the assistant, Free and Plus. The end of the free period moves the person to "app without the assistant" on its own, with the Plus request. When the administrator is the one who turns it off, the home screen swaps the microphone for a "Log" circle, the Plan screen shows only that notice, and the tour and the first steps stop talking about the assistant. The Chat stays in both cases, for the alerts and the old conversation.
+- **Free period:** on Free, the assistant is there for 7 days, counted from the e-mail confirmation. After that the app keeps working without it: the Plan screen shows until when it lasted, the home screen warns 2 days before, and the Chat swaps the field for a notice.
+- **Access levels:** each account is on one of four levels, the same in all of its households: no access, app without the assistant, Free and Plus. The end of the free period moves the person to "app without the assistant" on its own. When the administrator is the one who turns it off, the home screen swaps the microphone for a "Log" circle, the Plan screen shows only that notice, and the tour and the first steps stop talking about the assistant. The Chat stays in both cases, for the alerts and the old conversation.
 - **The limit is told in time:** the app says "back to zero on the 12th", never in money or tokens.
 - **Plan screen:** in Settings › Assistant › Plan, the month's use as a percentage, on a bar that turns to the warning color from 80% on, the day it goes back to zero, and the plans, with no price. Granted Plus says until when it lasts.
 - **Notice on the home screen:** only from 80% on, at the limit and near the end of the free period, with the same rule as bills that are due. The home screen does not get one more fixed number.
 - **Limit sheet:** when the month's use or the free period runs out, a sheet shows when the assistant comes back (or until when it lasted) and what keeps working, instead of an error message.
-- **Asking for Plus on WhatsApp:** at the Free limit or at the end of the free period, the sheet, the Chat and the Plan screen open the administrator's WhatsApp with the message ready. The administrator gets an e-mail to grant Plus or decline.
 - **Store review:** the system's own prompt, once per device, after the 5th confirmed card and 7 days of use, and with no reward.
 
 ### Access and security
@@ -170,6 +169,8 @@ On Android and iPhone, with [its design in the guide](https://leo-o-nardo.github
 - **Forgot password** with a 6-digit code by e-mail.
 - **One session per device**, with "sign out of all devices".
 - **Privacy before the AI:** CPF and CNPJ (Brazilian tax IDs), card numbers, Pix keys, phone numbers, e-mails, bank branch and account are replaced by markers before any text reaches the model.
+- **Permission for the AI:** before the first use of the assistant, a sheet says what goes to the AI and asks for permission. Logging by hand, the schedule, the lists and the summary work without it, and it can be withdrawn in Settings › Assistant › AI use.
+- **Contact us:** in Settings › Account, it opens the e-mail app.
 - **Limits:** messages per person per day, plus each plan's monthly limit (see [Plans](#plans)).
 
 ### Admin area
@@ -179,7 +180,7 @@ Browser pages at `/admin`, only for the administrator and in the same visual sty
 - **Overview:** the new accounts, how many have not confirmed their e-mail yet, the open Plus requests, how many people are on Plus, how many are without the assistant, and today's and this month's cost.
 - **People:** search by name or e-mail, filters by level, and each person's use against their plan's limit.
 - **Each person's access:** a single panel with the four levels. Activate without the e-mail (for someone who does not get the link), block and unblock; turn the assistant off and on; give 7, 15 or 30 more days of the assistant on Free; grant Plus for 1, 3, 6 or 12 months (the months add to the Plus already granted) or with no end date, and take Plus away.
-- **Plus requests:** grant or decline right on the list row.
+- **Plus requests:** the ones already made, to grant or decline right on the list row.
 - **AI usage:** cost per day or per month, per model and per person, in dollars or in reais. The exchange rate is fetched once a day and cached, and the last good rate covers a failed fetch.
 - **It is the only place with the AI cost:** in the app, nobody sees dollar amounts.
 
@@ -205,7 +206,7 @@ Not every action of the assistant needs the same care, so they fall into three l
 The key decision: **the confirmation never goes back to the AI**. When the model proposes an action, the app validates the data with its own rules and stores a pending action that is ready to save. When you tap "Confirm", the app saves exactly what is on the card (with your edits). The model never gets a second chance to make up an amount at save time.
 
 ### Privacy before the AI
-Every text sent to the AI, typed or transcribed, first goes through a vault (`SecureDataVault`):
+Nothing goes to the AI without the person's permission, checked on the server before the message or the audio is saved. After that, every text, typed or transcribed, first goes through a vault (`SecureDataVault`). Audio goes to transcription as it was recorded, and the permission sheet says so:
 
 - CPF and CNPJ are recognized by their check digits, and card numbers by the Luhn algorithm, so any long number is not mistaken for one.
 - Each value becomes a marker, like `[CPF_1]` or `[CARTAO_1]`. The model works with the marker, and the reply comes back with the original value, even in the middle of streamed text.
@@ -265,7 +266,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
 | Routines | `/routines`, `GET /routines/day`, `GET /routines/days`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
 | Widget | `POST /widget/token`, `GET /widget`, `POST /widget/routines/{routine}/done`, `DELETE /widget/routines/{routine}/logs/{date}` |
-| Plan | `GET /assistant/usage`, `POST /assistant/plus-request` |
+| Plan | `GET /assistant/usage`, `PUT /assistant/consent` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
 
@@ -305,7 +306,7 @@ How the private repository is organized:
 ## Limitations and next steps
 
 - **Invitation:** it carries only the 6-character code; there is no link that opens the app directly yet.
-- **Plus:** it is not sold through the stores yet; the administrator grants it, through the WhatsApp request or the admin area. Store billing comes later.
+- **Plus:** it is not sold through the stores yet; the administrator grants it, through the admin area. Store billing comes later.
 - **Release:** the app is in review on the Play Store and the App Store. The production server runs with Docker Compose.
 
 ## Author

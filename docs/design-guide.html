@@ -978,7 +978,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.31 · 31 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.32 · 1º de novembro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -2231,7 +2231,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>O widget segue a escolha de Configurações › Tela inicial, para mostrar o mesmo foco do app, sem mais uma tela para configurar.</li>
             <li>O dia aparece pela data, e não como "Hoje": se o celular ficar sem internet, o widget não diz que os dados antigos são de hoje.</li>
             <li>Com o app fechado, a abertura com a capa não toca ao vir do microfone: ela atrasaria a gravação, e a pessoa falaria antes da hora.</li>
-            <li>O microfone respeita o Início: no limite do mês ou depois do período gratuito, abre a folha do limite sem gravar. Na primeira vez, o sistema pede o microfone antes.</li>
+            <li>O microfone respeita o Início: no limite do mês ou depois do período gratuito, abre a folha do limite sem gravar. Sem a permissão para a IA, abre a folha do "Uso de IA", também sem gravar. Na primeira vez, o sistema pede o microfone antes.</li>
             <li>O saldo é a receita menos a despesa do mês, e fica em Tijolo quando negativo. O app não conhece o saldo do banco.</li>
             <li>Marcar sem internet: o quadrado volta como estava, e a linha mostra "Não deu para marcar" até a próxima tentativa.</li>
             <li>No iPhone com sistema anterior ao iOS 17, tocar no quadrado abre a Agenda, porque o sistema não aceita botões no widget.</li>
@@ -2269,7 +2269,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                 <div class="n-sec-head"><h5 class="n-h2">O que conta</h5></div>
                 <p class="n-body" style="color:var(--grafite);margin-top:12px">Cada pergunta conta pelo tamanho dela: uma conversa longa ou uma pergunta sobre o ano todo contam mais do que lançar um café, e a voz conta um pouco mais que o texto.</p>
                 <p class="n-body" style="color:var(--grafite);margin-top:12px">No Gratuito, o assistente fica com você por 7 dias, contados da confirmação do e-mail. O plano é seu e vale em todas as suas casas.</p>
-                <p class="n-cap plan-note">Quando o uso do mês ou o período gratuito acabar, você pode pedir o Plus pelo WhatsApp.</p>
               </div>
             </div>
             <div class="homebar" style="color:#1E1F1C"></div>
@@ -2284,7 +2283,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>"Volta a zero no dia 09/11", sempre com dia e mês: o mês de uso começa no dia em que a conta foi criada, e não no dia 1º, então a data não é óbvia.</li>
             <li>Os planos aparecem como lista, com "Seu plano" em Musgo ao lado do atual e sem preço: o Plus é liberado pelo administrador, e a tela não promete o que a pessoa não pode fazer.</li>
             <li>O Plus com data diz até quando vale e o que vem depois ("Depois, volta o Gratuito"), para o fim do Plus dado não pegar ninguém de surpresa.</li>
-            <li>O pedido pelo WhatsApp só aparece aqui no limite, com o mesmo botão da folha do limite. Antes disso, uma legenda conta que ele existe.</li>
+            <li>O app não tem pedido do Plus. Enquanto ele não é vendido pelas lojas, as regras delas não deixam levar a pessoa para fora, então a tela só informa. Para falar com quem cuida do app, Configurações › Conta tem "Fale com a gente", com o ícone do envelope, que abre o e-mail: um contato geral, que não cita o Plus e fica longe desta tela.</li>
             <li>"O que conta" explica em palavras por que a porcentagem sobe mais numa pergunta do que em outra, sem falar em tokens.</li>
           </ul>
         </div>
@@ -2301,7 +2300,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <figure>
           <div class="panel">
             <div class="plan-use"><span class="n-rot">Uso do assistente</span><b class="n-display">100%</b><div class="bar"><i class="warn" style="--w:100%"></i></div><span class="n-cap" style="color:var(--tinta)">Você usou o assistente deste mês. Ele volta no dia 09/11.</span></div>
-            <button class="btn btn-primary full" type="button"><svg class="i" style="width:18px;height:18px"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button>
           </div>
           <figcaption>Gratuito no limite</figcaption>
         </figure>
@@ -2320,7 +2318,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <figcaption>Plus fixo</figcaption>
         </figure>
       </div>
-      <p class="spec-line"><b>Quatro estados.</b> O que muda é a barra (Musgo ou Atenção), a legenda e a linha do plano. No limite, no Gratuito, a legenda passa para Tinta e vem "Pedir o Plus pelo WhatsApp" (o balão); com um pedido em aberto, uma linha a mais diz "Seu pedido já foi enviado. A resposta chega por e-mail.", e o botão abre o WhatsApp de novo. Sem o número do WhatsApp no servidor, fica só a legenda. O Plus também tem limite: no limite, ele mostra só a legenda. A porcentagem é buscada ao abrir a tela e o Início, e de novo depois de cada resposta do assistente.</p>
+      <p class="spec-line"><b>Quatro estados.</b> O que muda é a barra (Musgo ou Atenção), a legenda e a linha do plano. No limite, a legenda passa para Tinta, no Gratuito e no Plus, que também tem limite. A porcentagem é buscada ao abrir a tela e o Início, e de novo depois de cada resposta do assistente.</p>
 
       <div class="plan-home">
         <figure style="display:grid;gap:8px">
@@ -2358,7 +2356,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <svg class="i limit-icon"><use href="#hourglass"/></svg>
               <h4 class="n-h2">O período gratuito acabou</h4>
               <p class="n-body" style="color:var(--grafite);margin-top:4px">O assistente ficou com você até 05/11. Lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
-              <button class="btn btn-primary full" type="button"><svg class="i" style="width:18px;height:18px"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button>
             </div>
             <div class="n-sec" style="margin-top:24px"><div class="n-row"><div class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">Sem o assistente desde 05/11.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Seu plano</span></div></div>
           </div>
@@ -2367,7 +2364,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <figure>
           <div class="panel">
             <div class="n-overdue n-aviso press"><span class="ci"><svg class="i"><use href="#clock"/></svg></span><div class="n-main"><b>O período gratuito acaba em 2 dias</b><span class="n-cap">Até 05/11 · ver o plano</span></div><span class="n-chev">›</span></div>
-            <div class="n-overdue n-aviso press"><span class="ci"><svg class="i"><use href="#hourglass"/></svg></span><div class="n-main"><b>O período gratuito acabou</b><span class="n-cap">Peça o Plus pelo WhatsApp · ver o plano</span></div><span class="n-chev">›</span></div>
+            <div class="n-overdue n-aviso press"><span class="ci"><svg class="i"><use href="#hourglass"/></svg></span><div class="n-main"><b>O período gratuito acabou</b><span class="n-cap">Sem o assistente desde 05/11 · ver o plano</span></div><span class="n-chev">›</span></div>
           </div>
           <figcaption>No Início: 2 dias antes e depois de acabar</figcaption>
         </figure>
@@ -2380,7 +2377,6 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <div class="trial-lock">
               <span class="with-icon"><svg class="i"><use href="#hourglass"/></svg><b class="n-strong">O período gratuito acabou</b></span>
               <span class="n-cap">A conversa fica para consultar. Para lançar, volte ao Início.</span>
-              <button class="btn btn-primary full" type="button"><svg class="i" style="width:18px;height:18px"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button>
             </div>
           </div>
           <figcaption>No Chat, no lugar do campo e do microfone</figcaption>
@@ -2388,7 +2384,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
 
       <div class="plan-home">
-        <p class="spec-line" style="margin:0"><b>O mesmo lugar do limite do mês.</b> O fim do período usa as peças do limite: a ampulheta, o traço de Atenção no Início, a folha do limite (parte 06) e o pedido pelo WhatsApp. No Chat, a mesma troca vale no limite do mês: "Você usou o assistente deste mês", com "Ele volta no dia 09/11" e, no Gratuito, o botão do WhatsApp; no Plus, sem botão. O microfone do Início, sem o assistente, abre a folha do limite na hora, sem gravar.</p>
+        <p class="spec-line" style="margin:0"><b>O mesmo lugar do limite do mês.</b> O fim do período usa as peças do limite: a ampulheta, o traço de Atenção no Início e a folha do limite (parte 06). No Chat, a mesma troca vale no limite do mês: "Você usou o assistente deste mês", com "Ele volta no dia 09/11". O microfone do Início, sem o assistente, abre a folha do limite na hora, sem gravar.</p>
         <div class="notes">
           <h4>Por que é assim</h4>
           <ul>
@@ -2484,7 +2480,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
 
       <div class="plan-home">
-        <p class="spec-line" style="margin:0"><b>Os dois motivos.</b> Depois do período gratuito, tudo fica como na parte acima: a ampulheta, o microfone que abre a folha e o pedido do Plus, porque o assistente pode voltar e a pessoa pode pedir. Desligado pelo administrador, o ícone é o microfone riscado, e não a ampulheta (não há o que esperar), sem pedido do Plus e sem aviso no Início. A folha do limite ganha esse estado (parte 06), para quando o assistente é desligado com o app aberto.</p>
+        <p class="spec-line" style="margin:0"><b>Os dois motivos.</b> Depois do período gratuito, tudo fica como na parte acima: a ampulheta, o microfone que abre a folha e o aviso no Início. Desligado pelo administrador, o ícone é o microfone riscado, e não a ampulheta (não há o que esperar), sem aviso no Início. A folha do limite ganha esse estado (parte 06), para quando o assistente é desligado com o app aberto.</p>
         <div class="notes">
           <h4>Por que é assim</h4>
           <ul>
@@ -2493,6 +2489,75 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>O texto não diz por que foi desligado nem fala em administrador: a tela não promete nada que a pessoa possa fazer.</li>
             <li><b>Tour.</b> Em "App sem assistente", o primeiro passo vira "Lance o que gastou", no círculo do Início, e o do Chat fala só dos avisos e da conversa guardada. Os outros passos são os mesmos.</li>
             <li><b>Primeiros passos.</b> Em "App sem assistente", o "Primeiro lançamento" fala só do formulário, sem o microfone e sem "Escrever no Chat".</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Uso de IA ---------- -->
+    <div class="block" id="uso-ia">
+      <div class="block-head"><h3>Uso de IA</h3><p>A permissão para enviar dados à IA do Google, pedida antes do primeiro uso do assistente</p></div>
+      <div class="stage limit-grid">
+        <div class="sheet-stage" style="height:720px">
+          <div class="scrim"></div>
+          <div class="sheet" role="dialog" aria-labelledby="ia-pedir">
+            <span class="handle"></span>
+            <h4 class="n-h2" id="ia-pedir">O assistente usa a IA do Google</h4>
+            <p class="n-body" style="color:var(--grafite)">Para entender o que você diz e responder, a Caderneta envia à IA do Google:</p>
+            <div class="n-row" style="margin-top:8px"><span class="ci" style="color:var(--grafite)"><svg class="i"><use href="#mic"/></svg></span><div class="n-main"><b class="n-strong">O que você fala ou escreve</b><span class="n-cap" style="white-space:normal">o áudio e o texto das mensagens</span></div></div>
+            <div class="n-row"><span class="ci" style="color:var(--grafite)"><svg class="i"><use href="#house"/></svg></span><div class="n-main"><b class="n-strong" style="white-space:normal">O que ela precisa saber da casa</b><span class="n-cap" style="white-space:normal">categorias, contas, valores e os primeiros nomes de quem mora junto</span></div></div>
+            <p class="n-cap" style="margin-top:12px">No texto, CPF, cartões, telefones e dados bancários viram marcadores antes do envio. O áudio vai como foi gravado. O Google não usa esses dados para treinar os modelos dele.</p>
+            <p class="n-cap">Lançar à mão, a Agenda, as listas e o Resumo funcionam sem isso. Dá para mudar em Configurações › Assistente.</p>
+            <button class="n-link sm" type="button" style="margin-top:8px">Ler a política de privacidade</button>
+            <div class="sheet-btns" style="margin-top:16px"><button class="btn btn-primary full" type="button">Permitir</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
+          </div>
+        </div>
+        <div class="sheet-stage" style="height:720px">
+          <div class="scrim"></div>
+          <div class="sheet" role="dialog" aria-labelledby="ia-retirar">
+            <span class="handle"></span>
+            <h4 class="n-h2" id="ia-retirar">O uso de IA está permitido</h4>
+            <p class="n-body" style="color:var(--grafite)">Desde 01/11/2026. O que você fala ou escreve ao assistente vai à IA do Google, com o que ela precisa saber da casa.</p>
+            <p class="n-cap">Retirando, o assistente para até você permitir de novo. A conversa guardada e o que já foi lançado continuam.</p>
+            <button class="n-link sm" type="button" style="margin-top:8px">Ler a política de privacidade</button>
+            <div class="sheet-btns" style="margin-top:16px"><button class="btn btn-primary full" type="button">Manter a permissão</button><button class="n-textbtn limit-later" type="button">Retirar a permissão</button></div>
+          </div>
+        </div>
+      </div>
+      <p class="spec-line"><b>Duas folhas, um lugar.</b> A primeira sobe quando a pessoa tenta usar o assistente sem a permissão, e também pela linha de Configurações. A segunda só abre pela linha de Configurações. Título em Fraunces 20, sem ícone grande: a folha é uma pergunta, e não um aviso. As linhas usam os ícones de 20 em Grafite, com a pauta entre elas.</p>
+
+      <div class="plan-grid">
+        <figure>
+          <div class="panel">
+            <div class="n-row"><span class="ci" style="color:var(--grafite)"><svg class="i"><use href="#gauge"/></svg></span><div class="n-main"><b class="n-strong">Plano</b></div><span class="n-cap">Gratuito · 34%</span><span class="n-chev">›</span></div>
+            <div class="n-row"><span class="ci" style="color:var(--grafite)"><svg class="i"><use href="#sparkles"/></svg></span><div class="n-main"><b class="n-strong">Uso de IA</b></div><span class="n-cap">Permitido</span><span class="n-chev">›</span></div>
+          </div>
+          <figcaption>Configurações › Assistente. Sem a permissão, a linha diz "Não permitido"</figcaption>
+        </figure>
+      </div>
+
+      <table class="ledger copy" style="margin-top:32px">
+        <thead><tr><th>Onde a pessoa está</th><th>Sem a permissão</th><th>Depois de "Permitir"</th></tr></thead>
+        <tbody>
+          <tr><td>Microfone do Início</td><td>A folha sobe, sem gravar.</td><td>Começa a gravar.</td></tr>
+          <tr><td>Microfone do widget</td><td>O Início abre com a folha, sem gravar.</td><td>Começa a gravar.</td></tr>
+          <tr><td>Microfone do Chat</td><td>A folha sobe, sem gravar.</td><td>Começa a gravar.</td></tr>
+          <tr><td>Campo do Chat</td><td>A folha sobe ao enviar, e o texto fica no campo.</td><td>Envia o texto.</td></tr>
+          <tr><td>Atalhos do Chat vazio</td><td>A folha sobe.</td><td>Envia o atalho.</td></tr>
+        </tbody>
+      </table>
+
+      <div class="plan-home">
+        <p class="spec-line" style="margin:0"><b>O que vem antes.</b> Sem o assistente (o limite do mês, o fim do período gratuito ou desligado pelo administrador), vale a folha do limite, e esta não aparece: não há o que permitir agora. "Uso de IA" continua em Configurações em todos os casos, para a pessoa poder retirar a permissão.</p>
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>Na hora de usar, e não nas boas-vindas: quem pergunta acabou de pedir o assistente, entende o motivo, e as contas que já existem passam pelo mesmo lugar.</li>
+            <li>A folha diz quem recebe e o quê, em palavras comuns, sem "terceiros" nem "processamento".</li>
+            <li>"Agora não" não insiste: nada é guardado, e a folha só volta quando a pessoa tentar usar o assistente de novo. Quem nunca permitir usa todo o resto do app.</li>
+            <li>A permissão é da pessoa, e não da casa: vale na conta, em todas as casas e em qualquer celular.</li>
+            <li>A resposta é conferida no servidor antes de o áudio ou o texto seguirem. Nenhum app antigo ou mexido passa, e a data da permissão fica guardada.</li>
+            <li>Retirar é um toque, sem pergunta a mais: a pessoa não perde nada e pode permitir de novo quando quiser.</li>
           </ul>
         </div>
       </div>
@@ -2767,7 +2832,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                   </section>
                   <section class="adm-sec" style="margin-top:32px">
                     <p class="n-rot">Pedidos de Plus</p>
-                    <div class="adm-row"><div class="n-main"><b class="n-strong">Hoje, 10:12</b><span class="n-cap">Pelo WhatsApp, na folha do limite</span></div><span class="adm-tag wait">Esperando</span></div>
+                    <div class="adm-row"><div class="n-main"><b class="n-strong">Hoje, 10:12</b><span class="n-cap">Pelo WhatsApp</span></div><span class="adm-tag wait">Esperando</span></div>
                   </section>
                 </div>
                 <aside>
@@ -2775,7 +2840,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                     <h4>Acesso</h4>
                     <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
                       <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Sem acesso</b><span class="n-cap">Não entra no app.</span></span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">O período acabou. Pode pedir o Plus.</span></span><span class="adm-tag plain">Agora</span></label>
+                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">O período acabou.</span></span><span class="adm-tag plain">Agora</span></label>
                       <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">O assistente por alguns dias.</span></span></label>
                       <label class="lvl"><input type="radio" name="lvl-page" checked><span class="n-main"><b class="n-strong">Plus</b><span class="n-cap">O assistente com o limite maior.</span></span></label>
                     </div>
@@ -2815,7 +2880,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                   <label class="lvl"><input type="radio" name="lvl-off" checked><span class="n-main"><b class="n-strong">App sem assistente</b></span></label>
                   <label class="lvl"><input type="radio" name="lvl-off"><span class="n-main"><b class="n-strong">Plus</b></span><span class="adm-tag plain">Agora</span></label>
                 </div>
-                <p class="n-cap">Entra e usa tudo, menos o assistente. A conversa fica para consultar, e o pedido do Plus sai do app.</p>
+                <p class="n-cap">Entra e usa tudo, menos o assistente. A conversa fica para consultar.</p>
                 <p class="n-cap lvl-note">O Plus dado até 15/01/2027 sai junto.</p>
                 <button class="btn btn-secondary full" type="button">Desligar o assistente</button>
               </div>
@@ -2826,7 +2891,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                 <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
                   <label class="lvl"><input type="radio" name="lvl-on" checked><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">Desligado em 20/10/2026.</span></span><span class="adm-tag plain">Agora</span></label>
                 </div>
-                <p class="n-cap">Religando, o período gratuito volta a contar: o assistente fica até 05/11. Se o período já tiver acabado, a conta continua sem o assistente, mas pode pedir o Plus.</p>
+                <p class="n-cap">Religando, o período gratuito volta a contar: o assistente fica até 05/11. Se o período já tiver acabado, a conta continua sem o assistente.</p>
                 <button class="btn btn-secondary full" type="button">Religar o assistente</button>
               </div>
               <figcaption>Já desligado</figcaption>
@@ -2877,7 +2942,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
             </div>
             <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Feitos pelo WhatsApp, na folha do limite</p></div></div>
+              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Os que já foram feitos. O app não abre pedidos novos por enquanto.</p></div></div>
               <div class="adm-tools">
                 <div class="tags">
                   <button class="tag" type="button" aria-pressed="true">Em aberto <span class="n-cap">2</span></button>
@@ -3162,7 +3227,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <!-- Limite do assistente -->
       <div class="specimen">
         <h3>Folha do limite do assistente</h3>
-        <p>Quando a pessoa usa todo o assistente do mês, ou quando o período gratuito acaba, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta (ou até quando o assistente ficou) e lembra o que continua funcionando sem o assistente. No Gratuito, a pessoa pode pedir o Plus pelo WhatsApp: a mensagem já vai pronta, e o administrador decide por e-mail se dá o Plus. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro ou tokens, e a folha nunca fala em preço ou pagamento.</p>
+        <p>Quando a pessoa usa todo o assistente do mês, ou quando o período gratuito acaba, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta (ou até quando o assistente ficou) e lembra o que continua funcionando sem o assistente. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro ou tokens, e a folha nunca fala em preço ou pagamento.</p>
         <div class="stage limit-grid">
           <div class="sheet-stage limit-stage">
             <div class="scrim"></div>
@@ -3176,24 +3241,12 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           </div>
           <div class="sheet-stage limit-stage">
             <div class="scrim"></div>
-            <div class="sheet" role="dialog" aria-labelledby="limit-title-4">
-              <span class="handle"></span>
-              <svg class="i limit-icon"><use href="#hourglass"/></svg>
-              <h4 class="n-h2" id="limit-title-4">Você usou o assistente deste mês</h4>
-              <p class="n-body" style="color:var(--grafite)">Ele volta no dia 09/11. Até lá, lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
-              <p class="n-cap">Quer continuar agora? Peça o Plus pelo WhatsApp. A mensagem já vai pronta.</p>
-              <div class="sheet-btns"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
-            </div>
-          </div>
-          <div class="sheet-stage limit-stage">
-            <div class="scrim"></div>
             <div class="sheet" role="dialog" aria-labelledby="limit-title-5">
               <span class="handle"></span>
               <svg class="i limit-icon"><use href="#hourglass"/></svg>
               <h4 class="n-h2" id="limit-title-5">O período gratuito acabou</h4>
               <p class="n-body" style="color:var(--grafite)">O assistente ficou com você até 05/11. Lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
-              <p class="n-cap">Quer continuar com o assistente? Peça o Plus pelo WhatsApp. A mensagem já vai pronta.</p>
-              <div class="sheet-btns"><button class="btn btn-primary full" type="button"><svg class="i"><use href="#msg"/></svg>Pedir o Plus pelo WhatsApp</button><button class="n-textbtn limit-later" type="button">Agora não</button></div>
+              <div class="sheet-btns"><button class="btn btn-primary full" type="button">Entendi</button></div>
             </div>
           </div>
           <div class="sheet-stage limit-stage">
@@ -3207,7 +3260,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
           </div>
         </div>
-        <p class="spec-line"><b>Quatro estados:</b> só o aviso, com "Entendi" (no Plus, ou sem o número do WhatsApp configurado no servidor), o pedido pelo WhatsApp, no Gratuito, o fim do período gratuito (parte 05, "Período gratuito do assistente"), que sempre traz o pedido quando o número está configurado, e o assistente desligado (parte 05, "Níveis de acesso"), com o microfone riscado e nunca com o pedido. Com um pedido em aberto, o texto de apoio vira "Seu pedido já foi enviado. A resposta chega por e-mail.", e o botão abre o WhatsApp de novo. Ícone de 28 em Tinta (a ampulheta), título em Fraunces 20 e o botão principal com o ícone de 18 (o balão). Tocar fora ou no "voltar" do Android fecha, como "Agora não".</p>
+        <p class="spec-line"><b>Três estados, todos com "Entendi":</b> o limite do mês, o fim do período gratuito (parte 05, "Período gratuito do assistente") e o assistente desligado (parte 05, "Níveis de acesso"), com o microfone riscado. Ícone de 28 em Tinta (a ampulheta) e título em Fraunces 20. Tocar fora ou no "voltar" do Android fecha.</p>
       </div>
 
       <!-- Entrada -->
@@ -3543,6 +3596,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.32</td><td class="num">01/11/2026</td><td>Uso de IA (parte 05, bloco novo): a folha que pede a permissão para enviar dados à IA do Google antes do primeiro uso do assistente, com "Permitir" e "Agora não", a linha em Configurações › Assistente e a folha para retirar a permissão. Sai o pedido do Plus pelo WhatsApp do app: o Plano, o Início, o Chat, o fim do período gratuito e a folha do limite (parte 06), que fica com três estados. A área administrativa (parte 05) mostra só os pedidos já feitos. Configurações › Conta ganha "Fale com a gente", que abre o e-mail.</td></tr>
         <tr><td>1.31</td><td class="num">31/10/2026</td><td>Widget (parte 05): um desenho para cada tamanho, com o microfone à esquerda e o mês ou o dia à direita, seguindo o foco da Tela inicial. O microfone abre o Início já gravando, e o quadrado marca a rotina sem abrir o app. "Hoje não" fica embaixo, depois das feitas, e no Android o texto usa as fontes do celular. Tela inicial (parte 05): "Esconder valores no widget".</td></tr>
         <tr><td>1.30</td><td class="num">31/10/2026</td><td>Agenda (parte 05): excluir uma rotina que já acabou, só em um dia ou em todos os que passaram. Início com foco em rotina (parte 05): segurar a linha também abre os detalhes. Chat: a ficha da rotina passa de "Parar" para "Excluir", com o mesmo nome do app.</td></tr>
         <tr><td>1.29</td><td class="num">31/10/2026</td><td>Agenda (parte 05): andar entre as semanas, o progresso em cada dia e no calendário, a rotina de um dia, início e término com atalhos de duração, a descrição, o ícone sugerido, a folha de detalhes e a escolha entre "Só este dia" e "Este e os próximos". Início com foco em rotina (parte 05): tocar na linha abre os detalhes.</td></tr>

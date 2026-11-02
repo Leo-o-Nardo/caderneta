@@ -152,13 +152,12 @@ No Android e no iPhone, com [o desenho no guia](https://leo-o-nardo.github.io/ca
 
 ### Planos
 - **Gratuito e Plus:** cada plano tem um limite de uso do assistente por mês, contado a partir do dia em que a conta foi criada. O Plus tem um limite bem maior. Lançar à mão, as listas e a agenda nunca têm limite.
-- **Período gratuito:** no Gratuito, o assistente fica com a pessoa por 7 dias, contados da confirmação do e-mail. Depois, o app continua funcionando sem ele: o Plano mostra até quando ele ficou, o Início avisa 2 dias antes e o Chat troca o campo por um aviso com o pedido do Plus.
-- **Níveis de acesso:** cada conta está em um de quatro níveis, os mesmos em todas as casas dela: sem acesso, app sem assistente, Gratuito e Plus. O fim do período gratuito leva a pessoa para "app sem assistente" sozinho, com o pedido do Plus. Quando é o administrador quem desliga, o Início troca o microfone por um círculo "Lançar", o Plano mostra só esse aviso, e o tour e os primeiros passos deixam de falar do assistente. O Chat continua nos dois casos, para os avisos e a conversa antiga.
+- **Período gratuito:** no Gratuito, o assistente fica com a pessoa por 7 dias, contados da confirmação do e-mail. Depois, o app continua funcionando sem ele: o Plano mostra até quando ele ficou, o Início avisa 2 dias antes e o Chat troca o campo por um aviso.
+- **Níveis de acesso:** cada conta está em um de quatro níveis, os mesmos em todas as casas dela: sem acesso, app sem assistente, Gratuito e Plus. O fim do período gratuito leva a pessoa para "app sem assistente" sozinho. Quando é o administrador quem desliga, o Início troca o microfone por um círculo "Lançar", o Plano mostra só esse aviso, e o tour e os primeiros passos deixam de falar do assistente. O Chat continua nos dois casos, para os avisos e a conversa antiga.
 - **O limite é dito em tempo:** o app fala "volta a zero no dia 12", nunca em dinheiro ou tokens.
 - **Tela do Plano:** em Configurações › Assistente › Plano, o uso do mês em porcentagem, numa barra que fica em Atenção a partir de 80%, o dia em que volta a zero e os planos, sem preço. O Plus dado diz até quando vale.
 - **Aviso no Início:** só a partir de 80%, no limite e perto do fim do período gratuito, no mesmo traço das contas que vencem. O Início não ganha mais um número fixo.
 - **Folha do limite:** quando o uso do mês ou o período gratuito acaba, uma folha mostra quando o assistente volta (ou até quando ficou) e o que continua funcionando, no lugar de uma mensagem de erro.
-- **Pedido do Plus pelo WhatsApp:** no limite do Gratuito ou no fim do período gratuito, a folha, o Chat e a tela do Plano abrem o WhatsApp do administrador com a mensagem pronta. Ele recebe um e-mail para dar o Plus ou negar.
 - **Avaliação na loja:** a janela do próprio sistema, uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e sem recompensa.
 
 ### Acesso e segurança
@@ -167,6 +166,8 @@ No Android e no iPhone, com [o desenho no guia](https://leo-o-nardo.github.io/ca
 - **Esqueci a senha** com código de 6 números por e-mail.
 - **Sessão por aparelho**, com "sair de todos os aparelhos".
 - **Privacidade antes da IA:** CPF, CNPJ, cartões, chaves Pix, telefones, e-mails, agência e conta são trocados por marcadores antes de qualquer texto chegar ao modelo.
+- **Permissão para a IA:** antes do primeiro uso do assistente, uma folha diz o que vai para a IA e pede a permissão. Lançar à mão, a agenda, as listas e o resumo funcionam sem ela, e dá para retirar em Configurações › Assistente › Uso de IA.
+- **Fale com a gente:** em Configurações › Conta, abre o e-mail.
 - **Limites:** número de mensagens por pessoa por dia, além do limite do mês de cada plano (veja [Planos](#planos)).
 
 ### Área administrativa
@@ -176,7 +177,7 @@ Páginas no navegador, em `/admin`, só para o administrador e no mesmo visual d
 - **Visão geral:** as contas novas, quantas ainda não confirmaram o e-mail, os pedidos de Plus em aberto, quantas pessoas estão no Plus, quantas estão sem o assistente e o custo de hoje e do mês.
 - **Pessoas:** busca por nome ou e-mail, filtros por nível e o uso de cada pessoa contra o limite do plano.
 - **Acesso de cada pessoa:** um painel só, com os quatro níveis. Ativar sem o e-mail (para quem não recebe o link), bloquear e desbloquear; desligar e religar o assistente; dar mais 7, 15 ou 30 dias de assistente no Gratuito; dar o Plus por 1, 3, 6 ou 12 meses (os meses somam ao Plus já dado) ou sem prazo, e tirar o Plus.
-- **Pedidos de Plus:** dar ou negar na própria linha da lista.
+- **Pedidos de Plus:** os que já foram feitos, para dar ou negar na própria linha da lista.
 - **Uso da IA:** custo por dia ou por mês, por modelo e por pessoa, em dólar ou em reais. A cotação é consultada uma vez por dia e fica guardada em cache, e a última que deu certo cobre uma falha da consulta.
 - **É o único lugar com o custo da IA:** no app, ninguém vê valores em dólar.
 
@@ -202,7 +203,7 @@ Nem toda ação do assistente pede o mesmo cuidado, então elas se dividem em tr
 A decisão importante: **a confirmação nunca volta para a IA**. Quando o modelo propõe uma ação, o app valida os dados com as regras dele e guarda uma ação pendente já pronta para gravar. Ao tocar em "Confirmar", o app grava exatamente o que está na ficha (com as edições da pessoa). O modelo não tem uma segunda chance de inventar um valor na hora de gravar.
 
 ### Privacidade antes da IA
-Todo texto que vai para a IA, digitado ou transcrito, passa antes por um cofre (`SecureDataVault`):
+Nada vai para a IA sem a permissão da pessoa, conferida no servidor antes de gravar a mensagem ou o áudio. Depois disso, todo texto, digitado ou transcrito, passa antes por um cofre (`SecureDataVault`). O áudio vai para a transcrição como foi gravado, e a folha da permissão diz isso:
 
 - CPF e CNPJ são reconhecidos pelos dígitos verificadores, e cartões pelo algoritmo de Luhn, para não confundir com qualquer número comprido.
 - Cada dado vira um marcador, como `[CPF_1]` ou `[CARTAO_1]`. O modelo trabalha com o marcador, e a resposta volta com o dado original, inclusive no meio do texto chegando ao vivo.
@@ -262,7 +263,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
 | Rotina | `/routines`, `GET /routines/day`, `GET /routines/days`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
 | Widget | `POST /widget/token`, `GET /widget`, `POST /widget/routines/{routine}/done`, `DELETE /widget/routines/{routine}/logs/{date}` |
-| Plano | `GET /assistant/usage`, `POST /assistant/plus-request` |
+| Plano | `GET /assistant/usage`, `PUT /assistant/consent` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
 
@@ -302,7 +303,7 @@ Como o repositório privado está organizado:
 ## Limitações e próximos passos
 
 - **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
-- **Plus:** ainda não é vendido pelas lojas; quem libera é o administrador, pelo pedido do WhatsApp ou pela área administrativa. A cobrança pelas lojas vem depois.
+- **Plus:** ainda não é vendido pelas lojas; quem libera é o administrador, pela área administrativa. A cobrança pelas lojas vem depois.
 - **Publicação:** o app está em revisão na Play Store e na App Store. O servidor de produção roda com Docker Compose.
 
 ## Autor
