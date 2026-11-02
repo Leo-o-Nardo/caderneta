@@ -30,7 +30,7 @@ A household finance app you use by talking. You say "I spent 42 on lunch and 18 
   <img src="./assets/resumo.png" width="24%" alt="The monthly summary, with the balance and the budgets">
 </p>
 
-<p align="center">Documentation (in Portuguese): <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">The icon</a> · <a href="https://leo-o-nardo.github.io/caderneta/apresentacao.html">How it works inside</a></p>
+<p align="center">Documentation (in Portuguese): <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a> · <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html">The icon</a> · <a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html">Architecture</a></p>
 
 ---
 
@@ -51,9 +51,9 @@ The visual design follows its own guide, **Caderneta**: light paper, dark ink, a
 <table>
   <tr>
     <td width="50%" valign="top">
-      <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the approved decisions and the table of contents"></a>
+      <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the main choices and the table of contents"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a></b></p>
-      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the Plan screen, drag to reorder, the widget, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
+      <p>How Caderneta was designed, told from start to finish: the problem the app solves, the choices of color, type and space, a day in the household screen by screen, and the pieces and movements repeated across all of them.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="The start of the icon presentation, with the icon on iPhone, Android, the themed icon, the splash and the home screen"></a>
@@ -174,7 +174,7 @@ On Android and iPhone, with [its design in the guide](https://leo-o-nardo.github
 - **Limits:** messages per person per day, plus each plan's monthly limit (see [Plans](#plans)).
 
 ### Admin area
-Browser pages at `/admin`, only for the administrator and in the same visual style as the app. They are drawn in the [admin area part of the design guide](https://leo-o-nardo.github.io/caderneta/design-guide.html#admin) (in Portuguese).
+Browser pages at `/admin`, only for the administrator and in the same visual style as the app. They are drawn in the [Architecture page](https://leo-o-nardo.github.io/caderneta/arquitetura.html#admin) (in Portuguese).
 
 - **Two-step sign-in:** e-mail and password and, on a new browser, a 6-digit code by e-mail. After the code, the browser stays trusted for 60 days.
 - **Overview:** the new accounts, how many have not confirmed their e-mail yet, the open Plus requests, how many people are on Plus, how many are without the assistant, and today's and this month's cost.
@@ -188,9 +188,9 @@ Browser pages at `/admin`, only for the administrator and in the same visual sty
 
 The app **asks through the API** (HTTP) and **listens through Reverb** (WebSocket); anything slow (the AI, transcription, e-mails) leaves the request and runs in the queue. The drawing follows the path from the voice message to the recorded entry:
 
-<p align="center"><a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html?lang=en"><img src="./assets/arquitetura-en.png" alt="Sequence diagram between the app, Reverb, API, PostgreSQL, queue and AI agent: when the app opens, the WebSocket connection and channel subscription; then send, transcribe, reply and confirm, with the HTTP calls and events of each step."></a></p>
+<p align="center"><a href="https://leo-o-nardo.github.io/caderneta/arquitetura.html?lang=en#voz"><img src="./assets/arquitetura-en.png" alt="Sequence diagram between the app, Reverb, API, PostgreSQL, queue and AI agent: when the app opens, the WebSocket connection and channel subscription; then send, transcribe, reply and confirm, with the HTTP calls and events of each step."></a></p>
 
-To go deeper, the page [How it works inside](https://leo-o-nardo.github.io/caderneta/apresentacao.html) (in Portuguese) explains the architecture for people who do not know the code: the parts, the path of a request and of a voice message, and the privacy vault.
+To go deeper, the [Architecture](https://leo-o-nardo.github.io/caderneta/arquitetura.html) page (in Portuguese) explains the system for people who do not know the code: the parts, the path of a request and of a voice message, and the privacy vault.
 
 ## Under the hood
 

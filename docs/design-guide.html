@@ -59,7 +59,7 @@ code {
 }
 
 /* ============ Cabeçalho do documento ============ */
-.doc-head { padding: 64px 0 64px; }
+.doc-head { padding-top: 64px; padding-bottom: 64px; }
 .doc-meta { display: flex; flex-wrap: wrap; gap: 8px 24px; }
 .doc-title {
   font: 600 clamp(64px, 12vw, 136px)/.92 var(--serif);
@@ -86,10 +86,13 @@ code {
 }
 .decide b { display: block; font: 500 19px/1.25 var(--serif); margin-bottom: 8px; }
 .decide span { display: block; font-size: 14px; line-height: 1.5; color: var(--grafite); }
-.toc { display: flex; flex-wrap: wrap; gap: 12px 24px; margin-top: 40px; }
-.toc a { text-decoration: none; font: 500 15px var(--sans); }
-.toc a span { color: var(--grafite); margin-right: 6px; font-variant-numeric: tabular-nums; }
+.toc { display: grid; max-width: 780px; margin-top: 40px; border-top: 1px solid var(--tinta); }
+.toc > a { display: block; padding: 12px 0; border-bottom: 1px solid var(--pauta); text-decoration: none; font: 500 16px var(--sans); }
+.toc > a span { display: inline-block; width: 40px; color: var(--grafite); font-variant-numeric: tabular-nums; }
+.toc > a.com-capitulos { padding-bottom: 4px; border-bottom: 0; }
 .toc a:hover { text-decoration: underline; text-underline-offset: 4px; }
+.toc-capitulos { display: flex; flex-wrap: wrap; gap: 4px 20px; padding: 0 0 12px 40px; border-bottom: 1px solid var(--pauta); }
+.toc-capitulos a { color: var(--grafite); font-size: 15px; text-underline-offset: 4px; }
 
 /* ============ Partes ============ */
 .part { padding: 64px 0 96px; border-top: 1px solid var(--tinta); }
@@ -102,6 +105,14 @@ code {
 .block-head h3 { font: 500 26px/1.2 var(--serif); letter-spacing: -.01em; }
 .block-head p { font-size: 14px; color: var(--grafite); }
 .lede { max-width: 700px; color: var(--grafite); margin-bottom: 40px; }
+/* A narrativa: a abertura de cada capítulo das telas e a ponte no fim de cada parte. */
+.capitulo { margin: 112px 0 48px; }
+.part-head + .capitulo { margin-top: 0; }
+.capitulo h3 { font: 600 clamp(28px, 3.6vw, 38px)/1.1 var(--serif); letter-spacing: -.02em; }
+.capitulo p { max-width: 700px; margin-top: 12px; font: 400 clamp(18px, 2vw, 21px)/1.45 var(--serif); color: var(--grafite); }
+.capitulo + .block { margin-top: 0; }
+.ponte { max-width: 700px; margin-top: 96px; padding-top: 24px; border-top: 1px solid var(--tinta); font: 400 clamp(19px, 2.3vw, 24px)/1.4 var(--serif); }
+.ponte a { display: block; margin-top: 12px; font: 500 16px var(--sans); color: var(--musgo); text-underline-offset: 4px; }
 
 /* ============ 01 O que o guia resolve, e listas e tabelas usadas em outras partes ============ */
 .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 440px), 1fr)); gap: 64px; }
@@ -456,20 +467,11 @@ table.ledger tfoot .n { color: var(--tinta); }
 .trial-lock .btn { margin-top: 12px; }
 .trial-lock .with-icon .i.off { color: var(--grafite); }
 /* Níveis de acesso (1.20): o assistente desligado no app e as duas opções do Início. */
-.access-end .limit-icon { color: var(--grafite); }
 .home-options { display: grid; gap: 32px 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 390px)); margin-top: 56px; }
 .home-options figure { display: grid; gap: 12px; align-content: start; }
 .home-options figcaption { font-size: 15px; line-height: 1.5; }
 .home-options figcaption b { font-weight: 600; }
 /* O painel "Acesso" da área administrativa: os quatro níveis e, embaixo, o que fazer no escolhido. */
-.lvl-list { border-top: 1px solid var(--pauta); }
-.lvl { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 2px 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--pauta); cursor: pointer; }
-.lvl input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--musgo); }
-.lvl .n-main { display: grid; gap: 2px; min-width: 0; }
-.lvl-note { padding-left: 12px; border-left: 2px solid var(--mostarda); }
-.lvl-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 32px; align-items: start; }
-.lvl-grid figure { display: grid; gap: 8px; align-content: start; }
-.lvl-grid figcaption { font-size: 13px; color: var(--grafite); }
 .trial-msg { align-self: flex-start; max-width: 80%; padding: 10px 14px; border-radius: 12px; background: var(--folha); border: 1px solid var(--pauta); font: 400 15px/22px var(--sans); }
 .trial-msg.me { align-self: flex-end; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
 .trial-chat { display: flex; flex-direction: column; gap: 8px; opacity: .55; }
@@ -635,90 +637,19 @@ table.ledger tfoot .n { color: var(--tinta); }
 .limit-later { justify-self: center; margin: 0; }
 @keyframes up { from { transform: translateY(100%); } }
 
-/* ============ Área administrativa (navegador) ============ */
-.adm-shots { display: grid; gap: 48px; }
-.adm-pair { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
+/* ============ Janela do navegador (Confirmar o e-mail) ============ */
 .adm-win { border: 1px solid var(--pauta); border-radius: 8px; overflow: hidden; background: var(--papel); box-shadow: 0 18px 40px -28px rgba(30, 31, 28, .45); }
 .adm-chrome { display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 14px; background: var(--papel-escuro); border-bottom: 1px solid var(--pauta); }
 .adm-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--pauta); }
 .adm-url { flex: 1; max-width: 420px; margin: 0 auto; height: 22px; display: flex; align-items: center; padding: 0 10px; border-radius: 4px; background: var(--folha); font: 400 12px var(--sans); color: var(--grafite); white-space: nowrap; overflow: hidden; }
-.adm-shot-cap { margin-top: 12px; font-size: 13px; color: var(--grafite); }
-.adm-shot-cap b { color: var(--tinta); font-weight: 600; }
 /* A entrada: a mesma coluna estreita das páginas do servidor. */
 .adm-narrow { max-width: 400px; margin: 0 auto; padding: 40px 24px 32px; }
 .adm-brand { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--tinta); }
 .adm-brand svg { width: 28px; height: 28px; }
 .adm-brand span { font: 600 20px/26px var(--serif); }
 .adm-brand em { font: 600 11px/16px var(--sans); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); margin-left: 4px; }
-.adm-form { display: grid; gap: 20px; margin-top: 24px; }
-.adm-code { font: 500 28px/1 var(--sans); letter-spacing: .4em; text-align: center; font-variant-numeric: tabular-nums; }
-.adm-again { justify-self: center; }
-/* As páginas de dentro: topo com o menu e uma coluna larga. */
-.adm-top { display: flex; align-items: center; gap: 24px; padding: 0 clamp(16px, 4vw, 64px); height: 60px; border-bottom: 1px solid var(--tinta); }
-.adm-top .adm-brand { padding: 0; border: 0; }
-.adm-nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
-.adm-nav a { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 4px; text-decoration: none; font: 500 14px var(--sans); color: var(--grafite); white-space: nowrap; }
-.adm-nav a:hover { background: var(--papel-escuro); color: var(--tinta); }
-.adm-nav a[aria-current="page"] { color: var(--tinta); box-shadow: inset 0 -2px 0 var(--tinta); border-radius: 0; }
-.adm-count { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--mostarda-clara); color: var(--mostarda-escura); font: 600 12px/20px var(--sans); text-align: center; font-variant-numeric: tabular-nums; }
-.adm-out { display: inline-flex; align-items: center; gap: 6px; font: 500 14px var(--sans); color: var(--grafite); text-decoration: none; white-space: nowrap; }
-.adm-out .i { width: 18px; height: 18px; }
-.adm-body { padding: 32px clamp(16px, 4vw, 64px) 40px; }
-.adm-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
-.adm-head .n-cap { margin-top: 4px; }
-.adm-back { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 8px; font: 500 14px var(--sans); color: var(--musgo); text-decoration: none; }
-.adm-back .i { width: 16px; height: 16px; }
-.adm-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 24px; border-top: 1px solid var(--tinta); border-bottom: 1px solid var(--pauta); }
-.adm-stats > * { display: grid; gap: 4px; padding: 16px 16px 16px 0; text-decoration: none; }
-.adm-stats > * + * { border-left: 1px solid var(--pauta); padding-left: 16px; }
-.adm-stats .t-aviso { color: var(--mostarda-escura); }
-.adm-cols { display: grid; gap: 32px 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); margin-top: 40px; }
-.adm-sec > .n-rot { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
-.adm-sec > .n-rot a { font: 500 13px var(--sans); letter-spacing: 0; text-transform: none; color: var(--musgo); }
-.adm-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
-.adm-row .n-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
-.adm-row .n-main .n-cap { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.adm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 24px; }
-.adm-search { position: relative; flex: 1 1 280px; max-width: 420px; }
-.adm-search .i { position: absolute; left: 12px; top: 12px; width: 20px; height: 20px; color: var(--grafite); }
-.adm-search .input { padding-left: 42px; }
 .adm-tag { display: inline-block; font: 600 11px/14px var(--sans); letter-spacing: .08em; text-transform: uppercase; border: 1px solid currentColor; border-radius: 2px; padding: 2px 6px; white-space: nowrap; }
-.adm-tag.ok { color: var(--musgo); } .adm-tag.wait { color: var(--mostarda-escura); } .adm-tag.no { color: var(--tijolo); } .adm-tag.plain { color: var(--grafite); }
-.adm-table-wrap { margin-top: 16px; overflow-x: auto; }
-table.adm-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 15px; }
-table.adm-table th { text-align: left; font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding: 0 16px 8px 0; border-bottom: 1px solid var(--tinta); white-space: nowrap; }
-table.adm-table td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--pauta); vertical-align: middle; }
-table.adm-table tr.press { cursor: pointer; }
-table.adm-table tr.press:hover td { background: var(--papel-escuro); }
-table.adm-table .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-table.adm-table th.n { text-align: right; }
-table.adm-table tfoot td { border-bottom: 0; border-top: 1px solid var(--tinta); font-weight: 600; }
-.adm-who { display: grid; gap: 2px; }
-.adm-who .n-cap { white-space: nowrap; }
-.adm-use { display: grid; grid-template-columns: 72px auto; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
-.adm-use .bar { width: 72px; }
-.adm-pages { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
-.adm-split { display: grid; gap: 40px 48px; grid-template-columns: minmax(0, 1.4fr) minmax(min(100%, 320px), 1fr); margin-top: 32px; align-items: start; }
-@media (max-width: 860px) { .adm-split { grid-template-columns: minmax(0, 1fr); } }
-.adm-kv { border-top: 1px solid var(--pauta); }
-.adm-kv > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
-.adm-kv > div > span:first-child { color: var(--grafite); }
-.adm-kv > div > span:last-child { text-align: right; }
-.adm-meter { display: grid; gap: 8px; margin-top: 16px; }
-.adm-meter .n-cap b { color: var(--tinta); font-weight: 600; }
-.adm-actions { background: var(--folha); border: 1px solid var(--pauta); border-radius: 6px; padding: 20px; display: grid; gap: 16px; }
-.adm-actions + .adm-actions { margin-top: 16px; }
-.adm-actions h4 { font: 500 20px/26px var(--serif); }
-.adm-actions .seg button { height: 36px; }
-.adm-check { display: flex; align-items: center; gap: 10px; font-size: 15px; }
-.adm-check input { width: 18px; height: 18px; accent-color: var(--musgo); }
-.adm-note { padding-left: 12px; border-left: 2px solid var(--mostarda); font-size: 14px; color: var(--grafite); }
-.adm-danger { justify-self: start; padding: 4px 0; background: none; border: 0; font: 500 15px/20px var(--sans); color: var(--tijolo); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
-.adm-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
-.adm-inline .seg { width: 200px; }
-.adm-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 24px; }
-.adm-fig { border-top: 1px solid var(--tinta); padding-top: 12px; display: grid; gap: 4px; }
-.adm-fig .n-fig { font-size: 30px; line-height: 36px; }
+.adm-tag.ok { color: var(--musgo); } .adm-tag.wait { color: var(--mostarda-escura); } .adm-tag.no { color: var(--tijolo); }
 .replay { margin-top: 16px; }
 
 /* ============ Micro-interações ============ */
@@ -758,29 +689,18 @@ table.adm-table tfoot td { border-bottom: 0; border-top: 1px solid var(--tinta);
 .budget-demo .n-cap { transition: color .2s ease-out; }
 .row-btns { display: flex; align-items: center; gap: 16px; margin-top: 8px; }
 
-/* ============ 08 No código ============ */
-.files { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 64px; }
-.files h4 { font: 500 22px/1.25 var(--serif); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
-.files li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
-.files li code { font-size: 13px; }
-.files li span { display: block; color: var(--grafite); font-size: 14px; margin-top: 4px; }
+/* ============ Rodapé ============ */
 .foot { padding: 40px 0 64px; border-top: 1px solid var(--tinta); color: var(--grafite); font-size: 14px; }
 
-/* ============ Contraste e diretrizes ============ */
+/* ============ Contraste ============ */
 .pairsw { display: inline-flex; align-items: center; justify-content: center; width: 52px; height: 32px; border-radius: 4px; font: 600 14px/1 var(--sans); box-shadow: inset 0 0 0 1px rgba(30, 31, 28, .12); vertical-align: middle; }
 .pairsw.line { font-size: 0; }
 .pairsw.line::after { content: ""; width: 32px; height: 4px; border-radius: 2px; background: var(--fg); }
 table.ledger td.c { width: 72px; }
 .min { color: var(--grafite); font-size: 14px; white-space: nowrap; }
 .adj { font: 600 11px/16px var(--sans); letter-spacing: .06em; text-transform: uppercase; color: var(--musgo); white-space: nowrap; }
-.checklist { counter-reset: c; }
-.checklist li { list-style: none; counter-increment: c; display: grid; grid-template-columns: 40px minmax(0, 1fr); gap: 8px; padding: 16px 0; border-bottom: 1px solid var(--pauta); }
-.checklist li::before { content: counter(c, decimal-leading-zero); font: 500 14px/24px var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; }
-.checklist b { font-weight: 600; }
-.checklist span { color: var(--grafite); }
 table.ledger.copy td:first-child { white-space: normal; width: 30%; }
 table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
-.versions td:first-child { width: 96px; }
 
 /* ============ Ícones (1.2) ============ */
 /* Ícone de categoria: na cor dela (style="color:…"), numa coluna fixa de 24 à esquerda. */
@@ -978,16 +898,15 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.32 · 1º de novembro de 2026</span>
-    <span class="rotulo">Aprovado</span>
+    <span class="rotulo">Versão 1.33 · 2 de novembro de 2026</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
   <p class="doc-lead">Um app de contas da casa deveria lembrar o caderno onde a família sempre anotou o dinheiro, e não um painel de corretora. Por isso o app usa papel claro, tinta escura, uma pauta fina entre as linhas e números alinhados como num livro-caixa. A cor só aparece quando quer dizer alguma coisa.</p>
-  <p class="doc-note">Este documento é a referência visual do app. Toda tela nova ou alterada segue o que está aqui. Quando uma diretriz precisar mudar, ela muda primeiro neste guia e entra no registro de versões, no fim da página.</p>
+  <p class="doc-note">Este guia conta como a Caderneta foi pensada. Começa pelo problema que ela resolve, passa pelas escolhas de cor, letra e espaço, mostra as telas num dia comum da casa e termina nas peças e nos movimentos que se repetem em todas elas.</p>
 
-  <h2 class="rotulo decide-head">Decisões aprovadas e por quê</h2>
+  <h2 class="rotulo decide-head">As escolhas principais e por quê</h2>
   <ol class="decide">
-    <li><b>Tema claro, cor de papel</b><span>Papel e tinta dão a cara de caderno de contas e se leem melhor de dia, quando a maioria dos gastos é lançada. Os tokens já estão prontos para um tema escuro, se ele vier como opção.</span></li>
+    <li><b>Tema claro, cor de papel</b><span>Papel e tinta dão a cara de caderno de contas e se leem melhor de dia, quando a maioria dos gastos é lançada. O desenho já deixa espaço para um tema escuro, se ele vier como opção.</span></li>
     <li><b>Fraunces e IBM Plex Sans</b><span>A serifada dá personalidade aos títulos e aos valores grandes. A sem serifa é legível em tamanho pequeno e alinha as colunas de R$.</span></li>
     <li><b>Ícones como num Kindle</b><span>Ícones de traço fino, todos da mesma família, para achar cada coisa de relance: nas abas, nas linhas, nos menus, no topo das fichas e nos botões de ação. Sempre ao lado de uma palavra e nunca dentro de um quadrado colorido.</span></li>
     <li><b>A categoria tem ícone e cor</b><span>O ícone da categoria aparece na cor dela, num tom de pigmento apagado, e deixa o app mais vivo sem gritar. Os 14 tons têm claridade parecida, para nenhuma categoria chamar mais atenção que as outras.</span></li>
@@ -999,12 +918,15 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <a href="#paleta"><span>02</span>Paleta</a>
     <a href="#tipografia"><span>03</span>Tipografia</a>
     <a href="#espaco"><span>04</span>Espaço e forma</a>
-    <a href="#telas"><span>05</span>As telas</a>
+    <a class="com-capitulos" href="#telas"><span>05</span>As telas</a>
+    <div class="toc-capitulos">
+      <a href="#um-dia">Um dia na casa</a>
+      <a href="#app-fechado">Quando o app está fechado</a>
+      <a href="#combinado">O combinado com o assistente</a>
+      <a href="#a-conta">A conta</a>
+    </div>
     <a href="#componentes"><span>06</span>Componentes</a>
     <a href="#movimento"><span>07</span>Micro-interações</a>
-    <a href="#arquivos"><span>08</span>No código</a>
-    <a href="#diretrizes"><span>09</span>Diretrizes</a>
-    <a href="#versoes"><span>10</span>Versões</a>
   </nav>
 </header>
 
@@ -1017,7 +939,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">01</span>
       <div>
         <h2>O que o guia resolve</h2>
-        <p>Um app de contas da casa é aberto várias vezes por dia, lido de relance e muitas vezes usado com uma mão só. As seis regras abaixo saem disso e explicam as escolhas das outras partes. Todo o visual sai de um arquivo só, <code>theme/tokens.ts</code>, então uma regra que muda aqui muda o app inteiro.</p>
+        <p>Um app de contas da casa é aberto várias vezes por dia, lido de relance e muitas vezes usado com uma mão só. As seis regras abaixo saem disso e explicam as escolhas das outras partes.</p>
       </div>
     </div>
 
@@ -1033,7 +955,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <div class="problem">
         <h4>Uma escala só</h4>
         <ul>
-          <li>Todo espaço sai da escala de 4 a 64 (parte 04), sem valor solto no meio do caminho. Assim as telas têm o mesmo ritmo, e mudar a escala muda o app inteiro.</li>
+          <li>Todo espaço sai da escala de 4 a 64 (parte 04), sem valor solto no meio do caminho. Assim as telas têm o mesmo ritmo.</li>
           <li>A margem lateral é de 24 e as linhas têm respiro de sobra: as contas são conferidas com pressa, e um toque não pode cair na linha errada.</li>
         </ul>
       </div>
@@ -1043,7 +965,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <li>Musgo marca ação e dinheiro que entra, Mostarda marca o que pede atenção e Tijolo marca o erro. Uma cor nunca faz dois papéis, então ela sempre quer dizer a mesma coisa.</li>
           <li>Os links usam o mesmo Musgo das ações, sem uma terceira cor de destaque.</li>
           <li>A cor da categoria fica só no ícone, em tons de pigmento de claridade parecida: o Resumo pode mostrar dez categorias sem virar um arco-íris.</li>
-          <li>As categorias e os cartões usam a mesma família de 14 pigmentos, e o resto das cores vem dos tokens: nenhuma tela inventa uma cor (parte 09).</li>
+          <li>As categorias e os cartões usam a mesma família de 14 pigmentos, e o resto das cores vem da paleta: nenhuma tela inventa uma cor (parte 02).</li>
         </ul>
       </div>
       <div class="problem">
@@ -1070,6 +992,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </ul>
       </div>
     </div>
+
+    <p class="ponte">Essas regras precisam virar algo que se veja. A primeira decisão é a cor. <a href="#paleta">Paleta →</a></p>
   </div>
 </section>
 
@@ -1162,6 +1086,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div class="cm"><span class="new" style="background:#7D786D"></span><span><b>Pedra</b><small>Outros</small></span><span class="hex">#7D786D</span></div>
       </div>
     </div>
+
+    <p class="ponte">Com a cor resolvida, falta a voz do caderno: as letras. <a href="#tipografia">Tipografia →</a></p>
   </div>
 </section>
 
@@ -1172,7 +1098,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">03</span>
       <div>
         <h2>Tipografia</h2>
-        <p>São duas famílias, cada uma com um trabalho. No app elas entram pelos pacotes <code>@expo-google-fonts/fraunces</code> e <code>@expo-google-fonts/ibm-plex-sans</code>.</p>
+        <p>São duas famílias, cada uma com um trabalho.</p>
       </div>
     </div>
 
@@ -1187,7 +1113,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
     </div>
 
-    <div class="block-head"><h3>Hierarquia</h3><p>Tamanhos em pontos do app (dp)</p></div>
+    <div class="block-head"><h3>Hierarquia</h3><p>Tamanhos em pontos do app</p></div>
     <div class="type-row"><div class="spec"><b>Display</b>Fraunces SemiBold · 40/44 · −2%<br>Saldo do mês, o número que a pessoa veio ver</div><div class="t-display">R$ 5.765,70</div></div>
     <div class="type-row"><div class="spec"><b>Título</b>Fraunces SemiBold · 28/34 · −1%<br>Título de tela</div><div class="t-h1">Boa tarde, Leo</div></div>
     <div class="type-row"><div class="spec"><b>Subtítulo</b>Fraunces Medium · 20/26<br>Título de seção, sempre com um traço de Tinta embaixo</div><div class="t-h2">Gastos por categoria</div></div>
@@ -1203,6 +1129,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <span>R$ 64,00</span><span class="prop">R$ 64,00</span>
       </div>
     </div>
+
+    <p class="ponte">As letras precisam de lugar na folha. <a href="#espaco">Espaço e forma →</a></p>
   </div>
 </section>
 
@@ -1213,13 +1141,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">04</span>
       <div>
         <h2>Espaço e forma</h2>
-        <p>Uma escala de espaçamento e nenhum valor fora dela: se a tela pedir um <code>space.sm + 2</code>, o problema está no desenho, não na escala. Seções viram um título e um traço, não uma caixa.</p>
+        <p>Uma escala de espaçamento e nenhum valor fora dela: se uma tela pedir um espaço que a escala não tem, o problema está no desenho, não na escala. Seções viram um título e um traço, não uma caixa.</p>
       </div>
     </div>
 
     <div class="cols">
       <div>
-        <div class="block-head"><h3>Escala</h3><p>px / dp</p></div>
+        <div class="block-head"><h3>Escala</h3><p>Em pontos do app</p></div>
         <div class="scale">
           <div class="scale-row"><b>4</b><i style="width:4px"></i><span>Entre o nome e a legenda; entre um ícone pequeno e o texto</span></div>
           <div class="scale-row"><b>8</b><i style="width:8px"></i><span>Entre o rótulo e o campo; entre botões lado a lado</span></div>
@@ -1267,14 +1195,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div><b>Construção</b><span>Grade de 1024. Elástico de 800 a 860, de cima a baixo. "C" da Fraunces SemiBold, corpo 600, centrado em 432, com a linha de base em 660. Traço duplo de 242 a 622, nas alturas 742 e 796, com 24 de espessura.</span></div>
         <div><b>Cores</b><span>Só as do guia: capa em Musgo, elástico em Tinta, letra e traço em Papel. Sem sombra, brilho ou degradê.</span></div>
         <div><b>Android</b><span>O fundo é o Musgo e a frente fica 15% menor, porque o Android mostra só o círculo do meio. O temático é o desenho todo numa cor só.</span></div>
-        <div><b>Splash</b><span>O ícone com o canto do iPhone (22,4%), em 96 dp no centro, sobre o Papel. É também o primeiro quadro da <a href="icone-caderneta.html#abertura">animação de abertura</a>.</span></div>
+        <div><b>Splash</b><span>O ícone com o canto do iPhone (22,4%), em 96 pontos no centro, sobre o Papel. É também o primeiro quadro da <a href="icone-caderneta.html#abertura">animação de abertura</a>.</span></div>
         <div><b>Nunca</b><span>Um traço atravessando o "C" (vira o €), outra letra ou outra fonte, o ícone sem o elástico ou em outras cores.</span></div>
-        <div><b>Arquivos</b><span>Os SVG ficam em mobile/assets/brand e os PNG do app em mobile/assets/images. Os dois saem de node scripts/brand-icons.mjs, na raiz do projeto.</span></div>
-      </div>
+              </div>
     </div>
 
     <div class="block" id="icones">
-      <div class="block-head"><h3>Ícones, como num Kindle</h3><p>Lucide, a mesma família do app</p></div>
+      <div class="block-head"><h3>Ícones, como num Kindle</h3><p>Traço fino, todos da mesma família</p></div>
       <p class="lede">Num Kindle, os ícones são desenhos de traço simples que ajudam a achar as coisas sem chamar atenção. Aqui é igual, com uma diferença: o ícone da categoria leva a cor dela, num tom de pigmento apagado, e isso deixa o app mais vivo. O ícone nunca fica dentro de um quadrado colorido.</p>
       <div class="cols">
         <div>
@@ -1305,6 +1232,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
       </div>
     </div>
+
+    <p class="ponte">Agora as escolhas viram o app. Vamos acompanhar um dia da casa da Ana e do Leo. <a href="#telas">As telas →</a></p>
   </div>
 </section>
 
@@ -1315,8 +1244,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">05</span>
       <div>
         <h2>As telas</h2>
-        <p>As três telas mais usadas, com os dados da casa de exemplo (Leo e Ana, outubro de 2026), e o porquê de cada escolha. Dá para rolar dentro dos celulares do Resumo e do Chat.</p>
+        <p>Um dia comum na casa de exemplo, a de Ana e Leo, em outubro de 2026. Começa num gasto lançado com uma mão só, continua com o app fechado, passa pelo combinado com o assistente e volta ao primeiro dia de quem chega. Cada tela traz o porquê das escolhas, e dá para rolar dentro dos celulares do Resumo e do Chat.</p>
       </div>
+    </div>
+
+    <div class="capitulo" id="um-dia">
+      <h3>Um dia na casa</h3>
+      <p>A Ana pagou o almoço e abre o app com uma mão só. É daí que tudo parte.</p>
     </div>
 
     <!-- ---------- Início ---------- -->
@@ -1503,7 +1437,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
           <h4>Por que é assim</h4>
           <ul>
             <li>São duas linhas de texto, com "Escolhida" e o sinal em Musgo ao lado da atual, como "Seu plano" no Plano: a seleção não depende só da cor.</li>
-            <li>Não há botão de salvar. O toque troca na hora, e o Início já está pronto ao voltar. Se a API recusar, a escolha volta e um aviso explica.</li>
+            <li>Não há botão de salvar. O toque troca na hora, e o Início já está pronto ao voltar. Se não der certo, a escolha volta e um aviso explica.</li>
             <li>Foco em finanças é o padrão: quem já usa o app abre na mesma tela de sempre. Quem entra pela primeira vez escolhe nas boas-vindas.</li>
             <li>A preferência é da pessoa, não da casa, e vale também para quem é "Só leitura".</li>
             <li>"Esconder valores" fica aqui porque é a tela que decide o que o widget mostra. Vale por celular, porque quem vê a tela de um aparelho não é quem vê a de outro.</li>
@@ -2061,6 +1995,11 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
     </div>
 
+    <div class="capitulo" id="app-fechado">
+      <h3>Quando o app está fechado</h3>
+      <p>A conta vence mesmo sem ninguém olhar, e às vezes basta um toque na tela do celular.</p>
+    </div>
+
     <!-- ---------- Notificações ---------- -->
     <div class="block" id="notificacoes">
       <div class="block-head"><h3>Notificações</h3><p>Lembrete e rotina se resolvem pelos botões, sem abrir o app</p></div>
@@ -2242,6 +2181,11 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       </div>
     </div>
 
+    <div class="capitulo" id="combinado">
+      <h3>O combinado com o assistente</h3>
+      <p>O assistente tem limite e usa uma IA de fora. O app diz isso com clareza, em tempo e em palavras, sem falar de dinheiro.</p>
+    </div>
+
     <!-- ---------- Plano ---------- -->
     <div class="block" id="plano">
       <div class="block-head"><h3>Plano</h3><p>Configurações › Assistente › Plano: quanto do assistente já foi usado</p></div>
@@ -2278,13 +2222,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div class="notes">
           <h4>Por que é assim</h4>
           <ul>
-            <li>O número principal é a porcentagem, em Fraunces 40. O limite é medido pelo custo da IA, mas dinheiro e tokens nunca aparecem no app: a porcentagem e o dia em que volta respondem o que a pessoa quer saber, quanto ainda dá e até quando.</li>
+            <li>O número principal é a porcentagem, em Fraunces 40. A porcentagem e o dia em que volta respondem o que a pessoa quer saber, quanto ainda dá e até quando. O app nunca fala em dinheiro.</li>
             <li>A barra é a mesma dos orçamentos, em Musgo até 79% e em Atenção a partir de 80%. No limite ela fica cheia em Atenção, e não em Tijolo: chegar ao limite não é erro nem dívida, é só esperar o dia de voltar.</li>
             <li>"Volta a zero no dia 09/11", sempre com dia e mês: o mês de uso começa no dia em que a conta foi criada, e não no dia 1º, então a data não é óbvia.</li>
             <li>Os planos aparecem como lista, com "Seu plano" em Musgo ao lado do atual e sem preço: o Plus é liberado pelo administrador, e a tela não promete o que a pessoa não pode fazer.</li>
             <li>O Plus com data diz até quando vale e o que vem depois ("Depois, volta o Gratuito"), para o fim do Plus dado não pegar ninguém de surpresa.</li>
             <li>O app não tem pedido do Plus. Enquanto ele não é vendido pelas lojas, as regras delas não deixam levar a pessoa para fora, então a tela só informa. Para falar com quem cuida do app, Configurações › Conta tem "Fale com a gente", com o ícone do envelope, que abre o e-mail: um contato geral, que não cita o Plus e fica longe desta tela.</li>
-            <li>"O que conta" explica em palavras por que a porcentagem sobe mais numa pergunta do que em outra, sem falar em tokens.</li>
+            <li>"O que conta" explica em palavras por que a porcentagem sobe mais numa pergunta do que em outra.</li>
           </ul>
         </div>
       </div>
@@ -2388,107 +2332,13 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <div class="notes">
           <h4>Por que é assim</h4>
           <ul>
-            <li>O prazo é contado no servidor, a partir da confirmação do e-mail. O app só mostra: a mensagem e a voz são barradas lá, então nenhum app antigo ou mexido passa.</li>
+            <li>O prazo é contado a partir da confirmação do e-mail e vale em qualquer aparelho e em qualquer versão do app.</li>
             <li>Os 7 dias valem junto com o limite do mês: quem usa tudo antes do 7º dia vê a folha do limite de sempre.</li>
             <li>Sempre com a data ("até 05/11", "desde 05/11"), como o limite do mês, e nunca "teste", "trial" ou contagem de horas.</li>
             <li>Um lembrete só, 2 dias antes, no traço de Atenção do Início, e não uma contagem fixa na tela: o fim não pega ninguém de surpresa, e o Início não vira cobrança.</li>
             <li>Depois do período, o tom é o do limite: não é erro nem dívida. O texto diz com todas as letras o que continua funcionando.</li>
             <li>No Chat, a conversa continua para ler, e os botões das fichas que já estavam lá (Confirmar, Desfazer) continuam valendo: eles não usam o assistente.</li>
             <li>No Plus, o período não conta. Se o Plus dado acabar, a pessoa volta ao Gratuito, já sem o assistente, e o Plano diz isso.</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <!-- ---------- Níveis de acesso ---------- -->
-    <div class="block" id="niveis">
-      <div class="block-head"><h3>Níveis de acesso</h3><p>O que cada conta pode usar, escolhido num lugar só, na área administrativa</p></div>
-      <table class="ledger copy">
-        <thead><tr><th>Nível</th><th>O app</th><th>O assistente</th><th>Como chega aqui</th></tr></thead>
-        <tbody>
-          <tr><td>Sem acesso</td><td>Não entra.</td><td>—</td><td>O administrador bloqueia.</td></tr>
-          <tr><td>App sem assistente</td><td>Entra e usa tudo.</td><td>Desligado.</td><td>O período gratuito acaba, ou o administrador desliga. O motivo fica à parte, porque o que a pessoa vê muda.</td></tr>
-          <tr><td>Gratuito</td><td>Entra e usa tudo.</td><td>Até o fim do período, com o limite do Gratuito.</td><td>Confirma o e-mail, ou o administrador dá mais dias.</td></tr>
-          <tr><td>Plus</td><td>Entra e usa tudo.</td><td>Com o limite do Plus.</td><td>O administrador dá o Plus, com prazo ou sem.</td></tr>
-        </tbody>
-      </table>
-
-      <div class="plan-grid">
-        <figure>
-          <div class="panel">
-            <div class="trial-end access-end">
-              <svg class="i limit-icon"><use href="#mic-off"/></svg>
-              <h4 class="n-h2">O assistente está desligado nesta conta</h4>
-              <p class="n-body" style="color:var(--grafite);margin-top:4px">Lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
-            </div>
-          </div>
-          <figcaption>Plano: só este bloco, sem porcentagem e sem a lista de planos</figcaption>
-        </figure>
-        <figure>
-          <div class="panel">
-            <div class="trial-chat" aria-hidden="true">
-              <span class="trial-msg me">gastei 42 no almoço</span>
-              <span class="trial-msg">Lancei Almoço, R$ 42,00, em Alimentação.</span>
-            </div>
-            <div class="trial-lock">
-              <span class="with-icon"><svg class="i off"><use href="#mic-off"/></svg><b class="n-strong">O assistente está desligado nesta conta</b></span>
-              <span class="n-cap">A conversa fica para consultar. Para lançar, volte ao Início.</span>
-            </div>
-          </div>
-          <figcaption>Chat: no lugar do campo e do microfone, sem botão</figcaption>
-        </figure>
-        <figure>
-          <div class="panel">
-            <div class="n-row"><div class="n-main"><b class="n-strong">Plano</b></div><span class="n-cap">Desligado</span><span class="n-chev">›</span></div>
-          </div>
-          <figcaption>Configurações › Assistente: a linha do Plano</figcaption>
-        </figure>
-      </div>
-
-      <div class="home-options">
-        <figure>
-          <div class="phone"><div class="screen new">
-            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
-            <div class="n-home px">
-              <div class="n-top"><span class="n-rot">Segunda, 19 de outubro</span><button class="icon-btn" type="button" aria-label="Configurações"><svg class="i"><use href="#settings"/></svg></button></div>
-              <h4 class="n-h1">Boa tarde, Leo</h4>
-              <div class="n-ledger2">
-                <div><span class="n-cap">Despesas de outubro</span><b class="n-fig">R$ 4.084,30</b><span class="n-cap">até hoje, dia 19</span></div>
-                <div><span class="n-cap">Resta nos orçamentos</span><b class="n-fig">R$ 437,50</b><span class="n-cap">em 3 categorias</span></div>
-              </div>
-              <div class="n-micarea">
-                <button class="n-mic" type="button" aria-label="Lançar"><svg class="i"><use href="#plus"/></svg></button>
-                <b class="n-strong">Lançar</b>
-              </div>
-              <div class="n-sec">
-                <div class="n-sec-head"><h5 class="n-h2">Hoje <span class="n-cap num">· R$ 72,40</span></h5><button class="n-link sm" type="button">Ver todos</button></div>
-                <div class="n-row press"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Padaria</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 23,50</span></div>
-                <div class="n-row press"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Farmácia</b><span class="n-cap">Saúde · Débito</span></div><span class="n-amt">R$ 48,90</span></div>
-              </div>
-            </div>
-            <nav class="n-tabs">
-              <span class="n-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
-              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat</span>
-              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
-              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
-              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
-            </nav>
-            <div class="homebar" style="color:#1E1F1C"></div>
-          </div></div>
-          <figcaption><b>Início: o círculo vira "Lançar".</b> Desligado pelo administrador, o mesmo círculo de Tinta, com o +, abre o formulário, e o link embaixo sai. A tela continua com uma ação principal, e ela funciona. No "Só leitura", que não lança, o círculo não aparece.</figcaption>
-        </figure>
-      </div>
-
-      <div class="plan-home">
-        <p class="spec-line" style="margin:0"><b>Os dois motivos.</b> Depois do período gratuito, tudo fica como na parte acima: a ampulheta, o microfone que abre a folha e o aviso no Início. Desligado pelo administrador, o ícone é o microfone riscado, e não a ampulheta (não há o que esperar), sem aviso no Início. A folha do limite ganha esse estado (parte 06), para quando o assistente é desligado com o app aberto.</p>
-        <div class="notes">
-          <h4>Por que é assim</h4>
-          <ul>
-            <li>O nível é da conta e vale em todas as casas. O papel na casa ("Só leitura") é outra coisa e continua à parte.</li>
-            <li>O Chat fica em todos os níveis com acesso ao app: os avisos de contas e lembretes chegam lá, e a conversa antiga fica para consultar. Sem o assistente, a conversa vazia diz "Nenhuma mensagem ainda" e "Os avisos de contas e lembretes chegam aqui.", sem os atalhos de pergunta.</li>
-            <li>O texto não diz por que foi desligado nem fala em administrador: a tela não promete nada que a pessoa possa fazer.</li>
-            <li><b>Tour.</b> Em "App sem assistente", o primeiro passo vira "Lance o que gastou", no círculo do Início, e o do Chat fala só dos avisos e da conversa guardada. Os outros passos são os mesmos.</li>
-            <li><b>Primeiros passos.</b> Em "App sem assistente", o "Primeiro lançamento" fala só do formulário, sem o microfone e sem "Escrever no Chat".</li>
           </ul>
         </div>
       </div>
@@ -2556,11 +2406,16 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>A folha diz quem recebe e o quê, em palavras comuns, sem "terceiros" nem "processamento".</li>
             <li>"Agora não" não insiste: nada é guardado, e a folha só volta quando a pessoa tentar usar o assistente de novo. Quem nunca permitir usa todo o resto do app.</li>
             <li>A permissão é da pessoa, e não da casa: vale na conta, em todas as casas e em qualquer celular.</li>
-            <li>A resposta é conferida no servidor antes de o áudio ou o texto seguirem. Nenhum app antigo ou mexido passa, e a data da permissão fica guardada.</li>
+            <li>A resposta é conferida antes de o áudio ou o texto seguirem, em qualquer versão do app, e a data da permissão fica guardada.</li>
             <li>Retirar é um toque, sem pergunta a mais: a pessoa não perde nada e pode permitir de novo quando quiser.</li>
           </ul>
         </div>
       </div>
+    </div>
+
+    <div class="capitulo" id="a-conta">
+      <h3>A conta</h3>
+      <p>Toda casa começa com alguém entrando pela primeira vez.</p>
     </div>
 
     <!-- ---------- Confirmar o e-mail ---------- -->
@@ -2593,7 +2448,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>Não há login antes da confirmação. "Já confirmei, entrar" abre a tela de entrar com o e-mail já preenchido.</li>
             <li>"Reenviar e-mail" manda um link novo (o anterior para de valer) e vira "E-mail reenviado" por 30 s, para não mandar vários seguidos.</li>
             <li>Quem veio por convite já fica na casa do convite e entra direto nela depois de confirmar.</li>
-            <li>A confirmação é pelo link, e não por um código: a página do servidor funciona em qualquer versão do app, e o celular abre o e-mail e o link sem copiar nada.</li>
+            <li>A confirmação é pelo link, e não por um código: a página de confirmação funciona em qualquer versão do app, e o celular abre o e-mail e o link sem copiar nada.</li>
             <li>Uma conta que não for confirmada em 14 dias é apagada, e o e-mail fica livre para um cadastro novo.</li>
             <li>Sem liberação manual: confirmado o e-mail, a conta já entra; o administrador recebe um aviso curto e pode bloquear a conta na área administrativa.</li>
           </ul>
@@ -2656,383 +2511,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <p class="spec-line"><b>Os outros casos da página.</b> Com o e-mail já confirmado, o link abre a mesma página, com "Seu e-mail já estava confirmado". Com a conta bloqueada, "Esta conta está bloqueada", sem botão. Depois de "Enviar um link novo", a página diz "Mandamos um link novo", com o ícone do e-mail. Um link copiado pela metade cai em "Este link venceu", mas sem o botão e sem o e-mail (ele não diz de quem é a conta): a página manda tocar em "Reenviar e-mail" no app.</p>
     </div>
 
-    <!-- ---------- Área administrativa ---------- -->
-    <div class="block" id="admin">
-      <div class="block-head"><h3>Área administrativa</h3><p>No navegador, só para o administrador (/admin)</p></div>
-      <p class="spec-line" style="max-width:780px;margin:-8px 0 32px"><b>O mesmo papel do app, em tela larga.</b> As páginas do servidor (confirmação do e-mail, pedido de Plus) já usam o Papel, a Tinta e o Fraunces numa coluna de 420; a área administrativa usa a mesma coluna para entrar e, no resto, a largura toda da janela, com margem igual dos dois lados (de 16 a 64, conforme a tela) e tabelas de livro-caixa. O topo usa a mesma margem, para a marca e o título ficarem na mesma linha. No celular, as tabelas rolam para o lado e o menu também. Aqui, e só aqui, aparecem valores em dinheiro da IA (em dólar ou em reais): a pessoa no app nunca vê custo nem tokens.</p>
-
-      <div class="adm-shots">
-        <!-- Entrar e o código -->
-        <div>
-          <div class="adm-pair">
-            <div class="adm-win">
-              <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/entrar</span></div>
-              <div class="adm-narrow">
-                <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-                <p class="n-rot" style="margin-top:32px">Área administrativa</p>
-                <h4 class="n-h1" style="margin-top:6px">Entrar</h4>
-                <form class="adm-form" onsubmit="return false">
-                  <div class="field"><label for="adm-email">E-mail</label><input id="adm-email" class="input" value="leo@caderneta.example.com" autocomplete="off"></div>
-                  <div class="field"><label for="adm-senha">Senha</label><input id="adm-senha" class="input" type="password" value="senhasecreta"></div>
-                  <button class="btn btn-primary full" type="button">Entrar</button>
-                </form>
-                <p class="n-cap" style="margin-top:20px">A mesma senha do app. Num navegador novo, pedimos também um código enviado por e-mail.</p>
-              </div>
-            </div>
-            <div class="adm-win">
-              <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/codigo</span></div>
-              <div class="adm-narrow">
-                <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-                <svg class="i limit-icon" style="margin-top:32px"><use href="#mail"/></svg>
-                <h4 class="n-h1">Confira seu e-mail</h4>
-                <p class="n-body" style="color:var(--grafite);margin-top:6px">Mandamos um código de 6 dígitos para leo@caderneta.example.com. Ele vale 10 minutos.</p>
-                <form class="adm-form" onsubmit="return false">
-                  <div class="field"><label for="adm-cod">Código</label><input id="adm-cod" class="input adm-code" value="482913" inputmode="numeric" autocomplete="one-time-code"></div>
-                  <button class="btn btn-primary full" type="button">Confirmar</button>
-                  <button class="n-link adm-again" type="button">Mandar outro código</button>
-                </form>
-                <p class="n-cap" style="margin-top:20px">Depois do código, este navegador fica conhecido por 60 dias: até lá, basta a senha.</p>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Entrar e o código.</b> Só a conta do administrador passa; para qualquer outra, a mesma mensagem de "e-mail ou senha incorretos". O código só aparece num navegador novo ou depois de 60 dias. Errado, o campo fica em Tijolo com "Código incorreto. Restam 4 tentativas."; vencido, "Este código venceu. Mande outro."</p>
-        </div>
-
-        <!-- Visão geral -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin" aria-current="page">Visão geral</a>
-                <a href="#admin">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head">
-                <div><h4 class="n-h1">Visão geral</h4><p class="n-cap">Quarta-feira, 28 de outubro de 2026</p></div>
-              </div>
-              <div class="adm-stats">
-                <a href="#admin"><span class="n-fig">128</span><span class="n-cap">Pessoas</span></a>
-                <a href="#admin"><span class="n-fig">3</span><span class="n-cap">Sem confirmar o e-mail</span></a>
-                <a href="#admin"><span class="n-fig t-aviso">2</span><span class="n-cap">Pedidos de Plus em aberto</span></a>
-                <a href="#admin"><span class="n-fig">9</span><span class="n-cap">Com Plus agora</span></a>
-                <a href="#admin"><span class="n-fig">41</span><span class="n-cap">App sem assistente</span></a>
-                <a href="#admin"><span class="n-fig">US$ 0,41</span><span class="n-cap">IA hoje · US$ 8,73 no mês</span></a>
-              </div>
-              <div class="adm-cols">
-                <section class="adm-sec">
-                  <p class="n-rot">Contas novas <a href="#admin">Ver todas</a></p>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Marina Costa</b><span class="n-cap">Ativada ontem, 21:14 · assistente até 03/11</span></div><span class="adm-tag ok">Ativa</span></div>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Rafa Lima</b><span class="n-cap">Criada em 26/10, 09:02 · ainda sem confirmar</span></div><span class="adm-tag wait">Sem confirmar</span></div>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Jô Andrade</b><span class="n-cap">Ativada em 25/10, 18:40 · assistente até 01/11</span></div><span class="adm-tag ok">Ativa</span></div>
-                </section>
-                <section class="adm-sec">
-                  <p class="n-rot">Pedidos de Plus em aberto <a href="#admin">Ver todos</a></p>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Maria Souza</b><span class="n-cap">Pediu hoje, 10:12 · período gratuito acabou em 16/10</span></div><button class="btn btn-secondary sm" type="button">Decidir</button></div>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Caio Prado</b><span class="n-cap">Pediu ontem, 16:55 · usou 100% do mês</span></div><button class="btn btn-secondary sm" type="button">Decidir</button></div>
-                </section>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Visão geral.</b> O topo tem a marca, o menu (o item aberto sublinhado em Tinta, o número de pendências em Mostarda) e "Sair". Os números são links para a lista já filtrada. Embaixo, as contas novas da semana (ativas ou ainda sem confirmar o e-mail) e os pedidos de Plus em aberto, estes com o botão para decidir ali. Confirmado o e-mail, a conta já entra, sem liberação.</p>
-        </div>
-
-        <!-- Pessoas -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pessoas</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin" aria-current="page">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Pessoas</h4><p class="n-cap">128 contas</p></div></div>
-              <div class="adm-tools">
-                <div class="adm-search"><svg class="i"><use href="#search"/></svg><input class="input" placeholder="Buscar por nome ou e-mail" aria-label="Buscar por nome ou e-mail"></div>
-                <div class="tags">
-                  <button class="tag" type="button" aria-pressed="true">Todas <span class="n-cap">128</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Sem confirmar <span class="n-cap">3</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Sem acesso <span class="n-cap">2</span></button>
-                  <button class="tag" type="button" aria-pressed="false">App sem assistente <span class="n-cap">41</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Gratuito <span class="n-cap">73</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Plus <span class="n-cap">9</span></button>
-                  <button class="tag" type="button" aria-pressed="false">No limite <span class="n-cap">4</span></button>
-                </div>
-              </div>
-              <div class="adm-table-wrap">
-                <table class="adm-table">
-                  <thead><tr><th>Pessoa</th><th>Nível</th><th>Uso do período</th><th class="n">Cadastro</th></tr></thead>
-                  <tbody>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>App sem assistente <span class="n-cap">o período acabou</span></td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td><td class="n">09/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio@example.com</span></div></td><td>Plus <span class="n-cap">até 28/11</span></td><td><div class="adm-use"><div class="bar"><i style="--w:8%"></i></div><span>8%</span></div></td><td class="n">02/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Leo Nardo</b><span class="n-cap">leo@caderneta.example.com</span></div></td><td>Plus <span class="n-cap">sem prazo</span></td><td><div class="adm-use"><div class="bar"><i style="--w:3%"></i></div><span>3%</span></div></td><td class="n">07/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Rafa Lima</b><span class="n-cap">rafa.lima@example.com</span></div></td><td><span class="adm-tag wait">Sem confirmar</span></td><td><span class="n-cap">—</span></td><td class="n">26/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito <span class="n-cap">até 03/11</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">27/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Nina Dias</b><span class="n-cap">nina.dias@example.com</span></div></td><td>App sem assistente <span class="n-cap">desligado</span></td><td><span class="n-cap">—</span></td><td class="n">21/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Gil Moura</b><span class="n-cap">gil.moura@example.com</span></div></td><td><span class="adm-tag no">Sem acesso</span></td><td><span class="n-cap">—</span></td><td class="n">20/10/2026</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="adm-pages"><span class="n-cap">1 a 25 de 128</span><div class="btn-row"><button class="btn btn-secondary sm" type="button" disabled>Anterior</button><button class="btn btn-secondary sm" type="button">Próxima</button></div></div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. A coluna do nível junta o que eram plano e acesso (parte 05, "Níveis de acesso"): o nível com o detalhe ao lado ("até 28/11", "sem prazo", "o período acabou", "desligado") e, em tag, só o que não entra no app ("Sem confirmar" e "Sem acesso"). O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
-        </div>
-
-        <!-- Pessoa -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pessoas/42</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin" aria-current="page">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <a class="adm-back" href="#admin"><svg class="i"><use href="#chev-l"/></svg>Pessoas</a>
-              <div class="adm-head"><div><h4 class="n-h1">Maria Souza</h4><p class="n-cap">maria.souza@example.com</p></div><span class="adm-tag plain">App sem assistente</span></div>
-              <div class="adm-split">
-                <div>
-                  <div class="adm-kv">
-                    <div><span>Nível</span><span>App sem assistente <span class="n-cap">o período acabou</span></span></div>
-                    <div><span>Período gratuito</span><span>Acabou em 16/10/2026</span></div>
-                    <div><span>Casas</span><span>Casa da Maria (dona) · Apê da praia (membro)</span></div>
-                    <div><span>Cadastro</span><span>09/10/2026, 08:31 · e-mail confirmado às 08:40</span></div>
-                  </div>
-                  <section class="adm-sec" style="margin-top:32px">
-                    <p class="n-rot">Uso do período · 09/10 a 08/11</p>
-                    <div class="adm-meter">
-                      <div class="bar"><i class="over" style="--w:100%"></i></div>
-                      <p class="n-cap"><b>US$ 0,05 de US$ 0,05</b> · 100% · 85 perguntas · renova em 09/11</p>
-                    </div>
-                    <div class="adm-table-wrap">
-                      <table class="adm-table" style="min-width:420px">
-                        <thead><tr><th>Período</th><th class="n">Perguntas</th><th class="n">Custo</th></tr></thead>
-                        <tbody>
-                          <tr><td>09/10 a 08/11</td><td class="n">85</td><td class="n">US$ 0,05</td></tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </section>
-                  <section class="adm-sec" style="margin-top:32px">
-                    <p class="n-rot">Pedidos de Plus</p>
-                    <div class="adm-row"><div class="n-main"><b class="n-strong">Hoje, 10:12</b><span class="n-cap">Pelo WhatsApp</span></div><span class="adm-tag wait">Esperando</span></div>
-                  </section>
-                </div>
-                <aside>
-                  <div class="adm-actions">
-                    <h4>Acesso</h4>
-                    <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Sem acesso</b><span class="n-cap">Não entra no app.</span></span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">O período acabou.</span></span><span class="adm-tag plain">Agora</span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">O assistente por alguns dias.</span></span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page" checked><span class="n-main"><b class="n-strong">Plus</b><span class="n-cap">O assistente com o limite maior.</span></span></label>
-                    </div>
-                    <div class="field"><span class="lbl">Por quanto tempo</span>
-                      <div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="false">1 mês</button><button type="button" aria-pressed="true">3 meses</button><button type="button" aria-pressed="false">6 meses</button><button type="button" aria-pressed="false">12 meses</button></div>
-                    </div>
-                    <label class="adm-check"><input type="checkbox"> Sem prazo</label>
-                    <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
-                    <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 3 meses de Plus</button>
-                    <p class="n-cap">Vale até 28/01/2027. Com Plus dado ainda valendo, os meses somam a partir do fim dele. O pedido em aberto fica como atendido.</p>
-                  </div>
-                </aside>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Uma pessoa.</b> À esquerda, o que é (o nível, o período gratuito, casas e uso, com os períodos anteriores); à direita, um painel só, "Acesso", com os quatro níveis (parte 05, "Níveis de acesso"). "Agora" marca o nível atual, e escolher outro mostra embaixo o que fazer nele, sem mudar nada até tocar no botão.</p>
-          <div class="lvl-grid">
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-free"><span class="n-main"><b class="n-strong">App sem assistente</b></span><span class="adm-tag plain">Agora</span></label>
-                  <label class="lvl"><input type="radio" name="lvl-free" checked><span class="n-main"><b class="n-strong">Gratuito</b></span></label>
-                </div>
-                <div class="field"><span class="lbl">Mais dias de assistente</span>
-                  <div class="seg" role="group" aria-label="Dias de assistente"><button type="button" aria-pressed="true">7 dias</button><button type="button" aria-pressed="false">15 dias</button><button type="button" aria-pressed="false">30 dias</button></div>
-                </div>
-                <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
-                <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 7 dias de assistente</button>
-                <p class="n-cap">Vale até 06/11/2026. Os dias somam a partir do fim do período ou, se ele já acabou, de hoje.</p>
-                <p class="n-cap lvl-note">O limite do mês continua valendo: 100% já usado, e volta a zero em 09/11.</p>
-              </div>
-              <figcaption>Gratuito, depois do período. O aviso do limite só aparece a partir de 80%.</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-off" checked><span class="n-main"><b class="n-strong">App sem assistente</b></span></label>
-                  <label class="lvl"><input type="radio" name="lvl-off"><span class="n-main"><b class="n-strong">Plus</b></span><span class="adm-tag plain">Agora</span></label>
-                </div>
-                <p class="n-cap">Entra e usa tudo, menos o assistente. A conversa fica para consultar.</p>
-                <p class="n-cap lvl-note">O Plus dado até 15/01/2027 sai junto.</p>
-                <button class="btn btn-secondary full" type="button">Desligar o assistente</button>
-              </div>
-              <figcaption>Desligar com Plus valendo: pede a folha de confirmação</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-on" checked><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">Desligado em 20/10/2026.</span></span><span class="adm-tag plain">Agora</span></label>
-                </div>
-                <p class="n-cap">Religando, o período gratuito volta a contar: o assistente fica até 05/11. Se o período já tiver acabado, a conta continua sem o assistente.</p>
-                <button class="btn btn-secondary full" type="button">Religar o assistente</button>
-              </div>
-              <figcaption>Já desligado</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-none" checked><span class="n-main"><b class="n-strong">Sem acesso</b></span></label>
-                </div>
-                <p class="n-cap">Bloquear tira a pessoa de todos os aparelhos e impede de entrar de novo. Nada é enviado por e-mail.</p>
-                <button class="adm-danger" type="button">Bloquear acesso</button>
-              </div>
-              <figcaption>Sem acesso: pede a folha de confirmação</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <h4>Acesso</h4>
-                <p class="n-cap">A pessoa não entra no app enquanto a conta estiver bloqueada. Desbloquear volta ao nível de antes (Gratuito, até 05/11) e não envia nada por e-mail.</p>
-                <button class="btn btn-secondary full" type="button">Desbloquear</button>
-              </div>
-              <figcaption>Com a conta bloqueada, sem a lista</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <h4>Sem confirmar o e-mail</h4>
-                <p class="n-cap">O link saiu ontem, 21:14. Se ele caiu no spam ou não chegou, dá para ativar daqui: a conta entra na hora e o período gratuito começa.</p>
-                <button class="btn btn-primary full" type="button">Ativar sem o e-mail</button>
-                <button class="adm-danger" type="button">Bloquear acesso</button>
-              </div>
-              <figcaption>Sem confirmar o e-mail, sem a lista</figcaption>
-            </figure>
-          </div>
-          <p class="spec-line"><b>Os outros casos do painel.</b> No Plus, a opção Plus mostra também "Tirar o Plus" em Tijolo sublinhado, com a folha de confirmação: a pessoa volta ao que o período gratuito disser. Dar meses a quem tem Plus sem prazo troca o "sem prazo" pelos meses. Em "Gratuito", quem tem Plus vê "Tirar o Plus e dar 7 dias". A conta do administrador não tem a opção "Sem acesso". O Gratuito fixo, para testar o limite, continua só no terminal.</p>
-        </div>
-
-        <!-- Pedidos de Plus -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pedidos</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin">Pessoas</a>
-                <a href="#admin" aria-current="page">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Os que já foram feitos. O app não abre pedidos novos por enquanto.</p></div></div>
-              <div class="adm-tools">
-                <div class="tags">
-                  <button class="tag" type="button" aria-pressed="true">Em aberto <span class="n-cap">2</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Decididos <span class="n-cap">14</span></button>
-                </div>
-              </div>
-              <div class="adm-table-wrap">
-                <table class="adm-table">
-                  <thead><tr><th>Pessoa</th><th>Pedido</th><th>Cadastro</th><th>Uso</th><th>Decidir</th></tr></thead>
-                  <tbody>
-                    <tr><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Hoje, 10:12</td><td>09/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
-                      <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
-                    <tr><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Ontem, 16:55</td><td>27/09</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
-                      <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Pedidos de Plus.</b> Os meses em segmentos (1 já marcado, como no e-mail) e "Dar" ao lado; "Negar" em Tijolo sublinhado, sem confirmação, porque dá para dar depois. Nos decididos, a coluna "Decidir" vira a situação ("Mês dado até 28/11" ou "Negado") e a data.</p>
-        </div>
-
-        <!-- Uso da IA -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/uso</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin" aria-current="page">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Uso da IA</h4><p class="n-cap">Custo estimado pela tabela de preços, no fuso de Brasília</p></div>
-                <div class="adm-inline"><div class="seg" role="group" aria-label="Período" style="width:260px"><button type="button" aria-pressed="false">Hoje</button><button type="button" aria-pressed="true">30 dias</button><button type="button" aria-pressed="false">6 meses</button></div><div class="seg" role="group" aria-label="Moeda" style="width:120px"><button type="button" aria-pressed="true">US$</button><button type="button" aria-pressed="false">R$</button></div></div>
-              </div>
-              <div class="adm-figs">
-                <div class="adm-fig"><span class="n-cap">Custo</span><span class="n-fig">US$ 11,42</span><span class="n-cap">US$ 0,0011 por pergunta</span></div>
-                <div class="adm-fig"><span class="n-cap">Perguntas</span><span class="n-fig">10.680</span><span class="n-cap">1.204 por voz</span></div>
-                <div class="adm-fig"><span class="n-cap">Do cache</span><span class="n-fig">61%</span><span class="n-cap">dos tokens de entrada</span></div>
-                <div class="adm-fig"><span class="n-cap">Erros</span><span class="n-fig">0,4%</span><span class="n-cap">43 chamadas</span></div>
-              </div>
-              <div class="adm-cols" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))">
-                <section class="adm-sec">
-                  <p class="n-rot">Por dia</p>
-                  <table class="adm-table" style="min-width:0">
-                    <thead><tr><th>Dia</th><th class="n">Perguntas</th><th class="n">Voz</th><th class="n">Custo</th></tr></thead>
-                    <tbody>
-                      <tr><td>Hoje</td><td class="n">382</td><td class="n">41</td><td class="n">US$ 0,41</td></tr>
-                      <tr><td>Ontem</td><td class="n">415</td><td class="n">52</td><td class="n">US$ 0,44</td></tr>
-                      <tr><td>26/10</td><td class="n">398</td><td class="n">37</td><td class="n">US$ 0,42</td></tr>
-                      <tr><td>25/10</td><td class="n">351</td><td class="n">30</td><td class="n">US$ 0,37</td></tr>
-                    </tbody>
-                    <tfoot><tr><td>30 dias</td><td class="n">10.680</td><td class="n">1.204</td><td class="n">US$ 11,42</td></tr></tfoot>
-                  </table>
-                </section>
-                <section class="adm-sec">
-                  <p class="n-rot">Por modelo e uso</p>
-                  <table class="adm-table" style="min-width:0">
-                    <thead><tr><th>Modelo</th><th>Uso</th><th class="n">Chamadas</th><th class="n">Custo</th></tr></thead>
-                    <tbody>
-                      <tr><td>modelo-principal</td><td>Assistente</td><td class="n">15.020</td><td class="n">US$ 10,63</td></tr>
-                      <tr><td>modelo-principal</td><td>Voz</td><td class="n">1.204</td><td class="n">US$ 0,61</td></tr>
-                      <tr><td>modelo-principal</td><td>Cache</td><td class="n">720</td><td class="n">US$ 0,18</td></tr>
-                    </tbody>
-                  </table>
-                </section>
-              </div>
-              <section class="adm-sec" style="margin-top:40px">
-                <p class="n-rot">Quem mais usou no período</p>
-                <div class="adm-table-wrap" style="margin-top:0">
-                  <table class="adm-table">
-                    <thead><tr><th>Pessoa</th><th>Plano</th><th class="n">Perguntas</th><th class="n">Custo</th><th>Do limite agora</th></tr></thead>
-                    <tbody>
-                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Plus</td><td class="n">612</td><td class="n">US$ 0,66</td><td><div class="adm-use"><div class="bar"><i style="--w:44%"></i></div><span>44%</span></div></td></tr>
-                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito</td><td class="n">85</td><td class="n">US$ 0,05</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Uso da IA.</b> O mesmo que o <code>assistant:usage</code> e o <code>assistant:usage-periods</code> mostram no terminal, sem os comandos: os números grandes em Fraunces, as tabelas por dia e por modelo e quem mais usou, com a barra do limite. Os valores são em dólar. "Do limite agora" é o período atual de cada pessoa, não o intervalo escolhido; em 6 meses, a tabela por dia vira por mês. Os valores saem em dólar ou em reais (US$ | R$, a escolha vale para toda a área administrativa), pela cotação do dia, buscada uma vez por dia; em R$, uma linha embaixo do título diz a cotação usada e de quando ela é ("US$ 1 = R$ 5,38, cotação de 28/10, 15:19").</p>
-        </div>
-      </div>
-    </div>
+    <p class="ponte">As telas se repetem porque são montadas com as mesmas peças. <a href="#componentes">Componentes →</a></p>
   </div>
 </section>
 
@@ -3043,7 +2522,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">06</span>
       <div>
         <h2>Componentes</h2>
-        <p>Os componentes base redesenhados. Todos respondem de verdade: passe o mouse, clique e use o Tab do teclado.</p>
+        <p>As peças de que as telas são feitas. Todas respondem de verdade: passe o mouse, clique e use o Tab do teclado.</p>
       </div>
     </div>
 
@@ -3202,7 +2681,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 
       <!-- Modal -->
       <div class="specimen">
-        <h3>Modal: folha de confirmação</h3>
+        <h3>Folha de confirmação</h3>
         <p>A folha sobe de baixo, perto do polegar, e diz o que vai acontecer com os números. O botão de apagar repete o que ele faz.</p>
         <div class="stage">
           <div class="sheet-stage" id="sheet-stage">
@@ -3227,7 +2706,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <!-- Limite do assistente -->
       <div class="specimen">
         <h3>Folha do limite do assistente</h3>
-        <p>Quando a pessoa usa todo o assistente do mês, ou quando o período gratuito acaba, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta (ou até quando o assistente ficou) e lembra o que continua funcionando sem o assistente. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro ou tokens, e a folha nunca fala em preço ou pagamento.</p>
+        <p>Quando a pessoa usa todo o assistente do mês, ou quando o período gratuito acaba, a mensagem não sai e, no lugar do erro, sobe esta folha, no Chat ou no Início. Ela diz quando o limite volta (ou até quando o assistente ficou) e lembra o que continua funcionando sem o assistente. O limite é sempre dito em tempo ("volta no dia 09/11"), nunca em dinheiro, e a folha nunca fala em preço ou pagamento.</p>
         <div class="stage limit-grid">
           <div class="sheet-stage limit-stage">
             <div class="scrim"></div>
@@ -3260,7 +2739,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             </div>
           </div>
         </div>
-        <p class="spec-line"><b>Três estados, todos com "Entendi":</b> o limite do mês, o fim do período gratuito (parte 05, "Período gratuito do assistente") e o assistente desligado (parte 05, "Níveis de acesso"), com o microfone riscado. Ícone de 28 em Tinta (a ampulheta) e título em Fraunces 20. Tocar fora ou no "voltar" do Android fecha.</p>
+        <p class="spec-line"><b>Três estados, todos com "Entendi":</b> o limite do mês, o fim do período gratuito (parte 05, "Período gratuito do assistente") e o assistente desligado nesta conta, com o microfone riscado. Ícone de 28 em Tinta (a ampulheta) e título em Fraunces 20. Tocar fora ou no "voltar" do Android fecha.</p>
       </div>
 
       <!-- Entrada -->
@@ -3361,6 +2840,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         </div>
       </div>
     </div>
+
+    <p class="ponte">As peças também respondem ao toque. <a href="#movimento">Micro-interações →</a></p>
   </div>
 </section>
 
@@ -3371,7 +2852,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
       <span class="part-num">07</span>
       <div>
         <h2>Micro-interações</h2>
-        <p>Movimentos curtos, que confirmam o que aconteceu sem enfeitar. Todos param quando o celular está com "Reduzir movimento" ligado. No app, elas usam o <code>Pressable</code> e o Reanimated, que já estão instalados, e uma vibração leve do <code>expo-haptics</code> ao confirmar e ao começar a gravar.</p>
+        <p>Movimentos curtos, que confirmam o que aconteceu sem enfeitar. Todos param quando o celular está com "Reduzir movimento" ligado. Ao confirmar e ao começar a gravar, o celular dá uma vibração leve.</p>
       </div>
     </div>
 
@@ -3473,178 +2954,15 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <dl class="how"><dt>Duração</dt><dd>240 ms para subir, 180 ms para o fundo escurecer</dd><dt>O quê</dt><dd>a folha sai de baixo com uma curva que desacelera no fim, sem quicar. Veja "Abrir de novo" no modal, na parte 06.</dd></dl>
       </div>
     </div>
-  </div>
-</section>
 
-<!-- ======================= 08 No código ======================= -->
-<section class="part" id="arquivos">
-  <div class="wrap">
-    <div class="part-head">
-      <span class="part-num">08</span>
-      <div>
-        <h2>Onde o guia mora no código</h2>
-        <p>Cada regra deste guia tem um lugar no app. Uma tela nova monta com estas peças em vez de inventar as suas, e o que muda aqui muda em todas as telas de uma vez.</p>
-      </div>
-    </div>
-
-    <div class="files">
-      <div>
-        <h4>A base</h4>
-        <ul>
-          <li><code>mobile/src/theme/tokens.ts</code><span>A fonte única de paleta, escala de 4 a 64, cantos e fontes. Nenhuma tela escreve uma cor ou um espaço solto (parte 09).</span></li>
-          <li><code>mobile/src/app/_layout.tsx</code><span>Carrega Fraunces e IBM Plex Sans. A barra de status fica escura sobre o papel.</span></li>
-          <li><code>mobile/app.json</code><span>Tema claro e fundo <code>#F4F0E8</code> na abertura.</span></li>
-        </ul>
-      </div>
-      <div>
-        <h4>As peças</h4>
-        <ul>
-          <li><code>mobile/src/components/ui/</code><span>Os componentes do guia: texto, botão, campo, interruptor, barra de progresso e os outros da parte 06. Entre eles, <code>Sheet.tsx</code> (folha de confirmação, aberta por <code>confirm()</code> de <code>stores/confirm.ts</code>), <code>Amount.tsx</code> (valor em R$ com algarismos tabulares), <code>TextLink.tsx</code> (link em Musgo sublinhado), <code>IconButton.tsx</code> (botão só de ícone, 24 com 44 de toque) e <code>Tag.tsx</code> ("só você", "da casa").</span></li>
-          <li><code>mobile/src/components/CategoryIcon.tsx</code><span>O ícone da categoria, fino e na cor dela, numa coluna de 24 à esquerda das linhas.</span></li>
-          <li><code>mobile/src/components/SortableList.tsx</code><span>A lista de arrastar pela alça do modo Organizar (Categorias e Listas), com a linha levantada, a rolagem perto das bordas e as ações do leitor de tela.</span></li>
-          <li><code>mobile/src/components/cards/Ficha.tsx</code><span>As peças das fichas do chat: topo com o ícone do tipo, linhas, total sublinhado duas vezes e rodapé com os botões.</span></li>
-        </ul>
-      </div>
-      <div>
-        <h4>Cores e marca</h4>
-        <ul>
-          <li><code>mobile/src/lib/categories.ts</code><span>Os 14 tons de pigmento das categorias. Os cartões escolhem entre oito deles, em <code>components/CardForm.tsx</code>.</span></li>
-          <li><code>backend/app/Services/DefaultCategories.php</code><span>As categorias e as cores com que cada casa nova começa.</span></li>
-          <li><code>scripts/brand-icons.mjs</code><span>Gera o ícone, a splash e os desenhos da marca que o app usa.</span></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= 09 Diretrizes ======================= -->
-<section class="part" id="diretrizes">
-  <div class="wrap">
-    <div class="part-head">
-      <span class="part-num">09</span>
-      <div>
-        <h2>Diretrizes para novas telas</h2>
-        <p>O que conferir antes de dar uma tela nova ou alterada por pronta. Se algo daqui não couber, a diretriz muda neste guia primeiro, e a tela muda depois.</p>
-      </div>
-    </div>
-
-    <div class="cols">
-      <div>
-        <div class="block-head"><h3>Antes de dar a tela por pronta</h3></div>
-        <ol class="checklist">
-          <li><div><b>Só tokens.</b> <span>Cor, espaço, canto e fonte saem de <code>theme/tokens.ts</code>. Nenhum hex ou <code>rgba</code> escrito na tela, nenhum <code>space.sm + 2</code>.</span></div></li>
-          <li><div><b>Um número principal.</b> <span>Cada tela tem no máximo um valor em Display (40). Os outros totais usam Fraunces 22; as linhas, Plex 16.</span></div></li>
-          <li><div><b>Seção é título e traço.</b> <span>Nada de cartão em volta de lista. A ficha (caixa) é só do chat.</span></div></li>
-          <li><div><b>Ícones como num Kindle.</b> <span>Lucide, traço 1,6, nos tamanhos 16, 20 ou 24, sempre com uma palavra ao lado (menos os conhecidos de todos). Nunca dentro de um quadrado colorido, nunca dois no mesmo elemento.</span></div></li>
-          <li><div><b>Cor com motivo.</b> <span>Musgo para ação, seleção e dinheiro que entra; Atenção e Tijolo só para estado, na barra ou no ícone de estado. A cor da categoria aparece só no ícone da categoria. Textos de orçamento ficam em Grafite.</span></div></li>
-          <li><div><b>Senha sem repetir.</b> <span>Um campo só, com o olho e as marcas da regra (8 caracteres, letras, números). Nada de "Confirme a senha".</span></div></li>
-          <li><div><b>Formulário com rodapé.</b> <span>O botão principal fica preso embaixo, sempre à mão; "Apagar" fica no fim da rolagem. Categoria pela grade: as 7 primeiras e "Todas".</span></div></li>
-          <li><div><b>Valores alinhados.</b> <span>Toda coluna de R$ fica à direita, com algarismos tabulares, pelo componente <code>Amount</code>.</span></div></li>
-          <li><div><b>Textos da parte "Valores e textos".</b> <span>Rótulo em todo número, "R$" no limite, as mesmas palavras em todas as telas.</span></div></li>
-          <li><div><b>Acessibilidade conferida.</b> <span>Contraste, área de toque, fonte grande e leitor de tela, como no quadro ao lado.</span></div></li>
-        </ol>
-      </div>
-      <div>
-        <div class="block-head"><h3>Acessibilidade</h3></div>
-        <div class="comp-list">
-          <div><b>Contraste</b><span>Texto com 4,5:1 ou mais; ícones, contornos de controle e barras com 3:1 ou mais. Os pares aprovados estão na tabela da parte 02. Cor nova só entra se passar. A exceção é o ícone de categoria, que complementa o nome sempre escrito ao lado: os tons de pigmento ficam como estão (o Açafrão, o mais claro, tem 2,6:1).</span></div>
-          <div><b>Nunca só a cor</b><span>Todo estado tem palavra: "atrasada", "estourou", "paga". A aba ativa muda cor, peso e ganha o traço. O erro de campo tem a mensagem embaixo.</span></div>
-          <div><b>Área de toque</b><span>No mínimo 44 × 44. Links de texto ("Editar", "Ver todos") e tags de 36 de altura ganham <code>hitSlop</code> até chegar lá; botões só de ícone já têm 44.</span></div>
-          <div><b>Fonte do sistema</b><span>A tela aguenta a fonte do celular em 130% sem cortar valor. Quando falta espaço, o nome quebra a linha e o valor fica inteiro.</span></div>
-          <div><b>Leitor de tela</b><span>Botão de ícone sempre com <code>accessibilityLabel</code> ("Gravar uma mensagem de voz"). Linha de lançamento lida inteira: nome, valor, categoria e data.</span></div>
-          <div><b>Movimento</b><span>Com "Reduzir movimento" ligado, as animações ficam instantâneas. Nada pisca mais de 3 vezes por segundo.</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="block">
-      <div class="block-head"><h3>Valores e textos financeiros</h3><p>As mesmas palavras em todas as telas, no app, no chat e nos avisos</p></div>
-      <table class="ledger copy">
-        <thead><tr><th>Situação</th><th>Como escrever</th><th>Exemplo</th></tr></thead>
-        <tbody>
-          <tr><td>Todo número</td><td>Tem um rótulo que diz o que ele é, em cima ou ao lado.</td><td>Despesas de outubro · R$ 4.084,30</td></tr>
-          <tr><td>Totais e filtros</td><td>"Receitas" e "Despesas", as mesmas palavras do filtro de Lançamentos. "Gasto" fica para as frases do assistente e dos avisos.</td><td>Receitas › +R$ 9.850,00</td></tr>
-          <tr><td>Sinal</td><td>"+" só em receita, em Musgo. Despesa vai sem sinal. Saldo negativo leva "−" e fica em Tijolo.</td><td>+R$ 650,00 · R$ 42,00 · −R$ 318,40</td></tr>
-          <tr><td>Saldo do mês</td><td>Com a legenda da conta e a parte da receita que foi gasta. Negativo: "Você gastou R$ x a mais do que recebeu."</td><td>Receitas menos despesas. Você gastou 41% do que recebeu.</td></tr>
-          <tr><td>Limite de orçamento</td><td>Gasto em destaque, limite em Grafite, sempre com "R$".</td><td>R$ 684,30 de R$ 800,00</td></tr>
-          <tr><td>Orçamento dentro do limite</td><td>O dinheiro que resta primeiro, a porcentagem depois. A frase fica em Grafite; o estado fica na cor da barra.</td><td>Restam R$ 115,70 · 85% usado</td></tr>
-          <tr><td>Orçamento estourado</td><td>"Passou R$ x do limite" quando há valor; "estourou" quando é só o aviso curto.</td><td>Passou R$ 212,80 do limite · 170% / Delivery estourou</td></tr>
-          <tr><td>Resta nos orçamentos</td><td>A soma do que resta nas categorias que ainda não estouraram. A legenda diz quais ficaram de fora.</td><td>R$ 437,50 · Delivery estourou</td></tr>
-          <tr><td>Valor estimado</td><td>"~" junto do valor e "valor estimado" na legenda. Em frase, "cerca de".</td><td>~R$ 189,00 · Cerca de R$ 809,00</td></tr>
-          <tr><td>Vencimento</td><td>Hoje, amanhã e atraso por extenso; o resto com dia e mês.</td><td>vence hoje · vence amanhã · atrasada há 9 dias · vence 05/11</td></tr>
-          <tr><td>Parcela</td><td>Número da parcela depois do cartão.</td><td>Compras · Nubank · 2/10</td></tr>
-          <tr><td>Uso do assistente</td><td>Em porcentagem e em tempo, nunca em dinheiro ou tokens. A data em que volta sempre com dia e mês.</td><td>85% · Volta a zero no dia 09/11</td></tr>
-          <tr><td>Plus com data</td><td>Até quando vale e o que vem depois.</td><td>Até 15/01/2027. Depois, volta o Gratuito.</td></tr>
-          <tr><td>Assistente desligado</td><td>"Desligado nesta conta", sem dizer por quê e sem falar em administrador. Em seguida, o que continua funcionando.</td><td>O assistente está desligado nesta conta</td></tr>
-          <tr><td>Período gratuito</td><td>Sempre "período gratuito" e com a data: até quando vai e, depois, desde quando acabou. Nunca "teste", "trial" ou horas.</td><td>Com o assistente até 05/11 · O período gratuito acabou</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</section>
-
-<!-- ======================= 10 Versões ======================= -->
-<section class="part" id="versoes">
-  <div class="wrap">
-    <div class="part-head">
-      <span class="part-num">10</span>
-      <div>
-        <h2>Registro de versões</h2>
-        <p>Toda mudança de diretriz entra aqui, com o motivo.</p>
-      </div>
-    </div>
-    <table class="ledger versions">
-      <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
-      <tbody>
-        <tr><td>1.32</td><td class="num">01/11/2026</td><td>Uso de IA (parte 05, bloco novo): a folha que pede a permissão para enviar dados à IA do Google antes do primeiro uso do assistente, com "Permitir" e "Agora não", a linha em Configurações › Assistente e a folha para retirar a permissão. Sai o pedido do Plus pelo WhatsApp do app: o Plano, o Início, o Chat, o fim do período gratuito e a folha do limite (parte 06), que fica com três estados. A área administrativa (parte 05) mostra só os pedidos já feitos. Configurações › Conta ganha "Fale com a gente", que abre o e-mail.</td></tr>
-        <tr><td>1.31</td><td class="num">31/10/2026</td><td>Widget (parte 05): um desenho para cada tamanho, com o microfone à esquerda e o mês ou o dia à direita, seguindo o foco da Tela inicial. O microfone abre o Início já gravando, e o quadrado marca a rotina sem abrir o app. "Hoje não" fica embaixo, depois das feitas, e no Android o texto usa as fontes do celular. Tela inicial (parte 05): "Esconder valores no widget".</td></tr>
-        <tr><td>1.30</td><td class="num">31/10/2026</td><td>Agenda (parte 05): excluir uma rotina que já acabou, só em um dia ou em todos os que passaram. Início com foco em rotina (parte 05): segurar a linha também abre os detalhes. Chat: a ficha da rotina passa de "Parar" para "Excluir", com o mesmo nome do app.</td></tr>
-        <tr><td>1.29</td><td class="num">31/10/2026</td><td>Agenda (parte 05): andar entre as semanas, o progresso em cada dia e no calendário, a rotina de um dia, início e término com atalhos de duração, a descrição, o ícone sugerido, a folha de detalhes e a escolha entre "Só este dia" e "Este e os próximos". Início com foco em rotina (parte 05): tocar na linha abre os detalhes.</td></tr>
-        <tr><td>1.28</td><td class="num">30/10/2026</td><td>Boas-vindas (parte 07): nas primeiras da conta, a tela "O que ver primeiro?" com os dois focos do Início.</td></tr>
-        <tr><td>1.27</td><td class="num">30/10/2026</td><td>Agenda (parte 05): na Rotina, tocar na atividade marca e segurar abre a folha, porque marcar é o que se faz todo dia.</td></tr>
-        <tr><td>1.26</td><td class="num">30/10/2026</td><td>Primeiros passos (parte 06): o passo "Criar sua rotina". Tour (parte 06): os textos no foco em rotina e o passo da Agenda abrindo na Rotina.</td></tr>
-        <tr><td>1.25</td><td class="num">30/10/2026</td><td>Início com foco em rotina (parte 05): os estados que faltavam (sem rotina, tudo feito, dia livre e fim do dia) e o que acontece ao marcar. Tela inicial (parte 05): a escolha entre os dois focos. Menu (parte 06): o grupo Preferências.</td></tr>
-        <tr><td>1.24</td><td class="num">30/10/2026</td><td>Notificações (parte 05): os botões do lembrete e da rotina. Movimento (parte 07): a abertura do app sai daqui e fica só na página do ícone, que é onde ela tem os passos e a câmera lenta.</td></tr>
-        <tr><td>1.23</td><td class="num">30/10/2026</td><td>Movimento (parte 07): a abertura do app passa a tocar aqui mesmo, em miniatura. Chat (parte 05): as fichas das ações da Rotina.</td></tr>
-        <tr><td>1.22</td><td class="num">30/10/2026</td><td>Agenda (parte 05): os estados da Rotina que faltavam (a folha da atividade, "Hoje não", dia futuro e sem rotina) e as faturas em Contas. Menu (parte 06): a linha Cartões em Finanças.</td></tr>
-        <tr><td>1.21</td><td class="num">30/10/2026</td><td>Agenda (parte 05, bloco novo): a Agenda passa a ser Rotina, Lembretes e Contas, e o cadastro dos cartões vai para Configurações › Finanças, com as faturas em Contas. A Rotina tem a semana, o progresso do dia e a marcação por dia, e o aviso dela é só notificação. A Rotina vira uma linha do tempo pelo horário, com cor e ícone à escolha, numa lista reduzida que abre uma completa. O app ganha calendário e seletor de horário próprios, em colunas, no lugar dos do celular. Início (parte 05): o foco em rotina, na mesma tela limpa, com o dia no lugar do mês.</td></tr>
-        <tr><td>1.20</td><td class="num">30/10/2026</td><td>Níveis de acesso (parte 05, bloco novo): sem acesso, app sem assistente, Gratuito e Plus. No app, o estado do assistente desligado no Plano, no Chat, na folha do limite (parte 06), no tour e nos primeiros passos, com o ícone do microfone riscado; no Início, o círculo do microfone vira "Lançar". Na área administrativa, um painel só, "Acesso", no lugar de "Dar Plus", "Marcação manual" e "Acesso"; a lista de pessoas ganha a coluna do nível e novos filtros, e a visão geral, a contagem de "App sem assistente". O texto do Chat sem o assistente passa a dizer "volte ao Início", porque o Início não tem o botão +. O bloco "Ordenar arrastando" sai da parte 05: o movimento segue em "Arrastar para ordenar", na parte 07.</td></tr>
-        <tr><td>1.19</td><td class="num">29/10/2026</td><td>O campo de valor no foco (parte 06, Campo), para ficar claro que o número está sendo digitado. A linha do valor passa de Tinta 1 px a Musgo 2 px, e um cursor Musgo de 2 px pisca depois do último número, onde o próximo entra (parado com "Reduzir movimento"). O campo pequeno das fichas do chat ganha a borda Musgo dos outros campos, com o rótulo junto, e o mesmo cursor.</td></tr>
-        <tr><td>1.18</td><td class="num">29/10/2026</td><td>Conta nova com confirmação do e-mail e período gratuito do assistente (parte 05, dois blocos novos). Sai a liberação manual: todo cadastro, com ou sem convite, confirma o e-mail pelo link (válido por 3 dias) e já entra. Depois de "Criar conta", a tela "Confirme seu e-mail", com o endereço por inteiro, "Já confirmei, entrar" e "Reenviar e-mail"; entrar antes de confirmar mostra o aviso em Atenção, com o mesmo reenviar. O e-mail e as páginas do link no visual das páginas do servidor: "E-mail confirmado" e "Este link venceu", com "Enviar um link novo" ali mesmo. No Gratuito, o assistente vale por 7 dias a partir da confirmação, contados no servidor, junto com o limite do mês. O Plano diz "Com o assistente até 05/11" e, depois, mostra o fim no lugar da porcentagem, com o pedido pelo WhatsApp; o Início avisa 2 dias antes e depois de acabar; no Chat, sem o assistente (fim do período ou limite do mês), a mensagem e o botão ficam no lugar do campo e do microfone, e a conversa continua para ler. A folha do limite ganha o terceiro estado, "O período gratuito acabou". Na área administrativa, "Esperando liberação" vira "Sem confirmar o e-mail", o acesso é "Ativa", "Sem confirmar" ou "Bloqueada", a página da pessoa mostra o período gratuito e ganha "Ativar sem o e-mail" e "Bloquear acesso". Novo ícone: o círculo com ✓ (check-circle). "Valores e textos financeiros" ganha o período gratuito.</td></tr>
-        <tr><td>1.17</td><td class="num">28/10/2026</td><td>Ordenar arrastando (parte 05, depois do Plano, e parte 07). As Categorias seguem com o modo Organizar, mas as três setas de cada linha (topo, subir, descer) dão lugar à alça de seis pontos, em Lápis, à direita, por onde se arrasta, sem precisar segurar. A linha levantada fica em Folha, com sombra curta e 2% maior; as outras abrem espaço em 180 ms, a lista rola sozinha perto das bordas, e há vibração ao levantar e a cada lugar trocado. Na aba Listas, as setas ao lado do "…" abrem a tela "Organizar", com "Itens" (os que faltam pegar na lista aberta) e "Listas" (a ordem das tags); as tags não se arrastam de lado. Nada é gravado antes de "Pronto", e "Descartar mudanças" volta à ordem de antes. Com o leitor de tela, cada linha tem "Subir", "Descer" e "Para o topo" e diz a posição. Novos ícones: a alça (grip-vertical) e as setas de ordenar (arrow-up-down). Nova peça: <code>SortableList.tsx</code>.</td></tr>
-        <tr><td>1.16</td><td class="num">28/10/2026</td><td>O Plano no app (parte 05, depois do Chat). Configurações ganha o grupo "Assistente", com "Plano" (o medidor) e o plano e a porcentagem à direita ("Gratuito · 85%"). A tela mostra o uso do assistente em porcentagem (Fraunces 40), na barra dos orçamentos (Musgo até 79%, Atenção a partir de 80%, cheia em Atenção no limite, nunca em Tijolo), o dia em que volta a zero, os planos em lista com "Seu plano" em Musgo e sem preço, e "O que conta". O Plus dado diz até quando vale e que depois volta o Gratuito; o Plus fixo diz "Sem data para acabar". No limite, a tela traz o mesmo botão da folha do limite. Sai o teste de 7 dias do Plus: o Plus é só o que o administrador libera, e a folha do limite fica com dois estados, só o aviso e o pedido pelo WhatsApp, que agora vale já no primeiro limite. Na área administrativa, o teste sai da página da pessoa e da lista, e a coluna "Teste do Plus" dos pedidos vira "Cadastro". No Início não entra número novo: a partir de 80%, um aviso no traço de Atenção ("Você já usou 85% do assistente"), e no limite, com a ampulheta, os dois levando ao Plano. Novo ícone: o medidor (gauge). "Valores e textos financeiros" ganha o uso do assistente e o Plus com data.</td></tr>
-        <tr><td>1.15</td><td class="num">28/10/2026</td><td>A área administrativa (parte 05, depois do Chat): as páginas do navegador em /admin, só para o administrador. Entrar com e-mail e senha, e um código por e-mail só num navegador novo (ele fica conhecido por 60 dias); a visão geral com o que espera decisão; a lista de pessoas em tabela de livro-caixa, com busca, filtros em tags e a barra do uso; a página de cada pessoa, com dar Plus por 1, 3, 6 ou 12 meses (somando ao Plus dado) e a marcação manual, só Automático ou Plus fixo (o Gratuito fixo fica no terminal, para testes); os pedidos de Plus, com dar ou negar na própria linha; e o uso da IA por dia, por modelo e por pessoa, em dólar ou em reais (pela cotação do dia). É o mesmo papel das páginas do servidor, na largura toda da janela, com margem igual dos lados; só aqui aparece o custo da IA.</td></tr>
-        <tr><td>1.14</td><td class="num">28/10/2026</td><td>O pedido do Plus pelo WhatsApp: com o teste de 7 dias já usado, a folha do limite (parte 06) ganha um quarto estado, com "Pedir o Plus pelo WhatsApp" (balão de 18) e "Agora não". O app abre o WhatsApp do administrador com a mensagem pronta, e ele recebe um e-mail para dar um mês de Plus ou negar, numa página do servidor no visual da liberação de cadastro. O Chat vazio troca o título "Pergunte ou peça" por "Em que posso ajudar?", e o texto separa perguntas de pedidos: "Pergunte quanto gastou ou como está o mês. Ou peça para lançar um gasto, pagar uma conta, colocar algo na lista ou criar um lembrete." No Android, as folhas voltam a encostar no fim da tela, por cima da barra de abas.</td></tr>
-        <tr><td>1.13</td><td class="num">28/10/2026</td><td>O limite do assistente. Quando a pessoa usa todo o assistente do mês, sobe a folha do limite (parte 06) no lugar do erro, no Chat ou no Início: ampulheta, "Você usou o assistente deste mês", quando ele volta e o que continua funcionando. Na primeira vez, ela oferece 7 dias de Plus ("Experimentar o Plus por 7 dias", com o presente), sem falar em preço; ativado, mostra o ✓ em Musgo e até quando vale. O limite é dito em tempo, nunca em dinheiro ou tokens. O pedido de avaliação da loja é a janela do próprio sistema, sem nenhum desenho do app: aparece uma vez por aparelho, depois da 5ª ficha confirmada e de 7 dias de uso, e nunca vem com recompensa.</td></tr>
-        <tr><td>1.12</td><td class="num">27/10/2026</td><td>O guia mostra só o app de hoje. A parte 05 vira "As telas": saem os celulares do visual antigo, e cada tela fica com o quadro "Por que é assim", que diz o motivo de cada escolha em vez de compará-la com o que havia antes. As cores de categoria mostram só o tom de pigmento, sem a cor neon de antes. A parte 01 vira "O que o guia resolve": saem o levantamento das telas e dos componentes e os problemas do visual antigo, e ficam seis regras com o porquê de cada uma. A parte 08 vira "Onde o guia mora no código", com a base e as peças de cada regra, sem o plano do redesign, que já foi feito. As decisões do topo, a tipografia, a escala e as micro-interações deixam de comparar com o app antigo. Sai a fonte Inter, que só os celulares antigos usavam.</td></tr>
-        <tr><td>1.11</td><td class="num">27/10/2026</td><td>Nome da casa e passos feitos. Configurações › Casa ganha, em primeiro, "Nome da casa" (lápis, com o nome atual), só para o dono, que abre a tela de renomear; "Suas casas" passa a mostrar quantas casas a pessoa tem, para o nome não aparecer duas vezes. Nos primeiros passos, um passo feito também abre a folha, com a seta: ela mostra o que já foi feito e o botão chama para fazer de novo ("Cadastrar outro cartão", "Convidar mais alguém"). Na aba Contas da Agenda, as contas cadastradas depois do vencimento deste mês aparecem no fim, em "Começam em novembro".</td></tr>
-        <tr><td>1.10</td><td class="num">23/10/2026</td><td>Reportar uma resposta e a política de privacidade. Depois da hora de cada resposta do assistente, uma bandeirinha de 14 em Lápis, com área de toque ampliada. Ela abre a folha de confirmação ("Reportar esta resposta?", sem o botão de apagar) e, reportada, vira "· Reportada" em Grafite. Configurações › Conta ganha "Política de privacidade", que abre a página no navegador. A tela de criar conta ganha uma legenda com o link em Musgo sublinhado. A página do servidor "Política de privacidade" usa uma coluna mais larga (640), títulos de seção em Fraunces 20 e listas. Todas as páginas do servidor têm, no rodapé, os links para a política e para excluir a conta.</td></tr>
-        <tr><td>1.9</td><td class="num">23/10/2026</td><td>Excluir a conta. Em Configurações › Conta, a última linha é "Excluir conta", em Tijolo. A tela diz o que sai e o que fica nas casas compartilhadas, avisa em Tijolo que não dá para desfazer e pede a senha. O botão "Excluir conta" é o primário de Tinta e abre a folha de confirmação com o botão de apagar. A mesma coisa sem o app é a página do servidor "Excluir a conta", com o e-mail e a senha nos campos do guia e o botão de apagar em Tijolo. As páginas do servidor ganham um rodapé com o link. A folha "Receber avisos no celular?" agora espera a abertura terminar.</td></tr>
-        <tr><td>1.8</td><td class="num">23/10/2026</td><td>Notificações no celular. Antes do pedido do sistema, uma folha do app explica: sino, "Receber avisos no celular?", o que chega e onde escolher, com "Ativar avisos" (primário) e "Agora não" (texto). Ela aparece uma vez por aparelho, no Início, depois das boas-vindas e fora do tour. Configurações › Avisos ganha no topo o estado das notificações neste celular, com "Ativar notificações" ou "Abrir configurações do celular" quando foram bloqueadas. Com o app aberto, a notificação não aparece por cima: o aviso já chega no Chat. No Android, o canal "Avisos" usa o ícone em uma cor e o Musgo.</td></tr>
-        <tr><td>1.7.1</td><td class="num">22/10/2026</td><td>Quem é "Só leitura" não vê nenhuma ação de gravar: somem o "+", "Paguei", "Pular", "Arquivar", "Feito" e "Adiar", a barra de adicionar itens e o lançar à mão; as linhas que abririam uma edição ficam só para ver. O microfone continua, porque perguntar ao assistente é só leitura. "Adiar" um lembrete passa do alerta do sistema para a folha do app, com "Em 1 hora", "Amanhã" e "Em 1 semana", como no aviso do Chat.</td></tr>
-        <tr><td>1.7</td><td class="num">21/10/2026</td><td>Primeiro acesso: as boas-vindas em três telas (a proposta, o que o app faz e "Por onde começar?"), os primeiros passos (um checklist com feito, a fazer e ignorado, calculado dos cadastros de verdade, com uma linha no Início) e o tour, que destaca os elementos da tela com um recorte e explica numa ficha. Nada é obrigatório.</td></tr>
-        <tr><td>1.6.2</td><td class="num">21/10/2026</td><td>A abertura espera os dados do Início: com login, a capa só abre quando chegam o nome, o resumo do mês, os lançamentos de hoje e os avisos não lidos, e fica parada esperando por até 3 s depois de crescer. Antes, abria com as fontes e o login lidos e mostrava o Início ainda carregando.</td></tr>
-        <tr><td>1.6.1</td><td class="num">21/10/2026</td><td>Novo slogan: "Sua casa em ordem. Sem complicação.", com o subtítulo "Registre seus gastos, acompanhe suas receitas e despesas e mantenha as contas da sua casa organizadas de forma prática e intuitiva." Entra na capa do app, no rodapé dos e-mails, no README e na demonstração da abertura. Na capa, a linha quebra depois de "ordem." e o título diminui o necessário nos celulares estreitos (até o Display, 40), para cada frase caber numa linha.</td></tr>
-        <tr><td>1.6</td><td class="num">20/10/2026</td><td>A abertura do app: o ícone da splash cresce até virar a capa da caderneta e, com o app pronto, o elástico sai e a capa abre sobre a tela. Feita em código (desenho vetorial e Reanimated), e não em vídeo, para começar igual à splash do sistema, esperar o app sem emenda e terminar na tela de verdade. Tempos aprovados no protótipo.</td></tr>
-        <tr><td>1.5</td><td class="num">20/10/2026</td><td>A marca: o ícone é a capa da caderneta em Musgo, com o elástico de Tinta e o "C" com o traço duplo em Papel (estudo A+1, escolhido entre oito caminhos). Entram a construção, as versões do Android e de uma cor, a splash e o gerador dos arquivos.</td></tr>
-        <tr><td>1.4</td><td class="num">20/10/2026</td><td>Telas de entrada repensadas (comparativo de 3 opções; escolhida a mescla da capa com o passo a passo). O app passa a se chamar Caderneta, como este guia. A primeira tela sem login é a capa, com um exemplo de uso; criar conta é uma conversa em dois passos (o nome, depois o e-mail e a senha); a senha é uma só, com as marcas da regra, também em "Esqueci a senha" e "Trocar senha"; a liberação é avisada antes de enviar; "em análise" é aviso em Atenção. O link do convite sem login vira uma versão da capa.</td></tr>
-        <tr><td>1.3.3</td><td class="num">20/10/2026</td><td>Etapa 4 aplicada: categorias, cartões e as fichas guardadas no chat passaram para os tons de pigmento pela migration, de um para um, e as casas novas já nascem com eles. Os cartões escolhem entre oito tons (Ameixa, Ardósia, Louro, Açafrão, Canela, Telha, Rosa-argila e Pedra) e os tipos de lista ficam Compras em Louro, Desejos em Rosa-argila, A fazer em Ameixa e Outra em Pedra. Nas amostras de cor, o leitor de tela fala o nome do tom ("Cor Ameixa").</td></tr>
-        <tr><td>1.3.2</td><td class="num">20/10/2026</td><td>Configurações e entrada: o menu fica direto no papel, em grupos com o nome em caixa alta e o traço de Tinta, e cada linha mostra o valor atual ("2 pessoas", "4 de 4 ligados"). As iniciais da pessoa entram como o terceiro círculo do app, como já estava no exemplo do menu. Escolher o papel de um convite e abrir um convite já feito passam a usar a folha que sobe, no lugar do alerta do sistema. Nas telas de entrada, o quadrado verde com "$" sai e fica só o título em Fraunces, até o app ter nome e ícone.</td></tr>
-        <tr><td>1.3.1</td><td class="num">20/10/2026</td><td>Telas de cadastro: as ações que tiram algo de uso ("Arquivar", "Parar de repetir", "Remover limite") seguem o "Apagar": link em Tijolo no fim da rolagem, com o ícone do que fazem, e confirmação na folha. No rodapé, "Salvar" leva o ✓ e criar leva o +. As amostras de cor viram pastilhas de canto 4, já que círculo é só do microfone e do interruptor. Os dados de uma conta ou de um orçamento ficam numa tabela de pauta (rótulo em Grafite, valor à direita), sem cartão.</td></tr>
-        <tr><td>1.3</td><td class="num">20/10/2026</td><td>Novo lançamento repensado (comparativo de 4 opções, escolhida a B): a categoria se escolhe numa grade de 4 colunas com as 7 primeiras de Configurações › Categorias e "Todas", que abre a folha com a grade completa. A escolhida sempre aparece na grade. Nos formulários, o botão principal fica preso embaixo da tela.</td></tr>
-        <tr><td>1.2.1</td><td class="num">20/10/2026</td><td>Complemento para as telas internas: no fim dos formulários, "Apagar" é um link em Tijolo com a lixeira; o botão Tijolo cheio fica para a folha de confirmação. Novos componentes: IconButton e Tag.</td></tr>
-        <tr><td>1.2</td><td class="num">20/10/2026</td><td>Ícones como num Kindle: voltam às linhas, aos menus, ao topo das fichas, às ações do topo e aos botões de ação, finos e sempre com uma palavra ao lado (parte 04). O ícone da categoria fica na cor dela, nos tons de pigmento, sem quadrado atrás; o marcador de cor sai e as barras de "Gastos por categoria" seguem em Tinta. A frase do orçamento no Resumo fica em Grafite. Os exemplos de fala saem do Início, e com eles o nível Citação e o Fraunces Itálico. A legenda do aviso de contas fica mais curta ("Cerca de R$ 809,00 · ver na Agenda") para caber com o ícone.</td></tr>
-        <tr><td>1.1</td><td class="num">19/10/2026</td><td>Os ícones voltam às cinco abas, finos, sem cor e com o nome, para achar cada área rápido. Revisão de contraste: Lápis escurece para #6F6A60, tags e interruptor desligado ganham a Borda de campo, a barra de orçamento a partir de 80% passa a usar a cor de Atenção e a fatia da Ana em "Quem gastou" vira Grafite. Textos dos valores: "Livres no orçamento" vira "Resta nos orçamentos", "Entrou/Saiu" volta a "Receitas/Despesas", o limite ganha "R$", e entram a tabela de contraste, as diretrizes e este registro.</td></tr>
-        <tr><td>1.0</td><td class="num">19/10/2026</td><td>Proposta Caderneta aprovada: tema claro, Fraunces e IBM Plex Sans, menos ícones, cores de pigmento nas categorias e folha de confirmação.</td></tr>
-      </tbody>
-    </table>
+    <p class="ponte">Isso é o que se vê no app. Para quem tiver curiosidade, o que acontece por trás destas telas está em outra página. <a href="arquitetura.html">Arquitetura →</a></p>
   </div>
 </section>
 
 </main>
 
 <footer class="foot">
-  <div class="wrap">Guia de design da Caderneta. Toda tela nova ou alterada segue este documento, e os e-mails e as páginas do servidor, no backend, também. Veja também <a href="icone-caderneta.html">O ícone da Caderneta</a>, a <a href="arquitetura.html">arquitetura</a> e a <a href="index.html">documentação</a>.</div>
+  <div class="wrap">Guia de design da Caderneta. Veja também <a href="icone-caderneta.html">O ícone da Caderneta</a>, a <a href="arquitetura.html">Arquitetura</a> e a <a href="index.html">documentação</a>.</div>
 </footer>
 
 <script>
