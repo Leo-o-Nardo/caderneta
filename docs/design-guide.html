@@ -316,6 +316,32 @@ table.ledger tfoot .n { color: var(--tinta); }
 .plan-grid .panel { max-width: none; padding-top: 16px; }
 .plan-grid .n-row:last-child { border-bottom: 0; }
 .plan-grid .btn { margin-top: 16px; }
+.wd-wall { background: var(--grafite); border-radius: 6px; padding: 16px; display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; justify-content: center; }
+.wd { width: 100%; max-width: 338px; box-sizing: border-box; background: var(--papel); color: var(--tinta); border-radius: 16px; padding: 16px; overflow: hidden; }
+.wd-1x1 { width: 72px; height: 72px; padding: 0; display: grid; place-items: center; }
+.wd-s { width: 158px; height: 158px; padding: 0; display: grid; place-items: center; }
+.wd-strip { height: 72px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; }
+.wd-m { height: 158px; display: flex; align-items: center; gap: 16px; }
+.wd-l { height: 354px; }
+.wd-top { display: flex; align-items: center; gap: 16px; margin-bottom: 12px; }
+.wd-mic { width: 64px; height: 64px; flex: none; border-radius: 50%; background: var(--tinta); color: var(--papel); display: grid; place-items: center; }
+.wd-mic .i { width: 26px; height: 26px; stroke-width: 1.6; }
+.wd-mic.sm { width: 48px; height: 48px; }
+.wd-mic.sm .i { width: 22px; height: 22px; }
+.wd-mic.lg { width: 88px; height: 88px; }
+.wd-mic.lg .i { width: 32px; height: 32px; }
+.wd-body { flex: 1; min-width: 0; }
+.wd-body .n-cap, .wd-row b { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.wd-head { display: flex; justify-content: space-between; gap: 8px; }
+.wd-bar { height: 3px; background: var(--pauta); margin: 6px 0 4px; }
+.wd-bar i { display: block; height: 3px; background: var(--musgo); }
+.wd-row { display: flex; align-items: center; gap: 8px; min-height: 32px; border-top: 1px solid var(--pauta); font: 400 13px/18px var(--sans); }
+.wd-row b { flex: 1; min-width: 0; font-weight: 400; }
+.wd-row .tl-time { width: 38px; flex: none; font-size: 13px; }
+.wd-row .num { font-variant-numeric: tabular-nums; }
+.wd-row .rt-box { width: 20px; height: 20px; }
+.wd-row.done b { color: var(--grafite); }
+.wd-note { display: block; margin: 12px 0 4px; }
 .plan-home { margin-top: 56px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
 .plan-home .panel { padding-bottom: 16px; }
 /* Arrastar para ordenar (parte 07): a linha com a alça à direita */
@@ -952,7 +978,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.30 · 31 de outubro de 2026</span>
+    <span class="rotulo">Versão 1.31 · 31 de outubro de 2026</span>
     <span class="rotulo">Aprovado</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
@@ -1454,7 +1480,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 
     <!-- ---------- Tela inicial ---------- -->
     <div class="block" id="tela-inicial">
-      <div class="block-head"><h3>Tela inicial</h3><p>Configurações › Preferências › Tela inicial: o que aparece primeiro ao abrir o app</p></div>
+      <div class="block-head"><h3>Tela inicial</h3><p>Configurações › Preferências › Tela inicial: o que aparece primeiro ao abrir o app e no widget</p></div>
       <div class="pair">
         <div>
           <div class="phone"><div class="screen new">
@@ -1466,7 +1492,8 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
                 <div class="n-row press" role="radio" aria-checked="false"><div class="n-main"><b class="n-strong">Foco em finanças</b><span class="n-cap" style="white-space:normal">As despesas do mês, o que resta nos orçamentos e o que foi lançado hoje.</span></div></div>
                 <div class="n-row press" role="radio" aria-checked="true"><div class="n-main"><b class="n-strong">Foco em rotina</b><span class="n-cap" style="white-space:normal">O progresso do dia, a próxima atividade e o que falta fazer hoje.</span></div><span class="plan-mine"><svg class="i"><use href="#check"/></svg>Escolhida</span></div>
               </div>
-              <p class="n-cap plan-note">O microfone, as contas atrasadas e as abas ficam iguais nas duas. A escolha vale para a sua conta, em qualquer celular.</p>
+              <p class="n-cap plan-note">O microfone, as contas atrasadas e as abas ficam iguais nas duas. A escolha vale para a sua conta, em qualquer celular, e o widget segue a mesma.</p>
+              <div class="toggle-row" style="margin-top:24px;padding-top:16px;border-top:1px solid var(--pauta)"><div class="n-main" style="white-space:normal"><b class="n-strong">Esconder valores no widget</b><span class="n-cap" style="white-space:normal">Os valores aparecem como R$ •••••. Vale só para este celular.</span></div><label class="switch"><input type="checkbox" aria-label="Esconder valores no widget"><span></span></label></div>
             </div>
             <div class="homebar" style="color:#1E1F1C"></div>
           </div></div>
@@ -1479,6 +1506,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>Não há botão de salvar. O toque troca na hora, e o Início já está pronto ao voltar. Se a API recusar, a escolha volta e um aviso explica.</li>
             <li>Foco em finanças é o padrão: quem já usa o app abre na mesma tela de sempre. Quem entra pela primeira vez escolhe nas boas-vindas.</li>
             <li>A preferência é da pessoa, não da casa, e vale também para quem é "Só leitura".</li>
+            <li>"Esconder valores" fica aqui porque é a tela que decide o que o widget mostra. Vale por celular, porque quem vê a tela de um aparelho não é quem vê a de outro.</li>
           </ul>
         </div>
       </div>
@@ -2077,6 +2105,138 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>Tocar fora dos botões abre o lugar do aviso: o lembrete no Chat, a rotina na Agenda, no dia dela.</li>
             <li>Na rotina da casa, só avisa quem pode marcar, e não avisa se alguém já marcou o dia. Quem é só leitura recebe o lembrete da casa sem botões.</li>
             <li>O lembrete resolvido pelo botão aparece resolvido no Chat ("Feito", "Adiado para 15:00"), como se o botão do card tivesse sido tocado.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- ---------- Widget ---------- -->
+    <div class="block" id="widget">
+      <div class="block-head"><h3>Widget</h3><p>Na tela inicial do celular: falar com um toque e ver o mês ou o dia</p></div>
+
+      <div class="plan-grid" style="margin-top:0">
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-1x1"><span class="wd-mic sm"><svg class="i"><use href="#mic"/></svg></span></div>
+            <div class="wd wd-s"><span class="wd-mic lg"><svg class="i"><use href="#mic"/></svg></span></div>
+          </div>
+          <figcaption>Pequeno: só o microfone. Android 1×1 e 2×2, iPhone pequeno</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-strip"><span class="wd-mic sm"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de outubro</span><b class="n-fig">R$ 1.240,50</b></div></div>
+          </div>
+          <figcaption>Faixa, foco em finanças: o saldo do mês. Android 3×1 e 4×1</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-strip"><span class="wd-mic sm"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><span class="n-cap">Sáb, 31/10 · faltam 3</span><b class="n-strong">18:30 Academia</b></div></div>
+          </div>
+          <figcaption>Faixa, foco em rotina: o que falta e a próxima atividade</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de outubro</span><b class="n-fig">R$ 1.240,50</b><div class="wd-row" style="margin-top:8px"><b>Receitas</b><span class="num" style="color:var(--musgo)">R$ 5.200,00</span></div><div class="wd-row"><b>Despesas</b><span class="num">R$ 3.959,50</span></div></div></div>
+          </div>
+          <figcaption>Médio, foco em finanças. Android 4×2 e iPhone médio</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><div class="wd-head"><span class="n-cap">Sáb, 31/10</span><span class="n-cap">2 de 5</span></div><div class="wd-bar"><i style="width:40%"></i></div><div class="wd-row" style="margin-top:8px"><span class="tl-time">14:00</span><b>Remédio</b><span class="rt-box" aria-hidden="true"></span></div><div class="wd-row"><span class="tl-time">18:30</span><b>Academia</b><span class="rt-box" aria-hidden="true"></span></div></div></div>
+          </div>
+          <figcaption>Médio, foco em rotina: o quadrado marca sem abrir o app</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de outubro</span><b class="n-fig">R$ •••••</b><div class="wd-row" style="margin-top:8px"><b>Receitas</b><span class="num">R$ •••••</span></div><div class="wd-row"><b>Despesas</b><span class="num">R$ •••••</span></div></div></div>
+          </div>
+          <figcaption>"Esconder valores" ligado: em todos os tamanhos, os valores somem e o resto fica</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-l">
+              <div class="wd-top"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de outubro</span><b class="n-fig">R$ 1.240,50</b></div></div>
+              <div class="wd-row"><b>Receitas</b><span class="num" style="color:var(--musgo)">R$ 5.200,00</span></div>
+              <div class="wd-row"><b>Despesas</b><span class="num">R$ 3.959,50</span></div>
+              <span class="n-cap wd-note">A pagar</span>
+              <div class="wd-row"><b>Condomínio · <span style="color:var(--tijolo)">atrasada</span></b><span class="num">R$ 629,00</span></div>
+              <div class="wd-row"><b>Luz · <span style="color:var(--mostarda-escura)">vence hoje</span></b><span class="num">R$ 180,00</span></div>
+              <div class="wd-row"><b>Internet · 05/11</b><span class="num">R$ 120,00</span></div>
+              <div class="wd-row"><b>Aluguel · 10/11</b><span class="num">R$ 1.500,00</span></div>
+            </div>
+          </div>
+          <figcaption>Grande, foco em finanças: as contas abertas, primeiro as atrasadas. Android 4×3 ou mais e iPhone grande</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-l">
+              <div class="wd-top"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><div class="wd-head"><span class="n-cap">Sáb, 31/10</span><span class="n-cap">2 de 5</span></div><b class="n-fig">Faltam 3</b><div class="wd-bar"><i style="width:40%"></i></div></div></div>
+              <div class="wd-row"><span class="tl-time">14:00</span><b>Remédio</b><span class="rt-box" aria-hidden="true"></span></div>
+              <div class="wd-row"><span class="tl-time">18:30</span><b>Academia</b><span class="rt-box" aria-hidden="true"></span></div>
+              <div class="wd-row"><span class="tl-time"></span><b>Ler 20 páginas</b><span class="rt-box" aria-hidden="true"></span></div>
+              <div class="wd-row done"><span class="tl-time">07:00</span><b>Caminhada</b><span class="rt-box done" aria-hidden="true"><svg class="i"><use href="#check"/></svg></span></div>
+              <div class="wd-row done"><span class="tl-time"></span><b>Levar o lixo</b><span class="rt-box done" aria-hidden="true"><svg class="i"><use href="#check"/></svg></span></div>
+            </div>
+          </div>
+          <figcaption>Grande, foco em rotina: o que falta vem primeiro, e o que foi feito fica embaixo</figcaption>
+        </figure>
+      </div>
+
+      <div class="plan-grid">
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><div class="wd-head"><span class="n-cap">Sáb, 31/10</span><span class="n-cap">5 de 5</span></div><div class="wd-bar"><i style="width:100%"></i></div><b class="n-strong" style="display:block;margin-top:12px">Tudo feito por hoje.</b></div></div>
+          </div>
+          <figcaption>Tudo feito. Um dia sem atividades diz "Nada na rotina hoje."</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><div class="wd-head"><span class="n-cap">Sáb, 31/10</span><span class="n-cap">2 de 5</span></div><div class="wd-bar"><i style="width:40%"></i></div><div class="wd-row" style="margin-top:8px"><span class="tl-time">14:00</span><b>Remédio</b></div><div class="wd-row"><span class="tl-time">18:30</span><b>Academia</b></div></div></div>
+          </div>
+          <figcaption>"Só leitura": sem os quadrados, porque essa pessoa não marca. O microfone fica</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#plus"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de outubro</span><b class="n-fig">R$ 1.240,50</b><div class="wd-row" style="margin-top:8px"><b>Receitas</b><span class="num" style="color:var(--musgo)">R$ 5.200,00</span></div><div class="wd-row"><b>Despesas</b><span class="num">R$ 3.959,50</span></div></div></div>
+          </div>
+          <figcaption>Assistente desligado na conta: o círculo vira +, como no Início, e abre o formulário</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="brand-icon" style="width:64px;height:64px;flex:none"><svg><use href="#marca-icone"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de outubro</span><b class="n-fig">R$ 1.240,50</b><div class="wd-row" style="margin-top:8px"><b>Receitas</b><span class="num" style="color:var(--musgo)">R$ 5.200,00</span></div><div class="wd-row"><b>Despesas</b><span class="num">R$ 3.959,50</span></div></div></div>
+          </div>
+          <figcaption>"Só leitura" com o assistente desligado: no Início, o círculo não aparece. Aqui fica o ícone do app, e o toque abre o Início</figcaption>
+        </figure>
+        <figure>
+          <div class="wd-wall">
+            <div class="wd wd-m"><span class="wd-mic"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><b class="n-strong">Caderneta</b><span class="n-cap" style="white-space:normal">Entre no app para ver o mês ou a rotina.</span></div></div>
+          </div>
+          <figcaption>Sem login: nenhum dado fica na tela, e o toque abre a entrada</figcaption>
+        </figure>
+      </div>
+
+      <div class="plan-home" style="margin-top:32px">
+        <table class="ledger">
+          <thead><tr><th>Onde toca</th><th>O que faz</th></tr></thead>
+          <tbody>
+            <tr><td>Microfone</td><td>Abre o Início já gravando, com o tempo correndo, "toque para enviar" e "Cancelar". O celular vibra quando já pode falar, e só então a gravação começou.</td></tr>
+            <tr><td>Quadrado</td><td>Marca ou desmarca a atividade de hoje, sem abrir o app. Na rotina da casa, vale para todos, como na Agenda.</td></tr>
+            <tr><td>Resto do widget</td><td>Abre o Resumo no foco em finanças e a Agenda, na Rotina, no foco em rotina.</td></tr>
+          </tbody>
+        </table>
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>O microfone fica sempre à esquerda e é a primeira coisa de cada tamanho, porque falar é o jeito principal de usar o app. Continua o círculo de Tinta do Início.</li>
+            <li>O widget segue a escolha de Configurações › Tela inicial, para mostrar o mesmo foco do app, sem mais uma tela para configurar.</li>
+            <li>O dia aparece pela data, e não como "Hoje": se o celular ficar sem internet, o widget não diz que os dados antigos são de hoje.</li>
+            <li>Com o app fechado, a abertura com a capa não toca ao vir do microfone: ela atrasaria a gravação, e a pessoa falaria antes da hora.</li>
+            <li>O microfone respeita o Início: no limite do mês ou depois do período gratuito, abre a folha do limite sem gravar. Na primeira vez, o sistema pede o microfone antes.</li>
+            <li>O saldo é a receita menos a despesa do mês, e fica em Tijolo quando negativo. O app não conhece o saldo do banco.</li>
+            <li>Marcar sem internet: o quadrado volta como estava, e a linha mostra "Não deu para marcar" até a próxima tentativa.</li>
+            <li>No iPhone com sistema anterior ao iOS 17, tocar no quadrado abre a Agenda, porque o sistema não aceita botões no widget.</li>
+            <li>Uma atividade no "Hoje não" fica embaixo, depois das feitas, com "Hoje não" à direita. O quadrado vazio desfaz.</li>
+            <li>As cores são as do papel. As fontes do guia valem no iPhone. No Android, a tela inicial ignora a fonte do app: o valor grande usa a serifada do sistema, a mais próxima da Fraunces, e o resto usa a do celular, sem trocar o desenho. O ícone de cada rotina fica de fora: no espaço do widget, o horário e o nome já dizem o que é.</li>
           </ul>
         </div>
       </div>
@@ -3383,6 +3543,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+        <tr><td>1.31</td><td class="num">31/10/2026</td><td>Widget (parte 05): um desenho para cada tamanho, com o microfone à esquerda e o mês ou o dia à direita, seguindo o foco da Tela inicial. O microfone abre o Início já gravando, e o quadrado marca a rotina sem abrir o app. "Hoje não" fica embaixo, depois das feitas, e no Android o texto usa as fontes do celular. Tela inicial (parte 05): "Esconder valores no widget".</td></tr>
         <tr><td>1.30</td><td class="num">31/10/2026</td><td>Agenda (parte 05): excluir uma rotina que já acabou, só em um dia ou em todos os que passaram. Início com foco em rotina (parte 05): segurar a linha também abre os detalhes. Chat: a ficha da rotina passa de "Parar" para "Excluir", com o mesmo nome do app.</td></tr>
         <tr><td>1.29</td><td class="num">31/10/2026</td><td>Agenda (parte 05): andar entre as semanas, o progresso em cada dia e no calendário, a rotina de um dia, início e término com atalhos de duração, a descrição, o ícone sugerido, a folha de detalhes e a escolha entre "Só este dia" e "Este e os próximos". Início com foco em rotina (parte 05): tocar na linha abre os detalhes.</td></tr>
         <tr><td>1.28</td><td class="num">30/10/2026</td><td>Boas-vindas (parte 07): nas primeiras da conta, a tela "O que ver primeiro?" com os dois focos do Início.</td></tr>

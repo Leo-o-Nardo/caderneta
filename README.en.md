@@ -53,7 +53,7 @@ The visual design follows its own guide, **Caderneta**: light paper, dark ink, a
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="The start of the Caderneta design guide, with the approved decisions and the table of contents"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Design guide</a></b></p>
-      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the Plan screen, drag to reorder, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
+      <p>The app's visual reference: every new or changed screen follows it, and a rule only changes after it changes in the guide. It covers the approved decisions and the reason behind each one, the palette with measured contrast, typography, space and shape, the three main screens with the reason behind each choice, the Plan screen, drag to reorder, the widget, the admin area, components, micro-interactions, the guidelines for new screens and the log of every version.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="The start of the icon presentation, with the icon on iPhone, Android, the themed icon, the splash and the home screen"></a>
@@ -135,6 +135,14 @@ Categories use 14 pigment tones (Louro, Ardósia, Ameixa, Telha…), only ever o
 - **Reminders** that repeat ("every 6 months"), shared with the household or private.
 - **Lists** for groceries, wishes, to-dos or anything else, with tap-to-check for the supermarket. Items and the lists themselves are reordered by dragging.
 
+### Home screen widget
+On Android and iPhone, with [its design in the guide](https://leo-o-nardo.github.io/caderneta/design-guide.html#widget) (in Portuguese).
+
+- **One tap to talk:** the circle opens the app already recording, skipping the opening animation.
+- **The month or the day beside it:** it follows the Home screen focus, with the balance and upcoming bills, or the progress and activities of the routine. Each size has its own design.
+- **Check off without opening the app:** the square checks off a routine right on the widget (on iPhone, from iOS 17).
+- **Hide values:** a setting on the phone that replaces the values with dots.
+
 ### Alerts in the chat and on the phone
 - Each alert arrives in the chat and, with notifications on, also as a push notification. Tapping it opens the chat of the right household.
 - Bills on the day before and on the due date.
@@ -213,6 +221,13 @@ The assistant's limit does not count messages: it counts what each question actu
 - The app only gets the percentage used and the day the limit comes back. The dollar amount stays on the server and in the admin area.
 - A switch turns enforcement on. When it is off, nobody is blocked, and the report shows who would go over the limit, so the values can be tuned before they apply.
 
+### The widget, with no rules and its own login
+The widget runs outside the app and has to fetch its data on its own. These decisions keep it simple and safe:
+
+- **The rules stay in the API.** The widget route returns ready-made text (the month's balance title, "vence hoje", amounts already formatted), and the Kotlin and Swift code only stores and draws it. Amounts, dates and rules do not exist in three versions.
+- **Its login is worth less.** The widget has its own token, a child of the app's login, that reaches only the widget routes. A middleware refuses that token everywhere else, including the WebSocket. Signing out deletes both in cascade, and the data kept on the phone stays out of backups.
+- **On iPhone, the app's login stays out of the extension's reach.** The app leaves only the widget token for it, in a separate Keychain group. On Android, that token is encrypted with a system key.
+
 ### Design as a system
 The visual design follows its own guide, "Caderneta" (see [Design and brand](#design-and-brand)). Two pieces show how seriously it was taken:
 
@@ -224,6 +239,7 @@ The visual design follows its own guide, "Caderneta" (see [Design and brand](#de
 | Layer | Technologies |
 |---|---|
 | App | Expo SDK 57, React Native 0.86 (New Architecture), React 19, TypeScript, Expo Router, TanStack Query, Zustand, Reanimated 4, react-native-svg, expo-audio |
+| Widget | Android: Kotlin, RemoteViews and WorkManager. iPhone: Swift, SwiftUI, WidgetKit and App Intents |
 | API | PHP 8.4, Laravel 13, Sanctum (token per device), Laravel session for the admin area, Pest |
 | Real time | Laravel Reverb (WebSocket) |
 | Assistant | AI agent with tools (chat, actions and voice transcription), behind a provider interface, and a rule-based "fake" provider for development and tests |
@@ -248,6 +264,7 @@ All routes live under `/api/v1` and, except for sign-in and sign-up, require the
 | Budgets and summary | `/budgets/{category}`, `GET /summary` |
 | Schedule and lists | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
 | Routines | `/routines`, `GET /routines/day`, `GET /routines/days`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
+| Widget | `POST /widget/token`, `GET /widget`, `POST /widget/routines/{routine}/done`, `DELETE /widget/routines/{routine}/logs/{date}` |
 | Plan | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistant | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Alerts | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
@@ -274,6 +291,8 @@ How the private repository is organized:
 │   └── tests/                  # API, rules and assistant tests (Pest)
 └── mobile/                     # Expo app
     ├── assets/                 # icon, splash and the brand in SVG
+    ├── modules/caderneta-widget/  # the Android widget and the bridge to the iPhone one
+    ├── targets/widget/         # the iPhone widget extension
     └── src/
         ├── app/                # screens (Expo Router)
         ├── api/                # API calls and cache (TanStack Query)

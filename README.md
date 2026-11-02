@@ -50,7 +50,7 @@ O visual segue um guia próprio, a **Caderneta**: papel claro, tinta escura, uma
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/design-guide.html"><img src="./assets/guia-de-design.png" alt="O começo do guia de design Caderneta, com as decisões aprovadas e o índice"></a>
       <p><b><a href="https://leo-o-nardo.github.io/caderneta/design-guide.html">Guia de design</a></b></p>
-      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a tela do Plano, o arrastar para ordenar, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
+      <p>A referência visual do app: toda tela nova ou alterada segue o que está nele, e uma regra só muda depois de mudar no guia. Traz as decisões aprovadas e o porquê de cada uma, a paleta com o contraste medido, a tipografia, espaço e forma, as três telas principais com o porquê de cada escolha, a tela do Plano, o arrastar para ordenar, o widget, a área administrativa, os componentes, as micro-interações, as diretrizes para telas novas e o registro de cada versão.</p>
     </td>
     <td width="50%" valign="top">
       <a href="https://leo-o-nardo.github.io/caderneta/icone-caderneta.html"><img src="./assets/icone-caderneta.png" alt="O começo da apresentação do ícone, com ele no iPhone, no Android, no ícone temático, na splash e na tela inicial"></a>
@@ -132,6 +132,14 @@ As categorias usam 14 tons de pigmento (Louro, Ardósia, Ameixa, Telha…), semp
 - **Lembretes** com repetição ("a cada 6 meses"), da casa ou só seus.
 - **Listas** de compras, desejos, coisas a fazer ou do jeito que você quiser, com toque para marcar no mercado. Os itens e as próprias listas se ordenam arrastando.
 
+### Widget na tela inicial
+No Android e no iPhone, com [o desenho no guia](https://leo-o-nardo.github.io/caderneta/design-guide.html#widget).
+
+- **Um toque para falar:** o círculo abre o app já gravando, sem passar pela abertura.
+- **O mês ou o dia ao lado:** segue o foco da Tela inicial, com o saldo e as próximas contas ou o progresso e as atividades da rotina. Cada tamanho tem o seu desenho.
+- **Marcar sem abrir o app:** o quadrado marca a rotina direto no widget (no iPhone, a partir do iOS 17).
+- **Esconder valores:** uma opção do celular, que troca os valores por pontos.
+
 ### Avisos no chat e no celular
 - Cada aviso chega no chat e, com as notificações ligadas, também como push no celular. Tocar na notificação abre o chat da casa certa.
 - Contas na véspera e no dia do vencimento.
@@ -210,6 +218,13 @@ O limite do assistente não conta mensagens: conta quanto cada pergunta custou d
 - O app recebe só a porcentagem usada e o dia em que o limite volta. O valor em dólar fica no servidor e na área administrativa.
 - Uma chave liga a cobrança do limite. Desligada, ninguém é barrado, e o relatório mostra quem passaria do limite, para calibrar os valores antes de valer.
 
+### O widget, sem regras e com o próprio login
+O widget roda fora do app e precisa buscar os dados sozinho. Estas decisões o mantêm simples e seguro:
+
+- **As regras ficam na API.** A rota do widget devolve os textos prontos ("Saldo de novembro", "vence hoje", os valores já formatados), e o Kotlin e o Swift só guardam e desenham. Valores, datas e regras não existem em três versões.
+- **O login dele vale menos.** O widget tem um token próprio, filho do login do app, que só alcança as rotas do widget. Um middleware recusa esse token em todo o resto, inclusive no WebSocket. Sair da conta apaga os dois em cascata, e os dados guardados no celular ficam fora do backup.
+- **No iPhone, o login do app não fica ao alcance da extensão.** O app deixa para ela só o token do widget, num grupo separado do Keychain. No Android, esse token fica criptografado com uma chave do sistema.
+
 ### O design como sistema
 O visual segue um guia próprio, a "Caderneta" (veja a seção [Design e marca](#design-e-marca)). Duas partes mostram como ele foi levado a sério:
 
@@ -221,6 +236,7 @@ O visual segue um guia próprio, a "Caderneta" (veja a seção [Design e marca](
 | Camada | Tecnologias |
 |---|---|
 | App | Expo SDK 57, React Native 0.86 (New Architecture), React 19, TypeScript, Expo Router, TanStack Query, Zustand, Reanimated 4, react-native-svg, expo-audio |
+| Widget | Android: Kotlin, RemoteViews e WorkManager. iPhone: Swift, SwiftUI, WidgetKit e App Intents |
 | API | PHP 8.4, Laravel 13, Sanctum (token por aparelho), sessão do Laravel na área administrativa, Pest |
 | Tempo real | Laravel Reverb (WebSocket) |
 | Assistente | Agente de IA com ferramentas (conversa, ações e transcrição de voz), atrás de uma interface de provedor, e um provedor "fake" por regras para desenvolvimento e testes |
@@ -245,6 +261,7 @@ Todas as rotas ficam abaixo de `/api/v1` e, fora as de entrada, pedem o token do
 | Orçamentos e resumo | `/budgets/{category}`, `GET /summary` |
 | Agenda e listas | `/reminders`, `/reminders/{reminder}/done`, `/lists`, `PUT /lists/order`, `/lists/{list}/items`, `PUT /lists/{list}/order`, `/list-items/{item}` |
 | Rotina | `/routines`, `GET /routines/day`, `GET /routines/days`, `POST /routines/{routine}/done`, `/skip`, `DELETE /routines/{routine}/logs/{date}` |
+| Widget | `POST /widget/token`, `GET /widget`, `POST /widget/routines/{routine}/done`, `DELETE /widget/routines/{routine}/logs/{date}` |
 | Plano | `GET /assistant/usage`, `POST /assistant/plus-request` |
 | Assistente | `GET /conversation`, `POST /conversation/messages`, `POST /conversation/voice`, `POST /conversation/messages/{message}/report`, `POST /actions/{action}/confirm`, `/cancel`, `/undo` |
 | Avisos | `GET /alerts/unread`, `POST /alerts/seen`, `POST /alerts/{message}/{action}`, `POST /alerts/routines/{routine}/{action}`, `POST /push-tokens` |
@@ -271,6 +288,8 @@ Como o repositório privado está organizado:
 │   └── tests/                  # testes de API, regras e assistente (Pest)
 └── mobile/                     # app Expo
     ├── assets/                 # ícone, splash e a marca em SVG
+    ├── modules/caderneta-widget/  # o widget do Android e a ponte com o do iPhone
+    ├── targets/widget/         # a extensão do widget no iPhone
     └── src/
         ├── app/                # telas (Expo Router)
         ├── api/                # chamadas à API e cache (TanStack Query)
