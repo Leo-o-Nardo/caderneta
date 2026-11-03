@@ -4,6 +4,8 @@
 
 <p align="center"><b>Sua casa em ordem. Sem complicação.</b><br>Registre seus gastos, acompanhe suas receitas e despesas e mantenha as contas da sua casa organizadas de forma prática e intuitiva.</p>
 
+<p align="center"><a href="https://apps.apple.com/br/app/caderneta-finan%C3%A7as-da-casa/id6827190308">App Store</a> · <a href="https://play.google.com/store/apps/details?id=com.leonardoferreira.caderneta">Google Play</a></p>
+
 <p align="center"><b>Português</b> · <a href="README.en.md">English</a></p>
 
 Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoço e 18 no café, no débito", o assistente entende, monta uma ficha com os lançamentos e espera a confirmação. Por trás, o app cuida de cartões e faturas, contas fixas, orçamentos, rotina, listas e lembretes, e avisa antes de uma conta vencer. Tudo pensado para uma casa com várias pessoas, cada uma com o seu papel.
@@ -304,7 +306,7 @@ Como o repositório privado está organizado:
 
 - **Convite:** vai só com o código de 6 caracteres; ainda não há link que abra o app direto.
 - **Plus:** ainda não é vendido pelas lojas; quem libera é o administrador, pela área administrativa. A cobrança pelas lojas vem depois.
-- **Publicação:** o app está em revisão na Play Store e na App Store. O servidor de produção roda com Docker Compose.
+- **Publicação:** o app está publicado na [App Store](https://apps.apple.com/br/app/caderneta-finan%C3%A7as-da-casa/id6827190308) e no [Google Play](https://play.google.com/store/apps/details?id=com.leonardoferreira.caderneta). O servidor de produção roda com Docker Compose.
 
 ## Autor
 

@@ -4,6 +4,8 @@
 
 <p align="center"><b>Your home in order. No hassle.</b><br>Log your expenses, track your income and spending, and keep your household finances organized in a simple, intuitive way.</p>
 
+<p align="center"><a href="https://apps.apple.com/br/app/caderneta-finan%C3%A7as-da-casa/id6827190308">App Store</a> · <a href="https://play.google.com/store/apps/details?id=com.leonardoferreira.caderneta">Google Play</a> (in Portuguese)</p>
+
 <p align="center"><a href="README.md">Português</a> · <b>English</b></p>
 
 A household finance app you use by talking. You say "I spent 42 on lunch and 18 on coffee, debit", the assistant understands, builds a card with the entries and waits for your confirmation. Behind it, the app handles credit cards and invoices, recurring bills, budgets, routines, lists and reminders, and warns you in the chat before a bill is due. It is built for a household with several people, each with their own role.
@@ -307,7 +309,7 @@ How the private repository is organized:
 
 - **Invitation:** it carries only the 6-character code; there is no link that opens the app directly yet.
 - **Plus:** it is not sold through the stores yet; the administrator grants it, through the admin area. Store billing comes later.
-- **Release:** the app is in review on the Play Store and the App Store. The production server runs with Docker Compose.
+- **Release:** the app is live on the [App Store](https://apps.apple.com/br/app/caderneta-finan%C3%A7as-da-casa/id6827190308) and [Google Play](https://play.google.com/store/apps/details?id=com.leonardoferreira.caderneta). The production server runs with Docker Compose.
 
 ## Author
 
