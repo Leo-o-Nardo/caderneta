@@ -25,6 +25,10 @@ A household finance app you use by talking. You say "I spent 42 on lunch and 18 
 ![AI agent](https://img.shields.io/badge/AI_agent-tools_and_voice-2C5440?style=flat)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)
 
+<p align="center"><b>Caderneta in 30 seconds</b> (in Portuguese): an expense and a routine said out loud, the monthly summary, the bills, the schedule and the widget.</p>
+
+<!-- VIDEO: troque esta linha pelo link do vídeo enviado no github.com -->
+
 <p align="center">
   <img src="./assets/capa.png" width="24%" alt="The app cover, with the slogan and a usage example">
   <img src="./assets/inicio.png" width="24%" alt="The home screen, with the month's expenses and the microphone">

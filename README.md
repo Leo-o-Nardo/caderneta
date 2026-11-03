@@ -22,6 +22,10 @@ Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoç
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=flat&logo=typescript&logoColor=white)
 ![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)
 
+<p align="center"><b>A Caderneta em 30 segundos:</b> um gasto e uma rotina falados, o Resumo do mês, as contas, a Agenda e o widget.</p>
+
+<!-- VIDEO: troque esta linha pelo link do vídeo enviado no github.com -->
+
 <p align="center">
   <img src="./assets/capa.png" width="24%" alt="A capa do app, com o slogan e um exemplo de uso">
   <img src="./assets/inicio.png" width="24%" alt="O Início, com as despesas do mês e o microfone">
