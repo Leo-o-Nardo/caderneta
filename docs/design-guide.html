@@ -400,6 +400,16 @@ table.ledger tfoot .n { color: var(--tinta); }
 .cal-grid button.today { font-weight: 600; color: var(--musgo); text-decoration: underline; text-underline-offset: 3px; }
 .cal-grid button[aria-pressed="true"] { background: var(--musgo); color: var(--papel); font-weight: 500; text-decoration: none; }
 .cal-foot { display: flex; justify-content: center; margin-top: 8px; }
+/* O nome do mês abre os meses do ano; com eles abertos, as setas trocam o ano. */
+.cal-title { display: inline-flex; align-items: center; gap: 4px; height: 44px; padding: 0 8px; white-space: nowrap; background: none; border: 0; border-radius: 6px; color: var(--tinta); cursor: pointer; }
+.cal-title:hover { background: var(--papel-escuro); }
+.cal-title .i { width: 16px; height: 16px; color: var(--grafite); stroke-width: 2; }
+.cal-title.up .i { transform: rotate(180deg); }
+.mes-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; align-content: center; min-height: 286px; }
+.mes-grid button { height: 52px; padding: 0; background: none; border: 0; border-radius: 4px; font: 400 16px var(--sans); color: var(--tinta); cursor: pointer; }
+.mes-grid button:hover { background: var(--papel-escuro); }
+.mes-grid button.today { font-weight: 600; color: var(--musgo); text-decoration: underline; text-underline-offset: 3px; }
+.mes-grid button[aria-pressed="true"] { background: var(--musgo); color: var(--papel); font-weight: 500; text-decoration: none; }
 .wheel { position: relative; display: grid; grid-template-columns: 1fr 16px 1fr; align-items: center; margin-top: 12px; }
 .wheel::before { content: ""; position: absolute; left: 0; right: 0; top: 88px; height: 44px; border-radius: 4px; background: var(--musgo); }
 .wheel-col { position: relative; height: 220px; padding: 88px 0; overflow-y: auto; scroll-snap-type: y mandatory; scrollbar-width: none; overscroll-behavior: contain; }
@@ -898,7 +908,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.33 · 2 de novembro de 2026</span>
+    <span class="rotulo">Versão 1.34 · 3 de novembro de 2026</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
   <p class="doc-lead">Um app de contas da casa deveria lembrar o caderno onde a família sempre anotou o dinheiro, e não um painel de corretora. Por isso o app usa papel claro, tinta escura, uma pauta fina entre as linhas e números alinhados como num livro-caixa. A cor só aparece quando quer dizer alguma coisa.</p>
@@ -1677,7 +1687,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <div class="scrim"></div>
             <div class="sheet" role="dialog" aria-labelledby="cal-title">
               <span class="handle"></span>
-              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2" id="cal-title">Outubro de 2026</h4><button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button></div>
+              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button><button class="cal-title" type="button" aria-label="Escolher o mês, outubro de 2026"><span class="n-h2" id="cal-title">Outubro de 2026</span><svg class="i"><use href="#chev-d"/></svg></button><button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button></div>
               <div class="cal-grid">
                 <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
                 <i></i><i></i><i></i><button type="button">1</button><button type="button">2</button><button type="button">3</button><button type="button">4</button>
@@ -1689,14 +1699,26 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <div class="cal-foot"><button class="n-link" type="button">Hoje</button></div>
             </div>
           </div>
-          <figcaption><b>O calendário.</b> Vale para toda data do app, no lugar do calendário do celular. Tocar num dia ou em "Hoje" escolhe e fecha. Hoje fica em Musgo, sublinhado. A grade guarda o espaço de seis semanas, para as setas não saírem do lugar ao trocar de mês.</figcaption>
+          <figcaption><b>O calendário.</b> Vale para toda data do app, no lugar do calendário do celular. Tocar num dia ou em "Hoje" escolhe e fecha. O nome do mês, com a seta, abre os meses do ano. Hoje fica em Musgo, sublinhado. A grade guarda o espaço de seis semanas, para as setas não saírem do lugar ao trocar de mês.</figcaption>
+        </figure>
+        <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
+          <div class="sheet-stage">
+            <div class="scrim"></div>
+            <div class="sheet" role="dialog" aria-labelledby="cal-meses-title">
+              <span class="handle"></span>
+              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Ano anterior"><svg class="i"><use href="#chev-l"/></svg></button><button class="cal-title up" type="button" aria-label="Voltar aos dias, 2026"><span class="n-h2" id="cal-meses-title">2026</span><svg class="i"><use href="#chev-d"/></svg></button><button class="n-iconbtn" type="button" aria-label="Próximo ano"><svg class="i"><use href="#chev-r"/></svg></button></div>
+              <div class="mes-grid"><button type="button" aria-label="Janeiro de 2026">Janeiro</button><button type="button" aria-label="Fevereiro de 2026">Fevereiro</button><button type="button" aria-label="Março de 2026">Março</button><button type="button" aria-label="Abril de 2026">Abril</button><button type="button" aria-label="Maio de 2026">Maio</button><button type="button" aria-label="Junho de 2026">Junho</button><button type="button" aria-label="Julho de 2026">Julho</button><button type="button" aria-label="Agosto de 2026">Agosto</button><button type="button" aria-label="Setembro de 2026">Setembro</button><button type="button" aria-pressed="true" aria-label="Outubro de 2026">Outubro</button><button type="button" aria-label="Novembro de 2026">Novembro</button><button type="button" aria-label="Dezembro de 2026">Dezembro</button></div>
+              <div class="cal-foot"><button class="n-link" type="button">Hoje</button></div>
+            </div>
+          </div>
+          <figcaption><b>Os meses do ano.</b> Para ir longe sem tocar mês a mês, como numa parcela que começou no ano passado. As setas trocam o ano, e tocar num mês volta para os dias dele, sem escolher a data. O mês da data escolhida fica cheio de Musgo e o mês de hoje fica sublinhado, como nos dias. Os meses ocupam a altura das seis semanas, para a folha não pular. Tocar no ano volta aos dias.</figcaption>
         </figure>
         <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
           <div class="sheet-stage">
             <div class="scrim"></div>
             <div class="sheet" role="dialog" aria-labelledby="cal-rotina-title">
               <span class="handle"></span>
-              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2" id="cal-rotina-title">Outubro de 2026</h4><button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button></div>
+              <div class="cal-head"><button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button><button class="cal-title" type="button" aria-label="Escolher o mês, outubro de 2026"><span class="n-h2" id="cal-rotina-title">Outubro de 2026</span><svg class="i"><use href="#chev-d"/></svg></button><button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button></div>
               <div class="cal-grid marked">
                 <span>Seg</span><span>Ter</span><span>Qua</span><span>Qui</span><span>Sex</span><span>Sáb</span><span>Dom</span>
                 <i></i><i></i><i></i><button type="button">1<span class="rt-mark"><i style="--w:100%"></i></span></button><button type="button">2<span class="rt-mark"><i style="--w:50%"></i></span></button><button type="button">3<span class="rt-mark none"></span></button><button type="button">4<span class="rt-mark"><i style="--w:100%"></i></span></button>
@@ -1708,7 +1730,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
               <div class="cal-foot"><button class="n-link" type="button">Hoje</button></div>
             </div>
           </div>
-          <figcaption><b>O calendário da Rotina.</b> O mesmo calendário, com o traço de cada dia. Ele aparece só aqui: nas outras datas do app, o calendário continua limpo. Hoje fica em Musgo e mais forte, sem o sublinhado, para não encostar no traço.</figcaption>
+          <figcaption><b>O calendário da Rotina.</b> O mesmo calendário, com o traço de cada dia, que fica só nos dias e não nos meses. Ele aparece só aqui: nas outras datas do app, o calendário continua limpo. Hoje fica em Musgo e mais forte, sem o sublinhado, para não encostar no traço.</figcaption>
         </figure>
         <figure class="home-options" style="display:grid;margin-top:0;grid-template-columns:minmax(0,1fr)">
           <div class="sheet-stage">
