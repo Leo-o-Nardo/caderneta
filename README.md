@@ -24,7 +24,7 @@ Um app de finanças da casa para usar falando. A pessoa diz "gastei 42 no almoç
 
 <p align="center"><b>A Caderneta em 30 segundos:</b> um gasto e uma rotina falados, o Resumo do mês, as contas, a Agenda e o widget.</p>
 
-<!-- VIDEO: troque esta linha pelo link do vídeo enviado no github.com -->
+https://github.com/user-attachments/assets/9e4a6594-912e-4fd9-85ca-7c7b15458f45
 
 <p align="center">
   <img src="./assets/capa.png" width="24%" alt="A capa do app, com o slogan e um exemplo de uso">
