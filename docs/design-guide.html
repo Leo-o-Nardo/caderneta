@@ -485,6 +485,49 @@ table.ledger tfoot .n { color: var(--tinta); }
 .trial-msg { align-self: flex-start; max-width: 80%; padding: 10px 14px; border-radius: 12px; background: var(--folha); border: 1px solid var(--pauta); font: 400 15px/22px var(--sans); }
 .trial-msg.me { align-self: flex-end; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
 .trial-chat { display: flex; flex-direction: column; gap: 8px; opacity: .55; }
+/* O site: a página inicial do servidor, no computador e no celular */
+.site-grid { display: grid; gap: 32px 24px; grid-template-columns: minmax(0, 2.2fr) minmax(0, 1fr); align-items: start; }
+.site-grid figure { display: grid; gap: 8px; align-content: start; margin: 0; }
+.site-grid figcaption { font-size: 13px; color: var(--grafite); }
+.site-page { padding: 16px 20px 20px; }
+.site-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
+.site-top .adm-brand { padding: 0; border: 0; }
+.site-top .adm-brand svg { width: 20px; height: 20px; }
+.site-top .adm-brand span { font-size: 15px; line-height: 20px; }
+.site-top a { font: 500 11px/14px var(--sans); color: var(--musgo); text-decoration: underline; text-underline-offset: 3px; }
+.site-hero { display: grid; grid-template-columns: 1.25fr 1fr; gap: 20px; align-items: center; padding: 20px 0; }
+.site-hero .n-rot { font-size: 8px; line-height: 12px; }
+.site-h1 { margin: 4px 0 0; font: 600 22px/26px var(--serif); letter-spacing: -.01em; }
+.site-lead { margin: 8px 0 0; font-size: 11px; line-height: 16px; color: var(--grafite); }
+.site-stores { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.site-store { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px 5px 8px; border-radius: 4px; background: var(--tinta); color: var(--papel); }
+.site-store svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.site-store small { display: block; font: 400 7px/9px var(--sans); opacity: .8; }
+.site-store b { display: block; font: 600 9px/11px var(--sans); }
+.site-note { margin: 8px 0 0; font-size: 8px; line-height: 12px; color: var(--grafite); }
+.site-video { width: 100%; max-width: 230px; justify-self: center; aspect-ratio: 1; border: 1px solid var(--pauta); border-radius: 6px; background: var(--folha) repeating-linear-gradient(transparent 0 17px, rgba(220, 213, 198, .5) 17px 18px);
+              display: grid; place-items: center; align-content: center; gap: 6px; }
+.site-video svg { width: 30px; height: 30px; }
+.site-video b { font: 600 15px/18px var(--serif); }
+.site-play { width: 26px; height: 26px; border-radius: 50%; background: var(--tinta); display: grid; place-items: center; }
+.site-play i { width: 0; height: 0; border-left: 8px solid var(--papel); border-top: 5px solid transparent; border-bottom: 5px solid transparent; margin-left: 2px; }
+.site-h2 { margin: 0; padding-bottom: 6px; border-bottom: 1px solid var(--tinta); font: 600 14px/18px var(--serif); }
+.site-feature { display: grid; grid-template-columns: 1fr 72px; gap: 20px; align-items: center; padding: 14px 0; border-bottom: 1px solid var(--pauta); }
+.site-feature.flip { grid-template-columns: 72px 1fr; }
+.site-feature.flip .site-shot { order: -1; }
+.site-feature h5 { margin: 2px 0 0; font: 600 13px/16px var(--serif); }
+.site-feature p { margin: 4px 0 0; font-size: 9px; line-height: 13px; color: var(--grafite); }
+.site-feature .n-rot { font-size: 7px; line-height: 10px; }
+.site-shot { aspect-ratio: 9 / 19; border: 1px solid var(--pauta); border-radius: 9px; background: var(--folha); padding: 10px 7px; display: grid; gap: 5px; align-content: start; }
+.site-shot i { display: block; height: 5px; border-radius: 1px; background: var(--pauta); }
+.site-shot i.h { width: 60%; height: 7px; background: var(--tinta); }
+.site-shot i.s { width: 40%; }
+.site-shot i.card { height: 26px; background: none; border: 1px solid var(--pauta); }
+.site-phone .site-hero { grid-template-columns: 1fr; gap: 14px; }
+.site-phone .site-stores { flex-direction: column; }
+.site-phone .site-store { justify-content: center; }
+.site-phone .site-h1 { font-size: 19px; line-height: 23px; }
+@media (max-width: 760px) { .site-grid { grid-template-columns: 1fr; } }
 /* Confirmar o e-mail: a tela do app, o e-mail e as páginas do link */
 .conf-app { margin-top: 56px; display: grid; gap: 8px; }
 .conf-app .limit-icon { margin-bottom: 4px; }
@@ -892,6 +935,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
   <symbol id="coffee" viewBox="0 0 24 24"><path d="M10 2v2"/><path d="M14 2v2"/><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"/><path d="M6 2v2"/></symbol>
   <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
   <symbol id="mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
+  <symbol id="download" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="m7 10.5 5 5 5-5"/><path d="M5 19.5h14"/></symbol>
   <symbol id="hourglass" viewBox="0 0 24 24"><path d="M5 22h14"/><path d="M5 2h14"/><path d="M17 22v-4.172a2 2 0 0 0-.586-1.414L12 12l-4.414 4.414A2 2 0 0 0 7 17.828V22"/><path d="M7 2v4.172a2 2 0 0 0 .586 1.414L12 12l4.414-4.414A2 2 0 0 0 17 6.172V2"/></symbol>
   <symbol id="gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
   <symbol id="clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></symbol>
@@ -908,7 +952,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.34 · 3 de novembro de 2026</span>
+    <span class="rotulo">Versão 1.36 · 5 de novembro de 2026</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
   <p class="doc-lead">Um app de contas da casa deveria lembrar o caderno onde a família sempre anotou o dinheiro, e não um painel de corretora. Por isso o app usa papel claro, tinta escura, uma pauta fina entre as linhas e números alinhados como num livro-caixa. A cor só aparece quando quer dizer alguma coisa.</p>
@@ -2438,6 +2482,78 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
     <div class="capitulo" id="a-conta">
       <h3>A conta</h3>
       <p>Toda casa começa com alguém entrando pela primeira vez.</p>
+    </div>
+
+    <!-- ---------- O site ---------- -->
+    <div class="block" id="site">
+      <div class="block-head"><h3>O site</h3><p>A página inicial do endereço do app: o que a Caderneta faz e os links das duas lojas</p></div>
+      <div class="site-grid">
+        <figure>
+          <div class="adm-win">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com</span></div>
+            <div class="site-page">
+              <div class="site-top"><div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span></div><a>Baixar o app</a></div>
+              <div class="site-hero">
+                <div>
+                  <span class="n-rot">Finanças da casa</span>
+                  <h4 class="site-h1">Sua casa em ordem. Sem complicação.</h4>
+                  <p class="site-lead">Fale o gasto e o assistente lança. Contas, cartões, listas e a rotina da casa num app só, dividido com quem mora com você.</p>
+                  <div class="site-stores">
+                    <span class="site-store"><svg><use href="#download"/></svg><span><small>Baixar na</small><b>App Store</b></span></span>
+                    <span class="site-store"><svg><use href="#download"/></svg><span><small>Baixar no</small><b>Google Play</b></span></span>
+                  </div>
+                  <p class="site-note">Grátis para baixar. Ao confirmar o e-mail, você ganha 7 dias de assistente.</p>
+                </div>
+                <div class="site-video"><svg aria-hidden="true"><use href="#marca-icone"/></svg><b>Caderneta</b><span class="site-play"><i></i></span></div>
+              </div>
+              <h4 class="site-h2">O que dá para fazer</h4>
+              <div class="site-feature">
+                <div><span class="n-rot">Assistente</span><h5>Fale o gasto, o assistente lança</h5><p>Do jeito que você falaria com alguém da casa. O assistente prepara o lançamento, e você só confere.</p></div>
+                <div class="site-shot"><i class="h"></i><i class="s"></i><i class="card"></i><i></i><i class="s"></i><i class="card"></i></div>
+              </div>
+              <div class="site-feature flip">
+                <div class="site-shot"><i class="h"></i><i class="s"></i><i class="card"></i><i></i><i></i><i class="s"></i></div>
+                <div><span class="n-rot">Início</span><h5>O mês da casa na primeira tela</h5><p>Quanto já saiu, quanto resta nos orçamentos e o que está atrasado.</p></div>
+              </div>
+            </div>
+          </div>
+          <figcaption>No computador: o texto e o vídeo lado a lado, e cada recurso com a tela do app, alternando os lados</figcaption>
+        </figure>
+        <figure>
+          <div class="adm-win site-phone">
+            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com</span></div>
+            <div class="site-page">
+              <div class="site-top"><div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span></div><a>Baixar o app</a></div>
+              <div class="site-hero">
+                <div>
+                  <span class="n-rot">Finanças da casa</span>
+                  <h4 class="site-h1">Sua casa em ordem. Sem complicação.</h4>
+                  <p class="site-lead">Fale o gasto e o assistente lança. Contas, cartões, listas e a rotina da casa num app só.</p>
+                  <div class="site-stores">
+                    <span class="site-store"><svg><use href="#download"/></svg><span><small>Baixar na</small><b>App Store</b></span></span>
+                    <span class="site-store"><svg><use href="#download"/></svg><span><small>Baixar no</small><b>Google Play</b></span></span>
+                  </div>
+                </div>
+                <div class="site-video"><svg aria-hidden="true"><use href="#marca-icone"/></svg><b>Caderneta</b><span class="site-play"><i></i></span></div>
+              </div>
+            </div>
+          </div>
+          <figcaption>No celular: uma coluna só, e os botões na largura toda</figcaption>
+        </figure>
+      </div>
+
+      <div class="notes" style="margin-top:32px">
+        <h4>Por que é assim</h4>
+        <ul>
+          <li>Quem chega pelo link de um post ou de alguém da casa vê primeiro o que o app faz e os dois botões das lojas, sem rolar.</li>
+          <li>Os botões são do guia, em Tinta e só com texto, e não os selos das lojas: os selos têm regras próprias de uso e destoam do papel.</li>
+          <li>O vídeo de 30 segundos fica parado na capa e só baixa quando a pessoa toca no play, sem som.</li>
+          <li>Cada recurso tem a tela de verdade do app, com os dados de exemplo do guia e sem a barra de status do celular.</li>
+          <li>Os preços dos planos ficam fora: a página fala só dos 7 dias de assistente, que toda conta nova ganha.</li>
+          <li>É a única página do servidor que os buscadores podem guardar, com descrição e imagem para o link aparecer bonito quando é compartilhado.</li>
+        </ul>
+      </div>
+      <p class="spec-line"><b>De cima para baixo.</b> Topo com a marca e "Baixar o app", que desce até o fim; abertura com o título, a frase e os botões; o vídeo; "O que dá para fazer", com Assistente, Início, Agenda, Cartões e Listas; "E mais", numa pauta de duas colunas (Resumo do mês, Orçamentos, Rotina da casa, Widget, Casa compartilhada e Receitas fixas); "Como começar", em três passos numerados em Musgo; e, no fim, os botões de novo, o contato de suporte e o rodapé de sempre, com a política de privacidade e a exclusão da conta.</p>
     </div>
 
     <!-- ---------- Confirmar o e-mail ---------- -->

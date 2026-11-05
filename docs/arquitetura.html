@@ -48,7 +48,7 @@ code { font: 400 .9em var(--mono); background: var(--papel-escuro); padding: 1px
 .toc a span { color: var(--grafite); font-weight: 400; margin-right: 6px; font-variant-numeric: tabular-nums; }
 .toc a:hover { text-decoration: underline; }
 
-/* Cada parte: o número, o título, a frase, o desenho e o "como explicar" */
+/* Cada parte: o número, o título, a frase, o desenho e o resumo em uma frase */
 .part { padding: 56px 0; border-bottom: 1px solid var(--pauta); }
 .part-head { display: grid; grid-template-columns: 56px 1fr; gap: 8px; margin-bottom: 28px; }
 .part-num { font: 600 13px/40px var(--sans); color: var(--grafite); font-variant-numeric: tabular-nums; }
@@ -189,12 +189,11 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
 #diagrama .linha { font-size: 14px; }
 .frame-cap a { white-space: nowrap; }
 
-/* Níveis de acesso, área administrativa, código, diretrizes e versões usam as peças do guia
+/* "No código", as diretrizes e as versões usam as peças do guia
    (design-guide.html), só dentro de .guia, para não mexer no resto desta página. */
 .guia { font: 400 16px/1.55 var(--sans); }
-.guia .block { margin-top: 56px; } .guia .adm-stats { grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); }
+.guia .block { margin-top: 56px; }
 .part-head a { color: var(--musgo); }
-@keyframes grow { from { transform: scaleX(0); } }
 .guia *, .guia *::before, .guia *::after { box-sizing: border-box; }
 .guia * { margin: 0; padding: 0; }
 .guia button, .guia input { font: inherit; color: inherit; }
@@ -217,216 +216,6 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
 .guia .comp-list div { padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
 .guia .comp-list b { display: block; font-weight: 500; }
 .guia .comp-list span { color: var(--grafite); font-size: 14px; }
-.guia .phone { width: 100%; max-width: 390px; height: 844px; border: 10px solid #161714; border-radius: 46px; overflow: hidden; position: relative; background: #161714; box-shadow: 0 40px 70px -45px rgba(30, 31, 28, .55); }
-.guia .screen { position: absolute; inset: 0; border-radius: 36px; overflow: hidden; display: flex; flex-direction: column; }
-.guia .sbar { height: 40px; flex: none; display: flex; align-items: center; justify-content: space-between; padding: 4px 28px 0; font-size: 14px; font-weight: 600; font-variant-numeric: tabular-nums; }
-.guia .sbar .bat { width: 25px; height: 12px; border: 1.5px solid currentColor; border-radius: 3px; position: relative; opacity: .9; display: block; }
-.guia .sbar .bat::after { content: ""; position: absolute; top: 1.5px; bottom: 1.5px; left: 1.5px; right: 6px; background: currentColor; border-radius: 1px; }
-.guia .homebar { height: 22px; flex: none; display: grid; place-items: center; }
-.guia .homebar::after { content: ""; width: 128px; height: 4px; border-radius: 2px; background: currentColor; opacity: .3; }
-.guia .px { padding-left: 24px; padding-right: 24px; }
-.guia .notes h4 { font: 600 12px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
-.guia .notes ul { list-style: none; }
-.guia .notes li { padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; line-height: 1.5; }
-.guia .notes li b { font-weight: 600; }
-.guia .i { width: 24px; height: 24px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; flex: none; display: block; }
-.guia .new { background: var(--papel); color: var(--tinta); font-family: var(--sans); }
-.guia .new .i { stroke-width: 1.6; }
-.guia .n-rot { font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); }
-.guia .n-h1 { font: 600 28px/34px var(--serif); letter-spacing: -.01em; }
-.guia .n-h1.sm { font-size: 24px; line-height: 30px; }
-.guia .n-h2 { font: 500 20px/26px var(--serif); }
-.guia .n-body { font: 400 16px/24px var(--sans); }
-.guia .n-strong { font: 500 16px/22px var(--sans); }
-.guia .n-cap { font: 400 13px/18px var(--sans); color: var(--grafite); }
-.guia .n-fig { font: 500 22px/28px var(--serif); font-variant-numeric: lining-nums tabular-nums; letter-spacing: -.01em; }
-.guia .n-amt { font: 500 16px/22px var(--sans); font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
-.guia .n-amt em { font-style: normal; font-weight: 400; color: var(--grafite); }
-.guia .t-aviso { color: var(--mostarda-escura); }
-.guia .n-link { font: 500 15px/20px var(--sans); color: var(--musgo); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; background: none; border: 0; cursor: pointer; }
-.guia .n-link.sm { font-size: 14px; }
-.guia .n-sec { margin-top: 40px; }
-.guia .n-sec-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
-.guia .n-row { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
-.guia .n-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
-.guia .n-main > * { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.guia .press { transition: background-color .15s ease-out; cursor: pointer; }
-.guia .press:hover { background-color: var(--papel-escuro); }
-.guia .press:active { background-color: var(--papel-escuro); transition-duration: 0s; }
-.guia .n-row.press { margin: 0 -24px; padding-left: 24px; padding-right: 24px; }
-.guia .bar { height: 4px; border-radius: 2px; background: var(--pauta); overflow: hidden; }
-.guia .bar i { display: block; height: 100%; width: var(--w); border-radius: 2px; background: var(--musgo); transform-origin: left; animation: grow .7s var(--curva) both; }
-.guia .bar i.warn { background: var(--mostarda-escura); }
-.guia .bar i.over { background: var(--tijolo); }
-.guia .n-tabs { height: 62px; flex: none; display: flex; border-top: 1px solid var(--pauta); background: var(--papel); }
-.guia .n-tab { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font: 500 12px/14px var(--sans); color: var(--grafite); position: relative; }
-.guia .n-tab .i { width: 20px; height: 20px; }
-.guia .n-tab.on { color: var(--tinta); font-weight: 600; }
-.guia .n-tab.on .i { stroke-width: 2; }
-.guia .n-tab.on::before { content: ""; position: absolute; top: -1px; left: 50%; width: 28px; margin-left: -14px; height: 2px; background: var(--tinta); }
-.guia .n-home { flex: 1; min-height: 0; display: flex; flex-direction: column; padding-bottom: 8px; overflow-y: auto; scrollbar-width: none; }
-.guia .n-home::-webkit-scrollbar { display: none; }
-.guia .n-top { display: flex; justify-content: space-between; align-items: center; padding-top: 4px; }
-.guia .n-home .n-h1 { margin-top: 4px; }
-.guia .n-ledger2 { display: grid; grid-template-columns: 1fr 1fr; margin-top: 16px; border-top: 1px solid var(--pauta); border-bottom: 1px solid var(--pauta); }
-.guia .n-ledger2 > * { display: grid; gap: 2px; padding: 12px 0; text-decoration: none; }
-.guia .n-ledger2 > * + * { border-left: 1px solid var(--pauta); padding-left: 16px; }
-.guia .n-chev { color: var(--lapis); font: 400 22px/1 var(--sans); }
-.guia .n-micarea { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 4px; padding: 4px 0; }
-.guia .n-mic { width: 72px; height: 72px; border-radius: 50%; border: 0; background: var(--tinta); color: var(--papel); display: grid; place-items: center; margin-bottom: 8px; position: relative; cursor: pointer; transition: background-color .15s ease-out, transform .08s ease-out; }
-.guia .n-mic:hover { background: #000; }
-.guia .n-mic:active { transform: translateY(1px); }
-.guia .n-mic:focus-visible { outline: 2px solid var(--musgo); outline-offset: 4px; }
-.guia .n-mic .i { width: 28px; height: 28px; stroke-width: 1.6; }
-.guia .n-micarea .n-link { margin-top: 8px; }
-.guia .n-home .n-sec { margin-top: 8px; }
-.guia .n-home .n-sec .n-row:last-child { border-bottom: 0; }
-.guia .plan-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); margin-top: 56px; }
-.guia .plan-grid figure { display: grid; gap: 8px; align-content: start; }
-.guia .plan-grid figcaption { font-size: 13px; color: var(--grafite); }
-.guia .plan-grid .panel { max-width: none; padding-top: 16px; }
-.guia .plan-grid .n-row:last-child { border-bottom: 0; }
-.guia .plan-grid .btn { margin-top: 16px; }
-.guia .plan-home { margin-top: 56px; display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
-.guia .plan-home .panel { padding-bottom: 16px; }
-.guia .trial-end { margin-top: 8px; }
-.guia .trial-end .btn { margin-top: 16px; }
-.guia .trial-lock { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--pauta); display: grid; gap: 4px; }
-.guia .trial-lock .with-icon { display: flex; align-items: center; gap: 8px; }
-.guia .trial-lock .with-icon .i { width: 20px; height: 20px; color: var(--mostarda-escura); }
-.guia .trial-lock .btn { margin-top: 12px; }
-.guia .trial-lock .with-icon .i.off { color: var(--grafite); }
-.guia .access-end .limit-icon { color: var(--grafite); }
-.guia .home-options { display: grid; gap: 32px 40px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 390px)); margin-top: 56px; }
-.guia .home-options figure { display: grid; gap: 12px; align-content: start; }
-.guia .home-options figcaption { font-size: 15px; line-height: 1.5; }
-.guia .home-options figcaption b { font-weight: 600; }
-.guia .lvl-list { border-top: 1px solid var(--pauta); }
-.guia .lvl { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 2px 10px; align-items: start; padding: 10px 0; border-bottom: 1px solid var(--pauta); cursor: pointer; }
-.guia .lvl input { width: 18px; height: 18px; margin: 1px 0 0; accent-color: var(--musgo); }
-.guia .lvl .n-main { display: grid; gap: 2px; min-width: 0; }
-.guia .lvl-note { padding-left: 12px; border-left: 2px solid var(--mostarda); }
-.guia .lvl-grid { display: grid; gap: 32px 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); margin-top: 32px; align-items: start; }
-.guia .lvl-grid figure { display: grid; gap: 8px; align-content: start; }
-.guia .lvl-grid figcaption { font-size: 13px; color: var(--grafite); }
-.guia .trial-msg { align-self: flex-start; max-width: 80%; padding: 10px 14px; border-radius: 12px; background: var(--folha); border: 1px solid var(--pauta); font: 400 15px/22px var(--sans); }
-.guia .trial-msg.me { align-self: flex-end; background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
-.guia .trial-chat { display: flex; flex-direction: column; gap: 8px; opacity: .55; }
-.guia .btn { appearance: none; border: 0; min-height: 48px; padding: 0 20px; border-radius: 6px; font: 600 15px/1 var(--sans); display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: background-color .15s ease-out, transform .08s ease-out, box-shadow .15s ease-out; position: relative; white-space: nowrap; }
-.guia .btn.sm { min-height: 40px; padding: 0 14px; font-size: 14px; }
-.guia .btn.full { width: 100%; }
-.guia .btn:active { transform: translateY(1px); }
-.guia .btn:focus-visible { outline: 2px solid var(--musgo); outline-offset: 2px; }
-.guia .btn-primary { background: var(--tinta); color: var(--papel); }
-.guia .btn-primary:hover { background: #000; }
-.guia .btn-secondary { background: transparent; color: var(--tinta); box-shadow: inset 0 0 0 1px var(--tinta); }
-.guia .btn-secondary:hover { background: var(--papel-escuro); }
-.guia .btn[disabled] { background: var(--pauta); color: var(--lapis); box-shadow: none; cursor: not-allowed; transform: none; }
-.guia .btn-row { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-.guia .spec-line { font-size: 13px; color: var(--grafite); margin-top: 16px; }
-.guia .spec-line b { color: var(--tinta); font-weight: 600; }
-.guia .field { display: grid; gap: 8px; }
-.guia .field label, .guia .field .lbl { font: 500 14px/20px var(--sans); color: var(--tinta); transition: color .12s ease-out; }
-.guia .input { width: 100%; height: 48px; padding: 0 14px; background: var(--folha); border: 1px solid var(--borda); border-radius: 6px; font: 400 16px var(--sans); color: var(--tinta); transition: border-color .12s ease-out, box-shadow .12s ease-out; }
-.guia .input::placeholder { color: var(--lapis); }
-.guia .input:focus { outline: none; border-color: var(--musgo); box-shadow: inset 0 0 0 1px var(--musgo); }
-.guia .field:focus-within label { color: var(--musgo); }
-.guia .seg { display: flex; border: 1px solid var(--tinta); border-radius: 6px; overflow: hidden; }
-.guia .seg button { flex: 1; height: 40px; background: transparent; border: 0; font: 500 14px var(--sans); color: var(--tinta); cursor: pointer; transition: background-color .15s ease-out, color .15s ease-out; }
-.guia .seg button + button { border-left: 1px solid var(--tinta); }
-.guia .seg button:hover { background: var(--papel-escuro); }
-.guia .seg button[aria-pressed="true"] { background: var(--tinta); color: var(--papel); }
-.guia .tags { display: flex; flex-wrap: wrap; gap: 8px; }
-.guia .tag { display: inline-flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px; border: 1px solid var(--borda); border-radius: 4px; background: var(--folha); font: 500 14px var(--sans); color: var(--tinta); cursor: pointer; transition: border-color .15s, background-color .15s, color .15s; }
-.guia .tag:hover { border-color: var(--tinta); }
-.guia .tag[aria-pressed="true"] { border-color: var(--musgo); background: var(--musgo-claro); color: var(--musgo); }
-.guia .panel { background: var(--papel); border: 1px solid var(--pauta); border-radius: 6px; max-width: 390px; padding: 0 24px 24px; }
-.guia .limit-icon { display: block; width: 28px; height: 28px; color: var(--tinta); margin-bottom: 12px; }
-.guia .adm-shots { display: grid; gap: 48px; }
-.guia .adm-pair { display: grid; gap: 24px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr)); }
-.guia .adm-win { border: 1px solid var(--pauta); border-radius: 8px; overflow: hidden; background: var(--papel); box-shadow: 0 18px 40px -28px rgba(30, 31, 28, .45); }
-.guia .adm-chrome { display: flex; align-items: center; gap: 12px; height: 36px; padding: 0 14px; background: var(--papel-escuro); border-bottom: 1px solid var(--pauta); }
-.guia .adm-chrome i { width: 10px; height: 10px; border-radius: 50%; background: var(--pauta); }
-.guia .adm-url { flex: 1; max-width: 420px; margin: 0 auto; height: 22px; display: flex; align-items: center; padding: 0 10px; border-radius: 4px; background: var(--folha); font: 400 12px var(--sans); color: var(--grafite); white-space: nowrap; overflow: hidden; }
-.guia .adm-shot-cap { margin-top: 12px; font-size: 13px; color: var(--grafite); }
-.guia .adm-shot-cap b { color: var(--tinta); font-weight: 600; }
-.guia .adm-narrow { max-width: 400px; margin: 0 auto; padding: 40px 24px 32px; }
-.guia .adm-brand { display: flex; align-items: center; gap: 10px; padding-bottom: 12px; border-bottom: 1px solid var(--tinta); }
-.guia .adm-brand svg { width: 28px; height: 28px; }
-.guia .adm-brand span { font: 600 20px/26px var(--serif); }
-.guia .adm-brand em { font: 600 11px/16px var(--sans); font-style: normal; letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); margin-left: 4px; }
-.guia .adm-form { display: grid; gap: 20px; margin-top: 24px; }
-.guia .adm-code { font: 500 28px/1 var(--sans); letter-spacing: .4em; text-align: center; font-variant-numeric: tabular-nums; }
-.guia .adm-again { justify-self: center; }
-.guia .adm-top { display: flex; align-items: center; gap: 24px; padding: 0 clamp(16px, 4vw, 64px); height: 60px; border-bottom: 1px solid var(--tinta); }
-.guia .adm-top .adm-brand { padding: 0; border: 0; }
-.guia .adm-nav { display: flex; gap: 4px; flex: 1; overflow-x: auto; }
-.guia .adm-nav a { display: inline-flex; align-items: center; gap: 6px; height: 36px; padding: 0 12px; border-radius: 4px; text-decoration: none; font: 500 14px var(--sans); color: var(--grafite); white-space: nowrap; }
-.guia .adm-nav a:hover { background: var(--papel-escuro); color: var(--tinta); }
-.guia .adm-nav a[aria-current="page"] { color: var(--tinta); box-shadow: inset 0 -2px 0 var(--tinta); border-radius: 0; }
-.guia .adm-count { min-width: 20px; height: 20px; padding: 0 6px; border-radius: 10px; background: var(--mostarda-clara); color: var(--mostarda-escura); font: 600 12px/20px var(--sans); text-align: center; font-variant-numeric: tabular-nums; }
-.guia .adm-out { display: inline-flex; align-items: center; gap: 6px; font: 500 14px var(--sans); color: var(--grafite); text-decoration: none; white-space: nowrap; }
-.guia .adm-out .i { width: 18px; height: 18px; }
-.guia .adm-body { padding: 32px clamp(16px, 4vw, 64px) 40px; }
-.guia .adm-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 12px 24px; }
-.guia .adm-head .n-cap { margin-top: 4px; }
-.guia .adm-back { display: inline-flex; align-items: center; gap: 4px; margin-bottom: 8px; font: 500 14px var(--sans); color: var(--musgo); text-decoration: none; }
-.guia .adm-back .i { width: 16px; height: 16px; }
-.guia .adm-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); margin-top: 24px; border-top: 1px solid var(--tinta); border-bottom: 1px solid var(--pauta); }
-.guia .adm-stats > * { display: grid; gap: 4px; padding: 16px 16px 16px 0; text-decoration: none; }
-.guia .adm-stats > * + * { border-left: 1px solid var(--pauta); padding-left: 16px; }
-.guia .adm-stats .t-aviso { color: var(--mostarda-escura); }
-.guia .adm-cols { display: grid; gap: 32px 48px; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); margin-top: 40px; }
-.guia .adm-sec > .n-rot { display: flex; justify-content: space-between; align-items: baseline; padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
-.guia .adm-sec > .n-rot a { font: 500 13px var(--sans); letter-spacing: 0; text-transform: none; color: var(--musgo); }
-.guia .adm-row { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
-.guia .adm-row .n-main { flex: 1; min-width: 0; display: grid; gap: 2px; }
-.guia .adm-row .n-main .n-cap { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.guia .adm-tools { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; margin-top: 24px; }
-.guia .adm-search { position: relative; flex: 1 1 280px; max-width: 420px; }
-.guia .adm-search .i { position: absolute; left: 12px; top: 12px; width: 20px; height: 20px; color: var(--grafite); }
-.guia .adm-search .input { padding-left: 42px; }
-.guia .adm-tag { display: inline-block; font: 600 11px/14px var(--sans); letter-spacing: .08em; text-transform: uppercase; border: 1px solid currentColor; border-radius: 2px; padding: 2px 6px; white-space: nowrap; }
-.guia .adm-tag.ok { color: var(--musgo); }
-.guia .adm-tag.wait { color: var(--mostarda-escura); }
-.guia .adm-tag.no { color: var(--tijolo); }
-.guia .adm-tag.plain { color: var(--grafite); }
-.guia .adm-table-wrap { margin-top: 16px; overflow-x: auto; }
-.guia table.adm-table { width: 100%; min-width: 760px; border-collapse: collapse; font-size: 15px; }
-.guia table.adm-table th { text-align: left; font: 600 11px/16px var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--grafite); padding: 0 16px 8px 0; border-bottom: 1px solid var(--tinta); white-space: nowrap; }
-.guia table.adm-table td { padding: 12px 16px 12px 0; border-bottom: 1px solid var(--pauta); vertical-align: middle; }
-.guia table.adm-table tr.press { cursor: pointer; }
-.guia table.adm-table tr.press:hover td { background: var(--papel-escuro); }
-.guia table.adm-table .n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
-.guia table.adm-table th.n { text-align: right; }
-.guia table.adm-table tfoot td { border-bottom: 0; border-top: 1px solid var(--tinta); font-weight: 600; }
-.guia .adm-who { display: grid; gap: 2px; }
-.guia .adm-who .n-cap { white-space: nowrap; }
-.guia .adm-use { display: grid; grid-template-columns: 72px auto; align-items: center; gap: 8px; font-variant-numeric: tabular-nums; }
-.guia .adm-use .bar { width: 72px; }
-.guia .adm-pages { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-top: 16px; }
-.guia .adm-split { display: grid; gap: 40px 48px; grid-template-columns: minmax(0, 1.4fr) minmax(min(100%, 320px), 1fr); margin-top: 32px; align-items: start; }
-@media (max-width: 860px) {
-  .guia .adm-split { grid-template-columns: minmax(0, 1fr); }
-}
-.guia .adm-kv { border-top: 1px solid var(--pauta); }
-.guia .adm-kv > div { display: flex; justify-content: space-between; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--pauta); }
-.guia .adm-kv > div > span:first-child { color: var(--grafite); }
-.guia .adm-kv > div > span:last-child { text-align: right; }
-.guia .adm-meter { display: grid; gap: 8px; margin-top: 16px; }
-.guia .adm-meter .n-cap b { color: var(--tinta); font-weight: 600; }
-.guia .adm-actions { background: var(--folha); border: 1px solid var(--pauta); border-radius: 6px; padding: 20px; display: grid; gap: 16px; }
-.guia .adm-actions + .adm-actions { margin-top: 16px; }
-.guia .adm-actions h4 { font: 500 20px/26px var(--serif); }
-.guia .adm-actions .seg button { height: 36px; }
-.guia .adm-check { display: flex; align-items: center; gap: 10px; font-size: 15px; }
-.guia .adm-check input { width: 18px; height: 18px; accent-color: var(--musgo); }
-.guia .adm-danger { justify-self: start; padding: 4px 0; background: none; border: 0; font: 500 15px/20px var(--sans); color: var(--tijolo); text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
-.guia .adm-inline { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }
-.guia .adm-inline .seg { width: 200px; }
-.guia .adm-figs { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 24px; margin-top: 24px; }
-.guia .adm-fig { border-top: 1px solid var(--tinta); padding-top: 12px; display: grid; gap: 4px; }
-.guia .adm-fig .n-fig { font-size: 30px; line-height: 36px; }
 .guia .files { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr)); gap: 64px; }
 .guia .files h4 { font: 500 22px/1.25 var(--serif); padding-bottom: 8px; border-bottom: 1px solid var(--tinta); }
 .guia .files li { list-style: none; padding: 12px 0; border-bottom: 1px solid var(--pauta); font-size: 15px; }
@@ -440,15 +229,6 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
 .guia table.ledger.copy td:first-child { white-space: normal; width: 30%; }
 .guia table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 .guia .versions td:first-child { width: 96px; }
-.guia .ci { width: 24px; flex: none; display: flex; align-items: center; justify-content: center; color: var(--grafite); }
-.guia .ci .i { width: 20px; height: 20px; }
-.guia .ci.sm { width: 18px; }
-.guia .ci.sm .i { width: 18px; height: 18px; }
-.guia .with-icon { display: inline-flex; align-items: center; gap: 8px; }
-.guia .icon-btn { width: 44px; height: 44px; margin: -10px -10px -10px 0; display: grid; place-items: center; background: none; border: 0; color: var(--tinta); border-radius: 6px; cursor: pointer; transition: background-color .15s; }
-.guia .icon-btn:hover { background: var(--papel-escuro); }
-.guia .icon-btn .i { width: 24px; height: 24px; }
-.guia .btn .i { width: 18px; height: 18px; }
 @media (max-width: 480px) {
   .guia .block + .block { margin-top: 64px; }
 }
@@ -459,31 +239,13 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
 </style>
 </head>
 <body>
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <symbol id="mic-off" viewBox="0 0 24 24"><path d="M2 2l20 20"/><path d="M18.89 13.23A7 7 0 0 0 19 12v-2"/><path d="M5 10v2a7 7 0 0 0 12 5"/><path d="M15 9.34V5a3 3 0 0 0-5.68-1.33"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12"/><path d="M12 19v3"/></symbol>
-  <symbol id="settings" viewBox="0 0 24 24"><path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/><circle cx="12" cy="12" r="3"/></symbol>
-  <symbol id="plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
-  <symbol id="cart" viewBox="0 0 24 24"><circle cx="8" cy="21" r="1"/><circle cx="19" cy="21" r="1"/><path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"/></symbol>
-  <symbol id="heart" viewBox="0 0 24 24"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/><path d="M3.22 12H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27"/></symbol>
-  <symbol id="house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol>
-  <symbol id="msg" viewBox="0 0 24 24"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/></symbol>
-  <symbol id="pie" viewBox="0 0 24 24"><path d="M21 12c.552 0 1.005-.449.95-.998a10 10 0 0 0-8.953-8.951c-.55-.055-.998.398-.998.95v8a1 1 0 0 0 1 1z"/><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/></symbol>
-  <symbol id="cal" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>
-  <symbol id="checks" viewBox="0 0 24 24"><path d="m3 17 2 2 4-4"/><path d="m3 7 2 2 4-4"/><path d="M13 6h8"/><path d="M13 12h8"/><path d="M13 18h8"/></symbol>
-  <symbol id="marca-icone" viewBox="0 0 1024 1024"><path fill="#2C5440" d="M0 0L1024 0L1024 1024L0 1024Z"/><path fill="#1E1F1C" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="#F4F0E8" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="#F4F0E8" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="#F4F0E8" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></symbol>
-  <symbol id="mail" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></symbol>
-  <symbol id="logout" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5"/><path d="M21 12H9"/><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/></symbol>
-  <symbol id="search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
-  <symbol id="chev-l" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"/></symbol>
-  <symbol id="gift" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="4" rx="1"/><path d="M12 8v13"/><path d="M19 12v7a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-7"/><path d="M7.5 8a2.5 2.5 0 0 1 0-5A4.8 8 0 0 1 12 8a4.8 8 0 0 1 4.5-5 2.5 2.5 0 0 1 0 5"/></symbol>
-</svg>
 
 <header class="top">
   <div class="wrap">
     <svg class="icone" viewBox="0 0 1024 1024" role="img" aria-label="Ícone da Caderneta"><clipPath id="icone-canto"><rect width="1024" height="1024" rx="229"/></clipPath><g clip-path="url(#icone-canto)"><path fill="#2C5440" d="M0 0L1024 0L1024 1024L0 1024Z"/><path fill="#1E1F1C" d="M800 0L860 0L860 1024L800 1024Z"/><path fill="#F4F0E8" d="M623.4 549.3Q623.1 570.6 611.55 592.05Q600 613.5 578.25 631.5Q556.5 649.5 525.45 660.3Q494.4 671.1 454.8 671.1Q390 671.1 342.9 643.2Q295.8 615.3 270.15 565.95Q244.5 516.6 244.5 452.7Q244.5 404.1 259.65 363.6Q274.8 323.1 302.25 292.95Q329.7 262.8 366.6 246.15Q403.5 229.5 447 229.5Q477 229.5 495.9 235.35Q514.8 241.2 525.6 247.2Q536.4 253.2 542.7 253.2Q550.2 253.2 554.1 247.95Q558 242.7 562.2 237.6Q566.4 232.5 573.9 232.5Q579.3 232.5 582.9 235.95Q586.5 239.4 588.9 247.5L620.4 351Q622.5 357.9 619.05 363.3Q615.6 368.7 608.7 370.2Q601.5 371.7 595.8 368.85Q590.1 366 586.8 358.8Q570.6 322.8 550.95 301.65Q531.3 280.5 508.5 271.2Q485.7 261.9 459.3 261.9Q432.6 261.9 410.4 274.05Q388.2 286.2 372 308.7Q355.8 331.2 346.95 362.7Q338.1 394.2 338.1 433.5Q338.1 493.8 356.85 535.65Q375.6 577.5 408 599.1Q440.4 620.7 482.1 620.7Q522 620.7 551.55 601.65Q581.1 582.6 597.6 547.8Q600.9 540.9 605.1 538.65Q609.3 536.4 614.4 537.3Q618.9 537.9 621.15 541.05Q623.4 544.2 623.4 549.3Z"/><path fill="#F4F0E8" d="M246 742L618 742Q622 742 622 746L622 762Q622 766 618 766L246 766Q242 766 242 762L242 746Q242 742 246 742Z"/><path fill="#F4F0E8" d="M246 796L618 796Q622 796 622 800L622 816Q622 820 618 820L246 820Q242 820 242 816L242 800Q242 796 246 796Z"/></g></svg>
     <span class="rotulo">Caderneta · Arquitetura</span>
     <h1>Como a Caderneta funciona por dentro</h1>
-    <p class="lede">Um app de celular que conversa com uma API. A API guarda tudo num banco, faz o trabalho demorado em segundo plano e avisa o celular ao vivo. Quem entende a fala é um agente de IA, que propõe; quem grava é sempre a pessoa, conferindo. Esta página explica isso parte por parte, com o que dizer em cada uma, e termina nas regras de quem constrói o app: onde o guia mora no código, as diretrizes para telas novas e o registro de versões.</p>
+    <p class="lede">Um app de celular que conversa com uma API. A API guarda tudo num banco, faz o trabalho demorado em segundo plano e avisa o celular ao vivo. Quem entende a fala é um agente de IA, que propõe; quem grava é sempre a pessoa, conferindo. Esta página é a apresentação do sistema para quem vai trabalhar no código: cada parte mostra uma peça, com o desenho e o resumo em uma frase, e o fim traz as regras do projeto: onde o guia mora no código, as diretrizes para telas novas e o registro de versões.</p>
     <ol class="toc">
       <li><a href="#mapa"><span>01</span>As partes</a></li>
       <li><a href="#ideias"><span>02</span>Três ideias</a></li>
@@ -494,14 +256,12 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
       <li><a href="#cofre"><span>07</span>O cofre</a></li>
       <li><a href="#vivo"><span>08</span>Ao vivo</a></li>
       <li><a href="#dados"><span>09</span>Guardar × calcular</a></li>
-      <li><a href="#niveis"><span>10</span>Níveis de acesso</a></li>
-      <li><a href="#admin"><span>11</span>Área administrativa</a></li>
-      <li><a href="#numeros"><span>12</span>Os números</a></li>
-      <li><a href="#minuto"><span>13</span>Em um minuto</a></li>
-      <li><a href="#arquivos"><span>14</span>No código</a></li>
-      <li><a href="#diretrizes"><span>15</span>Diretrizes</a></li>
-      <li><a href="#versoes"><span>16</span>Versões</a></li>
-      <li><a href="#fundo"><span>17</span>Mais fundo</a></li>
+      <li><a href="#numeros"><span>10</span>Os números</a></li>
+      <li><a href="#minuto"><span>11</span>Em um minuto</a></li>
+      <li><a href="#arquivos"><span>12</span>No código</a></li>
+      <li><a href="#diretrizes"><span>13</span>Diretrizes</a></li>
+      <li><a href="#versoes"><span>14</span>Versões</a></li>
+      <li><a href="#fundo"><span>15</span>Mais fundo</a></li>
     </ol>
   </div>
 </header>
@@ -547,7 +307,7 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
       <span><i class="ws"></i>e escuta pelo Reverb (WebSocket)</span>
       <span><i class="q"></i>a API entrega o demorado à fila</span>
     </div>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"O celular pede pela API e escuta pelo Reverb. Tudo que demora (a IA, a voz, os e-mails) sai do pedido e vai para uma fila, e o resultado volta pela conexão ao vivo. Assim o app nunca fica travado esperando."</p></div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"O celular pede pela API e escuta pelo Reverb. Tudo que demora (a IA, a voz, os e-mails) sai do pedido e vai para uma fila, e o resultado volta pela conexão ao vivo. Assim o app nunca fica travado esperando."</p></div>
   </section>
 
   <section class="part" id="ideias">
@@ -569,7 +329,7 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
       <li><span class="n">5</span><p class="q">A regra</p><p class="who">TransactionService::create</p><p class="ok">fatura do cartão, orçamento</p></li>
       <li><span class="n">6</span><p class="q">Gravado</p><p class="who">transactions</p><p class="ok">201, e o app atualiza</p></li>
     </ol>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"Antes de o código da regra rodar, o pedido passa por uma fila de portões: quem é você, em que casa você está, você pode gravar, os dados fazem sentido. O controller é só um despachante; a regra mora no service."</p></div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"Antes de o código da regra rodar, o pedido passa por uma fila de portões: quem é você, em que casa você está, você pode gravar, os dados fazem sentido. O controller é só um despachante; a regra mora no service."</p></div>
   </section>
 
   <section class="part" id="casa">
@@ -590,7 +350,7 @@ table.pauta td:first-child { font-weight: 500; white-space: nowrap; }
     <pre class="query"><span class="c">-- o que o filtro acrescenta sozinho a Transaction::query()</span>
 WHERE household_id = <span class="c">/* casa aberta */</span> 7
   AND (visibility = 'household' OR created_by = <span class="c">/* Marina */</span> 3)</pre>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"O filtro mora dentro do modelo. A requisição diz qual é a casa uma vez, logo no começo, e toda consulta depois disso já sai filtrada: pela casa e pelo que é privado de outra pessoa. Pedir pelo endereço um registro de outra casa dá 'não encontrado'."</p></div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"O filtro mora dentro do modelo. A requisição diz qual é a casa uma vez, logo no começo, e toda consulta depois disso já sai filtrada: pela casa e pelo que é privado de outra pessoa. Pedir pelo endereço um registro de outra casa dá 'não encontrado'."</p></div>
   </section>
 
   <section class="part" id="voz">
@@ -622,7 +382,7 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
   </section>
 
   <section class="part" id="ia">
-    <div class="part-head"><span class="part-num">06</span><div><h2>A IA propõe, a pessoa confirma</h2><p>O assistente tem 24 ferramentas. Cada uma declara um nível de cuidado, e o nível decide o que acontece quando a IA a pede.</p></div></div>
+    <div class="part-head"><span class="part-num">06</span><div><h2>A IA propõe, a pessoa confirma</h2><p>O assistente tem 25 ferramentas. Cada uma declara um nível de cuidado, e o nível decide o que acontece quando a IA a pede.</p></div></div>
     <table class="pauta">
       <thead><tr><th>Nível</th><th>Exemplos</th><th>O que acontece</th></tr></thead>
       <tbody>
@@ -632,7 +392,7 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
         <tr><td><span class="selo moss">Imediato</span></td><td>itens de lista, lembretes, contas fixas, orçamentos</td><td>Grava na hora, com "Desfazer" por 2 minutos.</td></tr>
       </tbody>
     </table>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"A IA não grava: ela pede. Quando quer lançar um gasto, o sistema monta uma ficha com os dados já conferidos e guarda como 'esperando'. A pessoa corrige se quiser e confirma, e o app grava exatamente o que está na ficha. A IA não tem uma segunda chance de inventar um número."</p></div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"A IA não grava: ela pede. Quando quer lançar um gasto, o sistema monta uma ficha com os dados já conferidos e guarda como 'esperando'. A pessoa corrige se quiser e confirma, e o app grava exatamente o que está na ficha. A IA não tem uma segunda chance de inventar um número."</p></div>
   </section>
 
   <section class="part" id="cofre">
@@ -644,7 +404,7 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
       <div class="arrow" aria-hidden="true">→</div>
       <div class="box"><b>O que a pessoa vê</b><span>A resposta com os números de volta, até no meio do texto que chega ao vivo.</span></div>
     </div>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"CPF, CNPJ, cartões, telefones, e-mails, chaves Pix e dados bancários nunca saem do servidor. O cofre envolve qualquer IA, então trocar de modelo não abre uma brecha. Os nomes das pessoas ficam, porque a IA precisa deles para entender 'a Ana pagou a luz'."</p></div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"CPF, CNPJ, cartões, telefones, e-mails, chaves Pix e dados bancários nunca saem do servidor. O cofre envolve qualquer IA, então trocar de modelo não abre uma brecha. Os nomes das pessoas ficam, porque a IA precisa deles para entender 'a Ana pagou a luz'."</p></div>
   </section>
 
   <section class="part" id="vivo">
@@ -663,11 +423,11 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
         <div class="row"><span>Ao voltar, busca a conversa e os avisos de novo.</span></div>
       </div>
     </div>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"O WebSocket é um atalho, não a fonte da verdade. Ele só adianta a tela. Se cair, o app pergunta ao servidor de tempos em tempos e chega ao mesmo resultado."</p></div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"O WebSocket é um atalho, não a fonte da verdade. Ele só adianta a tela. Se cair, o app pergunta ao servidor de tempos em tempos e chega ao mesmo resultado."</p></div>
   </section>
 
   <section class="part" id="dados">
-    <div class="part-head"><span class="part-num">09</span><div><h2>O que o banco guarda e o que calcula</h2><p>São 26 tabelas. Elas guardam fatos; vários números da tela são calculados na hora, para nunca existirem dois lugares dizendo coisas diferentes.</p></div></div>
+    <div class="part-head"><span class="part-num">09</span><div><h2>O que o banco guarda e o que calcula</h2><p>São 27 tabelas. Elas guardam fatos; vários números da tela são calculados na hora, para nunca existirem dois lugares dizendo coisas diferentes.</p></div></div>
     <table class="pauta">
       <thead><tr><th>Na tela</th><th>Guardado</th><th>Calculado na hora</th></tr></thead>
       <tbody>
@@ -678,510 +438,36 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
         <tr><td>Os primeiros passos</td><td>Só o que a pessoa escolheu ignorar</td><td>O que já está feito, olhando os cadastros</td></tr>
       </tbody>
     </table>
-    <div class="explain"><span class="rotulo">Como explicar</span><p>"Não existe tabela de faturas: uma fatura é só a soma das compras do cartão naquele mês. Se alguém muda a data de uma compra, a fatura muda junto, porque não há uma cópia para ficar desatualizada."</p></div>
-  </section>
-
-  <section class="part" id="niveis">
-    <div class="part-head"><span class="part-num">10</span><div><h2>Níveis de acesso</h2><p>O que cada conta pode usar, escolhido num lugar só, na área administrativa.</p></div></div>
-    <div class="guia">
-      <table class="ledger copy">
-        <thead><tr><th>Nível</th><th>O app</th><th>O assistente</th><th>Como chega aqui</th></tr></thead>
-        <tbody>
-          <tr><td>Sem acesso</td><td>Não entra.</td><td>—</td><td>O administrador bloqueia.</td></tr>
-          <tr><td>App sem assistente</td><td>Entra e usa tudo.</td><td>Desligado.</td><td>O período gratuito acaba, ou o administrador desliga. O motivo fica à parte, porque o que a pessoa vê muda.</td></tr>
-          <tr><td>Gratuito</td><td>Entra e usa tudo.</td><td>Até o fim do período, com o limite do Gratuito.</td><td>Confirma o e-mail, ou o administrador dá mais dias.</td></tr>
-          <tr><td>Plus</td><td>Entra e usa tudo.</td><td>Com o limite do Plus.</td><td>O administrador dá o Plus, com prazo ou sem.</td></tr>
-        </tbody>
-      </table>
-
-      <div class="plan-grid">
-        <figure>
-          <div class="panel">
-            <div class="trial-end access-end">
-              <svg class="i limit-icon"><use href="#mic-off"/></svg>
-              <h4 class="n-h2">O assistente está desligado nesta conta</h4>
-              <p class="n-body" style="color:var(--grafite);margin-top:4px">Lançar à mão, a Agenda, as listas e o Resumo continuam funcionando.</p>
-            </div>
-          </div>
-          <figcaption>Plano: só este bloco, sem porcentagem e sem a lista de planos</figcaption>
-        </figure>
-        <figure>
-          <div class="panel">
-            <div class="trial-chat" aria-hidden="true">
-              <span class="trial-msg me">gastei 42 no almoço</span>
-              <span class="trial-msg">Lancei Almoço, R$ 42,00, em Alimentação.</span>
-            </div>
-            <div class="trial-lock">
-              <span class="with-icon"><svg class="i off"><use href="#mic-off"/></svg><b class="n-strong">O assistente está desligado nesta conta</b></span>
-              <span class="n-cap">A conversa fica para consultar. Para lançar, volte ao Início.</span>
-            </div>
-          </div>
-          <figcaption>Chat: no lugar do campo e do microfone, sem botão</figcaption>
-        </figure>
-        <figure>
-          <div class="panel">
-            <div class="n-row"><div class="n-main"><b class="n-strong">Plano</b></div><span class="n-cap">Desligado</span><span class="n-chev">›</span></div>
-          </div>
-          <figcaption>Configurações › Assistente: a linha do Plano</figcaption>
-        </figure>
-      </div>
-
-      <div class="home-options">
-        <figure>
-          <div class="phone"><div class="screen new">
-            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
-            <div class="n-home px">
-              <div class="n-top"><span class="n-rot">Segunda, 19 de outubro</span><button class="icon-btn" type="button" aria-label="Configurações"><svg class="i"><use href="#settings"/></svg></button></div>
-              <h4 class="n-h1">Boa tarde, Leo</h4>
-              <div class="n-ledger2">
-                <div><span class="n-cap">Despesas de outubro</span><b class="n-fig">R$ 4.084,30</b><span class="n-cap">até hoje, dia 19</span></div>
-                <div><span class="n-cap">Resta nos orçamentos</span><b class="n-fig">R$ 437,50</b><span class="n-cap">em 3 categorias</span></div>
-              </div>
-              <div class="n-micarea">
-                <button class="n-mic" type="button" aria-label="Lançar"><svg class="i"><use href="#plus"/></svg></button>
-                <b class="n-strong">Lançar</b>
-              </div>
-              <div class="n-sec">
-                <div class="n-sec-head"><h5 class="n-h2">Hoje <span class="n-cap num">· R$ 72,40</span></h5><button class="n-link sm" type="button">Ver todos</button></div>
-                <div class="n-row press"><span class="ci" style="color:#4F7F4F"><svg class="i"><use href="#cart"/></svg></span><div class="n-main"><b class="n-strong">Padaria</b><span class="n-cap">Mercado · Pix</span></div><span class="n-amt">R$ 23,50</span></div>
-                <div class="n-row press"><span class="ci" style="color:#B5677E"><svg class="i"><use href="#heart"/></svg></span><div class="n-main"><b class="n-strong">Farmácia</b><span class="n-cap">Saúde · Débito</span></div><span class="n-amt">R$ 48,90</span></div>
-              </div>
-            </div>
-            <nav class="n-tabs">
-              <span class="n-tab on"><svg class="i"><use href="#house"/></svg>Início</span>
-              <span class="n-tab"><svg class="i"><use href="#msg"/></svg>Chat</span>
-              <span class="n-tab"><svg class="i"><use href="#pie"/></svg>Resumo</span>
-              <span class="n-tab"><svg class="i"><use href="#cal"/></svg>Agenda</span>
-              <span class="n-tab"><svg class="i"><use href="#checks"/></svg>Lista</span>
-            </nav>
-            <div class="homebar" style="color:#1E1F1C"></div>
-          </div></div>
-          <figcaption><b>Início: o círculo vira "Lançar".</b> Desligado pelo administrador, o mesmo círculo de Tinta, com o +, abre o formulário, e o link embaixo sai. A tela continua com uma ação principal, e ela funciona. No "Só leitura", que não lança, o círculo não aparece.</figcaption>
-        </figure>
-      </div>
-
-      <div class="plan-home">
-        <p class="spec-line" style="margin:0"><b>Os dois motivos.</b> Depois do período gratuito, tudo fica como em <a href="design-guide.html#periodo">Período gratuito, no guia</a>: a ampulheta, o microfone que abre a folha e o aviso no Início. Desligado pelo administrador, o ícone é o microfone riscado, e não a ampulheta (não há o que esperar), sem aviso no Início. A folha do limite ganha esse estado (<a href="design-guide.html#componentes">Componentes, no guia</a>), para quando o assistente é desligado com o app aberto.</p>
-        <div class="notes">
-          <h4>Por que é assim</h4>
-          <ul>
-            <li>O nível é da conta e vale em todas as casas. O papel na casa ("Só leitura") é outra coisa e continua à parte.</li>
-            <li>O Chat fica em todos os níveis com acesso ao app: os avisos de contas e lembretes chegam lá, e a conversa antiga fica para consultar. Sem o assistente, a conversa vazia diz "Nenhuma mensagem ainda" e "Os avisos de contas e lembretes chegam aqui.", sem os atalhos de pergunta.</li>
-            <li>O texto não diz por que foi desligado nem fala em administrador: a tela não promete nada que a pessoa possa fazer.</li>
-            <li><b>Tour.</b> Em "App sem assistente", o primeiro passo vira "Lance o que gastou", no círculo do Início, e o do Chat fala só dos avisos e da conversa guardada. Os outros passos são os mesmos.</li>
-            <li><b>Primeiros passos.</b> Em "App sem assistente", o "Primeiro lançamento" fala só do formulário, sem o microfone e sem "Escrever no Chat".</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="part" id="admin">
-    <div class="part-head"><span class="part-num">11</span><div><h2>Área administrativa</h2><p>No navegador, só para o administrador (/admin).</p></div></div>
-    <div class="guia">
-      <p class="spec-line" style="max-width:780px;margin:-8px 0 32px"><b>O mesmo papel do app, em tela larga.</b> As páginas do servidor (confirmação do e-mail, pedido de Plus) já usam o Papel, a Tinta e o Fraunces numa coluna de 420; a área administrativa usa a mesma coluna para entrar e, no resto, a largura toda da janela, com margem igual dos dois lados (de 16 a 64, conforme a tela) e tabelas de livro-caixa. O topo usa a mesma margem, para a marca e o título ficarem na mesma linha. No celular, as tabelas rolam para o lado e o menu também. Aqui, e só aqui, aparecem valores em dinheiro da IA (em dólar ou em reais): a pessoa no app nunca vê custo nem tokens.</p>
-
-      <div class="adm-shots">
-        <!-- Entrar e o código -->
-        <div>
-          <div class="adm-pair">
-            <div class="adm-win">
-              <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/entrar</span></div>
-              <div class="adm-narrow">
-                <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-                <p class="n-rot" style="margin-top:32px">Área administrativa</p>
-                <h4 class="n-h1" style="margin-top:6px">Entrar</h4>
-                <form class="adm-form" onsubmit="return false">
-                  <div class="field"><label for="adm-email">E-mail</label><input id="adm-email" class="input" value="leo@caderneta.example.com" autocomplete="off"></div>
-                  <div class="field"><label for="adm-senha">Senha</label><input id="adm-senha" class="input" type="password" value="senhasecreta"></div>
-                  <button class="btn btn-primary full" type="button">Entrar</button>
-                </form>
-                <p class="n-cap" style="margin-top:20px">A mesma senha do app. Num navegador novo, pedimos também um código enviado por e-mail.</p>
-              </div>
-            </div>
-            <div class="adm-win">
-              <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/codigo</span></div>
-              <div class="adm-narrow">
-                <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-                <svg class="i limit-icon" style="margin-top:32px"><use href="#mail"/></svg>
-                <h4 class="n-h1">Confira seu e-mail</h4>
-                <p class="n-body" style="color:var(--grafite);margin-top:6px">Mandamos um código de 6 dígitos para leo@caderneta.example.com. Ele vale 10 minutos.</p>
-                <form class="adm-form" onsubmit="return false">
-                  <div class="field"><label for="adm-cod">Código</label><input id="adm-cod" class="input adm-code" value="482913" inputmode="numeric" autocomplete="one-time-code"></div>
-                  <button class="btn btn-primary full" type="button">Confirmar</button>
-                  <button class="n-link adm-again" type="button">Mandar outro código</button>
-                </form>
-                <p class="n-cap" style="margin-top:20px">Depois do código, este navegador fica conhecido por 60 dias: até lá, basta a senha.</p>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Entrar e o código.</b> Só a conta do administrador passa; para qualquer outra, a mesma mensagem de "e-mail ou senha incorretos". O código só aparece num navegador novo ou depois de 60 dias. Errado, o campo fica em Tijolo com "Código incorreto. Restam 4 tentativas."; vencido, "Este código venceu. Mande outro."</p>
-        </div>
-
-        <!-- Visão geral -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin" aria-current="page">Visão geral</a>
-                <a href="#admin">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head">
-                <div><h4 class="n-h1">Visão geral</h4><p class="n-cap">Quarta-feira, 28 de outubro de 2026</p></div>
-              </div>
-              <div class="adm-stats">
-                <a href="#admin"><span class="n-fig">128</span><span class="n-cap">Pessoas</span></a>
-                <a href="#admin"><span class="n-fig">3</span><span class="n-cap">Sem confirmar o e-mail</span></a>
-                <a href="#admin"><span class="n-fig t-aviso">2</span><span class="n-cap">Pedidos de Plus em aberto</span></a>
-                <a href="#admin"><span class="n-fig">9</span><span class="n-cap">Com Plus agora</span></a>
-                <a href="#admin"><span class="n-fig">41</span><span class="n-cap">App sem assistente</span></a>
-                <a href="#admin"><span class="n-fig">US$ 0,41</span><span class="n-cap">IA hoje · US$ 8,73 no mês</span></a>
-              </div>
-              <div class="adm-cols">
-                <section class="adm-sec">
-                  <p class="n-rot">Contas novas <a href="#admin">Ver todas</a></p>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Marina Costa</b><span class="n-cap">Ativada ontem, 21:14 · assistente até 03/11</span></div><span class="adm-tag ok">Ativa</span></div>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Rafa Lima</b><span class="n-cap">Criada em 26/10, 09:02 · ainda sem confirmar</span></div><span class="adm-tag wait">Sem confirmar</span></div>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Jô Andrade</b><span class="n-cap">Ativada em 25/10, 18:40 · assistente até 01/11</span></div><span class="adm-tag ok">Ativa</span></div>
-                </section>
-                <section class="adm-sec">
-                  <p class="n-rot">Pedidos de Plus em aberto <a href="#admin">Ver todos</a></p>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Maria Souza</b><span class="n-cap">Pediu hoje, 10:12 · período gratuito acabou em 16/10</span></div><button class="btn btn-secondary sm" type="button">Decidir</button></div>
-                  <div class="adm-row"><div class="n-main"><b class="n-strong">Caio Prado</b><span class="n-cap">Pediu ontem, 16:55 · usou 100% do mês</span></div><button class="btn btn-secondary sm" type="button">Decidir</button></div>
-                </section>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Visão geral.</b> O topo tem a marca, o menu (o item aberto sublinhado em Tinta, o número de pendências em Mostarda) e "Sair". Os números são links para a lista já filtrada. Embaixo, as contas novas da semana (ativas ou ainda sem confirmar o e-mail) e os pedidos de Plus em aberto, estes com o botão para decidir ali. Confirmado o e-mail, a conta já entra, sem liberação.</p>
-        </div>
-
-        <!-- Pessoas -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pessoas</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin" aria-current="page">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Pessoas</h4><p class="n-cap">128 contas</p></div></div>
-              <div class="adm-tools">
-                <div class="adm-search"><svg class="i"><use href="#search"/></svg><input class="input" placeholder="Buscar por nome ou e-mail" aria-label="Buscar por nome ou e-mail"></div>
-                <div class="tags">
-                  <button class="tag" type="button" aria-pressed="true">Todas <span class="n-cap">128</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Sem confirmar <span class="n-cap">3</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Sem acesso <span class="n-cap">2</span></button>
-                  <button class="tag" type="button" aria-pressed="false">App sem assistente <span class="n-cap">41</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Gratuito <span class="n-cap">73</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Plus <span class="n-cap">9</span></button>
-                  <button class="tag" type="button" aria-pressed="false">No limite <span class="n-cap">4</span></button>
-                </div>
-              </div>
-              <div class="adm-table-wrap">
-                <table class="adm-table">
-                  <thead><tr><th>Pessoa</th><th>Nível</th><th>Uso do período</th><th class="n">Cadastro</th></tr></thead>
-                  <tbody>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>App sem assistente <span class="n-cap">o período acabou</span></td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td><td class="n">09/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio@example.com</span></div></td><td>Plus <span class="n-cap">até 28/11</span></td><td><div class="adm-use"><div class="bar"><i style="--w:8%"></i></div><span>8%</span></div></td><td class="n">02/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Leo Nardo</b><span class="n-cap">leo@caderneta.example.com</span></div></td><td>Plus <span class="n-cap">sem prazo</span></td><td><div class="adm-use"><div class="bar"><i style="--w:3%"></i></div><span>3%</span></div></td><td class="n">07/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Rafa Lima</b><span class="n-cap">rafa.lima@example.com</span></div></td><td><span class="adm-tag wait">Sem confirmar</span></td><td><span class="n-cap">—</span></td><td class="n">26/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Tati Reis</b><span class="n-cap">tati.reis@example.com</span></div></td><td>Gratuito <span class="n-cap">até 03/11</span></td><td><div class="adm-use"><div class="bar"><i class="warn" style="--w:86%"></i></div><span>86%</span></div></td><td class="n">27/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Nina Dias</b><span class="n-cap">nina.dias@example.com</span></div></td><td>App sem assistente <span class="n-cap">desligado</span></td><td><span class="n-cap">—</span></td><td class="n">21/10/2026</td></tr>
-                    <tr class="press"><td><div class="adm-who"><b class="n-strong">Gil Moura</b><span class="n-cap">gil.moura@example.com</span></div></td><td><span class="adm-tag no">Sem acesso</span></td><td><span class="n-cap">—</span></td><td class="n">20/10/2026</td></tr>
-                  </tbody>
-                </table>
-              </div>
-              <div class="adm-pages"><span class="n-cap">1 a 25 de 128</span><div class="btn-row"><button class="btn btn-secondary sm" type="button" disabled>Anterior</button><button class="btn btn-secondary sm" type="button">Próxima</button></div></div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Pessoas.</b> Busca e filtros em tags (as do app), tabela de livro-caixa com a linha inteira clicável. A coluna do nível junta o que eram plano e acesso (parte 10): o nível com o detalhe ao lado ("até 28/11", "sem prazo", "o período acabou", "desligado") e, em tag, só o que não entra no app ("Sem confirmar" e "Sem acesso"). O uso é a barra do orçamento: Musgo, Mostarda a partir de 80% e Tijolo no limite.</p>
-        </div>
-
-        <!-- Pessoa -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pessoas/42</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin" aria-current="page">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <a class="adm-back" href="#admin"><svg class="i"><use href="#chev-l"/></svg>Pessoas</a>
-              <div class="adm-head"><div><h4 class="n-h1">Maria Souza</h4><p class="n-cap">maria.souza@example.com</p></div><span class="adm-tag plain">App sem assistente</span></div>
-              <div class="adm-split">
-                <div>
-                  <div class="adm-kv">
-                    <div><span>Nível</span><span>App sem assistente <span class="n-cap">o período acabou</span></span></div>
-                    <div><span>Período gratuito</span><span>Acabou em 16/10/2026</span></div>
-                    <div><span>Casas</span><span>Casa da Maria (dona) · Apê da praia (membro)</span></div>
-                    <div><span>Cadastro</span><span>09/10/2026, 08:31 · e-mail confirmado às 08:40</span></div>
-                  </div>
-                  <section class="adm-sec" style="margin-top:32px">
-                    <p class="n-rot">Uso do período · 09/10 a 08/11</p>
-                    <div class="adm-meter">
-                      <div class="bar"><i class="over" style="--w:100%"></i></div>
-                      <p class="n-cap"><b>US$ 0,05 de US$ 0,05</b> · 100% · 85 perguntas · renova em 09/11</p>
-                    </div>
-                    <div class="adm-table-wrap">
-                      <table class="adm-table" style="min-width:420px">
-                        <thead><tr><th>Período</th><th class="n">Perguntas</th><th class="n">Custo</th></tr></thead>
-                        <tbody>
-                          <tr><td>09/10 a 08/11</td><td class="n">85</td><td class="n">US$ 0,05</td></tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </section>
-                  <section class="adm-sec" style="margin-top:32px">
-                    <p class="n-rot">Pedidos de Plus</p>
-                    <div class="adm-row"><div class="n-main"><b class="n-strong">Hoje, 10:12</b><span class="n-cap">Pelo WhatsApp</span></div><span class="adm-tag wait">Esperando</span></div>
-                  </section>
-                </div>
-                <aside>
-                  <div class="adm-actions">
-                    <h4>Acesso</h4>
-                    <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Sem acesso</b><span class="n-cap">Não entra no app.</span></span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">O período acabou.</span></span><span class="adm-tag plain">Agora</span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page"><span class="n-main"><b class="n-strong">Gratuito</b><span class="n-cap">O assistente por alguns dias.</span></span></label>
-                      <label class="lvl"><input type="radio" name="lvl-page" checked><span class="n-main"><b class="n-strong">Plus</b><span class="n-cap">O assistente com o limite maior.</span></span></label>
-                    </div>
-                    <div class="field"><span class="lbl">Por quanto tempo</span>
-                      <div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="false">1 mês</button><button type="button" aria-pressed="true">3 meses</button><button type="button" aria-pressed="false">6 meses</button><button type="button" aria-pressed="false">12 meses</button></div>
-                    </div>
-                    <label class="adm-check"><input type="checkbox"> Sem prazo</label>
-                    <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
-                    <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 3 meses de Plus</button>
-                    <p class="n-cap">Vale até 28/01/2027. Com Plus dado ainda valendo, os meses somam a partir do fim dele. O pedido em aberto fica como atendido.</p>
-                  </div>
-                </aside>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Uma pessoa.</b> À esquerda, o que é (o nível, o período gratuito, casas e uso, com os períodos anteriores); à direita, um painel só, "Acesso", com os quatro níveis (parte 10). "Agora" marca o nível atual, e escolher outro mostra embaixo o que fazer nele, sem mudar nada até tocar no botão.</p>
-          <div class="lvl-grid">
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-free"><span class="n-main"><b class="n-strong">App sem assistente</b></span><span class="adm-tag plain">Agora</span></label>
-                  <label class="lvl"><input type="radio" name="lvl-free" checked><span class="n-main"><b class="n-strong">Gratuito</b></span></label>
-                </div>
-                <div class="field"><span class="lbl">Mais dias de assistente</span>
-                  <div class="seg" role="group" aria-label="Dias de assistente"><button type="button" aria-pressed="true">7 dias</button><button type="button" aria-pressed="false">15 dias</button><button type="button" aria-pressed="false">30 dias</button></div>
-                </div>
-                <label class="adm-check"><input type="checkbox" checked> Avisar a pessoa por e-mail</label>
-                <button class="btn btn-primary full" type="button"><svg class="i"><use href="#gift"/></svg>Dar 7 dias de assistente</button>
-                <p class="n-cap">Vale até 06/11/2026. Os dias somam a partir do fim do período ou, se ele já acabou, de hoje.</p>
-                <p class="n-cap lvl-note">O limite do mês continua valendo: 100% já usado, e volta a zero em 09/11.</p>
-              </div>
-              <figcaption>Gratuito, depois do período. O aviso do limite só aparece a partir de 80%.</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-off" checked><span class="n-main"><b class="n-strong">App sem assistente</b></span></label>
-                  <label class="lvl"><input type="radio" name="lvl-off"><span class="n-main"><b class="n-strong">Plus</b></span><span class="adm-tag plain">Agora</span></label>
-                </div>
-                <p class="n-cap">Entra e usa tudo, menos o assistente. A conversa fica para consultar.</p>
-                <p class="n-cap lvl-note">O Plus dado até 15/01/2027 sai junto.</p>
-                <button class="btn btn-secondary full" type="button">Desligar o assistente</button>
-              </div>
-              <figcaption>Desligar com Plus valendo: pede a folha de confirmação</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-on" checked><span class="n-main"><b class="n-strong">App sem assistente</b><span class="n-cap">Desligado em 20/10/2026.</span></span><span class="adm-tag plain">Agora</span></label>
-                </div>
-                <p class="n-cap">Religando, o período gratuito volta a contar: o assistente fica até 05/11. Se o período já tiver acabado, a conta continua sem o assistente.</p>
-                <button class="btn btn-secondary full" type="button">Religar o assistente</button>
-              </div>
-              <figcaption>Já desligado</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <div class="lvl-list" role="radiogroup" aria-label="Nível de acesso">
-                  <label class="lvl"><input type="radio" name="lvl-none" checked><span class="n-main"><b class="n-strong">Sem acesso</b></span></label>
-                </div>
-                <p class="n-cap">Bloquear tira a pessoa de todos os aparelhos e impede de entrar de novo. Nada é enviado por e-mail.</p>
-                <button class="adm-danger" type="button">Bloquear acesso</button>
-              </div>
-              <figcaption>Sem acesso: pede a folha de confirmação</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <h4>Acesso</h4>
-                <p class="n-cap">A pessoa não entra no app enquanto a conta estiver bloqueada. Desbloquear volta ao nível de antes (Gratuito, até 05/11) e não envia nada por e-mail.</p>
-                <button class="btn btn-secondary full" type="button">Desbloquear</button>
-              </div>
-              <figcaption>Com a conta bloqueada, sem a lista</figcaption>
-            </figure>
-            <figure>
-              <div class="adm-actions">
-                <h4>Sem confirmar o e-mail</h4>
-                <p class="n-cap">O link saiu ontem, 21:14. Se ele caiu no spam ou não chegou, dá para ativar daqui: a conta entra na hora e o período gratuito começa.</p>
-                <button class="btn btn-primary full" type="button">Ativar sem o e-mail</button>
-                <button class="adm-danger" type="button">Bloquear acesso</button>
-              </div>
-              <figcaption>Sem confirmar o e-mail, sem a lista</figcaption>
-            </figure>
-          </div>
-          <p class="spec-line"><b>Os outros casos do painel.</b> No Plus, a opção Plus mostra também "Tirar o Plus" em Tijolo sublinhado, com a folha de confirmação: a pessoa volta ao que o período gratuito disser. Dar meses a quem tem Plus sem prazo troca o "sem prazo" pelos meses. Em "Gratuito", quem tem Plus vê "Tirar o Plus e dar 7 dias". A conta do administrador não tem a opção "Sem acesso". O Gratuito fixo, para testar o limite, continua só no terminal.</p>
-        </div>
-
-        <!-- Pedidos de Plus -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/pedidos</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin">Pessoas</a>
-                <a href="#admin" aria-current="page">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Pedidos de Plus</h4><p class="n-cap">Os que já foram feitos. O app não abre pedidos novos por enquanto.</p></div></div>
-              <div class="adm-tools">
-                <div class="tags">
-                  <button class="tag" type="button" aria-pressed="true">Em aberto <span class="n-cap">2</span></button>
-                  <button class="tag" type="button" aria-pressed="false">Decididos <span class="n-cap">14</span></button>
-                </div>
-              </div>
-              <div class="adm-table-wrap">
-                <table class="adm-table">
-                  <thead><tr><th>Pessoa</th><th>Pedido</th><th>Cadastro</th><th>Uso</th><th>Decidir</th></tr></thead>
-                  <tbody>
-                    <tr><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Hoje, 10:12</td><td>09/10</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
-                      <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
-                    <tr><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Ontem, 16:55</td><td>27/09</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td>
-                      <td><div class="adm-inline"><div class="seg" role="group" aria-label="Meses de Plus"><button type="button" aria-pressed="true">1</button><button type="button" aria-pressed="false">3</button><button type="button" aria-pressed="false">6</button><button type="button" aria-pressed="false">12</button></div><button class="btn btn-primary sm" type="button">Dar</button><button class="adm-danger" type="button">Negar</button></div></td></tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Pedidos de Plus.</b> Os meses em segmentos (1 já marcado, como no e-mail) e "Dar" ao lado; "Negar" em Tijolo sublinhado, sem confirmação, porque dá para dar depois. Nos decididos, a coluna "Decidir" vira a situação ("Mês dado até 28/11" ou "Negado") e a data.</p>
-        </div>
-
-        <!-- Uso da IA -->
-        <div>
-          <div class="adm-win">
-            <div class="adm-chrome"><i></i><i></i><i></i><span class="adm-url">caderneta.example.com/admin/uso</span></div>
-            <div class="adm-top">
-              <div class="adm-brand"><svg aria-hidden="true"><use href="#marca-icone"/></svg><span>Caderneta</span><em>Admin</em></div>
-              <nav class="adm-nav" aria-label="Área administrativa">
-                <a href="#admin">Visão geral</a>
-                <a href="#admin">Pessoas</a>
-                <a href="#admin">Pedidos de Plus <span class="adm-count">2</span></a>
-                <a href="#admin" aria-current="page">Uso da IA</a>
-              </nav>
-              <a class="adm-out" href="#admin"><svg class="i"><use href="#logout"/></svg>Sair</a>
-            </div>
-            <div class="adm-body">
-              <div class="adm-head"><div><h4 class="n-h1">Uso da IA</h4><p class="n-cap">Custo estimado pela tabela de preços, no fuso de Brasília</p></div>
-                <div class="adm-inline"><div class="seg" role="group" aria-label="Período" style="width:260px"><button type="button" aria-pressed="false">Hoje</button><button type="button" aria-pressed="true">30 dias</button><button type="button" aria-pressed="false">6 meses</button></div><div class="seg" role="group" aria-label="Moeda" style="width:120px"><button type="button" aria-pressed="true">US$</button><button type="button" aria-pressed="false">R$</button></div></div>
-              </div>
-              <div class="adm-figs">
-                <div class="adm-fig"><span class="n-cap">Custo</span><span class="n-fig">US$ 11,42</span><span class="n-cap">US$ 0,0011 por pergunta</span></div>
-                <div class="adm-fig"><span class="n-cap">Perguntas</span><span class="n-fig">10.680</span><span class="n-cap">1.204 por voz</span></div>
-                <div class="adm-fig"><span class="n-cap">Do cache</span><span class="n-fig">61%</span><span class="n-cap">dos tokens de entrada</span></div>
-                <div class="adm-fig"><span class="n-cap">Erros</span><span class="n-fig">0,4%</span><span class="n-cap">43 chamadas</span></div>
-              </div>
-              <div class="adm-cols" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,460px),1fr))">
-                <section class="adm-sec">
-                  <p class="n-rot">Por dia</p>
-                  <table class="adm-table" style="min-width:0">
-                    <thead><tr><th>Dia</th><th class="n">Perguntas</th><th class="n">Voz</th><th class="n">Custo</th></tr></thead>
-                    <tbody>
-                      <tr><td>Hoje</td><td class="n">382</td><td class="n">41</td><td class="n">US$ 0,41</td></tr>
-                      <tr><td>Ontem</td><td class="n">415</td><td class="n">52</td><td class="n">US$ 0,44</td></tr>
-                      <tr><td>26/10</td><td class="n">398</td><td class="n">37</td><td class="n">US$ 0,42</td></tr>
-                      <tr><td>25/10</td><td class="n">351</td><td class="n">30</td><td class="n">US$ 0,37</td></tr>
-                    </tbody>
-                    <tfoot><tr><td>30 dias</td><td class="n">10.680</td><td class="n">1.204</td><td class="n">US$ 11,42</td></tr></tfoot>
-                  </table>
-                </section>
-                <section class="adm-sec">
-                  <p class="n-rot">Por modelo e uso</p>
-                  <table class="adm-table" style="min-width:0">
-                    <thead><tr><th>Modelo</th><th>Uso</th><th class="n">Chamadas</th><th class="n">Custo</th></tr></thead>
-                    <tbody>
-                      <tr><td>modelo-principal</td><td>Assistente</td><td class="n">15.020</td><td class="n">US$ 10,63</td></tr>
-                      <tr><td>modelo-principal</td><td>Voz</td><td class="n">1.204</td><td class="n">US$ 0,61</td></tr>
-                      <tr><td>modelo-principal</td><td>Cache</td><td class="n">720</td><td class="n">US$ 0,18</td></tr>
-                    </tbody>
-                  </table>
-                </section>
-              </div>
-              <section class="adm-sec" style="margin-top:40px">
-                <p class="n-rot">Quem mais usou no período</p>
-                <div class="adm-table-wrap" style="margin-top:0">
-                  <table class="adm-table">
-                    <thead><tr><th>Pessoa</th><th>Plano</th><th class="n">Perguntas</th><th class="n">Custo</th><th>Do limite agora</th></tr></thead>
-                    <tbody>
-                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Caio Prado</b><span class="n-cap">caio.prado@example.com</span></div></td><td>Plus</td><td class="n">612</td><td class="n">US$ 0,66</td><td><div class="adm-use"><div class="bar"><i style="--w:44%"></i></div><span>44%</span></div></td></tr>
-                      <tr class="press"><td><div class="adm-who"><b class="n-strong">Maria Souza</b><span class="n-cap">maria.souza@example.com</span></div></td><td>Gratuito</td><td class="n">85</td><td class="n">US$ 0,05</td><td><div class="adm-use"><div class="bar"><i class="over" style="--w:100%"></i></div><span>100%</span></div></td></tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            </div>
-          </div>
-          <p class="adm-shot-cap"><b>Uso da IA.</b> O mesmo que o <code>assistant:usage</code> e o <code>assistant:usage-periods</code> mostram no terminal, sem os comandos: os números grandes em Fraunces, as tabelas por dia e por modelo e quem mais usou, com a barra do limite. Os valores são em dólar. "Do limite agora" é o período atual de cada pessoa, não o intervalo escolhido; em 6 meses, a tabela por dia vira por mês. Os valores saem em dólar ou em reais (US$ | R$, a escolha vale para toda a área administrativa), pela cotação do dia, buscada uma vez por dia; em R$, uma linha embaixo do título diz a cotação usada e de quando ela é ("US$ 1 = R$ 5,38, cotação de 28/10, 15:19").</p>
-        </div>
-      </div>
-    </div>
+    <div class="explain"><span class="rotulo">Em uma frase</span><p>"Não existe tabela de faturas: uma fatura é só a soma das compras do cartão naquele mês. Se alguém muda a data de uma compra, a fatura muda junto, porque não há uma cópia para ficar desatualizada."</p></div>
   </section>
 
   <section class="part" id="numeros">
-    <div class="part-head"><span class="part-num">12</span><div><h2>Os números do projeto</h2><p>Conferidos no código do commit <code>d709fa4</code>.</p></div></div>
+    <div class="part-head"><span class="part-num">10</span><div><h2>Os números do projeto</h2><p>Conferidos no código em 05/11/2026.</p></div></div>
     <div class="figures">
-      <div><b>585</b><span>testes no backend (Pest)</span></div>
-      <div><b>269</b><span>testes no app (Jest)</span></div>
-      <div><b>26</b><span>tabelas do domínio</span></div>
-      <div><b>24</b><span>ferramentas do assistente</span></div>
+      <div><b>660</b><span>testes no backend (Pest)</span></div>
+      <div><b>270</b><span>testes no app (Jest)</span></div>
+      <div><b>27</b><span>tabelas do domínio</span></div>
+      <div><b>25</b><span>ferramentas do assistente</span></div>
       <div><b>50</b><span>telas no app</span></div>
       <div><b>7</b><span>serviços no Docker, em produção</span></div>
     </div>
   </section>
 
   <section class="part" id="minuto">
-    <div class="part-head"><span class="part-num">13</span><div><h2>Em um minuto</h2><p>Para quando só há tempo para uma resposta.</p></div></div>
+    <div class="part-head"><span class="part-num">11</span><div><h2>Em um minuto</h2><p>O sistema inteiro em três parágrafos.</p></div></div>
     <p class="pitch">A Caderneta é um app de finanças da casa para usar falando. O celular conversa com uma API em Laravel, que guarda tudo num PostgreSQL e manda o trabalho demorado para uma fila.</p>
     <p class="pitch">Quando a pessoa fala, a voz vira texto, um agente de IA entende e propõe os lançamentos numa ficha, e a resposta chega ao vivo por WebSocket. A IA nunca grava sozinha: quem confirma é a pessoa, e o app grava com as mesmas regras do formulário.</p>
     <p class="pitch">Por baixo, cada casa só enxerga os próprios dados, os dados sensíveis passam por um cofre antes de chegar à IA, e os números são calculados na hora em vez de copiados.</p>
   </section>
 
   <section class="part" id="arquivos">
-    <div class="part-head"><span class="part-num">14</span><div><h2>Onde o guia mora no código</h2><p>Cada regra do <a href="design-guide.html">guia de design</a> tem um lugar no app. Uma tela nova monta com estas peças em vez de inventar as suas, e o que muda aqui muda em todas as telas de uma vez.</p></div></div>
+    <div class="part-head"><span class="part-num">12</span><div><h2>Onde o guia mora no código</h2><p>Cada regra do <a href="design-guide.html">guia de design</a> tem um lugar no app. Uma tela nova monta com estas peças em vez de inventar as suas, e o que muda aqui muda em todas as telas de uma vez.</p></div></div>
     <div class="guia">
     <div class="files">
       <div>
         <h4>A base</h4>
         <ul>
-          <li><code>mobile/src/theme/tokens.ts</code><span>A fonte única de paleta, escala de 4 a 64, cantos e fontes. Nenhuma tela escreve uma cor ou um espaço solto (parte 15).</span></li>
+          <li><code>mobile/src/theme/tokens.ts</code><span>A fonte única de paleta, escala de 4 a 64, cantos e fontes. Nenhuma tela escreve uma cor ou um espaço solto (parte 13).</span></li>
           <li><code>mobile/src/app/_layout.tsx</code><span>Carrega Fraunces e IBM Plex Sans. A barra de status fica escura sobre o papel.</span></li>
           <li><code>mobile/app.json</code><span>Tema claro e fundo <code>#F4F0E8</code> na abertura.</span></li>
         </ul>
@@ -1208,7 +494,7 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
   </section>
 
   <section class="part" id="diretrizes">
-    <div class="part-head"><span class="part-num">15</span><div><h2>Diretrizes para novas telas</h2><p>Toda tela nova ou alterada segue o guia de design, e os e-mails e as páginas do servidor, no backend, também. Antes de dar uma tela por pronta, confira o que está aqui. Se algo não couber, a diretriz muda primeiro, no guia ou nesta página, entra no registro de versões, e a tela muda depois.</p></div></div>
+    <div class="part-head"><span class="part-num">13</span><div><h2>Diretrizes para novas telas</h2><p>Toda tela nova ou alterada segue o guia de design, e os e-mails e as páginas do servidor, no backend, também. Antes de dar uma tela por pronta, confira o que está aqui. Se algo não couber, a diretriz muda primeiro, no guia ou nesta página, entra no registro de versões, e a tela muda depois.</p></div></div>
     <div class="guia">
     <div class="cols">
       <div>
@@ -1266,11 +552,13 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
   </section>
 
   <section class="part" id="versoes">
-    <div class="part-head"><span class="part-num">16</span><div><h2>Registro de versões</h2><p>As versões do guia de design: toda mudança de diretriz entra aqui, com o motivo.</p></div></div>
+    <div class="part-head"><span class="part-num">14</span><div><h2>Registro de versões</h2><p>As versões do guia de design: toda mudança de diretriz entra aqui, com o motivo.</p></div></div>
     <div class="guia">
     <table class="ledger versions">
       <thead><tr><th>Versão</th><th>Data</th><th>O que mudou</th></tr></thead>
       <tbody>
+      <tr><td>1.36</td><td class="num">05/11/2026</td><td>Esta página vira a apresentação do sistema para quem desenvolve: "Níveis de acesso" e "Área administrativa" saem daqui, as partes seguintes mudam de número, o "Como explicar" de cada parte vira "Em uma frase" e os números do projeto foram contados de novo. O guia não mudou.</td></tr>
+      <tr><td>1.35</td><td class="num">04/11/2026</td><td>O site (parte 05, A conta, bloco novo): a página inicial do endereço do app deixa de ser um aviso de "Em breve" e vira a apresentação da Caderneta, com o título e a frase do app, os botões das duas lojas em Tinta (só com texto, sem os selos), o vídeo de 30 segundos, "O que dá para fazer" com a tela de cada recurso alternando os lados, "E mais", "Como começar" em três passos e os botões de novo no fim. No celular, uma coluna só. Sem os preços dos planos: só os 7 dias de assistente. É a única página do servidor que os buscadores podem guardar. Novo ícone: baixar (download).</td></tr>
       <tr><td>1.34</td><td class="num">03/11/2026</td><td>Calendário (parte 05, Agenda): o nome do mês vira um botão que abre os meses do ano, com as setas trocando o ano e o toque num mês voltando para os dias dele. Vale para todo calendário do app, inclusive o da Rotina.</td></tr>
       <tr><td>1.33</td><td class="num">02/11/2026</td><td>O guia passa a ser só para quem usa o app, com uma narrativa que leva de uma parte à seguinte e as telas contadas como um dia da casa. "No código", as diretrizes, este registro, "Níveis de acesso" e "Área administrativa" vieram para esta página, que junta a antiga "Como funciona por dentro" e o diagrama da arquitetura. O número das partes 01 a 07 do guia não mudou.</td></tr>
         <tr><td>1.32</td><td class="num">01/11/2026</td><td>Uso de IA (parte 05, bloco novo): a folha que pede a permissão para enviar dados à IA do Google antes do primeiro uso do assistente, com "Permitir" e "Agora não", a linha em Configurações › Assistente e a folha para retirar a permissão. Sai o pedido do Plus pelo WhatsApp do app: o Plano, o Início, o Chat, o fim do período gratuito e a folha do limite (parte 06), que fica com três estados. A área administrativa (parte 05) mostra só os pedidos já feitos. Configurações › Conta ganha "Fale com a gente", que abre o e-mail.</td></tr>
@@ -1319,7 +607,7 @@ WHERE household_id = <span class="c">/* casa aberta */</span> 7
   </section>
 
   <section class="part" id="fundo">
-    <div class="part-head"><span class="part-num">17</span><div><h2>Para ir mais fundo</h2><p>A documentação técnica, com os arquivos e as classes de cada parte, fica junto do código, que é privado.</p></div></div>
+    <div class="part-head"><span class="part-num">15</span><div><h2>Para ir mais fundo</h2><p>A documentação técnica, com os arquivos e as classes de cada parte, fica junto do código, que é privado.</p></div></div>
     <ul class="links">
       <li><a href="index.html"><b>Toda a documentação</b><i>Abrir →</i><span>O guia de design, o ícone e esta página.</span></a></li>
     </ul>

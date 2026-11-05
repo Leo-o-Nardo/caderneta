@@ -27,7 +27,7 @@ A household finance app you use by talking. You say "I spent 42 on lunch and 18 
 
 <p align="center"><b>Caderneta in 30 seconds</b> (in Portuguese): an expense and a routine said out loud, the monthly summary, the bills, the schedule and the widget.</p>
 
-<!-- VIDEO: troque esta linha pelo link do vídeo enviado no github.com -->
+<div align="center"><video src="https://github.com/user-attachments/assets/9e4a6594-912e-4fd9-85ca-7c7b15458f45" width="560" controls muted></video></div>
 
 <p align="center">
   <img src="./assets/capa.png" width="24%" alt="The app cover, with the slogan and a usage example">
@@ -180,7 +180,7 @@ On Android and iPhone, with [its design in the guide](https://leo-o-nardo.github
 - **Limits:** messages per person per day, plus each plan's monthly limit (see [Plans](#plans)).
 
 ### Admin area
-Browser pages at `/admin`, only for the administrator and in the same visual style as the app. They are drawn in the [Architecture page](https://leo-o-nardo.github.io/caderneta/arquitetura.html#admin) (in Portuguese).
+Browser pages at `/admin`, only for the administrator and in the same visual style as the app.
 
 - **Two-step sign-in:** e-mail and password and, on a new browser, a 6-digit code by e-mail. After the code, the browser stays trusted for 60 days.
 - **Overview:** the new accounts, how many have not confirmed their e-mail yet, the open Plus requests, how many people are on Plus, how many are without the assistant, and today's and this month's cost.

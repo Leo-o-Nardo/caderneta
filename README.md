@@ -177,7 +177,7 @@ No Android e no iPhone, com [o desenho no guia](https://leo-o-nardo.github.io/ca
 - **Limites:** número de mensagens por pessoa por dia, além do limite do mês de cada plano (veja [Planos](#planos)).
 
 ### Área administrativa
-Páginas no navegador, em `/admin`, só para o administrador e no mesmo visual do app. Estão desenhadas na [página de Arquitetura](https://leo-o-nardo.github.io/caderneta/arquitetura.html#admin).
+Páginas no navegador, em `/admin`, só para o administrador e no mesmo visual do app.
 
 - **Entrada em dois passos:** e-mail e senha e, num navegador novo, um código de 6 números por e-mail. Depois do código, o navegador fica conhecido por 60 dias.
 - **Visão geral:** as contas novas, quantas ainda não confirmaram o e-mail, os pedidos de Plus em aberto, quantas pessoas estão no Plus, quantas estão sem o assistente e o custo de hoje e do mês.
