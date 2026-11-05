@@ -664,6 +664,19 @@ table.ledger tfoot .n { color: var(--tinta); }
 .switch input:checked + span { background: var(--musgo); }
 .switch input:checked + span::after { transform: translateX(18px); }
 .switch input:focus-visible + span { outline: 2px solid var(--musgo); outline-offset: 2px; }
+/* Parcelado: − 3× + e a conta ao lado (o Stepper do app) */
+.parc-opts { display: grid; gap: 16px; }
+.stepper { display: flex; align-items: center; gap: 12px; }
+.stepper button { width: 40px; height: 40px; flex: none; display: grid; place-items: center; border: 1px solid var(--borda); border-radius: 6px; background: var(--folha); color: var(--tinta); cursor: pointer; transition: background-color .12s; }
+.stepper button .i { width: 18px; height: 18px; }
+.stepper button:active { background: var(--papel-escuro); }
+.stepper button:disabled { opacity: .4; cursor: default; }
+.stepper button:focus-visible { outline: 2px solid var(--musgo); outline-offset: 2px; }
+.stepper b { min-width: 32px; text-align: center; font: 500 16px/22px var(--sans); font-variant-numeric: tabular-nums; color: var(--tinta); }
+.stepper-sfx { flex: 1; min-width: 0; font: 400 16px/22px var(--sans); color: var(--grafite); }
+.parc-case { display: grid; gap: 8px; justify-items: center; text-align: center; }
+.parc-case .stepper { justify-content: center; }
+.parc-case .stepper-sfx { flex: initial; }
 
 /* Painéis de tela fora do celular */
 .panel { background: var(--papel); border: 1px solid var(--pauta); border-radius: 6px; max-width: 390px; padding: 0 24px 24px; }
@@ -952,7 +965,7 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
 <header class="doc-head wrap">
   <div class="doc-meta">
     <span class="rotulo">Caderneta · guia de design</span>
-    <span class="rotulo">Versão 1.36 · 5 de novembro de 2026</span>
+    <span class="rotulo">Versão 1.38 · 5 de novembro de 2026</span>
   </div>
   <h1 class="doc-title">Caderneta</h1>
   <p class="doc-lead">Um app de contas da casa deveria lembrar o caderno onde a família sempre anotou o dinheiro, e não um painel de corretora. Por isso o app usa papel claro, tinta escura, uma pauta fina entre as linhas e números alinhados como num livro-caixa. A cor só aparece quando quer dizer alguma coisa.</p>
@@ -1587,6 +1600,95 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
             <li>Os ícones de categoria ficam soltos, finos, na cor de pigmento, e contas e faturas levam o ícone da categoria ou do cartão. Não há um link separado para os lançamentos do mês: os dois totais já levam até eles.</li>
           </ul>
         </div>
+      </div>
+    </div>
+
+    <!-- ---------- Mês da casa ---------- -->
+    <div class="block" id="mes-da-casa">
+      <div class="block-head"><h3>Mês da casa</h3><p>Configurações › Casa › Mês da casa: o dia em que o mês vira, para a casa toda</p></div>
+      <div class="pair">
+        <div>
+          <div class="phone"><div class="screen new">
+            <div class="sbar"><span>12:41</span><i class="bat"></i></div>
+            <div class="n-head px"><button class="n-back" type="button" aria-label="Voltar"><svg class="i"><use href="#chev-l"/></svg></button><h4 class="n-h2">Mês da casa</h4></div>
+            <div class="scroll px n-pb" id="mes-demo">
+              <p class="n-body" style="color:var(--grafite);margin-top:8px">O dia em que o mês da casa vira. Quem conta o mês pelo fechamento do cartão ou pelo dia do salário pode começar em outro dia.</p>
+              <div class="n-row" style="margin-top:16px;border-top:1px solid var(--pauta)">
+                <div class="n-main"><b class="n-strong">O mês começa no dia</b></div>
+                <div class="stepper">
+                  <button type="button" aria-label="Um dia antes" data-mes-step="-1"><svg class="i"><use href="#minus"/></svg></button>
+                  <b data-mes-day>4</b>
+                  <button type="button" aria-label="Um dia depois" data-mes-step="1"><svg class="i"><use href="#plus"/></svg></button>
+                </div>
+              </div>
+              <p class="n-cap plan-note" data-mes-cap>Novembro vai de 04/11 a 03/12.</p>
+              <p class="n-cap plan-note">Vale para a casa toda: o Início, o Resumo, os lançamentos, os orçamentos, o widget e o assistente. As faturas dos cartões, as contas da Agenda e a Rotina continuam nas datas de sempre.</p>
+              <button class="btn btn-primary full" type="button" style="margin-top:24px" disabled data-mes-save>Salvar</button>
+            </div>
+            <div class="homebar" style="color:#1E1F1C"></div>
+          </div></div>
+        </div>
+
+        <div class="notes">
+          <h4>Por que é assim</h4>
+          <ul>
+            <li>Muita gente conta o mês pelo fechamento do cartão ou pelo dia do salário, e não pelo dia 1. O mês da casa começa no dia escolhido, e o resto do app conta a partir dele.</li>
+            <li>O mês leva o nome de onde começa: com o dia 4, "Novembro" vai de 04/11 a 03/12. Nos dias 1, 2 e 3 de dezembro, o app ainda está em novembro. A legenda embaixo diz isso com as datas, que é o que tira a dúvida.</li>
+            <li>De 1 a 28, porque todo mês tem dia 28: o mês da casa nunca pula. O padrão é o dia 1, e com ele nada muda na tela de quem já usa o app.</li>
+            <li>O dia vale para a casa toda, porque o Resumo é um só para todo mundo. Só o dono muda; para os outros, a linha mostra o dia, sem os botões.</li>
+            <li>Os vencimentos não mudam. A fatura fecha e vence no dia do cartão, e as contas da Agenda vencem no dia delas: são datas do banco, não do mês da casa.</li>
+            <li>Tem "Salvar" porque mudar o dia muda os números de todo mundo da casa. O botão só acende quando o dia é outro.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="plan-grid">
+        <figure>
+          <div class="panel">
+            <div class="n-ledger2">
+              <div><span class="n-cap">Despesas de novembro</span><b class="n-fig">R$ 312,40</b><span class="n-cap">desde 04/11</span></div>
+              <div><span class="n-cap">Resta nos orçamentos</span><b class="n-fig">R$ 1.437,60</b><span class="n-cap">em 4 categorias</span></div>
+            </div>
+          </div>
+          <figcaption>Início com o dia 4: a legenda diz desde quando o mês conta</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-ledger2">
+              <div><span class="n-cap">Despesas de novembro</span><b class="n-fig">R$ 398,10</b><span class="n-cap">até hoje, dia 5</span></div>
+              <div><span class="n-cap">Resta nos orçamentos</span><b class="n-fig">R$ 1.351,90</b><span class="n-cap">em 4 categorias</span></div>
+            </div>
+          </div>
+          <figcaption>Início com o dia 1, o padrão: igual ao de hoje</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-month">
+              <button class="n-iconbtn" type="button" aria-label="Mês anterior"><svg class="i"><use href="#chev-l"/></svg></button>
+              <div><span class="n-rot">2026</span><h4 class="n-h1">Novembro</h4><span class="n-cap">04/11 a 03/12</span></div>
+              <button class="n-iconbtn" type="button" aria-label="Próximo mês"><svg class="i"><use href="#chev-r"/></svg></button>
+            </div>
+          </div>
+          <figcaption>Resumo com o dia 4: as datas embaixo do nome. Com o dia 1, elas não aparecem</figcaption>
+        </figure>
+        <figure>
+          <div class="wd wd-strip"><span class="wd-mic sm"><svg class="i"><use href="#mic"/></svg></span><div class="wd-body"><span class="n-cap">Saldo de novembro</span><b class="n-fig">R$ 4.887,60</b></div></div>
+          <figcaption>Widget: o saldo do mês da casa, com o nome do mês</figcaption>
+        </figure>
+        <figure>
+          <div class="panel" style="display:flex;flex-direction:column;gap:12px;padding-top:16px">
+            <div class="n-user"><p>quanto gastei esse mês?</p></div>
+            <div class="n-bot"><p>De 4 de novembro até hoje, a casa gastou R$ 312,40. O que mais pesou foi Mercado, com R$ 184,30.</p></div>
+          </div>
+          <figcaption>Chat: "esse mês" é o mês da casa, e o assistente sempre diz as datas</figcaption>
+        </figure>
+        <figure>
+          <div class="panel">
+            <div class="n-row"><div class="n-main"><b class="n-strong">O mês começa no</b></div><span class="n-amt">dia 4</span></div>
+            <p class="n-cap plan-note">Novembro vai de 04/11 a 03/12. Só o dono da casa muda o dia.</p>
+          </div>
+          <figcaption>Para quem não é dono: o dia aparece, sem os botões</figcaption>
+        </figure>
       </div>
     </div>
 
@@ -2732,6 +2834,31 @@ table.ledger.copy td:last-child { font-variant-numeric: tabular-nums; }
         <p class="spec-line"><b>Valor no foco.</b> Os números entram pela direita, como em app de banco ("4", "45", "450"), então o cursor fica sempre depois do último número: uma barra Musgo de 2 px, da altura dos números, piscando a cada 1 s. A linha do valor passa de Tinta 1 px a Musgo 2 px, a mesma troca dos outros campos. No campo pequeno das fichas do chat, a borda fica em Musgo como nos outros campos, e o rótulo acompanha. Com "Reduzir movimento", o cursor fica parado. Fora do foco, sem cursor.</p>
       </div>
 
+      <!-- Parcelado -->
+      <div class="specimen" id="parcelado">
+        <h3>Parcelado</h3>
+        <p>Numa compra nova no crédito, "Parcelado" abre o número de parcelas e a escolha do que foi digitado no valor: o total da compra ou o valor de cada parcela. Quem tem o cupom na mão sabe o total; quem olha a fatura sabe a parcela. A legenda embaixo do valor diz qual dos dois está ali, e a conta ao lado das parcelas mostra o outro. No formulário, o valor fica no alto e o Parcelado vem embaixo da forma de pagamento; aqui as peças estão juntas para dar para testar.</p>
+        <div class="stage stage-grid" id="parc-demo">
+          <div class="field"><span class="lbl">Valor</span><div class="money"><span>R$</span><input aria-label="Valor" value="300,00" inputmode="decimal" data-parc-amount></div><span class="hint" data-parc-cap>Total da compra</span></div>
+          <div class="toggle-row"><div class="n-main"><b class="n-strong">Parcelado</b></div><label class="switch"><input type="checkbox" aria-label="Parcelado" checked data-parc-on><span></span></label></div>
+          <div class="parc-opts" data-parc-opts>
+            <div class="seg" data-seg><button type="button" aria-pressed="true" data-parc-mode="total">Valor total</button><button type="button" aria-pressed="false" data-parc-mode="installment">Valor da parcela</button></div>
+            <div class="stepper">
+              <button type="button" aria-label="Diminuir parcelas" data-parc-step="-1"><svg class="i"><use href="#minus"/></svg></button>
+              <b data-parc-count>3×</b>
+              <button type="button" aria-label="Aumentar parcelas" data-parc-step="1"><svg class="i"><use href="#plus"/></svg></button>
+              <span class="stepper-sfx" data-parc-sfx>de R$ 100,00</span>
+            </div>
+          </div>
+        </div>
+        <div class="state-grid" style="grid-template-columns:repeat(auto-fill, minmax(240px, 1fr));margin-top:24px">
+          <figure><div class="parc-case"><div class="money-big">R$ 300,00</div><span class="hint">Total da compra</span><div class="stepper"><b>3×</b><span class="stepper-sfx">de R$ 100,00</span></div></div><figcaption>Valor total: o app mostra a parcela</figcaption></figure>
+          <figure><div class="parc-case"><div class="money-big">R$ 100,00</div><span class="hint">Cada parcela</span><div class="stepper"><b>3×</b><span class="stepper-sfx">· total R$ 300,00</span></div></div><figcaption>Valor da parcela: o app mostra o total</figcaption></figure>
+          <figure><div class="parc-case"><div class="money-big">R$ 100,00</div><span class="hint">Total da compra</span><div class="stepper"><b>3×</b><span class="stepper-sfx">de R$ 33,33, a 1ª de R$ 33,34</span></div></div><figcaption>A divisão não fecha: o centavo que sobra fica na 1ª</figcaption></figure>
+        </div>
+        <p class="spec-line"><b>A conta.</b> Com o total, cada parcela é o total dividido pelo número de parcelas; quando a divisão não fecha nos centavos, as primeiras parcelas ficam com 1 centavo a mais, uma de cada vez: R$ 100 em 3× é "de R$ 33,33, a 1ª de R$ 33,34", e em 6× é "de R$ 16,66, as 4 primeiras de R$ 16,67". É o que o servidor grava. Com a parcela, o total é a parcela vezes o número de parcelas. De 2 a 48 parcelas. Trocar entre os dois não apaga o número digitado: só muda o que ele quer dizer. Começa sempre em "Valor total". O assistente entende os dois jeitos: "3 parcelas de 100" e "300 em 3 vezes".</p>
+      </div>
+
       <!-- Tabela -->
       <div class="specimen">
         <h3>Tabela: lançamentos</h3>
@@ -3131,6 +3258,96 @@ document.querySelectorAll('[data-seg]').forEach(function (group) {
     });
   });
 });
+
+// Parcelado: o valor digitado é o total ou a parcela; a conta ao lado mostra o outro.
+(function () {
+  var demo = document.getElementById('parc-demo');
+  var amount = demo.querySelector('[data-parc-amount]');
+  var caption = demo.querySelector('[data-parc-cap]');
+  var on = demo.querySelector('[data-parc-on]');
+  var opts = demo.querySelector('[data-parc-opts]');
+  var count = demo.querySelector('[data-parc-count]');
+  var suffix = demo.querySelector('[data-parc-sfx]');
+  var less = demo.querySelector('[data-parc-step="-1"]');
+  var more = demo.querySelector('[data-parc-step="1"]');
+  var mode = 'total';
+  var installments = 3;
+
+  function brl(cents) {
+    return 'R$ ' + (cents / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function render() {
+    var cents = Number(amount.value.replace(/\D/g, '')) || 0;
+    opts.style.display = on.checked ? '' : 'none';
+    caption.style.display = on.checked ? '' : 'none';
+    caption.textContent = mode === 'total' ? 'Total da compra' : 'Cada parcela';
+    count.textContent = installments + '×';
+    less.disabled = installments <= 2;
+    more.disabled = installments >= 48;
+    if (mode === 'installment') {
+      suffix.textContent = '· total ' + brl(cents * installments);
+      return;
+    }
+    // Os centavos que sobram ficam um em cada parcela, a partir da 1ª, como no servidor.
+    var each = Math.floor(cents / installments);
+    var extra = cents % installments;
+    var first = brl(each + 1);
+    suffix.textContent = 'de ' + brl(each) + (extra === 0 ? '' : extra === 1 ? ', a 1ª de ' + first : ', as ' + extra + ' primeiras de ' + first);
+  }
+
+  amount.addEventListener('input', render);
+  on.addEventListener('change', render);
+  demo.querySelectorAll('[data-parc-mode]').forEach(function (button) {
+    button.addEventListener('click', function () { mode = button.dataset.parcMode; render(); });
+  });
+  demo.querySelectorAll('[data-parc-step]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      installments = Math.min(48, Math.max(2, installments + Number(button.dataset.parcStep)));
+      render();
+    });
+  });
+  render();
+})();
+
+// Mês da casa: o dia escolhido muda a legenda com as datas do mês de hoje (5 de novembro de 2026).
+(function () {
+  var demo = document.getElementById('mes-demo');
+  var day = demo.querySelector('[data-mes-day]');
+  var caption = demo.querySelector('[data-mes-cap]');
+  var save = demo.querySelector('[data-mes-save]');
+  var less = demo.querySelector('[data-mes-step="-1"]');
+  var more = demo.querySelector('[data-mes-step="1"]');
+  var names = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+  var saved = 4;
+  var start = saved;
+
+  function ddmm(date) {
+    return String(date.getDate()).padStart(2, '0') + '/' + String(date.getMonth() + 1).padStart(2, '0');
+  }
+
+  function render() {
+    var today = new Date(2026, 10, 5);
+    // Antes do dia escolhido, o mês da casa ainda é o anterior.
+    var month = today.getDate() >= start ? today.getMonth() : today.getMonth() - 1;
+    var from = new Date(2026, month, start);
+    var to = new Date(2026, month + 1, start - 1);
+    day.textContent = start;
+    caption.textContent = names[from.getMonth()] + ' vai de ' + ddmm(from) + ' a ' + ddmm(to) + '.';
+    less.disabled = start <= 1;
+    more.disabled = start >= 28;
+    save.disabled = start === saved;
+  }
+
+  demo.querySelectorAll('[data-mes-step]').forEach(function (button) {
+    button.addEventListener('click', function () {
+      start = Math.min(28, Math.max(1, start + Number(button.dataset.mesStep)));
+      render();
+    });
+  });
+  save.addEventListener('click', function () { saved = start; render(); });
+  render();
+})();
 
 // Confirmação: carrega, mostra "Lançados" com o ✓; "Desfazer" volta ao começo.
 (function () {
